@@ -14,6 +14,7 @@ class TestCase(unittest.TestCase):
         self.ff = webdriver.Firefox()
         self.url='http://www.pathbook.com.cn'
 
+        print os.path.dirname(__file__)
 
     def tearDown(self):
         self.ff.quit()
@@ -21,6 +22,10 @@ class TestCase(unittest.TestCase):
     def test_login(self):
         self.ff.get(self.url)
         self.ff.find_element_by_xpath('/html/body/div[2]/div/div[2]/a[2]').click()
+
+        parentDir=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        print parentDir
+
         try:
             self.assertTrue('http://www.pathbook.com.cn/abouts.htm' in self.ff.current_url)
             about_text=self.ff.find_element_by_xpath('//*[@id="jieshaoDiv"]/h2').text
@@ -31,4 +36,5 @@ class TestCase(unittest.TestCase):
 
 
 if __name__ =='__main__':
+    #unittest.TestResult().addSuccess()
     unittest.main()
