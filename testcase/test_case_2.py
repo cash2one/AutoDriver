@@ -18,7 +18,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         self.ff.quit()
 
-    def test_login(self):
+    def test_tupu(self):
         self.ff.get(self.url)
         self.ff.find_element_by_xpath('/html/body/div[2]/div/div[2]/a[2]').click()
         try:

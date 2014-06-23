@@ -18,7 +18,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         self.ff.close()
 
-    def test_sum2(self):
+    def test_qq(self):
         self.ff.get("http://www.qq.com")
         try:
             self.ff.find_element_by_id('newsMoreBtn')
