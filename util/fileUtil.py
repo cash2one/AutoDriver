@@ -20,7 +20,7 @@ def currentPath():
 def readConfig():
     dict={}
     conf = ConfigParser.ConfigParser()
-    conf.read(sys.path[0] + os.sep+'config.cfg')
+    conf.read(sys.path[0] + os.sep+'task.cfg')
     #sections = conf.sections()
     options = conf.options('task')
     for opt in options:
