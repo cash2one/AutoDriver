@@ -3,6 +3,7 @@ __author__ = 'Administrator'
 
 import os
 from util import db
+from util import fileUtil
 
 def main():
     dbm = db.DBManager()
@@ -13,6 +14,8 @@ def main():
     sql = "INSERT INTO module values (NULL , ?, ?)"
     dbm.insert_values(sql,data)
     dbm.close_db()
+
+    print fileUtil.filePath(__file__,True)
 
 
 if __name__ =='__main__':

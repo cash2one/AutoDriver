@@ -9,11 +9,6 @@ import StringIO
 from core import HTMLTestRunner
 from util import excel
 
-#遍历文件夹
-def findCase(folder):
-    for root, dis, files in os.walk(folder):
-        for file in files:
-            print root+os.sep+file
 
 def loadSuite():
     casePath = sys.path[0] + os.sep + 'testcase'

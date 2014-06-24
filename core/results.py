@@ -31,7 +31,6 @@ class Result(unittest.TestResult):
         self.verbosity = verbosity
         self.result = []
 
-
     def startTest(self, test):
         unittest.TestResult.startTest(self, test)
         self.outputBuffer = StringIO.StringIO()
