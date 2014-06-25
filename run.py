@@ -18,8 +18,19 @@ def loadSuite():
     for test_suit in discover:
         for test_case in test_suit:
             suite.addTests(test_case)
-
     return suite
+
+def runCases():
+    resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
+    fp = open(resultDir, 'wb')
+    dbm=db.DBManager()
+    runner=test_runner.NewTestRunner(
+        db=dbm,
+        stream=fp,
+        title=u'测试报告',
+        description=u'用例执行情况'
+    )
+    runner.run(loadSuite())
 
 def main():
     resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
@@ -37,14 +48,7 @@ def main():
     #unittest.TextTestRunner(verbosity=2).run(s)
     #runner.Runner(verbosity=2).run(s)
 
-    dbm=db.DBManager()
-    runner=test_runner.NewTestRunner(
-        db=dbm,
-        stream=fp,
-        title=u'测试报告',
-        description=u'用例执行情况'
-    )
-    runner.run(loadSuite())
+
 
 
 if __name__ == "__main__":

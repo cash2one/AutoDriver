@@ -5,6 +5,7 @@ import sys
 import datetime
 from xml.sax import saxutils
 import test_result
+import task
 
 class NewTestRunner():
 
@@ -13,7 +14,7 @@ class NewTestRunner():
         1: 'fail',
         2: 'error',
     }
-
+    task.Task.getDictCase()
     DEFAULT_TITLE = 'Unit Test Report'
     DEFAULT_DESCRIPTION = ''
     HTML_TMPL =""
@@ -42,7 +43,6 @@ class NewTestRunner():
 
         self.startTime = datetime.datetime.now()
 
-
     def run(self, test):
         "Run the given test case or test suite."
         result = test_result.NewTestResult(self.verbosity,self.dbm)
@@ -53,7 +53,6 @@ class NewTestRunner():
         print >>sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime)
 
         return result
-
 
     def sortResult(self, result_list):
         rmap = {}
@@ -67,14 +66,16 @@ class NewTestRunner():
         r = [(cls, rmap[cls]) for cls in classes]
         return r
 
-
     def getReportAttributes(self, result):
         startTime = str(self.startTime)[:19]
         duration = str(self.stopTime - self.startTime)
         status = []
-        if result.success_count: status.append('Pass %s'    % result.success_count)
-        if result.failure_count: status.append('Failure %s' % result.failure_count)
-        if result.error_count:   status.append('Error %s'   % result.error_count  )
+        if result.success_count:
+            status.append('Pass %s'    % result.success_count)
+        if result.failure_count:
+            status.append('Failure %s' % result.failure_count)
+        if result.error_count:
+            status.append('Error %s'   % result.error_count  )
         if status:
             status = ' '.join(status)
         else:
@@ -84,7 +85,6 @@ class NewTestRunner():
             ('Duration', duration),
             ('Status', status),
         ]
-
 
     def generateReport(self, test, result):
         report_attrs = self.getReportAttributes(result)

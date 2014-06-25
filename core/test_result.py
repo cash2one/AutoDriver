@@ -54,7 +54,6 @@ class NewTestResult(unittest.TestResult):
         sql = "INSERT INTO module values (NULL , ?, ?)"
         self.dbm.insert_values(sql,data)
 
-
     def addSuccess(self, test):
         self.success_count += 1
         unittest.TestResult.addSuccess(self, test)
