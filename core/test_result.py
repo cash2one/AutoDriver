@@ -1,28 +1,20 @@
+# coding=utf-8
+
 __author__ = 'Administrator'
 
 import sys
 import unittest
 import StringIO
+import time
+import outputRedirector
 
-class OutputRedirector(object):
-    def __init__(self, fp):
-        self.fp = fp
+stdout_redirector = outputRedirector.OutputRedirector(sys.stdout)
+stderr_redirector = outputRedirector.OutputRedirector(sys.stderr)
 
-    def write(self, s):
-        self.fp.write(s)
-
-    def writelines(self, lines):
-        self.fp.writelines(lines)
-
-    def flush(self):
-        self.fp.flush()
-stdout_redirector = OutputRedirector(sys.stdout)
-stderr_redirector = OutputRedirector(sys.stderr)
-
-class Result(unittest.TestResult):
-
-    def __init__(self, verbosity=1):
+class NewTestResult(unittest.TestResult):
+    def __init__(self, verbosity=1,dbm=None):
         unittest.TestResult.__init__(self)
+        self.dbm=dbm
         self.stdout0 = None
         self.stderr0 = None
         self.success_count = 0
@@ -34,6 +26,7 @@ class Result(unittest.TestResult):
 
     def startTest(self, test):
         unittest.TestResult.startTest(self, test)
+        # just one buffer for both stdout and stderr
         self.outputBuffer = StringIO.StringIO()
         stdout_redirector.fp = self.outputBuffer
         stderr_redirector.fp = self.outputBuffer
@@ -54,6 +47,13 @@ class Result(unittest.TestResult):
 
     def stopTest(self, test):
         self.complete_output()
+        timestr=time.ctime()
+        data = [(timestr, u'登陆火星计划不靠谱'),
+                 (timestr, u'数据库表测试')]
+
+        sql = "INSERT INTO module values (NULL , ?, ?)"
+        self.dbm.insert_values(sql,data)
+
 
     def addSuccess(self, test):
         self.success_count += 1
@@ -92,5 +92,3 @@ class Result(unittest.TestResult):
             sys.stderr.write('\n')
         else:
             sys.stderr.write('F')
-
-

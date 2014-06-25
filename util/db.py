@@ -1,5 +1,9 @@
 # coding=utf-8
 
+"""
+SQLite 操作类
+"""
+
 import sqlite3
 import os
 
@@ -7,7 +11,7 @@ class DBManager():
 
     def __init__(self):
         p=os.path.dirname(os.path.abspath(__file__))
-        self.dbPath=os.path.dirname(p)+os.sep+'settings'+os.sep+'autotest.db'
+        self.dbPath=os.path.dirname(p)+os.sep+'config'+os.sep+'autotest.db'
         self.conn = sqlite3.connect(self.dbPath)
 
     def get_cursor(self):
