@@ -1,3 +1,4 @@
+# coding=utf-8
 """
 A TestRunner for use with the Python unit testing framework. It
 generates a HTML report to show the result at a glance.
@@ -96,6 +97,7 @@ import sys
 import time
 import unittest
 from xml.sax import saxutils
+from util import db
 
 
 # ------------------------------------------------------------------------
@@ -509,6 +511,7 @@ a.popup_link:hover {
 
 
 TestResult = unittest.TestResult
+dbm=db.DBManager()
 
 class _TestResult(TestResult):
     # note: _TestResult is a pure representation of results.
@@ -563,6 +566,12 @@ class _TestResult(TestResult):
         # But there are some path in unittest that would bypass this.
         # We must disconnect stdout in stopTest(), which is guaranteed to be called.
         self.complete_output()
+        timestr=time.ctime()
+        data = [(timestr, u'登陆火星计划不靠谱'),
+                 (timestr, u'数据库表测试')]
+
+        sql = "INSERT INTO module values (NULL , ?, ?)"
+        dbm.insert_values(sql,data)
 
 
     def addSuccess(self, test):
@@ -625,10 +634,13 @@ class HTMLTestRunner(Template_mixin):
     def run(self, test):
         "Run the given test case or test suite."
         result = _TestResult(self.verbosity)
+        print 'start test1------'
         test(result)
         self.stopTime = datetime.datetime.now()
         self.generateReport(test, result)
+        dbm.close_db()
         print >>sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime)
+
         return result
 
 

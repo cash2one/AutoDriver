@@ -7,7 +7,10 @@ import re
 import unittest
 import StringIO
 from core import HTMLTestRunner
+from util import db
+from core import runner
 from util import excel
+
 
 
 def loadSuite():
@@ -23,17 +26,29 @@ def loadSuite():
     return suite
 
 def main():
-    #resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
-    # fp = open(resultDir, 'wb')
+    resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
+    fp = open(resultDir, 'wb')
     # runner = HTMLTestRunner.HTMLTestRunner(
     #     stream=fp,
     #     title=u'测试报告',
     #     description=u'用例执行情况'
     # )
 
-    s=loadSuite()
+    #s=loadSuite()
     #runner.run(s)
-    unittest.TextTestRunner(verbosity=2).run(s)
+
+    #原生
+    #unittest.TextTestRunner(verbosity=2).run(s)
+    #runner.Runner(verbosity=2).run(s)
+
+    dbm=db.DBManager()
+    runner1=runner.Runner(
+        db=dbm,
+        stream=fp,
+        title=u'测试报告',
+        description=u'用例执行情况'
+    )
+    runner1.run(loadSuite())
 
 
 if __name__ == "__main__":
