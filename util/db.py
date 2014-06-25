@@ -1,5 +1,9 @@
 # coding=utf-8
 
+"""
+SQLite 操作类
+"""
+
 import sqlite3
 import os
 
