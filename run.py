@@ -3,14 +3,10 @@ __author__ = 'guohai@live.com'
 
 import sys
 import os
-import re
 import unittest
-import StringIO
-from core import HTMLTestRunner
 from util import db
-from core import runner
+from core import test_runner
 from util import excel
-
 
 
 def loadSuite():
@@ -42,13 +38,13 @@ def main():
     #runner.Runner(verbosity=2).run(s)
 
     dbm=db.DBManager()
-    runner1=runner.Runner(
+    runner=test_runner.NewTestRunner(
         db=dbm,
         stream=fp,
         title=u'测试报告',
         description=u'用例执行情况'
     )
-    runner1.run(loadSuite())
+    runner.run(loadSuite())
 
 
 if __name__ == "__main__":

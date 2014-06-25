@@ -11,7 +11,7 @@ import outputRedirector
 stdout_redirector = outputRedirector.OutputRedirector(sys.stdout)
 stderr_redirector = outputRedirector.OutputRedirector(sys.stderr)
 
-class Mresult(unittest.TestResult):
+class NewTestResult(unittest.TestResult):
     def __init__(self, verbosity=1,dbm=None):
         unittest.TestResult.__init__(self)
         self.dbm=dbm
@@ -21,14 +21,6 @@ class Mresult(unittest.TestResult):
         self.failure_count = 0
         self.error_count = 0
         self.verbosity = verbosity
-
-        # result is a list of result in 4 tuple
-        # (
-        #   result code (0: success; 1: fail; 2: error),
-        #   TestCase object,
-        #   Test output (byte string),
-        #   stack trace,
-        # )
         self.result = []
 
 
@@ -45,10 +37,6 @@ class Mresult(unittest.TestResult):
 
 
     def complete_output(self):
-        """
-        Disconnect output redirection and return buffer.
-        Safe to call multiple times.
-        """
         if self.stdout0:
             sys.stdout = self.stdout0
             sys.stderr = self.stderr0
@@ -58,9 +46,6 @@ class Mresult(unittest.TestResult):
 
 
     def stopTest(self, test):
-        # Usually one of addSuccess, addError or addFailure would have been called.
-        # But there are some path in unittest that would bypass this.
-        # We must disconnect stdout in stopTest(), which is guaranteed to be called.
         self.complete_output()
         timestr=time.ctime()
         data = [(timestr, u'登陆火星计划不靠谱'),

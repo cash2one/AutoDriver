@@ -4,9 +4,9 @@ __author__ = 'Administrator'
 import sys
 import datetime
 from xml.sax import saxutils
-import results
+import test_result
 
-class Runner():
+class NewTestRunner():
 
     STATUS = {
         0: 'pass',
@@ -45,8 +45,7 @@ class Runner():
 
     def run(self, test):
         "Run the given test case or test suite."
-        result = results.Mresult(self.verbosity,self.dbm)
-        print 'start test1------'
+        result = test_result.NewTestResult(self.verbosity,self.dbm)
         test(result)
         self.stopTime = datetime.datetime.now()
         self.generateReport(test, result)
