@@ -14,7 +14,7 @@ class NewTestRunner():
         1: 'fail',
         2: 'error',
     }
-    task.Task.getDictCase()
+    #task.Task.getDictCase()
     DEFAULT_TITLE = 'Unit Test Report'
     DEFAULT_DESCRIPTION = ''
     HTML_TMPL =""
