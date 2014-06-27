@@ -28,7 +28,7 @@ class NewTestRunner():
     ENDING_TMPL = ""
     HEADING_ATTRIBUTE_TMPL=""
 
-    def __init__(self, db=None, stream=sys.stdout, verbosity=1, title=None, description=None):
+    def __init__(self, db=None, stream=sys.stdout, verbosity=2, title=None, description=None):
         self.stream = stream
         self.dbm=db
         self.verbosity = verbosity

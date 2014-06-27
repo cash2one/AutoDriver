@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
         try:
             self.assertTrue('http://www.pathbook.com.cn/abouts.htm' in self.ff.current_url)
             about_text=self.ff.find_element_by_xpath('//*[@id="jieshaoDiv"]/h2').text
-            self.assertTrue(u'途谱介绍' in about_text)
+            self.assertTrue(u'途谱介绍1' in about_text)
         finally:
             #self.ff.get_screenshot_as_file(parentDir()+os.sep+'report'+os.sep+'geweg.png')
             pass

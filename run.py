@@ -34,16 +34,19 @@ def runCases():
     runner.run(loadSuite())
 
 def main():
-    resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
-    fp = open(resultDir, 'wb')
-    runner = HTMLTestRunner.HTMLTestRunner(
-        stream=fp,
-        title=u'测试报告',
-        description=u'用例执行情况'
-    )
-
+    # resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
+    # fp = open(resultDir, 'wb')
+    # runner = HTMLTestRunner.HTMLTestRunner(
+    #     stream=fp,
+    #     title=u'测试报告',
+    #     description=u'用例执行情况'
+    # )
+    #
     s=loadSuite()
-    runner.run(s)
+    # runner.run(s)
+
+    #原生
+    unittest.TextTestRunner(verbosity=2).run(s)
 
     #runCases()
 
