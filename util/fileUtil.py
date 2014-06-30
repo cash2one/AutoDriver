@@ -5,6 +5,8 @@ import os
 import sys
 import ConfigParser
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 def filePath(file_path,isParentPath):
     if file_path is not None and file_path != '':
         if(isParentPath):
@@ -15,17 +17,7 @@ def filePath(file_path,isParentPath):
     else:
         print('is empty or equal None!')
 
-#读取config到字典
-def readConfig():
-    dict={}
-    conf = ConfigParser.ConfigParser()
-    conf.read(sys.path[0] + os.sep+'task.cfg')
-    #sections = conf.sections()
-    options = conf.options('task')
-    for opt in options:
-        str_val = conf.get('task', opt)
-        dict[opt]=str_val
-    return dict
+
 
 #遍历文件夹，获取所有文件夹内和子文件夹的所有文件路径
 def findCase(folder):

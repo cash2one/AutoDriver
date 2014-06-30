@@ -6,6 +6,7 @@ import datetime
 from xml.sax import saxutils
 import test_result
 import task
+import taskmanager
 
 class NewTestRunner():
 
@@ -51,6 +52,7 @@ class NewTestRunner():
         self.generateReport(test, result)
         self.dbm.close_db()
         print >>sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime)
+        taskmanager.finish()
 
         return result
 
