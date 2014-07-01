@@ -5,8 +5,6 @@ import sys
 import datetime
 from xml.sax import saxutils
 import test_result
-import task
-import taskmanager
 
 class NewTestRunner():
 
@@ -29,9 +27,11 @@ class NewTestRunner():
     ENDING_TMPL = ""
     HEADING_ATTRIBUTE_TMPL=""
 
-    def __init__(self, db=None, stream=sys.stdout, verbosity=2, title=None, description=None):
-        self.stream = stream
-        self.dbm=db
+    def __init__(self, db=None,task=None, verbosity=2, title=None, description=None):
+        #stream=sys.stdout,
+        #self.stream = stream
+        self.dbm = db
+        self.task = task
         self.verbosity = verbosity
         if title is None:
             self.title = self.DEFAULT_TITLE
@@ -52,7 +52,8 @@ class NewTestRunner():
         self.generateReport(test, result)
         self.dbm.close_db()
         print >>sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime)
-        taskmanager.finish()
+        self.task.finish()
+        print self.task.getTestSuite()
 
         return result
 
@@ -103,7 +104,7 @@ class NewTestRunner():
             report = report,
             ending = ending,
         )
-        self.stream.write(output.encode('utf8'))
+        #self.stream.write(output.encode('utf8'))
 
 
     def _generate_stylesheet(self):

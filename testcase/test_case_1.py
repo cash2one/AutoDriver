@@ -5,8 +5,6 @@ import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
-import time
-from util.fileUtil import *
 import os
 
 class TestCase(unittest.TestCase):
@@ -23,9 +21,6 @@ class TestCase(unittest.TestCase):
         elem = self.ff.find_element_by_id('kw1')
         elem.send_keys("qq" + Keys.RETURN)
         #time.sleep(20)
-
-        parentDir=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        print parentDir
 
         try:
             self.ff.find_element_by_xpath("//a[contains(@href,'http://baike.baidu.com1')]")

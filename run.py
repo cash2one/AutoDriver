@@ -11,7 +11,7 @@ from util import excel
 from core import HTMLTestRunner
 from util import fileUtil
 from core import service
-from core import taskmanager
+from core import task
 import time
 
 
@@ -42,17 +42,17 @@ def testAllinCurrent():
     return unittest.TestSuite(map(load, modules))
 
 
-def runCases():
-    resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
-    fp = open(resultDir, 'wb')
-    dbm=db.DBManager()
-    runner=test_runner.NewTestRunner(
-        db=dbm,
-        stream=fp,
-        title=u'测试报告',
-        description=u'用例执行情况'
-    )
-    runner.run(loadSuite())
+# def runCases():
+#     resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
+#     fp = open(resultDir, 'wb')
+#     dbm=db.DBManager()
+#     runner=test_runner.NewTestRunner(
+#         db=dbm,
+#         stream=fp,
+#         title=u'测试报告',
+#         description=u'用例执行情况'
+#     )
+#     runner.run(loadSuite())
 
 def main():
     # resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
@@ -63,23 +63,32 @@ def main():
     #     description=u'用例执行情况'
     # )
     #
-    #s=loadSuite()
+    # s=loadSuite()
     # runner.run(s)
+
+    path = os.path.abspath(os.path.dirname(sys.argv[0]))+os.sep+'testcase'
+    files = os.listdir(path)
+    test = re.compile("^test.*?.py$", re.IGNORECASE)
+
+    files = filter(test.search, files)
+    filenameToModuleName = lambda f: os.path.splitext(f)[0]
+    moduleNames = map(filenameToModuleName, files)
+    modules = map(__import__, moduleNames)
+
+    load = unittest.defaultTestLoader.loadTestsFromModule
+    print unittest.TestSuite(map(load, modules))
+
 
     #原生
     #unittest.TextTestRunner(verbosity=2).run(s)
 
-    cfg = sys.path[0] + os.sep + 'config' + os.sep
-    d=taskmanager.readConfig(cfg)
-    t = service.Service(1,5,d)
-    t.start()
 
-    time.sleep(10)
-
-
-    #runCases()
-
-
+    # cfg = sys.path[0] + os.sep + 'config' + os.sep
+    # d=fileUtil.readConfig(cfg)
+    #
+    # tk=task.Task(False,d)
+    # serv = service.Service(1,5,tk,loadSuite())
+    # serv.start()
 
 
 
