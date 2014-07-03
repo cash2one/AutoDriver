@@ -3,6 +3,7 @@ __author__ = 'Administrator'
 
 import os
 import sys
+import re
 import ConfigParser
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -20,9 +21,16 @@ def filePath(file_path,isParentPath):
 
 #遍历文件夹，获取所有文件夹内和子文件夹的所有文件路径
 def findCase(folder):
+
+    list_file=[]
+    find_file=re.compile("^test.*?.py$", re.IGNORECASE)
+
     for root, dis, files in os.walk(folder):
         for file in files:
-            print root + os.sep + file
+            print os.path.dirname(file)
+            if find_file.search(file):
+                list_file.append(file)
+    return list_file
 
 
 #读取task配置文件

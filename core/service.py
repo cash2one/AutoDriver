@@ -19,7 +19,7 @@ class Service(threading.Thread):
         self.interval = interval
         self.thread_stop = False
         self.task = task
-        self.tt=tt
+        self.tt = tt
 
     def run(self):
         while not self.thread_stop:

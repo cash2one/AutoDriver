@@ -54,6 +54,21 @@ def testAllinCurrent():
 #     )
 #     runner.run(loadSuite())
 
+def loadmodule():
+    path = os.path.abspath(os.path.dirname(sys.argv[0]))+os.sep+'testcase'
+    files = os.listdir(path)
+
+    test = re.compile("^test.*?.py$", re.IGNORECASE)
+
+    files = filter(test.search, files)
+
+    filenameToModuleName = lambda f: os.path.splitext(f)[0]
+    moduleNames = map(filenameToModuleName, files)
+    modules = map(__import__, moduleNames)
+
+    load = unittest.defaultTestLoader.loadTestsFromModule
+    return unittest.TestSuite(map(load, modules))
+
 def main():
     # resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
     # fp = open(resultDir, 'wb')
@@ -66,18 +81,6 @@ def main():
     # s=loadSuite()
     # runner.run(s)
 
-    path = os.path.abspath(os.path.dirname(sys.argv[0]))+os.sep+'testcase'
-    files = os.listdir(path)
-    test = re.compile("^test.*?.py$", re.IGNORECASE)
-
-    files = filter(test.search, files)
-    filenameToModuleName = lambda f: os.path.splitext(f)[0]
-    moduleNames = map(filenameToModuleName, files)
-    modules = map(__import__, moduleNames)
-
-    load = unittest.defaultTestLoader.loadTestsFromModule
-    print unittest.TestSuite(map(load, modules))
-
 
     #原生
     #unittest.TextTestRunner(verbosity=2).run(s)
@@ -89,6 +92,8 @@ def main():
     # tk=task.Task(False,d)
     # serv = service.Service(1,5,tk,loadSuite())
     # serv.start()
+
+    print loadmodule()
 
 
 
