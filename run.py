@@ -13,6 +13,7 @@ from util import fileUtil
 from core import service
 from core import task
 import time
+from util import parseJson
 
 
 def loadSuite():
@@ -93,7 +94,9 @@ def main():
     # serv = service.Service(1,5,tk,loadSuite())
     # serv.start()
 
-    print loadmodule()
+    a='{"weatherinfo":{"city":"上海","cityid":"101020100","temp":"29","WD":"西南风","WS":"1级","SD":"56%","WSE":"1","time":"12:45","isRadar":"1","Radar":"JC_RADAR_AZ9210_JB"}}'
+    jn = parseJson.fromStr(a)
+    print parseJson.find_value_by_key(jn, 'cityid')
 
 
 
