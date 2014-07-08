@@ -12,20 +12,20 @@ class TestCase(unittest.TestCase):
 
     def setUp(self):
         self.ff = webdriver.Firefox()
-        self.url='http://www.pathbook.com.cn'
+        self.url='http://www.qq.com'
 
 
     def tearDown(self):
         self.ff.quit()
 
-    def test_tupu(self):
+    def test_find_qq(self):
         self.ff.get(self.url)
         #time.sleep(20)
-        self.ff.find_element_by_xpath('/html/body/div[2]/div/div[2]/a[2]').click()
+        self.ff.find_element_by_id('newsH2').click()
         try:
-            self.assertTrue('http://www.pathbook.com.cn/abouts.htm' in self.ff.current_url)
-            about_text=self.ff.find_element_by_xpath('//*[@id="jieshaoDiv"]/h2').text
-            self.assertTrue(u'途谱介绍1' in about_text)
+            self.assertTrue('http://news.qq.com/' in self.ff.current_url)
+            about_text=self.ff.find_element_by_id('siteNavPart1').find_element_by_tag_name('li').text
+            self.assertTrue(u'腾讯网首页' in about_text)
         finally:
             #self.ff.get_screenshot_as_file(parentDir()+os.sep+'report'+os.sep+'geweg.png')
             pass

@@ -17,7 +17,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         self.ff.close()
 
-    def test_search_baidu(self):
+    def test_find_baidu(self):
         self.ff.get("http://www.baidu.com")
         elem = self.ff.find_element_by_id('kw1')
         #elem.send_keys("qq" + Keys.RETURN)
@@ -34,4 +34,3 @@ class TestCase(unittest.TestCase):
 
 if __name__ =='__main__':
     unittest.main()
-    print 'gwegwgwgwge= feww=ff=ewwe=f=wfwe='
