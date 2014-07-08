@@ -5,6 +5,7 @@ import unittest
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
+from util import location
 import os
 
 class TestCase(unittest.TestCase):
@@ -19,8 +20,10 @@ class TestCase(unittest.TestCase):
     def test_search_baidu(self):
         self.ff.get("http://www.baidu.com")
         elem = self.ff.find_element_by_id('kw1')
-        elem.send_keys("qq" + Keys.RETURN)
+        #elem.send_keys("qq" + Keys.RETURN)
+
         #time.sleep(20)
+        location.findId(self.ff,'kw1').send_keys("qq")
 
         try:
             self.ff.find_element_by_xpath("//a[contains(@href,'http://baike.baidu.com1')]")

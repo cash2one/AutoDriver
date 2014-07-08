@@ -6,7 +6,7 @@ import sys
 import re
 import ConfigParser
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+base_dir = os.path.dirname(os.path.dirname(__file__))
 
 def filePath(file_path,isParentPath):
     if file_path is not None and file_path != '':
