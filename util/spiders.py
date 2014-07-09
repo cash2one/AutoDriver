@@ -6,7 +6,7 @@ from Queue import Queue
 import time
 from gzip import GzipFile
 from StringIO import StringIO
-d
+
 
 class ContentEncodingProcessor(urllib2.BaseHandler):
 

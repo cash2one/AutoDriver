@@ -7,9 +7,9 @@ from selenium.webdriver.common.keys import Keys
 import unittest
 import time
 from util.files import *
-from util import parseJson
+from util import jsons
 import json
-from util import excel
+from util import xls
 from util import files
 
 class TestCase(unittest.TestCase):
@@ -21,9 +21,16 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_weather(self):
-        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_hr.xls'
-        tables = excel.Excel(filename).readByName(2, 'Sheet1')
-        print tables
+        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+        #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
+        arrays= xls.Excel(filename).readTestCaseConf('interface')
+        for a in arrays:
+            if a[u'用例描述']!='':
+                inf_value=jsons.find_value_by_url(a[u'用例描述'])
+                wish = a[u'期望结果']
+                self.assertEqual(jsons.fromStr(wish),inf_value,'不相等')
+
+
         # for row in tables:
         #     print row
         #print w.assertResult('city')
@@ -32,11 +39,10 @@ class TestCase(unittest.TestCase):
         #jn = parseJson.fromStr(a)
         #print parseJson.find_value_by_key(jn, 'cityid')
 
-
         #self.assertEqual('JC_RADAR_AZ9210_JB',ff,'gwegwgwgwegwgwegwe')
         #print wi.strToJson(a)
         #u'\u4e5f\u6709'.encode('utf8')
-        #self.assertEqual(parseJson.fromStr(a),parseJson.find_value_by_url('http://www.weather.com.cn/data/sk/101020100.html'),'不相等')
+        #self.assertEqual(jsons.fromStr(a),jsons.find_value_by_url('http://www.weather.com.cn/data/sk/101020100.html'),'不相等')
         # try:
         #
         #     self.assertEqual('JC_RADAR_AZ9210_JB',ff,'fail')

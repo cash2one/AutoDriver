@@ -7,13 +7,13 @@ import re
 import unittest
 from util import db
 from core import test_runner
-from util import excel
+from util import xls
 from core import HTMLTestRunner
 from util import files
 from core import service
 from core import task
 import time
-from util import parseJson
+from util import jsons
 
 
 def loadSuite():
