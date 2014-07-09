@@ -72,10 +72,11 @@ class DBManager():
             cu.execute(sql)
             r = cu.fetchall()
             if len(r) > 0:
-                for e in range(len(r)):
-                    print(r[e])
+                return r
+                # for e in range(len(r)):
+                #     print(r[e])
         else:
-            print('the [{}] is empty or equal None!'.format(sql))
+            return None
 
     def fetchone(self, sql, data):
         '''查询一条数据'''
@@ -102,7 +103,7 @@ class DBManager():
                 for d in data:
                     cu.execute(sql, d)
                     self.conn.commit()
-                self.close_all(self.conn, cu)
+                self.close_all(cu)
         else:
             print('the [{}] is empty or equal None!'.format(sql))
 

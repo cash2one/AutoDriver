@@ -1,15 +1,20 @@
 # coding=utf-8
 __author__ = 'guguohai'
 
+import case
 
 class Task():
 
     __state = False
-    __testSuite={}
+    __testSuite=[]
+    __loop = 0
+    __id=''
+
+    cases=[]
 
     def __init__(self,state,testSuite):
         self.__state = state
-        self.__testSuite = testSuite
+        self.__testSuite.extend(testSuite)
 
 
     def getState(self):
@@ -20,6 +25,7 @@ class Task():
 
     def getTestSuite(self):
         return self.__testSuite
+
 
 
     def finish(self):

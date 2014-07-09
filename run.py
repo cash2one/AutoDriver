@@ -71,16 +71,24 @@ def loadmodule():
     return unittest.TestSuite(map(load, modules))
 
 def main():
-    resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
-    fp = open(resultDir, 'wb')
-    runner = HTMLTestRunner.HTMLTestRunner(
-        stream=fp,
-        title=u'测试报告',
-        description=u'用例执行情况'
-    )
+    # resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
+    # fp = open(resultDir, 'wb')
+    # runner = HTMLTestRunner.HTMLTestRunner(
+    #     stream=fp,
+    #     title=u'测试报告',
+    #     description=u'用例执行情况'
+    # )
+    #
+    # s=loadSuite()
+    # runner.run(s)
 
-    s=loadSuite()
-    runner.run(s)
+    dbm=db.DBManager()
+    modules = dbm.fetchall('select * from module where id>3')
+
+
+    for m in modules:
+        for i in range(len(m)):
+            print m[i]
 
 
     #原生
