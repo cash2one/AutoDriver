@@ -8,7 +8,7 @@ import unittest
 from util import db
 from core import test_runner
 from util import xls
-from core import HTMLTestRunner
+#from core import HTMLTestRunner
 from util import files
 from core import service
 from core import task
@@ -82,25 +82,28 @@ def main():
     # s=loadSuite()
     # runner.run(s)
 
-    dbm=db.DBManager()
-    modules = dbm.fetchall('select * from module where id>3')
-
-
-    for m in modules:
-        for i in range(len(m)):
-            print m[i]
+    # dbm=db.DBManager()
+    # modules = dbm.fetchall('select * from module where id>3')
+    #
+    #
+    # for m in modules:
+    #     for i in range(len(m)):
+    #         print m[i]
 
 
     #原生
     #unittest.TextTestRunner(verbosity=2).run(s)
 
+    PATH = lambda p: os.path.abspath(
+        os.path.join(os.path.dirname(__file__), p)
+    )
 
-    # cfg = sys.path[0] + os.sep + 'config' + os.sep
-    # d=fileUtil.readConfig(cfg)
-    #
-    # tk=task.Task(False,d)
-    # serv = service.Service(1,5,tk,loadSuite())
-    # serv.start()
+    cfg = sys.path[0] + os.sep + 'config' + os.sep
+    d=files.readConfig(cfg)
+
+    tk=task.Task(False,d)
+    serv = service.Service(tk,PATH('config/autotest.db'),loadSuite())
+    serv.start()
 
     # a='{"weatherinfo":{"city":"上海","cityid":"101020100","temp":"29","WD":"西南风","WS":"1级","SD":"56%","WSE":"1","time":"12:45","isRadar":"1","Radar":"JC_RADAR_AZ9210_JB"}}'
     # jn = parseJson.fromStr(a)

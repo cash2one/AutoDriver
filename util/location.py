@@ -2,65 +2,68 @@
 
 __author__ = 'Administrator'
 
-#from selenium import webdriver
+from selenium import webdriver
 
-# def driverType(type_str):
-#     values = {
-#            'web': findId,
-#            'android': findName,
-#            'ios': findClassName,
-#          }
-#     values.get('a')()
+ANDROID='android'
+IOS='ios'
+WEB='web'
 
-def findId(driver,id):
-    if 'web' in str(driver):
-        return driver.find_element_by_id(id)
-    elif 'ios' in str(driver):
-        return driver.find_element_by_ios_uiautomation(id)
-    elif 'android' in str(driver):
-        return driver.find_element_by_android_uiautomator(id)
+class Location():
 
-def findName(driver,name):
-    return driver.find_element_by_name(name)
+    def __init__(self,driver):
+        #self.driverType = driver_type
+        self.driver=driver
 
-def findClassName(driver,name):
-    return driver.find_element_by_class_name(name)
 
-def findTagName(driver,name):
-    return driver.find_element_by_tag_name(name)
+    def findId(self,id):
+        if 'firefox' in str(self.driver):
+            return self.driver.find_element_by_id(id)
+        elif 'ios' in str(self.driver):
+            return self.driver.find_element_by_accessibility_id(id)
+        elif 'android' in str(self.driver):
+            return self.driver.find_element_by_android_uiautomator(id)
 
-def findLinkText(driver,text):
-    return driver.find_element_by_link_text(text)
+    def findName(self,name):
+        return self.driver.find_element_by_name(name)
 
-def findPLinkText(driver,text):
-    return driver.find_element_by_partial_link_text(text)
+    def findClassName(self,name):
+        return self.driver.find_element_by_class_name(name)
 
-def findXpath(driver,xpath):
-    return driver.find_element_by_xpath(xpath)
+    def findTagName(self,name):
+        return self.driver.find_element_by_tag_name(name)
 
-def findCss(driver,css):
-    return driver.find_element_by_css_selector(css)
+    def findLinkText(self,text):
+        return self.driver.find_element_by_link_text(text)
 
-def findIds(driver,id):
-    return driver.find_elements_by_id(id)
+    def findPLinkText(self,text):
+        return self.driver.find_element_by_partial_link_text(text)
 
-def findNames(driver,name):
-    return driver.find_elements_by_name(name)
+    def findXpath(self,xpath):
+        return self.driver.find_element_by_xpath(xpath)
 
-def findClassNames(driver,name):
-    return driver.find_elements_by_class_name(name)
+    def findCss(self,css):
+        return self.driver.find_element_by_css_selector(css)
 
-def findTagNames(driver,name):
-    return driver.find_elements_by_tag_name(name)
+    def findIds(self,id):
+        return self.driver.find_elements_by_id(id)
 
-def findLinkTexts(driver,text):
-    return driver.find_elements_by_link_text(text)
+    def findNames(self,name):
+        return self.driver.find_elements_by_name(name)
 
-def findPLinkTexts(driver,text):
-    return driver.find_elements_by_partial_link_text(text)
+    def findClassNames(self,name):
+        return self.driver.find_elements_by_class_name(name)
 
-def findXpaths(driver,xpath):
-    return driver.find_elements_by_xpath(xpath)
+    def findTagNames(self,name):
+        return self.driver.find_elements_by_tag_name(name)
 
-def findCsss(driver,css):
-    return driver.find_elements_by_css_selector(css)
+    def findLinkTexts(self,text):
+        return self.driver.find_elements_by_link_text(text)
+
+    def findPLinkTexts(self,text):
+        return self.driver.find_elements_by_partial_link_text(text)
+
+    def findXpaths(self,xpath):
+        return self.driver.find_elements_by_xpath(xpath)
+
+    def findCsss(self,css):
+        return self.driver.find_elements_by_css_selector(css)

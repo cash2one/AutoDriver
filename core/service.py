@@ -1,6 +1,7 @@
 # coding=utf-8
 __author__ = 'Administrator'
 
+import os
 import threading
 import time
 from util import db
@@ -13,10 +14,11 @@ class Service(threading.Thread):
     主要负责监视Task的状态，当其为False时，说明一个Task运行已经结束，此时重新查找所有loop次数不为0的TestCase，
     再次启动下一次TestSuite的运行
     """
-    def __init__(self, num, interval,task,tt=unittest.TestSuite()):
+    def __init__(self,task,db_path,tt=unittest.TestSuite()):
         threading.Thread.__init__(self)
-        self.thread_num = num
-        self.interval = interval
+        #self.thread_num = num
+        #self.interval = interval
+        self.db_path=db_path
         self.thread_stop = False
         self.task = task
         self.tt = tt
@@ -27,13 +29,14 @@ class Service(threading.Thread):
             if not self.task.getState():
                 self.__startTestSuite(self.task,self.tt)#self.task.getTestSuite())
 
-            time.sleep(self.interval)
+            time.sleep(5)
+            #time.sleep(self.interval)
 
     def stop(self):
         self.thread_stop = True
 
     def __startTestSuite(self,task,suite):#suite要取消掉，用task.getTestSuite()
-        dbm=db.DBManager()
+        dbm=db.DBManager(self.db_path)
         runner=test_runner.NewTestRunner(
             db=dbm,
             task=task,

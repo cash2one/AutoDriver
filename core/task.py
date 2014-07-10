@@ -4,9 +4,8 @@ __author__ = 'guguohai'
 import case
 
 class Task():
-
     __state = False
-    __testSuite=[]
+    __testSuite={}
     __loop = 0
     __id=''
 
@@ -14,7 +13,7 @@ class Task():
 
     def __init__(self,state,testSuite):
         self.__state = state
-        self.__testSuite.extend(testSuite)
+        self.__testSuite=testSuite
 
 
     def getState(self):
@@ -26,7 +25,8 @@ class Task():
     def getTestSuite(self):
         return self.__testSuite
 
-
+    def start(self):
+        self.__state = True
 
     def finish(self):
         self.__state = False
