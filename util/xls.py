@@ -80,9 +80,9 @@ class Excel:
     def readTestCaseConf(self,inf=''):
         data = self.openExcel()
         if inf=='interface':
-            tup=(u'用例描述',u'期望结果',u'执行次数')
+            tup=(u'用例编号',u'用例描述',u'期望结果',u'执行次数')
         else:
-            tup=(u'用例脚本',u'执行次数')
+            tup=(u'用例编号',u'用例脚本',u'执行次数')
 
         list = []
         tables = data.sheets()

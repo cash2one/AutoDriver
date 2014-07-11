@@ -2,18 +2,22 @@
 
 __author__ = 'Administrator'
 
-from selenium import webdriver
+from selenium import webdriver as seleniumWeb
+from appium import webdriver as appi
 
 ANDROID='android'
 IOS='ios'
 WEB='web'
 
-class Location():
+class Location(seleniumWeb.Remote):
 
     def __init__(self,driver):
         #self.driverType = driver_type
+        super(Location, self).__init__(driver)
         self.driver=driver
 
+    def findIdd(self):
+        pass
 
     def findId(self,id):
         if 'firefox' in str(self.driver):

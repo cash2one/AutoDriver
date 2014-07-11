@@ -24,11 +24,13 @@ class TestCase(unittest.TestCase):
         filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
         arrays= xls.Excel(filename).readTestCaseConf('interface')
+        print arrays
         for a in arrays:
             if a[u'用例描述']!='':
                 inf_value=jsons.find_value_by_url(a[u'用例描述'])
                 wish = a[u'期望结果']
-                self.assertEqual(jsons.fromStr(wish),inf_value,'不相等')
+                num=int(a[u'用例编号'])
+                self.assertEqual(jsons.fromStr(wish),inf_value,'编号为['+str(num)+']的用例，与期望结果不一致')
 
 
         # for row in tables:
@@ -48,6 +50,9 @@ class TestCase(unittest.TestCase):
         #     self.assertEqual('JC_RADAR_AZ9210_JB',ff,'fail')
         # finally:
         #     pass
+
+    def getTestValue(self):
+        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
 
 
 if __name__ =='__main__':
