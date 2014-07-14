@@ -15,24 +15,26 @@ from util import files
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        pass
+        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+        #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
+        self.arrays= xls.Excel(filename).readTestCaseConf('interface')
 
     def tearDown(self):
         pass
 
     def test_weather(self):
-        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
-        #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
-        arrays= xls.Excel(filename).readTestCaseConf('interface')
-        print arrays
-        for a in arrays:
+
+        for a in self.arrays:
             if a[u'用例描述']!='':
                 inf_value=jsons.find_value_by_url(a[u'用例描述'])
                 wish = a[u'期望结果']
                 num=int(a[u'用例编号'])
-                self.assertEqual(jsons.fromStr(wish),inf_value,'编号为['+str(num)+']的用例，与期望结果不一致')
-
-
+                #self.assertEqual(jsons.fromStr(wish),inf_value,'编号为['+str(num)+']的用例，与期望结果不一致')
+                self.assertTrue(jsons.fromStr(wish)==inf_value,'testttt')
+                # try:
+                #     assert(jsons.fromStr(wish)==inf_value)
+                # except AssertionError,msg:
+                #     print msg
         # for row in tables:
         #     print row
         #print w.assertResult('city')
