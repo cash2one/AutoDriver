@@ -112,6 +112,9 @@ class Excel:
             nrows = t.nrows
             for n in range(1, nrows):#遍历所有行
                 app=self.getCellsValue(t.row_values(n),titles,tup)
+
+                #self.getCellsValue1(t.row_values(n),titles,tup)
+
                 if app:
                     list.append(app)
                     print app
@@ -128,7 +131,7 @@ class Excel:
                 #if not type(row[i]) is types.FloatType:
                 if titles[i] in tup:
                     if titles[i] == desc:
-                        cells[titles[i]] = self.getInfValue(row_values[i])
+                        cells[titles[i]] = self.getCellsValue1(row_values[i])
                     else:
                         cells[titles[i]] = row_values[i]
             return cells
@@ -147,6 +150,8 @@ class Excel:
             xls_header_keys.append(key)
             xls_header_vals.append(value)
 
+        print self.getStrIndex(xls_header_vals,u'用例描述')
+
         desc = u'用例描述'
         cells={}
         if row_values:
@@ -159,6 +164,11 @@ class Excel:
                     else:
                         cells[titles[i]] = row_values[i]
             return cells
+
+    def getStrIndex(self,lists,str):
+        for i in range(0,len(lists)):
+            if lists[i]==str:
+                return i
 
 
 
