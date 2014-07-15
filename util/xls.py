@@ -5,6 +5,13 @@ import xlrd
 import re
 import jsons
 
+EXCEL_HEADER = (u'用例编号',u'分类',u'用例描述',u'期望结果',u'执行次数')
+DESC=u'用例描述'
+HEADER = ('no','cat','desc','exp','loop')
+INTERFACE='interface'
+
+XLS_HEADER={'no':u'用例编号','cat':u'分类','name':u'用例名','desc':u'用例描述','exp':u'期望结果','script':u'用例脚本','loop':u'执行次数'}
+
 class Excel:
 
     def __init__(self, file_name):
@@ -16,6 +23,14 @@ class Excel:
             return xlrd.open_workbook(self.file)
         except Exception, e:
             print str(e)
+
+
+    def getXlsHeader(self,interfaceStr):
+        dict_xls = XLS_HEADER
+        if interfaceStr!=INTERFACE:
+            del dict_xls['desc']
+        return dict_xls
+
 
     # 根据表名获取列表内容
     '''
@@ -64,7 +79,7 @@ class Excel:
         #col_names = table.row_values(0)
         list = []
         col_indexs=self.findIndexByName(data,tup)
-        p = re.compile(r'(?<=\{\{).*?(?=}})')
+        p = re.compile(r'(?<=\{).*?(?=})')
         tables = data.sheets()
         for t in tables:
             nrows = t.nrows
@@ -72,7 +87,7 @@ class Excel:
                 for c in col_indexs:
                     match=p.search(t.row_values(r)[c])
                     if match:
-                        print jsons.find_value_by_url(match.group())
+                        print jsons.find_jsons(match.group())
                     else:
                         print t.row_values(r)[c]
                     #print filter(test.search, t.row_values(r)[c])
@@ -80,19 +95,23 @@ class Excel:
     def readTestCaseConf(self,inf=''):
         data = self.openExcel()
         if inf=='interface':
-            tup=(u'用例编号',u'用例描述',u'期望结果',u'执行次数')
+            tup=(u'用例编号',u'分类',u'用例描述',u'期望结果',u'执行次数')
         else:
-            tup=(u'用例编号',u'用例脚本',u'执行次数')
+            tup=(u'用例编号',u'分类',u'用例脚本',u'执行次数')
+
+        xdict = self.getXlsHeader(inf)
 
         list = []
         tables = data.sheets()
         titles = tables[0].row_values(0)#excel表头
+
         for t in tables:#遍历所有Sheet
             nrows = t.nrows
             for n in range(1, nrows):#遍历所有行
                 app=self.getCellsValue(t.row_values(n),titles,tup)
                 if app:
                     list.append(app)
+                    print app
         return list
 
     #取出行内符合条件的单元格内容
@@ -103,6 +122,29 @@ class Excel:
             for i in range(len(titles)):#元组遍历
                 #if not type(row[i]) is types.FloatType:
                 if titles[i] in tup:
+                    if titles[i] == desc:
+                        cells[titles[i]] = self.getInfValue(row_values[i])
+                    else:
+                        cells[titles[i]] = row_values[i]
+            return cells
+
+    #取出行内符合条件的单元格内容
+    def getCellsValue1(self,row_values,titles,tup):
+        xls_header_keys=[]
+        xls_header_vals=[]
+        for key,value in XLS_HEADER.items():
+            xls_header_keys.append(key)
+            xls_header_vals.append(value)
+
+        desc = u'用例描述'
+        cells={}
+        if row_values:
+            for i in range(len(titles)):
+                #if not type(row[i]) is types.FloatType:
+                if titles[i] in xls_header_vals:
+                     pass
+
+                if titles[i] in xls_header_vals:
                     if titles[i]==desc:
                         cells[titles[i]] = self.getInfValue(row_values[i])
                     else:

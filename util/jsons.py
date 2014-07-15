@@ -6,7 +6,7 @@ from util import http
 
 
 #从接口从获取json
-def find_value_by_url(action_url):
+def find_jsons(action_url):
     resp,content=http.getHttp(action_url)
     if resp.status==200:
         return json.loads(content)#.decode('utf8')

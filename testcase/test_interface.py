@@ -18,17 +18,20 @@ class TestCase(unittest.TestCase):
         filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
         self.arrays= xls.Excel(filename).readTestCaseConf('interface')
+        self.desc=u'用例描述'
+        self.expected=u'期望结果'
+        self.no=u'用例编号'
 
     def tearDown(self):
         pass
 
     def test_weather(self):
 
-        for a in self.arrays:
-            if a[u'用例描述']!='':
-                inf_value=jsons.find_value_by_url(a[u'用例描述'])
-                wish = a[u'期望结果']
-                num=int(a[u'用例编号'])
+        for ary in self.arrays:
+            if ary[self.desc]!='':
+                inf_value=jsons.find_jsons(ary[self.desc])
+                wish = ary[self.expected]
+                num=int(ary[self.no])
                 #self.assertEqual(jsons.fromStr(wish),inf_value,'编号为['+str(num)+']的用例，与期望结果不一致')
                 self.assertTrue(jsons.fromStr(wish)==inf_value,'testttt')
                 # try:
