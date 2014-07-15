@@ -49,6 +49,21 @@ def readConfig(path_str):
         dictSuite[s]=dictCase
     return dictSuite
 
+#读取task配置文件
+def readConfigs(path_str,selections):
+    conf = ConfigParser.ConfigParser()
+    conf.read(path_str)
+
+    sections = conf.sections()
+
+    dictCase={}
+    options = conf.options(selections)
+    for opt in options:#取出sections内的所有options
+        str_val = conf.get(selections, opt)
+        dictCase[opt]=str_val.decode('utf-8')
+
+    return dictCase
+
 
 #读取所有loop不为0的TestCase
 def findTestCasePath(dict):

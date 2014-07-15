@@ -14,6 +14,7 @@ from core import service
 from core import task
 import time
 from util import jsons
+from util import inf
 
 
 def loadSuite():
@@ -105,9 +106,18 @@ def main():
     serv = service.Service(tk,PATH('config/autotest.db'),loadSuite())
     serv.start()
 
+    ss=load_tests(loader)
     # a='{"weatherinfo":{"city":"上海","cityid":"101020100","temp":"29","WD":"西南风","WS":"1级","SD":"56%","WSE":"1","time":"12:45","isRadar":"1","Radar":"JC_RADAR_AZ9210_JB"}}'
     # jn = parseJson.fromStr(a)
     # print parseJson.find_value_by_key(jn, 'cityid')
+
+
+def load_tests(loader, standard_tests, pattern):
+    # top level directory cached on loader instance
+    this_dir = os.path.dirname(__file__)
+    package_tests = loader.discover(start_dir=this_dir, pattern=pattern)
+    standard_tests.addTests(package_tests)
+    return standard_tests
 
 
 

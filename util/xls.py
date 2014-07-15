@@ -1,6 +1,8 @@
 # coding=utf-8
 __author__ = 'guohai@live.com'
 
+import os
+import files
 import xlrd
 import re
 import jsons
@@ -101,6 +103,7 @@ class Excel:
 
         xdict = self.getXlsHeader(inf)
 
+
         list = []
         tables = data.sheets()
         titles = tables[0].row_values(0)#excel表头
@@ -117,6 +120,8 @@ class Excel:
     #取出行内符合条件的单元格内容
     def getCellsValue(self,row_values,titles,tup):
         desc = u'用例描述'
+
+
         cells={}
         if row_values:
             for i in range(len(titles)):#元组遍历
@@ -132,7 +137,13 @@ class Excel:
     def getCellsValue1(self,row_values,titles,tup):
         xls_header_keys=[]
         xls_header_vals=[]
-        for key,value in XLS_HEADER.items():
+
+        PATH = lambda p: os.path.abspath(
+            os.path.join(os.path.dirname(__file__), p)
+        )
+        d=files.readConfigs(PATH('./config/settings.cfg'),'excel')
+
+        for key,value in d.items():
             xls_header_keys.append(key)
             xls_header_vals.append(value)
 
@@ -141,8 +152,6 @@ class Excel:
         if row_values:
             for i in range(len(titles)):
                 #if not type(row[i]) is types.FloatType:
-                if titles[i] in xls_header_vals:
-                     pass
 
                 if titles[i] in xls_header_vals:
                     if titles[i]==desc:
@@ -150,6 +159,7 @@ class Excel:
                     else:
                         cells[titles[i]] = row_values[i]
             return cells
+
 
 
     # def getInfValue(self,content):

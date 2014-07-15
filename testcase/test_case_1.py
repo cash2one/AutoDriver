@@ -23,7 +23,7 @@ class TestCase(unittest.TestCase):
         #elem.send_keys("qq" + Keys.RETURN)
 
         #time.sleep(20)
-        location.findId(self.ff,'kw1').send_keys("qq")
+        #location.findId(self.ff,'kw1').send_keys("qq")
 
         try:
             self.ff.find_element_by_xpath("//a[contains(@href,'http://baike.baidu.com1')]")
