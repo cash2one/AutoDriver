@@ -11,26 +11,49 @@ from util import jsons
 import json
 from util import xls
 from util import files
+import json
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
         filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
-        self.arrays= xls.Excel(filename).readTestCaseConf('interface')
+        j=self.arrays= xls.Excel(filename).readTestCaseByConf()
+        #while j['cat']
+        temp=[]
+
+        isGroup = False
+        temp1=''
+        isBegin=False
+        for a in j:
+            kk=0
+            if a['cat']=='begin':
+                isGroup=True
+                isBegin=True
+            elif a['cat']=='end':
+                isGroup=False
+
+            if isGroup:
+                temp1+=a['exp']+'-'
+            else:
+                temp.append(temp1)
+                temp1=''
+
+        print temp
+
 
     def tearDown(self):
         pass
 
     def test_weather(self):
-
-        for a in self.arrays:
-            if a[u'用例描述']!='':
-                inf_value=jsons.find_value_by_url(a[u'用例描述'])
-                wish = a[u'期望结果']
-                num=int(a[u'用例编号'])
-                #self.assertEqual(jsons.fromStr(wish),inf_value,'编号为['+str(num)+']的用例，与期望结果不一致')
-                self.assertTrue(jsons.fromStr(wish)==inf_value,'testttt')
+        pass
+        # for a in self.arrays:
+        #     if a[u'用例描述']!='':
+        #         inf_value=jsons.find_value_by_url(a[u'用例描述'])
+        #         wish = a[u'期望结果']
+        #         num=int(a[u'用例编号'])
+        #         #self.assertEqual(jsons.fromStr(wish),inf_value,'编号为['+str(num)+']的用例，与期望结果不一致')
+        #         self.assertTrue(jsons.fromStr(wish)==inf_value,'testttt')
                 # try:
                 #     assert(jsons.fromStr(wish)==inf_value)
                 # except AssertionError,msg:
