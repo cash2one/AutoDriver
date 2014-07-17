@@ -198,15 +198,15 @@ def mergeGroup(json_value):
 
     isGroup = False
     temp1={}
-    temp2=''
+    isBegin = False
 
     for jv in json_value:
         if jv['cat'] == kw['begin']:
-            isGroup = True
+            isBegin = True
         elif jv['cat'] == kw['end']:
-            isGroup = False
+            isBegin = False
 
-        if isGroup:
+        if isBegin:
             if len(temp1)<=0:
                 temp1 = jv
             temp1['exp']+=jv['exp']+'|'
@@ -214,7 +214,7 @@ def mergeGroup(json_value):
         else:
             if len(temp1) > 0:
                 temp.append(temp1)
-            temp1={}
+            temp1=jv
 
     return temp
 
