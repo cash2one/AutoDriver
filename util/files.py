@@ -73,3 +73,28 @@ def findTestCasePath(dict):
         for k in dict[key]:
             if dict[key][k]<>0:
                 print cf+os.sep+key + os.sep +k + '.py'
+
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
+
+def scanKeyword(str):
+    p=PATH('../config/settings.cfg')
+    kw= readConfigs(p,'excel_keyword')
+
+    if str==kw['begin']:
+        return 1
+    elif str==kw['end']:
+        return 0
+    else:
+        return -1
+
+#[{'script': '', 'desc': '', 'loop': '', 'exp': u'ajj', 'no': 1.0},
+# {'script': '', 'desc': '', 'loop': '', 'exp': u'uu', 'no': 1.0},
+# {'script': '', 'desc': '', 'loop': '', 'exp': u'ooa', 'no': 1.0},
+# {'script': u'test_gg', 'desc': '', 'loop': '', 'exp': '', 'no': 2.0},
+# {'script': '', 'desc': '', 'loop': '', 'exp': u'af', 'no': 3.0},
+# {'script': '', 'desc': '', 'loop': '', 'exp': u'dd', 'no': 4.0},
+# {'script': '', 'desc': '', 'loop': '', 'exp': u'ef', 'no': 5.0},
+# {'script': '', 'desc': '', 'loop': '', 'exp': u'gae', 'no': 6.0}]

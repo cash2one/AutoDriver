@@ -16,31 +16,10 @@ import json
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_app.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
         j=self.arrays= xls.Excel(filename).readTestCaseByConf()
-        #while j['cat']
-        temp=[]
-
-        isGroup = False
-        temp1=''
-        isBegin=False
-        for a in j:
-            kk=0
-            if a['cat']=='begin':
-                isGroup=True
-                isBegin=True
-            elif a['cat']=='end':
-                isGroup=False
-
-            if isGroup:
-                temp1+=a['exp']+'-'
-            else:
-                temp.append(temp1)
-                temp1=''
-
-        print temp
-
+        print xls.mergeGroup(j)
 
     def tearDown(self):
         pass

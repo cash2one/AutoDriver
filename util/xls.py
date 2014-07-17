@@ -8,6 +8,10 @@ import re
 import jsons
 import json
 
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
 class Excel:
 
     def __init__(self, file_name):
@@ -80,7 +84,7 @@ class Excel:
     def readTestCaseByConf(self):
         data = self.openExcel()
         sheet = data.sheets()
-        xls_settings=self.getExcelSettings()
+        xls_settings=self.getExcelSettings('excel')
         #print xls_settings.keys()
 
         titles = sheet[0].row_values(0)#excel表头
@@ -110,11 +114,11 @@ class Excel:
         return titlea,rows
 
     #读取settings.cfg 到list
-    def getExcelSettings(self):
+    def getExcelSettings(self,selections):
         PATH = lambda p: os.path.abspath(
             os.path.join(os.path.dirname(__file__), p)
         )
-        return files.readConfigs(PATH('../config/settings.cfg'),'excel')
+        return files.readConfigs(PATH('../config/settings.cfg'),selections)
 
 
     #取出行内符合条件的单元格内容
@@ -126,14 +130,13 @@ class Excel:
             for i in range(len(header)):#遍历表头
                 #if not type(row[i]) is types.FloatType:
                 k=self.getKeyByValue(xls_settings,header[i])#取出value相等的key
+                cells[k] = one_row_vals[i]
 
-                if header[i] == xls_settings['desc']:
-                    cells[k] = self.getInfValue(one_row_vals[i])
-                # elif header[i] == xls_settings['name']:
-                #     if one_row_vals[i]=='begin':
-                #         cells[k] += one_row_vals[i] + '|'
-                else:
-                    cells[k] = one_row_vals[i]
+                #用例描述里面正则取接口地址
+                # if header[i] == xls_settings['desc']:
+                #     cells[k] = self.getInfValue(one_row_vals[i])
+                # else:
+                #     cells[k] = one_row_vals[i]
             return cells
 
     #根据value获取list的key
@@ -187,6 +190,33 @@ class Excel:
                 if firstRow[num]==tup[i]:
                     col_indexs.append(num)
         return col_indexs
+
+
+def mergeGroup(json_value):
+    kw= files.readConfigs(PATH('../config/settings.cfg'),'excel_keyword')
+    temp=[]
+
+    isGroup = False
+    temp1={}
+    temp2=''
+
+    for jv in json_value:
+        if jv['cat'] == kw['begin']:
+            isGroup = True
+        elif jv['cat'] == kw['end']:
+            isGroup = False
+
+        if isGroup:
+            if len(temp1)<=0:
+                temp1 = jv
+            temp1['exp']+=jv['exp']+'|'
+            temp1['desc']+=jv['desc']+'|'
+        else:
+            if len(temp1) > 0:
+                temp.append(temp1)
+            temp1={}
+
+    return temp
 
 
 def main():
