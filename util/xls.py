@@ -82,7 +82,7 @@ class Excel:
                         print t.row_values(r)[c]
 
 
-    def readTestCaseByConf(self):
+    def readTestCaseByConf(self,inf='interface'):
         data = self.openExcel()
         sheet = data.sheets()
         xls_settings=self.getExcelSettings('excel')
@@ -146,6 +146,7 @@ class Excel:
 
     #取出行内符合条件的单元格内容
     def getCellsValue(self,xls_settings,one_row_vals,header):
+        url = self.getExcelSettings('interface_url')['url']
         cells={}
         # scripts=[]
         # expts=[]
@@ -154,7 +155,10 @@ class Excel:
             for i in range(len(header)):#遍历表头
                 #if not type(row[i]) is types.FloatType:
                 k=self.getKeyByValue(xls_settings,header[i])#取出value相等的key
-                cells[k] = one_row_vals[i]
+                if k=='desc':
+                    cells[k] = url+one_row_vals[i]
+                else:
+                    cells[k] = one_row_vals[i]
 
                 #用例描述里面正则取接口地址
                 # if header[i] == xls_settings['desc']:
