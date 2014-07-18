@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
         filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_app.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
         j=self.arrays= xls.Excel(filename).readTestCaseByConf()
-        print xls.mergeGroup(j)
+        print j
 
     def tearDown(self):
         pass

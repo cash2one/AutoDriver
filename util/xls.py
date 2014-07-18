@@ -6,11 +6,12 @@ import files
 import xlrd
 import re
 import jsons
-import json
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
+
+XLS_TUP=('cat','desc','exp')
 
 class Excel:
 
@@ -85,20 +86,42 @@ class Excel:
         data = self.openExcel()
         sheet = data.sheets()
         xls_settings=self.getExcelSettings('excel')
-        #print xls_settings.keys()
+
+        cat = XLS_TUP[0]
+        desc = XLS_TUP[1]
+        exp = XLS_TUP[2]
 
         titles = sheet[0].row_values(0)#excel表头
-
         list = []
 
         for s in sheet:#遍历所有Sheet
+            temp={}
+            isBegin = False
             for n in range(1, s.nrows):#遍历所有行
                 new_titles,new_rows=self.filterRows(titles,s.row_values(n),xls_settings)
                 app=self.getCellsValue(xls_settings,new_rows,new_titles)
-                #self.getCellsValue1(t.row_values(n),titles,tup)
-                if app:
-                    list.append(app)
+
+                #判断是否存在流程类用例
+                if app[cat] == 'begin':
+                    isBegin = True
+                elif app[cat] == 'end':
+                    isBegin = False
+
+                if isBegin:
+                    #判断是否首次添加temp，如果是，则把第一条记录插入到temp
+                    if len(temp) <= 0:
+                        temp = app
+                    temp[desc] += app[desc]+'|'
+                    temp[exp] += app[exp]+'|'
+                else:
+                    #结束时，判断temp是否被添加
+                    if len(temp) > 0:
+                        list.append(temp)
+                        temp={}
+                    else:
+                        list.append(app)
         return list
+
 
     #根据setting.cfg 过滤excel用例的列
     def filterRows(self,titles,one_row_vals,xls_settings):
@@ -126,6 +149,7 @@ class Excel:
         cells={}
         # scripts=[]
         # expts=[]
+
         if one_row_vals:
             for i in range(len(header)):#遍历表头
                 #if not type(row[i]) is types.FloatType:
@@ -191,32 +215,32 @@ class Excel:
                     col_indexs.append(num)
         return col_indexs
 
-
-def mergeGroup(json_value):
-    kw= files.readConfigs(PATH('../config/settings.cfg'),'excel_keyword')
-    temp=[]
-
-    isGroup = False
-    temp1={}
+#对包含有流程用例的处理
+def mergeGroup(json_value,begin='begin',end='end'):
+    list=[]
+    temp={}#用来存储组装后的exp、desc
     isBegin = False
-
     for jv in json_value:
-        if jv['cat'] == kw['begin']:
+        #开关组装模式
+        if jv['cat'] == begin:
             isBegin = True
-        elif jv['cat'] == kw['end']:
+        elif jv['cat'] == end:
             isBegin = False
 
         if isBegin:
-            if len(temp1)<=0:
-                temp1 = jv
-            temp1['exp']+=jv['exp']+'|'
-            temp1['desc']+=jv['desc']+'|'
+            #判断是否首次添加temp，如果是，则把第一条记录插入到temp
+            if len(temp)<=0:
+                temp = jv
+            temp['exp']+=jv['exp']+'|'
+            temp['desc']+=jv['desc']+'|'
         else:
-            if len(temp1) > 0:
-                temp.append(temp1)
-            temp1=jv
-
-    return temp
+            #结束时，判断temp是否被添加
+            if len(temp) > 0:
+                list.append(temp)
+                temp={}
+            else:
+                list.append(jv)
+    return list
 
 
 def main():
