@@ -97,7 +97,7 @@ import sys
 import time
 import unittest
 from xml.sax import saxutils
-from util import db
+from util import sqlite
 
 
 # ------------------------------------------------------------------------
@@ -511,7 +511,7 @@ a.popup_link:hover {
 
 
 TestResult = unittest.TestResult
-dbm=db.DBManager()
+dbm=sqlite.DBManager()
 
 class _TestResult(TestResult):
     # note: _TestResult is a pure representation of results.

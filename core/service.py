@@ -4,7 +4,7 @@ __author__ = 'Administrator'
 import os
 import threading
 import time
-from util import db
+from util import sqlite
 import test_runner
 import unittest
 
@@ -36,7 +36,7 @@ class Service(threading.Thread):
         self.thread_stop = True
 
     def __startTestSuite(self,task,suite):#suite要取消掉，用task.getTestSuite()
-        dbm=db.DBManager(self.db_path)
+        dbm=sqlite.DBManager(self.db_path)
         runner=test_runner.NewTestRunner(
             db=dbm,
             task=task,

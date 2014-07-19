@@ -5,7 +5,7 @@ import sys
 import os
 import re
 import unittest
-from util import db
+from util import sqlite
 from core import test_runner
 from util import xls
 #from core import HTMLTestRunner

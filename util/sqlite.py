@@ -69,6 +69,7 @@ class DBManager():
             cu = self.get_cursor()
             cu.execute(sql)
             r = cu.fetchall()
+            cu.close()
             if len(r) > 0:
                 return r
                 # for e in range(len(r)):
@@ -85,6 +86,7 @@ class DBManager():
                 cu = self.get_cursor()
                 cu.execute(sql, d)
                 r = cu.fetchall()
+                cu.close()
                 if len(r) > 0:
                     for e in range(len(r)):
                         print(r[e])
