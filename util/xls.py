@@ -155,8 +155,8 @@ class Excel:
             for i in range(len(header)):#遍历表头
                 #if not type(row[i]) is types.FloatType:
                 k=self.getKeyByValue(xls_settings,header[i])#取出value相等的key
-                if k=='desc':
-                    cells[k] = url+one_row_vals[i]
+                if k=='desc' and one_row_vals[i-1]!='begin':
+                    cells[k] = url + one_row_vals[i]
                 else:
                     cells[k] = one_row_vals[i]
 
