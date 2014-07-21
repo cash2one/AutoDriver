@@ -92,14 +92,14 @@ def main():
     # )
     #
     xlss = xls.readTestSuiteByExcels()
-    su= suites.loadSuite(xlss)
+    print xlss
 
-    cfg = sys.path[0] + os.sep + 'config' + os.sep
-    d=fs.readConfig(cfg)
-
-    tk=task.Task(False,xlss)
-    serv = service.Service(tk,suites.loadSuite(xlss))
-    serv.start()
+    # cfg = sys.path[0] + os.sep + 'config' + os.sep
+    # d=fs.readConfig(cfg)
+    #
+    # tk=task.Task(False,xlss)
+    # serv = service.Service(tk,suites.loadSuite(xlss))
+    # serv.start()
 
     #ss=load_tests(loader)
     # a='{"weatherinfo":{"city":"上海","cityid":"101020100","temp":"29","WD":"西南风","WS":"1级","SD":"56%","WSE":"1","time":"12:45","isRadar":"1","Radar":"JC_RADAR_AZ9210_JB"}}'

@@ -158,6 +158,9 @@ class Excel:
                 elif k=='script':
                     sf=os.path.basename(self.file).replace('xls','')
                     cells[k] = sf+one_row_vals[i]
+                # elif k=='loop':
+                #     ft=float(one_row_vals[i])
+                #     cells[k] = ft
                 else:
                     cells[k] = one_row_vals[i]
 

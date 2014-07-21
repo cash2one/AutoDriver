@@ -1,8 +1,6 @@
 # coding=utf-8
 __author__ = 'guguohai'
 
-import case
-
 class Task():
     __state = False
     __testSuite=[]
@@ -13,7 +11,7 @@ class Task():
 
     def __init__(self,state,testSuite):
         self.__state = state
-        self.__testSuite=testSuite
+        self.__testSuite.extend(testSuite)
 
 
     def getState(self):
@@ -31,9 +29,11 @@ class Task():
     def finish(self):
         self.__state = False
         #所有测试用例的count-1
-        # for k in self.__testSuite:
-        #     if int(k['loop'])<>0 and k['loop']!='':
-        #          k['loop']=str(int(k['loop'])-1)
+        for k in self.__testSuite:
+            loop=round(float(k['loop']))
+            print loop
+            if loop<>0 and k['loop']!='':
+                 k['loop']=str(loop-1)
 
         # for key in self.__testSuite:
         #     for k in self.__testSuite[key]:
