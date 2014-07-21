@@ -15,13 +15,8 @@ from core import task
 import time
 from util import jsons
 from util import inf
-from testcase import suites
+from core import suites
 
-
-
-PATH = lambda p: os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
 
 def loadSuite():
     casePath = sys.path[0] + os.sep + 'testcase'
@@ -96,12 +91,15 @@ def main():
     #     os.path.join(os.path.dirname(__file__), p)
     # )
     #
-    # cfg = sys.path[0] + os.sep + 'config' + os.sep
-    # d=files.readConfig(cfg)
-    #
-    # tk=task.Task(False,d)
-    # serv = service.Service(tk,PATH('config/autotest.db'),loadSuite())
-    # serv.start()
+    xlss = xls.readTestSuiteByExcels()
+    su= suites.loadSuite(xlss)
+
+    cfg = sys.path[0] + os.sep + 'config' + os.sep
+    d=fs.readConfig(cfg)
+
+    tk=task.Task(False,xlss)
+    serv = service.Service(tk,suites.loadSuite(xlss))
+    serv.start()
 
     #ss=load_tests(loader)
     # a='{"weatherinfo":{"city":"上海","cityid":"101020100","temp":"29","WD":"西南风","WS":"1级","SD":"56%","WSE":"1","time":"12:45","isRadar":"1","Radar":"JC_RADAR_AZ9210_JB"}}'
@@ -109,7 +107,7 @@ def main():
     # print parseJson.find_value_by_key(jn, 'cityid')
 
     #print test_suite.loadmodule()
-    print suites.regressionTest()
+
 
 
 def load_tests(loader, standard_tests, pattern):
@@ -118,7 +116,6 @@ def load_tests(loader, standard_tests, pattern):
     package_tests = loader.discover(start_dir=this_dir, pattern=pattern)
     standard_tests.addTests(package_tests)
     return standard_tests
-
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ import time
 from util import sqlite
 import test_runner
 import unittest
+from util import fs
 
 
 class Service(threading.Thread):
@@ -14,11 +15,10 @@ class Service(threading.Thread):
     主要负责监视Task的状态，当其为False时，说明一个Task运行已经结束，此时重新查找所有loop次数不为0的TestCase，
     再次启动下一次TestSuite的运行
     """
-    def __init__(self,task,db_path,tt=unittest.TestSuite()):
+    def __init__(self,task,tt=unittest.TestSuite()):
         threading.Thread.__init__(self)
         #self.thread_num = num
         #self.interval = interval
-        self.db_path=db_path
         self.thread_stop = False
         self.task = task
         self.tt = tt
@@ -36,7 +36,8 @@ class Service(threading.Thread):
         self.thread_stop = True
 
     def __startTestSuite(self,task,suite):#suite要取消掉，用task.getTestSuite()
-        dbm=sqlite.DBManager(self.db_path)
+        db_path=fs.PATH('../config/autotest.db')
+        dbm=sqlite.DBManager(db_path)
         runner=test_runner.NewTestRunner(
             db=dbm,
             task=task,

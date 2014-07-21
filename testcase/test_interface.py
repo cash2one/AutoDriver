@@ -12,14 +12,15 @@ import json
 from util import xls
 from util import fs
 import json
-#from util import mysql
+from core import suites
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
         filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_app.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
-        self.arrays= xls.Excel(filename).readTestCaseByConf()
+        xlss=xls.Excel(filename)
+        self.arrays= xlss.readTestSuiteByExcel()
         #m=mysql.DBManager('192.168.2.13:3306','root','root','autobook')
         print self.arrays
 

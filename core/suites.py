@@ -8,44 +8,17 @@ import unittest
 from util import xls
 from util import fs
 
-def readConfXls():
-    path = fs.PATH('../config')
-    f = os.listdir(path)
-    re_f=re.compile(".xls$", re.IGNORECASE)
-    files = filter(re_f.search, f)
-    list=[]
 
-    for x in files:
-        filename = fs.PATH('../config/'+os.path.basename(x))
-        xlss=xls.Excel(filename)
-        j= xlss.readTestCaseByConf()
-        for s in j:
-            list.append(os.path.splitext(x)[0]+'.'+s['script'])
-    return list
-
-def discoverPath():
-    #casePath = sys.path[0] + os.sep + 'testcase'
-    #findCase(casePath)
-    discover = unittest.defaultTestLoader.discover('')
-    suite = unittest.TestSuite()
-    for test_suit in discover:
-        for test_case in test_suit:
-            suite.addTests(test_case)
-    return suite
-
-def loadSuite():
+def loadSuite(xlss):
     suite = unittest.TestSuite()
     c=fs.PATH('../testcase/')
-    scripts=readConfXls()
-
-    #for root, dis, files in os.walk(c):
+    scripts=[]
+    
+    for js in xlss:
+        scripts.append(js['script'])
 
     disc = unittest.defaultTestLoader.discover(c,'test*.py',None)
 
-    #与excel 脚本对比
-    # files = filter(re_f.search, files)
-    # for f in files:
-    #     if os.path.basename(f) in readConfXls():
     for test_suit in disc:
         for test_case in test_suit:
             # if 'autobook_' in str(test_case):
@@ -77,7 +50,3 @@ def getCaseName(con):
 #     modules = map(__import__, moduleNames)
 #     load = unittest.defaultTestLoader.loadTestsFromModule
 #     return unittest.TestSuite(map(load, modules))
-
-if __name__ == "__main__":
-    #print loadSuite()
-    print loadSuite()

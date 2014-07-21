@@ -33,8 +33,6 @@ class TestCase(unittest.TestCase):
             assert 0, "can't find baike"
             #self.ff.get_screenshot_as_file(parentDir+os.sep+'report'+os.sep+'dadd.png')
 
-    def test_search_baidu123(self):
-        pass
 
 if __name__ =='__main__':
     unittest.main()

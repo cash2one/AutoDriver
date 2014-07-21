@@ -82,7 +82,7 @@ class Excel:
                         print t.row_values(r)[c]
 
 
-    def readTestCaseByConf(self,inf='interface'):
+    def readTestSuiteByExcel(self):
         data = self.openExcel()
         sheet = data.sheets()
         xls_settings=self.getExcelSettings('excel')
@@ -155,6 +155,9 @@ class Excel:
                 k=self.getKeyByValue(xls_settings,header[i])#取出value相等的key
                 if k=='desc' and one_row_vals[i-1]!='begin':
                     cells[k] = url + one_row_vals[i]
+                elif k=='script':
+                    sf=os.path.basename(self.file).replace('xls','')
+                    cells[k] = sf+one_row_vals[i]
                 else:
                     cells[k] = one_row_vals[i]
 
@@ -244,6 +247,21 @@ def mergeGroup(json_value,begin='begin',end='end'):
                 list.append(jv)
     return list
 
+#读取所有config下的xls文档
+def readTestSuiteByExcels():
+    path = fs.PATH('../config')
+    f = os.listdir(path)
+    re_f=re.compile(".xls$", re.IGNORECASE)
+    files = filter(re_f.search, f)
+    list=[]
+
+    for x in files:
+        filename = fs.PATH('../config/' + os.path.basename(x))
+        xlss=Excel(filename)
+        j= xlss.readTestSuiteByExcel()
+        list.extend(j)
+
+    return list
 
 def main():
     pass
