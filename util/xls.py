@@ -2,7 +2,7 @@
 __author__ = 'guohai@live.com'
 
 import os
-import files
+import fs
 import xlrd
 import re
 import jsons
@@ -138,18 +138,16 @@ class Excel:
 
     #读取settings.cfg 到list
     def getExcelSettings(self,selections):
-        PATH = lambda p: os.path.abspath(
-            os.path.join(os.path.dirname(__file__), p)
-        )
-        return files.readConfigs(PATH('../config/settings.cfg'),selections)
+        # PATH = lambda p: os.path.abspath(
+        #     os.path.join(os.path.dirname(__file__), p)
+        # )
+        return fs.readConfigs(PATH('../config/settings.cfg'),selections)
 
 
     #取出行内符合条件的单元格内容
     def getCellsValue(self,xls_settings,one_row_vals,header):
         url = self.getExcelSettings('interface_url')['url']
         cells={}
-        # scripts=[]
-        # expts=[]
 
         if one_row_vals:
             for i in range(len(header)):#遍历表头

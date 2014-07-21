@@ -4,16 +4,16 @@ __author__ = 'Administrator'
 import os
 import unittest
 import time
-from util.files import *
+from util.fs import *
 from util import jsons
 import json
 from util import xls
-from util import files
+from util import fs
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+        filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
         self.arrays = xls.Excel(filename).readTestCaseConf('interface')
 
     def tearDown(self):
@@ -56,7 +56,7 @@ class TestCase(unittest.TestCase):
         #     pass
 
     def getTestValue(self):
-        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+        filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
 
 
 if __name__ =='__main__':

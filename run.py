@@ -5,17 +5,23 @@ import sys
 import os
 import re
 import unittest
+from util import fs
 from util import sqlite
 from core import test_runner
 from util import xls
 #from core import HTMLTestRunner
-from util import files
 from core import service
 from core import task
 import time
 from util import jsons
 from util import inf
+from testcase import suites
 
+
+
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
 
 def loadSuite():
     casePath = sys.path[0] + os.sep + 'testcase'
@@ -28,15 +34,19 @@ def loadSuite():
             suite.addTests(test_case)
     return suite
 
+
 def testAllinCurrent():
+
     path = os.path.dirname(__file__)+os.sep+'testcase'
-    files = os.listdir(path)
+    # files = os.listdir(path)
+
+    f=fs.findCase(path)
 
     # test = re.compile("test\.py{1}quot;",re.IGNORECASE)
     # files = filter(test.search, files)
     filenameToModuleName = lambda f: os.path.splitext(f)[0]
-    moduleNames = map(filenameToModuleName, files)
-    print moduleNames
+    moduleNames = map(filenameToModuleName, f)
+    #print moduleNames
 
     modules = map(__import__, moduleNames)
 
@@ -56,20 +66,7 @@ def testAllinCurrent():
 #     )
 #     runner.run(loadSuite())
 
-def loadmodule():
-    path = os.path.abspath(os.path.dirname(sys.argv[0]))+os.sep+'testcase'
-    files = os.listdir(path)
 
-    test = re.compile("^test.*?.py$", re.IGNORECASE)
-
-    files = filter(test.search, files)
-
-    filenameToModuleName = lambda f: os.path.splitext(f)[0]
-    moduleNames = map(filenameToModuleName, files)
-    modules = map(__import__, moduleNames)
-
-    load = unittest.defaultTestLoader.loadTestsFromModule
-    return unittest.TestSuite(map(load, modules))
 
 def main():
     # resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
@@ -111,11 +108,8 @@ def main():
     # jn = parseJson.fromStr(a)
     # print parseJson.find_value_by_key(jn, 'cityid')
 
-    PATH = lambda p: os.path.abspath(
-        os.path.join(os.path.dirname(__file__), p)
-    )
-    d=files.readConfigs(PATH('./config/settings.cfg'),'excel')
-    print d
+    #print test_suite.loadmodule()
+    print suites.regressionTest()
 
 
 def load_tests(loader, standard_tests, pattern):

@@ -6,20 +6,22 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
 import time
-from util.files import *
+from util.fs import *
 from util import jsons
 import json
 from util import xls
-from util import files
+from util import fs
 import json
+#from util import mysql
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_app.xls'
+        filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_app.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
-        j=self.arrays= xls.Excel(filename).readTestCaseByConf()
-        print j
+        self.arrays= xls.Excel(filename).readTestCaseByConf()
+        #m=mysql.DBManager('192.168.2.13:3306','root','root','autobook')
+        print self.arrays
 
     def tearDown(self):
         pass
@@ -56,7 +58,7 @@ class TestCase(unittest.TestCase):
         #     pass
 
     def getTestValue(self):
-        filename=files.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+        filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
 
 
 if __name__ =='__main__':

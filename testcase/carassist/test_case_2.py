@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import unittest
 import time
-from util.files import *
+from util.fs import *
 
 class TestCase(unittest.TestCase):
 

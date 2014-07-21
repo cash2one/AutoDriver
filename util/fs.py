@@ -1,5 +1,9 @@
 __author__ = 'Administrator'
 # coding=utf-8
+"""
+各种文件操作方法 集合
+"""
+
 
 import os
 import sys
@@ -27,7 +31,7 @@ def findCase(folder):
 
     for root, dis, files in os.walk(folder):
         for file in files:
-            print os.path.dirname(file)
+            #print os.path.dirname(file)
             if find_file.search(file):
                 list_file.append(file)
     return list_file
@@ -89,12 +93,3 @@ def scanKeyword(str):
         return 0
     else:
         return -1
-
-#[{'script': '', 'desc': '', 'loop': '', 'exp': u'ajj', 'no': 1.0},
-# {'script': '', 'desc': '', 'loop': '', 'exp': u'uu', 'no': 1.0},
-# {'script': '', 'desc': '', 'loop': '', 'exp': u'ooa', 'no': 1.0},
-# {'script': u'test_gg', 'desc': '', 'loop': '', 'exp': '', 'no': 2.0},
-# {'script': '', 'desc': '', 'loop': '', 'exp': u'af', 'no': 3.0},
-# {'script': '', 'desc': '', 'loop': '', 'exp': u'dd', 'no': 4.0},
-# {'script': '', 'desc': '', 'loop': '', 'exp': u'ef', 'no': 5.0},
-# {'script': '', 'desc': '', 'loop': '', 'exp': u'gae', 'no': 6.0}]
