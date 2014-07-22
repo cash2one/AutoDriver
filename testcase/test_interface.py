@@ -13,22 +13,23 @@ from util import xls
 from util import fs
 import json
 from core import suites
+from test import test_support
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
         filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_app.xls'
         #tables = xls.Excel(filename).readByIndex(0,0)#.readByName(2, 'Sheet1')
-        xlss=xls.Excel(filename)
-        self.arrays= xlss.readTestSuiteByExcel()
-        #m=mysql.DBManager('192.168.2.13:3306','root','root','autobook')
-        print self.arrays
+        # xlss=xls.Excel(filename)
+        # self.arrays= xlss.readTestSuiteByExcel()
+        # #m=mysql.DBManager('192.168.2.13:3306','root','root','autobook')
+        # print self.arrays
 
     def tearDown(self):
         pass
 
-    def test_weather(self):
-        pass
+    # def test_weather(self):
+    #     pass
         # for a in self.arrays:
         #     if a[u'用例描述']!='':
         #         inf_value=jsons.find_value_by_url(a[u'用例描述'])
@@ -58,9 +59,30 @@ class TestCase(unittest.TestCase):
         # finally:
         #     pass
 
-    def getTestValue(self):
-        filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+    # def getTestValue(self):
+    #     filename=fs.base_dir + os.sep + 'config' + os.sep+'autobook_cs.xls'
+
+    def actions(self, arg1, arg2):
+        self.assertTrue(arg1==arg2,'wwwwd')
+        #print arg1+'---'+arg2
+
+    @staticmethod
+    def getTestFunc(arg1, arg2):
+        def func(self):
+            self.actions(arg1, arg2)
+        return func
 
 
-if __name__ =='__main__':
-    unittest.main()
+def __generateTestCases():
+    arglists = [('arg11', 'arg11'), ('arg21', 'arg22'), ('arg31', 'arg32')]
+    for args in arglists:
+        setattr(TestCase, 'test_func_%s_%s'%(args[0], args[1]),
+        TestCase.getTestFunc(*args) )
+__generateTestCases()
+
+def test_main():
+    test_support.run_unittest(TestCase)
+
+
+if __name__ == '__main__':
+    test_main()
