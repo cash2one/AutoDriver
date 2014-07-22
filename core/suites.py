@@ -9,13 +9,18 @@ from util import xls
 from util import fs
 
 
+#获取序列中的script 集合
+def getScripts(xlss):
+    scripts=[]
+    for js in xlss:
+        scripts.append(js['script'])
+    return scripts
+
 def loadSuite(xlss):
     suite = unittest.TestSuite()
     c=fs.PATH('../testcase/')
-    scripts=[]
-    
-    for js in xlss:
-        scripts.append(js['script'])
+
+    scripts=getScripts(xlss)
 
     disc = unittest.defaultTestLoader.discover(c,'test*.py',None)
 
