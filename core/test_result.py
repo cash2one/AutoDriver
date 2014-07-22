@@ -8,6 +8,7 @@ import StringIO
 import time
 import outputRedirector
 
+
 stdout_redirector = outputRedirector.OutputRedirector(sys.stdout)
 stderr_redirector = outputRedirector.OutputRedirector(sys.stderr)
 

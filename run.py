@@ -6,7 +6,7 @@ import os
 import re
 import unittest
 from util import fs
-from util import sqlite
+
 from core import test_runner
 from util import xls
 #from core import HTMLTestRunner
@@ -16,7 +16,21 @@ import time
 from util import jsons
 from util import inf
 from core import suites
+import sqlite3
 
+def ddb(sql):
+
+    conn=sqlite3.connect(os.path.dirname(__file__)+os.sep+'report.db')
+    #sql='create table student'
+    if sql is not None and sql != '':
+        cu = conn.cursor()
+        cu.execute(sql)
+        conn.commit()
+        print('创建数据库表成功!')
+        cu.close()
+        conn.close()
+    else:
+        print('the [{}] is empty or equal None!'.format(sql))
 
 def loadSuite():
     casePath = sys.path[0] + os.sep + 'testcase'
@@ -34,7 +48,13 @@ def testAllinCurrent():
 
     path = os.path.dirname(__file__)+os.sep+'testcase'
     # files = os.listdir(path)
-
+    sys.path.append('testcase')
+    sys.path.append('testcase/autobook_app')
+    sys.path.append('testcase/autobook_cs')
+    sys.path.append('testcase/autobook_hr')
+    sys.path.append('testcase/autobook_interface')
+    sys.path.append('testcase/autobook_carassist')
+    sys.path.append('testcase/mychevy')
     f=fs.findCase(path)
 
     # test = re.compile("test\.py{1}quot;",re.IGNORECASE)
@@ -91,8 +111,12 @@ def main():
     #     os.path.join(os.path.dirname(__file__), p)
     # )
     #
-    xlss = xls.readTestSuiteByExcels()
-    print xlss
+    #xlss = xls.readTestSuiteByExcels()
+    #print xlss
+
+    print testAllinCurrent()
+
+    #ddb('create table if not exists catalog (id integer primary key,pid integer,name varchar(10) UNIQUE,nickname text NULL)')
 
     # cfg = sys.path[0] + os.sep + 'config' + os.sep
     # d=fs.readConfig(cfg)
