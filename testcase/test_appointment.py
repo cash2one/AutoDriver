@@ -14,6 +14,7 @@ class ContactsAndroidTests(unittest.TestCase):
 
     def test_text(self):
         sleep(15)
+
         print self.driver.current_activity
         print self.driver.current_context
 
