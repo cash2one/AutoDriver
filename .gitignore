@@ -8,7 +8,9 @@ __pycache__/
 #pycharm
 .idea/
 *.html
-*.apk
+*.db
+testcase/
+resource/*.apk
 
 # Distribution / packaging
 .Python
