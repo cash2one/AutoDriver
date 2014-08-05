@@ -8,7 +8,8 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-driver = device.android(PATH('../../resource/MyChevy_1.2.0.apk'))
+apk_path = device.findFirstAPK()
+driver = device.android(PATH(apk_path))
 
 mainActivity = None
 mainContext = None

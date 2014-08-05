@@ -1,7 +1,13 @@
 __author__ = 'Administrator'
 
+import os,re
 from appium import webdriver
 
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
+res = PATH('../../resource/')
 
 def android(apk_path):
     desired_caps = {}
@@ -13,3 +19,9 @@ def android(apk_path):
     desired_caps['app-activity'] = '.SplashActivity'
 
     return webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+
+def findFirstAPK():
+    test = re.compile(".apk$", re.IGNORECASE)
+    files = filter(test.search, os.listdir(res))
+
+    return PATH('../../resource/'+files[0])

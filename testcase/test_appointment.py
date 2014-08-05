@@ -15,9 +15,6 @@ class ContactsAndroidTests(unittest.TestCase):
     def test_text(self):
         sleep(15)
 
-        print self.driver.current_activity
-        print self.driver.current_context
-
         self.driver.switch_to.context(None)
         self.driver.find_element_by_name(u'保养预约维修').click()
         sleep(2)
