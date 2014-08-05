@@ -97,7 +97,6 @@ import sys
 import time
 import unittest
 from xml.sax import saxutils
-from util import sqlite
 
 
 # ------------------------------------------------------------------------
@@ -511,7 +510,7 @@ a.popup_link:hover {
 
 
 TestResult = unittest.TestResult
-dbm=sqlite.DBManager()
+#dbm=sqlite.DBManager()
 
 class _TestResult(TestResult):
     # note: _TestResult is a pure representation of results.
@@ -570,8 +569,8 @@ class _TestResult(TestResult):
         data = [(timestr, u'登陆火星计划不靠谱'),
                  (timestr, u'数据库表测试')]
 
-        sql = "INSERT INTO module values (NULL , ?, ?)"
-        dbm.insert_values(sql,data)
+        # sql = "INSERT INTO module values (NULL , ?, ?)"
+        # dbm.insert_values(sql,data)
 
 
     def addSuccess(self, test):
@@ -638,7 +637,7 @@ class HTMLTestRunner(Template_mixin):
         test(result)
         self.stopTime = datetime.datetime.now()
         self.generateReport(test, result)
-        dbm.close_db()
+        #dbm.close_db()
         print >>sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime)
 
         return result

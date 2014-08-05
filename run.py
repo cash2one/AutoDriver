@@ -1,41 +1,17 @@
 # coding=utf-8
 __author__ = 'guohai@live.com'
 
-import sys
 import os
-import re
-import unittest
-from util import fs
-
-from core import test_runner
-from util import xls
-#from core import HTMLTestRunner
-from core import service
-from core import task
 import time
-from util import jsons
-from util import inf
-from core import suites
-import sqlite3
+from framework.core import HTMLTestRunner
+import unittest
 
-def ddb(sql):
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
 
-    conn=sqlite3.connect(os.path.dirname(__file__)+os.sep+'report.db')
-    #sql='create table student'
-    if sql is not None and sql != '':
-        cu = conn.cursor()
-        cu.execute(sql)
-        conn.commit()
-        print('创建数据库表成功!')
-        cu.close()
-        conn.close()
-    else:
-        print('the [{}] is empty or equal None!'.format(sql))
-
-def loadSuite():
-    casePath = sys.path[0] + os.sep + 'testcase'
-    #findCase(casePath)
-
+def getSuite():
+    casePath = PATH('./testcase/')
     discover = unittest.defaultTestLoader.discover(casePath)
     suite = unittest.TestSuite()
     for test_suit in discover:
@@ -44,102 +20,18 @@ def loadSuite():
     return suite
 
 
-def testAllinCurrent():
-
-    path = os.path.dirname(__file__)+os.sep+'testcase'
-    # files = os.listdir(path)
-    sys.path.append('testcase')
-    sys.path.append('testcase/autobook_app')
-    sys.path.append('testcase/autobook_cs')
-    sys.path.append('testcase/autobook_hr')
-    sys.path.append('testcase/autobook_interface')
-    sys.path.append('testcase/autobook_carassist')
-    sys.path.append('testcase/mychevy')
-    f=fs.findCase(path)
-
-    # test = re.compile("test\.py{1}quot;",re.IGNORECASE)
-    # files = filter(test.search, files)
-    filenameToModuleName = lambda f: os.path.splitext(f)[0]
-    moduleNames = map(filenameToModuleName, f)
-    #print moduleNames
-
-    modules = map(__import__, moduleNames)
-
-    load = unittest.defaultTestLoader.loadTestsFromModule
-    return unittest.TestSuite(map(load, modules))
-
-
-# def runCases():
-#     resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
-#     fp = open(resultDir, 'wb')
-#     dbm=db.DBManager()
-#     runner=test_runner.NewTestRunner(
-#         db=dbm,
-#         stream=fp,
-#         title=u'测试报告',
-#         description=u'用例执行情况'
-#     )
-#     runner.run(loadSuite())
-
-
-
 def main():
-    # resultDir=sys.path[0] + os.sep + 'report' + os.sep+'abc.html'
-    # fp = open(resultDir, 'wb')
-    # runner = HTMLTestRunner.HTMLTestRunner(
-    #     stream=fp,
-    #     title=u'测试报告',
-    #     description=u'用例执行情况'
-    # )
-    #
-    # s=loadSuite()
-    # runner.run(s)
+    t= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+    resultDir = PATH('./report%s.html') % t
+    fp = open(resultDir, 'wb')
+    suite = getSuite()
+    runner = HTMLTestRunner.HTMLTestRunner(
+        stream=fp,
+        title=u'测试报告',
+        description=u'用例执行情况'
+    )
+    runner.run(suite)
 
-    # dbm=db.DBManager()
-    # modules = dbm.fetchall('select * from module where id>3')
-    #
-    #
-    # for m in modules:
-    #     for i in range(len(m)):
-    #         print m[i]
-
-
-    #原生
-    #unittest.TextTestRunner(verbosity=2).run(s)
-
-    # PATH = lambda p: os.path.abspath(
-    #     os.path.join(os.path.dirname(__file__), p)
-    # )
-    #
-    #xlss = xls.readTestSuiteByExcels()
-    #print xlss
-
-    print testAllinCurrent()
-
-    #ddb('create table if not exists catalog (id integer primary key,pid integer,name varchar(10) UNIQUE,nickname text NULL)')
-
-    # cfg = sys.path[0] + os.sep + 'config' + os.sep
-    # d=fs.readConfig(cfg)
-    #
-    # tk=task.Task(False,xlss)
-    # serv = service.Service(tk,suites.loadSuite(xlss))
-    # serv.start()
-
-    #ss=load_tests(loader)
-    # a='{"weatherinfo":{"city":"上海","cityid":"101020100","temp":"29","WD":"西南风","WS":"1级","SD":"56%","WSE":"1","time":"12:45","isRadar":"1","Radar":"JC_RADAR_AZ9210_JB"}}'
-    # jn = parseJson.fromStr(a)
-    # print parseJson.find_value_by_key(jn, 'cityid')
-
-    #print test_suite.loadmodule()
-
-
-
-def load_tests(loader, standard_tests, pattern):
-    # top level directory cached on loader instance
-    this_dir = os.path.dirname(__file__)
-    package_tests = loader.discover(start_dir=this_dir, pattern=pattern)
-    standard_tests.addTests(package_tests)
-    return standard_tests
 
 
 if __name__ == "__main__":
