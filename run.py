@@ -35,6 +35,5 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
-    from framework.core import device
-    print device.getAPK()
+    main()
+
