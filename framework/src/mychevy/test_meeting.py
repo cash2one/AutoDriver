@@ -13,12 +13,11 @@ class ContactsAndroidTests(unittest.TestCase):
         #self.driver.close_app()
         device.switchToHome(self,self.mainActivity)
 
-
     def test_text(self):
         sleep(15)
         self.mainActivity = self.driver.current_activity
 
-        self.driver.find_element_by_name(u'24小时服务站').click()
+        self.driver.find_element_by_name(u'聚乐会').click()
 
         sleep(10)
         self.driver.find_element_by_name(u'详情').click()
