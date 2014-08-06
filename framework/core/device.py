@@ -2,7 +2,8 @@
 __author__ = 'Administrator'
 
 import os,time
-from appium import webdriver
+from appium import webdriver as am
+from selenium import webdriver as sm
 from framework.util import fs
 
 PATH = lambda p: os.path.abspath(
@@ -22,7 +23,12 @@ def android():
     desired_caps['appPackage'] = configs['app_package']
     desired_caps['app-activity'] = configs['app_activity']
 
-    return webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+    return am.Remote('http://localhost:4723/wd/hub', desired_caps)
+
+def web():
+    firefox = sm.Firefox()
+    firefox.maximize_window()
+    return firefox
 
 #切换到首页
 def switchToHome(sf,main):

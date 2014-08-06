@@ -3,7 +3,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 import os,sys
 import time,re
-from framework.core import HTMLTestRunner,gvar,device
+from framework.core import HTMLTestRunner,the,device
 import unittest
 
 
@@ -40,7 +40,7 @@ def main():
     )
 
     #启动apk，并等待
-    gvar.driver = device.android()
+    the.android = device.android()
     time.sleep(30)
 
     runner.run(getTestSuite())

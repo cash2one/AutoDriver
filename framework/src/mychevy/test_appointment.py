@@ -2,12 +2,12 @@
 __author__ = 'Administrator'
 import unittest
 from time import sleep
-from framework.core import gvar,device
+from framework.core import the,device
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = gvar.driver
+        self.driver = the.android
 
     def tearDown(self):
         #返回首页

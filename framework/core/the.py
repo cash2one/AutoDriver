@@ -9,7 +9,6 @@ __author__ = 'Administrator'
 # )
 #
 # apk_path = device.findFirstAPK()
-driver = None #device.android(PATH(apk_path))
-
-mainActivity = None
-mainContext = None
+android = None #device.android(PATH(apk_path))
+web = None
+ios = None
