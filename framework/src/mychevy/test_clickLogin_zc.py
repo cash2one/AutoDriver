@@ -16,6 +16,7 @@ class TestCase(unittest.TestCase):
 
     def test_case(self):
         #每个测试用例，都需要把首页加入到变量mainActivity
+
         self.mainActivity = self.driver.current_activity
         els=self.driver.find_elements_by_class_name('android.widget.ImageView')
         els[3].click()
