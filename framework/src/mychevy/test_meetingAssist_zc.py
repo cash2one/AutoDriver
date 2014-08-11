@@ -19,5 +19,5 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_name(u'聚乐会').click()
         sleep(2)
         self.driver.switch_to_alert()
-        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/imageView')
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/imageView').click()
         self.driver.find_element_by_name(u'协办经销商').click()
