@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
         device.switchToHome(self,self.mainActivity)
 
     def activity(self):
-        sleep(10)
+        sleep(15)
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
     def test_case1(self):
