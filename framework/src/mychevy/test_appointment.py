@@ -6,7 +6,7 @@ from time import sleep
 #点击登录，检查性别选择框
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = the.android()
+        self.driver = the.android
 
     def tearDown(self):
         #返回首页
