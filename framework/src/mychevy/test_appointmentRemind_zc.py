@@ -42,6 +42,6 @@ class TestCase(unittest.TestCase):
 
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
         self.driver.switch_to_alert()
-        txt=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg').text
-        print(txt)
-        self.assertTrue(u'在上海强生北美汽车销售服务有限公司申请预约保养?'in txt)
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok')
+        #print(self.driver.current_activity)
+        self.assertEqual('.OrderActivity',self.driver.current_activity)
