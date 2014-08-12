@@ -24,7 +24,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_ok').click()
         self.driver.switch_to_alert()
         txt=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg').text
-        print txt
+        #print txt
         self.assertEqual(u'提醒：更换手机号会清空您原有的数据',txt)
 
 
