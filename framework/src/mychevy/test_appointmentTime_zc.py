@@ -3,7 +3,7 @@ __author__ = 'zhangchun'
 import unittest
 from framework.core import the,device
 from time import sleep
-#点击预约保养，点击提示框的确定按钮，成功预约
+#查看时间控件
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = the.android
@@ -24,26 +24,19 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
         #登录成功
-        #sleep(3)
+        sleep(3)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
         sleep(5)
-        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_location').click()
-        sleep(3)
-        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_name').click()
-        #选择指定位置
-
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_order_time').click()
         self.driver.switch_to_alert()
-        self.driver.find_elements_by_class_name('android.widget.ImageButton')[0].click()
-        self.driver.find_elements_by_class_name('android.widget.ImageButton')[4].click()
-        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
-        sleep(3)
-        #选择期望时间
-
-        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
-        self.driver.switch_to_alert()
-        sleep(3)
-        txt=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg').text
-        #print txt
-        self.assertTrue(u'在上海强生北美汽车销售服务有限公司申请预约保养?' in txt)
-
+        els=self.driver.find_elements_by_class_name('android.widget.ImageButton')
+        els[0].click()
+        els[1].click()
+        els[2].click()
+        els[3].click()
+        els[4].click()
+        els[5].click()
+        els[6].click()
+        els[7].click()
+        els[8].click()
+        els[9].click()
