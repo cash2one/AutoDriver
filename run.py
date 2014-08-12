@@ -15,7 +15,7 @@ sys.path.append('testcase')
 
 def getTestSuite():
     path = PATH('./testcase/')
-
+   #执行以test开头，py结尾的文件
     test = re.compile("^test.*?.py$", re.IGNORECASE)
     files = filter(test.search, os.listdir(path))
 
@@ -41,7 +41,8 @@ def main():
 
     #启动apk，并等待
     the.android = device.android()
-    time.sleep(30)
+    #启动时间
+    time.sleep(40)
 
     runner.run(getTestSuite())
 
