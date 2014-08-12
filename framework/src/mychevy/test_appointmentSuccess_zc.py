@@ -3,7 +3,7 @@ __author__ = 'zhangchun'
 import unittest
 from framework.core import the,device
 from time import sleep
-#点击登录，检查性别选择框
+#点击预约保养弹出提示框
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = the.android
