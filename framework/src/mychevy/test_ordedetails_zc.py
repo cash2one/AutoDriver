@@ -13,7 +13,6 @@ class TestCase(unittest.TestCase):
         device.switchToHome(self,self.mainActivity)
 
     def test_case1(self):
-        sleep(5)
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         # self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_user_icon').click()
