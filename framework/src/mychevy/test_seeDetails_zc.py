@@ -6,7 +6,7 @@ from time import sleep
 #点击预约保养弹出提示框
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = the.android()
+        self.driver = the.android
 
     def tearDown(self):
         #返回首页
