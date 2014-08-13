@@ -23,7 +23,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_ok').click()
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
-        sleep(2)
+        sleep(3)
         self.driver.switch_to_alert()
         txt=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg').text
         #print txt
