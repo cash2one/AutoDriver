@@ -3,7 +3,7 @@ __author__ = 'zhangchun'
 import unittest
 from framework.core import the,device
 from time import sleep
-#点赞后点赞数加1，在次进入服务站页面，点赞数不恢复原值
+#点击24小时服务站进入服务站查询页面
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = the.android
