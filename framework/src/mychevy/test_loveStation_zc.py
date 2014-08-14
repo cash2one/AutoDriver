@@ -3,7 +3,7 @@ __author__ = 'zhangchun'
 import unittest
 from framework.core import the,device
 from time import sleep
-#点击详情中的预约保养，选择指定时间，点击确定，预约成功
+#点击24小时服务站后，点击收藏的服务站
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = the.android
