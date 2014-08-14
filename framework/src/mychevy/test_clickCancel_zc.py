@@ -6,14 +6,14 @@ from time import sleep
 #点击详情中的预约保养，选择指定时间，点击确定，预约成功
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.android()
+        self.driver =the.android
 
     def tearDown(self):
         #返回首页
         device.switchToHome(self,self.mainActivity)
 
     def test_case1(self):
-        sleep(5)
+
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_user_icon').click()
