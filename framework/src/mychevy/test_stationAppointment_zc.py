@@ -27,7 +27,11 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_station').click()
         sleep(3)
         self.driver.find_element_by_name (u'详情').click()
+        text1=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_name').text
         el=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order')
         el.click()
+        sleep(3)
+        text2=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_location').text
         print el.text
         print self.driver.current_activity
+        self.assertEqual(text1,text2)
