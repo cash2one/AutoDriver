@@ -23,11 +23,11 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
         #登录成功
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_station').click()
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_name (u'详情').click()
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
         #进入预约保养界面
         sleep(3)
