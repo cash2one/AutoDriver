@@ -24,11 +24,11 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
         #登录成功
-        #sleep(3)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
         sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_location').click()
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_name').click()
         #选择指定位置
 
@@ -43,7 +43,10 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
         self.driver.switch_to_alert()
         sleep(3)
-        txt=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg').text
+        el=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg')
+        txt=el.text
         #print txt
-        self.assertTrue(u'在上海强生北美汽车销售服务有限公司申请预约保养?' in txt)
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_cancel').click()
 
+        self.assertTrue(u'在上海强生北美汽车销售服务有限公司申请预约保养?' in txt)
+        self.assertFalse(el.is_displayed())
