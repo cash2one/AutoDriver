@@ -25,6 +25,9 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
         sleep(5)
         self.driver.switch_to_alert()
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_cancel').click()
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
+        self.driver.switch_to_alert()
         el=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg')
         txt=el.text
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_cancel').click()
