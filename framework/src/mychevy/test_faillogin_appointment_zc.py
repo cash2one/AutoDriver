@@ -3,7 +3,7 @@ __author__ = 'zhangchun'
 import unittest
 from framework.core import the,device
 from time import sleep
-#点击预约保养，点击提示框的确定按钮，成功预约
+#登录失败，点击保养预约维修，弹出登录用户不正确
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver =the.android
@@ -26,12 +26,12 @@ class TestCase(unittest.TestCase):
         sleep(5)
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_cancel').click()
+         #登录失败
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
         self.driver.switch_to_alert()
         el=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_msg')
         txt=el.text
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_cancel').click()
-        #登录失败
         self.assertTrue(u'登录失败：用户信息不正确' in txt)
         self.assertFalse(el.is_displayed())
 
