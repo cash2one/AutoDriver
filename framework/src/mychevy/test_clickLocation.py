@@ -24,10 +24,17 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
         #登录成功
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
-        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_location').click()
         sleep(3)
-        self.driver.switch_to_alert()
-        #print(self.driver.current_activity)
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_location').click()
+        sleep(5)
+        for i in range(0,12):#以下操作连续12次
+        #定位元素的原位置
+            origin_el =self.driver.find_elements_by_class_name("android.widget.LinearLayout")[0]
+        #定位元素要移动到的目标位置
+            destination_el =self.driver.find_elements_by_class_name("android.widget.LinearLayout")[3]
+        #执行元素的移动操作
+            self.driver.drag_and_drop(origin_el,destination_el)
+
         self.assertEqual('.StationActivity',self.driver.current_activity)
