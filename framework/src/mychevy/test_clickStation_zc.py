@@ -17,6 +17,12 @@ class TestCase(unittest.TestCase):
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_station').click()
         sleep(3)
-        self.driver.switch_to_alert()
-        #print self.driver.current_activity
+        for i in range(0,12):#以下操作连续12次
+        #定位元素的原位置
+            origin_el =self.driver.find_elements_by_class_name("android.widget.LinearLayout")[0]
+        #定位元素要移动到的目标位置
+            destination_el =self.driver.find_elements_by_class_name("android.widget.LinearLayout")[3]
+        #执行元素的移动操作
+            self.driver.drag_and_drop(origin_el,destination_el)
+
         self.assertEqual('.StationActivity',self.driver.current_activity)
