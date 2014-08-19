@@ -4,17 +4,16 @@ import unittest
 from framework.core import the,device
 from time import sleep
 import datetime,time
-#查看时间控件,点击确定后，选择的时间回显在文本框中
+#再次点击时间控件，之前所选时间显示在时间控件中
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.android()
+        self.driver = the.android
 
     def tearDown(self):
         #返回首页
         device.switchToHome(self,self.mainActivity)
 
     def test_case1(self):
-        sleep(5)
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_user_icon').click()
@@ -53,5 +52,6 @@ class TestCase(unittest.TestCase):
         t2=datetime.datetime(year,mon,day,hour,minute).timetuple()
          #前字符转换成datetime,再用.timetuple()转换成struct_time形式，
         d2=time.strftime("%Y-%m-%d %H:%M",t2)
+        #格式化
         d1=str(t1)
         self.assertEqual(d1,d2)
