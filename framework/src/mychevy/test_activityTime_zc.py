@@ -18,7 +18,7 @@ class TestCase(unittest.TestCase):
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_name(u'聚乐会').click()
-        sleep(7)
+        sleep(10)
         txt1=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_newpartydistancetime').text
 
         t1=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_newpartytime').text

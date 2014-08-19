@@ -16,7 +16,7 @@ class TestCase(unittest.TestCase):
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_station').click()
-        sleep(3)
+        sleep(5)
         for i in range(0,12):#以下操作连续12次
         #定位元素的原位置
             origin_el =self.driver.find_elements_by_class_name("android.widget.LinearLayout")[0]

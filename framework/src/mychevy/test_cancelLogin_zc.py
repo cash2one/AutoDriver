@@ -16,7 +16,7 @@ class TestCase(unittest.TestCase):
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_user_icon').click()
-        sleep(2)
+        sleep(5)
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_cancel').click()
         #print(self.driver.current_activity)

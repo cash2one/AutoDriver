@@ -16,7 +16,7 @@ class TestCase(unittest.TestCase):
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_user_icon').click()
-        sleep(2)
+        sleep(5)
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_name').send_keys('gsd')
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_phone').send_keys('13800000002')
@@ -24,9 +24,9 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
         #登录成功
-        sleep(5)
+        sleep(7)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_location').click()
         sleep(5)
         for i in range(0,12):#以下操作连续12次

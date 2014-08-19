@@ -23,9 +23,9 @@ class TestCase(unittest.TestCase):
         # # #点击收藏按钮
         # device.switchToHome(self,self.mainActivity)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_station').click()
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_name(u'详情').click()
-        sleep(3)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_favorite').click()
         self.driver.back()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/rb_love_station').click()

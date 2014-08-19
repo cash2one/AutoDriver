@@ -19,17 +19,17 @@ class TestCase(unittest.TestCase):
 
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_user_icon').click()
-        sleep(2)
+        sleep(5)
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_name').clear()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_name').send_keys('hdfuo')
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_phone').clear()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_phone').send_keys('13800000002')
-        sleep(1)
+        sleep(3)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/user_ok').click()
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
-        sleep(2)
+        sleep(3)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
 
         self.driver.switch_to_alert()

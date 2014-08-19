@@ -20,6 +20,5 @@ class TestCase(unittest.TestCase):
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_name(u'聚乐会').click()
         self.driver.switch_to_alert()#获取弹出框
-        sleep(2)
         #print(self.driver.current_activity)
         self.assertEqual('.NewPartyActivity',self.driver.current_activity)
