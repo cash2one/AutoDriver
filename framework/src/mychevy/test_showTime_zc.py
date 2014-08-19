@@ -34,7 +34,7 @@ class TestCase(unittest.TestCase):
         year=int(els[0].text)
         #取第一个EditText为年，EditText为unicode,要转成int型
         mon=int(els[1].text[:-1])
-        #取第二个EditText为月，[：1]为取最后一个字符之前字符，即删去月
+        #取第二个EditText为月，[：-1]为取最后一个字符之前字符，即删去月
         day=int(els[2].text)
         #取第二个EditText为天
         hour=int(els[3].text)

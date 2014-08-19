@@ -4,16 +4,17 @@ import unittest
 from framework.core import the,device
 from time import sleep
 import datetime,time
-#查看时间控件
+#查看时间控件,点击确定后，选择的时间回显在文本框中
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = the.android
+        self.driver = device.android()
 
     def tearDown(self):
         #返回首页
         device.switchToHome(self,self.mainActivity)
 
     def test_case1(self):
+        sleep(5)
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/iv_user_icon').click()
@@ -25,9 +26,19 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert()
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
         #登录成功
-        sleep(7)
+        sleep(5)
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_order').click()
         sleep(3)
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_order_time').click()
+        self.driver.switch_to_alert()
+        button=self.driver.find_elements_by_class_name('android.widget.ImageButton')
+        button[0].click()
+        button[2].click()
+        button[6].click()
+        self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/btn_ok').click()
+        sleep(2)
+        t1=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_order_time').text
+        #选择时间确定后，获取文本框中的时间
         self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_order_time').click()
         self.driver.switch_to_alert()
         els=self.driver.find_elements_by_class_name('android.widget.EditText')
@@ -37,13 +48,10 @@ class TestCase(unittest.TestCase):
         #取第二个EditText为月，[：-1]为取最后一个字符之前字符，即删去月
         day=int(els[2].text)
         #取第二个EditText为天
-        #t1=datetime.datetime(year,mon,day).timetuple()
-        #将字符转换成日期形式，转成struct_time
-        # d1=time.strftime("%Y/%m/%d",t1)  再格式化
-        # t2=datetime.date.today() + datetime.timedelta(days=1)
-        # d2=time.strftime("%Y/%m/%d",t2.timetuple())
-        # self.assertEqual(d1,d2)
-        t1=datetime.date(year,mon,day)#将字符转换成日期形式
-        t2=datetime.date.today() + datetime.timedelta(days=1)
-        #t2为系统日期的后一天日期
-        self.assertEqual(t1,t2)
+        hour=int(els[3].text)
+        minute=int(els[4].text)
+        t2=datetime.datetime(year,mon,day,hour,minute).timetuple()
+         #前字符转换成datetime,再用.timetuple()转换成struct_time形式，
+        d2=time.strftime("%Y-%m-%d %H:%M",t2)
+        d1=str(t1)
+        self.assertEqual(d1,d2)
