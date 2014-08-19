@@ -4,7 +4,7 @@ import unittest
 from framework.core import the,device
 from time import sleep
 import datetime,time
-#查看时间控件
+#查看时间控件,点击确定后，选择的时间回显在文本框中
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = the.android
