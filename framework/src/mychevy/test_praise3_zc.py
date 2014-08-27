@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
         #点击点赞图标
         text1=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_ok_number').text
         sleep(3)
-        for i in range(0,4):#以下操作连续12次
+        for i in range(0,12):#以下操作连续12次
         #定位元素的原位置
             origin_el =self.driver.find_elements_by_class_name("android.widget.LinearLayout")[0]
         #定位元素要移动到的目标位置
@@ -29,7 +29,7 @@ class TestCase(unittest.TestCase):
             self.driver.drag_and_drop(origin_el,destination_el)
         #执行元素的移动操作
         sleep(3)
-        for i in range(0,4):#以下操作连续12次
+        for i in range(0,12):#以下操作连续12次
         #定位元素的原位置
             origin_el =self.driver.find_elements_by_class_name("android.widget.LinearLayout")[3]
         #定位元素要移动到的目标位置
