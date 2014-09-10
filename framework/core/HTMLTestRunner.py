@@ -615,8 +615,9 @@ class _TestResult(TestResult):
 class HTMLTestRunner(Template_mixin):
     """
     """
-    def __init__(self, stream=sys.stdout, verbosity=1, title=None, description=None):
+    def __init__(self, stream=sys.stdout,task=None, verbosity=1, title=None, description=None):
         self.stream = stream
+        self.task = task
         self.verbosity = verbosity
         if title is None:
             self.title = self.DEFAULT_TITLE
@@ -633,11 +634,12 @@ class HTMLTestRunner(Template_mixin):
     def run(self, test):
         "Run the given test case or test suite."
         result = _TestResult(self.verbosity)
-        print 'start test1------'
+        print 'left:',self.task.getTestNum()
         test(result)
         self.stopTime = datetime.datetime.now()
         self.generateReport(test, result)
         #dbm.close_db()
+        self.task.finish()
         print >>sys.stderr, '\nTime Elapsed: %s' % (self.stopTime-self.startTime)
 
         return result
