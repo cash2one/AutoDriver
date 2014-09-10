@@ -12,10 +12,11 @@ sys.path.append('testcase')
 
 class Task():
 
-    def __init__(self,device=None,test_num=1):
+    def __init__(self,device=None,case_path=None,test_num=1):
         self.device = device
         self.state = False
         self.test_num = test_num
+        self.case_path = case_path
 
     def getDevice(self):
         return self.device
@@ -27,10 +28,8 @@ class Task():
         return self.test_num
 
     def getTestSuite(self):
-        path = PATH('../../testcase/')
-
         test = re.compile("^test.*?.py$", re.IGNORECASE)
-        files = filter(test.search, os.listdir(path))
+        files = filter(test.search, os.listdir(self.case_path))
 
         filenameToModuleName = lambda f: os.path.splitext(f)[0]
         moduleNames = map(filenameToModuleName, files)
