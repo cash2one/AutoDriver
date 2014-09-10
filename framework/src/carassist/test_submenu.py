@@ -24,3 +24,6 @@ class TestCase(unittest.TestCase):
         time.sleep(1)
         self.driver.find_elements_by_class_name('android.widget.Button')[2].click()
 
+        # txt = self.driver.find_elements_by_class_name('android.widget.TextView')[1].text
+        # self.assertTrue(txt==u'信息显示屏',u'txt error')
+
