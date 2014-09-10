@@ -1,50 +1,15 @@
 # coding=utf-8
 __author__ = 'guguohai@pathbook.com.cn'
 
-import os,sys
-import time,re
-from framework.core import HTMLTestRunner,the,device
-import unittest
-
-
-PATH = lambda p: os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
-
-sys.path.append('testcase')
-
-def getTestSuite():
-    path = PATH('./testcase/')
-   #执行以test开头，py结尾的文件
-    test = re.compile("^test.*?.py$", re.IGNORECASE)
-    files = filter(test.search, os.listdir(path))
-
-    filenameToModuleName = lambda f: os.path.splitext(f)[0]
-    moduleNames = map(filenameToModuleName, files)
-    print moduleNames
-
-    modules = map(__import__, moduleNames)
-    load = unittest.defaultTestLoader.loadTestsFromModule
-    return unittest.TestSuite(map(load, modules))
+from framework.core import the,device,task
 
 
 def main():
-    t= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    resultDir = PATH('./report%s.html') % t
-    fp = open(resultDir, 'wb')
-
-    runner = HTMLTestRunner.HTMLTestRunner(
-        stream=fp,
-        title=u'测试报告',
-        description=u'用例执行情况'
-    )
-
-    #启动apk，并等待
     the.android = device.android()
-    #启动时间
-    time.sleep(40)
 
-    runner.run(getTestSuite())
+    _task = task.Task(the.android,False,100)
+    device_run = device.RunTest(_task)
+    device_run.start()
 
 
 if __name__ == "__main__":

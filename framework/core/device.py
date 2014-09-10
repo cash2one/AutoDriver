@@ -2,9 +2,11 @@
 __author__ = 'Administrator'
 
 import os,time
+import threading
 from appium import webdriver as am
 from selenium import webdriver as sm
 from framework.util import fs
+from framework.core import HTMLTestRunner
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -39,3 +41,39 @@ def switchToHome(sf,main):
         if not main in sf.driver.current_activity:
             switchToHome(sf,main)
 
+class RunTest(threading.Thread):
+    def __init__(self,task):
+        threading.Thread.__init__(self)
+        self.thread_stop = False
+        self.startSuccess = False
+        self.task = task
+
+    def stream(self):
+        t= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+        resultDir = PATH('../../report%s.html') % t
+        fp = open(resultDir, 'wb')
+        return fp
+
+    def run(self):
+        while not self.thread_stop:
+            if self.task.getDevice().current_activity=='.CarAssistMainActivity':
+                self.startSuccess = True
+
+            if self.startSuccess and not self.task.getState() and self.task.getTestNum() > 0:
+                runner = HTMLTestRunner.HTMLTestRunner(
+                    stream=self.stream(),
+                    task=self.task,
+                    title=u'测试报告',
+                    description=u'用例执行情况'
+                )
+
+                self.task.start()
+                runner.run(self.task.getTestSuite())
+
+            elif self.task.getTestNum() <= 0:
+                self.stop()
+
+            time.sleep(2)
+
+    def stop(self):
+        self.thread_stop = True
