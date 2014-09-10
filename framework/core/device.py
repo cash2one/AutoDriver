@@ -1,7 +1,8 @@
 # coding=utf-8
 __author__ = 'Administrator'
 
-import os,time
+import os
+import time
 import threading
 from appium import webdriver as am
 from selenium import webdriver as sm

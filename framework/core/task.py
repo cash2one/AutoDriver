@@ -12,21 +12,16 @@ sys.path.append('testcase')
 
 class Task():
 
-    __state = False
-    __testDatas=[]
-    __polling = False
-    task_id = 0
-
-    def __init__(self,device=None,state=False,test_num=1):
+    def __init__(self,device=None,test_num=1):
         self.device = device
-        self.__state = state
+        self.state = False
         self.test_num = test_num
 
     def getDevice(self):
         return self.device
 
     def getState(self):
-        return self.__state
+        return self.state
 
     def getTestNum(self):
         return self.test_num
@@ -45,10 +40,10 @@ class Task():
         return unittest.TestSuite(map(load, modules))
 
     def start(self):
-        self.__state = True
+        self.state = True
 
     def finish(self):
-        self.__state = False
+        self.state = False
 
         self.test_num = self.test_num -1
 

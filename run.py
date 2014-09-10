@@ -7,7 +7,7 @@ from framework.core import the,device,task
 def main():
     the.android = device.android()
 
-    _task = task.Task(the.android,False,100)
+    _task = task.Task(the.android,1000)
     device_run = device.RunTest(_task)
     device_run.start()
 
