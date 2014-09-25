@@ -8,7 +8,7 @@ __author__ = 'Administrator'
 #     os.path.join(os.path.dirname(__file__), p)
 # )
 #
-# apk_path = device.findFirstAPK()
-android = None #device.android(PATH(apk_path))
+#settings = fs.parserConfig(PATH('../../config.ini'))
+android = None
 web = None
 ios = None

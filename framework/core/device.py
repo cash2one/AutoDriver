@@ -78,3 +78,24 @@ class RunTest(threading.Thread):
 
     def stop(self):
         self.thread_stop = True
+
+
+class WaitActivity(threading.Thread):
+
+    def __init__(self,self_case,activity_name,target=None,args=()):
+        threading.Thread.__init__(self)
+        self.thread_stop = False
+        self.target = target
+        self.args = args
+        self.activity_name = activity_name
+        self.self_case = self_case
+
+    def run(self):
+        while not self.thread_stop:
+            if self.activity_name in self.self_case.current_activity:
+                apply(self.target,self.args)
+
+                self.stop()
+
+    def stop(self):
+        self.thread_stop = True
