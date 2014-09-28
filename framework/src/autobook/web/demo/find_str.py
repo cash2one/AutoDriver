@@ -1,13 +1,14 @@
 # coding=utf-8
-__author__ = 'wangshanshan@pathbook.com.cn'
+__author__ = 'guguohai@pathbook.com.cn'
 
 
 from selenium import webdriver
 import unittest
+from framework.core import device
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.ff = webdriver.Firefox()
+        self.ff = device.web()
 
     def tearDown(self):
         self.ff.quit()

@@ -7,7 +7,8 @@ import threading
 from appium import webdriver as am
 from selenium import webdriver as sm
 from framework.util import fs
-from framework.core import HTMLTestRunner
+from framework.core import the,HTMLTestRunner
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -16,22 +17,31 @@ PATH = lambda p: os.path.abspath(
 res = '../../resource/'
 
 def android():
-    configs = fs.readConfigs(PATH(res+'config.ini'),'android')
+    if the.android == None:
+        configs = fs.readConfigs(PATH(res+'config.ini'),'android')
 
-    desired_caps = {}
-    desired_caps['platformName'] = configs['platform_name']
-    desired_caps['platformVersion'] = configs['platform_version']
-    desired_caps['deviceName'] = configs['device_name']
-    desired_caps['app'] = PATH(res+configs['app'])
-    desired_caps['appPackage'] = configs['app_package']
-    desired_caps['app-activity'] = configs['app_activity']
+        desired_caps = {}
+        desired_caps['platformName'] = configs['platform_name']
+        desired_caps['platformVersion'] = configs['platform_version']
+        desired_caps['deviceName'] = configs['device_name']
+        desired_caps['app'] = PATH(res+configs['app'])
+        desired_caps['appPackage'] = configs['app_package']
+        desired_caps['app-activity'] = configs['app_activity']
 
-    return am.Remote('http://localhost:4723/wd/hub', desired_caps)
+        #return am.Remote('http://localhost:4723/wd/hub', desired_caps)
+        the.android = am.Remote('http://localhost:4723/wd/hub', desired_caps)
+    return the.android
 
 def web():
-    firefox = sm.Firefox()
-    firefox.maximize_window()
-    return firefox
+    if the.web == None:
+        firefox = sm.Firefox()
+        firefox.maximize_window()
+        the.web = firefox
+    return the.web
+
+def ios():
+    pass
+
 
 #切换到首页
 def switchToHome(sf,main):
