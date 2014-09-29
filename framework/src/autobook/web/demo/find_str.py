@@ -17,11 +17,19 @@ class TestCase(unittest.TestCase):
         self.ff.get('http://112.124.117.108/tupu/table/')
 
         table = self.ff.find_element_by_id('tableid')
-        tr = table.find_elements_by_tag_name('tr')
+        trs = table.find_elements_by_tag_name('tr')
 
-        th0 = tr[0].find_elements_by_tag_name('th')[0]
-        txt = th0.text
+        find_result = ''
+        exp_result = 'ff1ad'
 
-        self.assertTrue('n' in txt,'none')
+        for tr in trs:
+            if tr.find_elements_by_tag_name('td'):
+                tds = tr.find_elements_by_tag_name('td')
+                for td in tds:
+                    if td.text == exp_result:
+                        find_result  = 'yes'
+                        break
+
+        self.assertTrue('yes' in find_result,'none')
 
 
