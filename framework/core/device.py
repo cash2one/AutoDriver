@@ -44,13 +44,23 @@ def ios():
 
 
 #切换到首页
-def switchToHome(sf,main):
+def switchToHome(mainActivity):
+    self_driver = android()
     time.sleep(1)
-    if not main in sf.driver.current_activity:
+    if not mainActivity in self_driver.current_activity:
         time.sleep(1)
-        sf.driver.keyevent(4)
-        if not main in sf.driver.current_activity:
-            switchToHome(sf,main)
+        self_driver.keyevent(4)
+        if not mainActivity in self_driver.current_activity:
+            switchToHome(mainActivity)
+
+
+def isCurrentActivity(activity):
+    self_driver = android()
+    if self_driver.current_activity == activity:
+        return True
+    else:
+        return False
+
 
 class RunTest(threading.Thread):
     def __init__(self,task):

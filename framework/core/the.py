@@ -1,4 +1,4 @@
-__author__ = 'Administrator'
+__author__ = 'guguohai@pathbook.com.cn'
 
 # import os
 # from framework.core import device
