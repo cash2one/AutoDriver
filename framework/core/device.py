@@ -16,10 +16,10 @@ PATH = lambda p: os.path.abspath(
 
 res = '../../resource/'
 
+configs = fs.readConfigs(PATH(res+'config.ini'),'android')
+
 def android():
     if the.android == None:
-        configs = fs.readConfigs(PATH(res+'config.ini'),'android')
-
         desired_caps = {}
         desired_caps['platformName'] = configs['platform_name']
         desired_caps['platformVersion'] = configs['platform_version']
@@ -61,12 +61,24 @@ def isCurrentActivity(activity):
     else:
         return False
 
+def startMainActivity():
+    self_driver = android()
+    main_activity = configs['main_acitivity']
+
+    isMain = False
+    while not isMain:
+        if self_driver.current_activity == main_activity:
+            isMain = True
+
+    time.sleep(1)
+    return main_activity
+
 
 class RunTest(threading.Thread):
     def __init__(self,task):
         threading.Thread.__init__(self)
         self.thread_stop = False
-        self.startSuccess = False
+        #self.startSuccess = False
         self.task = task
 
     def stream(self):
@@ -77,10 +89,10 @@ class RunTest(threading.Thread):
 
     def run(self):
         while not self.thread_stop:
-            if self.task.getDevice().current_activity=='.CarAssistMainActivity':
-                self.startSuccess = True
+            # if self.task.getDevice().current_activity=='.CarAssistMainActivity':
+            #     self.startSuccess = True
 
-            if self.startSuccess and not self.task.getState() and self.task.getTestNum() > 0:
+            if not self.task.getState() and self.task.getTestNum() > 0:
                 runner = HTMLTestRunner.HTMLTestRunner(
                     stream=self.stream(),
                     task=self.task,
