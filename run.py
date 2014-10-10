@@ -9,9 +9,8 @@ PATH = lambda p: os.path.abspath(
 )
 
 def main():
-    the.android = device.android()
 
-    _task = task.Task(the.android,PATH('./testcase/'),2)
+    _task = task.Task(PATH('./testcase/'),2)
     device_run = device.RunTest(_task)
     device_run.start()
 

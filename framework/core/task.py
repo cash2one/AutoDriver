@@ -12,14 +12,10 @@ sys.path.append('testcase')
 
 class Task():
 
-    def __init__(self,device=None,case_path=None,test_num=1):
-        self.device = device
+    def __init__(self,case_path=None,test_num=1):
         self.state = False
         self.test_num = test_num
         self.case_path = case_path
-
-    def getDevice(self):
-        return self.device
 
     def getState(self):
         return self.state

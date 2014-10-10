@@ -14,9 +14,12 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+have_login = ['']
+
 res = '../../resource/'
 
 configs = fs.readConfigs(PATH(res+'config.ini'),'android')
+
 
 def android():
     if the.android == None:
@@ -31,6 +34,17 @@ def android():
         #return am.Remote('http://localhost:4723/wd/hub', desired_caps)
         the.android = am.Remote('http://localhost:4723/wd/hub', desired_caps)
     return the.android
+
+def android1():
+    desired_caps = {}
+    desired_caps['platformName'] = configs['platform_name']
+    desired_caps['platformVersion'] = configs['platform_version']
+    desired_caps['deviceName'] = configs['device_name']
+    desired_caps['app'] = PATH(res+configs['app'])
+    desired_caps['appPackage'] = configs['app_package']
+    desired_caps['app-activity'] = configs['app_activity']
+
+    return am.Remote('http://localhost:4723/wd/hub', desired_caps)
 
 def web():
     if the.web == None:
@@ -61,17 +75,97 @@ def isCurrentActivity(activity):
     else:
         return False
 
-def startMainActivity():
+
+def findMainActivity():
+    '''
+    发现首页
+    :return:
+    '''
     self_driver = android()
     main_activity = configs['main_acitivity']
 
-    isMain = False
-    while not isMain:
-        if self_driver.current_activity == main_activity:
-            isMain = True
+    isExist = False
+
+    while not isExist:
+        if main_activity in self_driver.current_activity:
+            isExist = True
 
     time.sleep(1)
     return main_activity
+
+
+def findDynamicActivity(activity_str):
+    '''
+    发现动态生成的Activity
+    :param activity_str:
+    :return:
+    '''
+    self_driver = android()
+    isExist = False
+
+    while not isExist:
+        if activity_str in self_driver.current_activity:
+            isExist = True
+
+    time.sleep(1)
+
+def findDynamicId(id):
+    '''
+    发现动态生成的id
+    :param id:
+    :return:
+    '''
+    self_driver = android()
+
+    isFound = False
+    while not isFound:
+        try:
+            if self_driver.find_element_by_id(id):
+                isFound = True
+        except:
+            pass
+
+    time.sleep(1)
+    return self_driver.find_element_by_id(id)
+
+def findDynamicValue(id,val):
+    '''
+    发现动态生成的Value
+    :param id:
+    :return:
+    '''
+    self_driver = android()
+
+    isFound = False
+    while not isFound:
+        try:
+            if val in self_driver.find_element_by_id(id).text:
+                isFound = True
+        except:
+            pass
+
+    time.sleep(1)
+    return self_driver.find_element_by_id(id)
+
+
+def login_iDriver():
+    '''
+    登录iDriver司机端
+    :return:
+    '''
+    self_driver = android()
+    isLogin = False
+    while not isLogin:
+        if '.LoginActivity' in self_driver.current_activity:
+            isLogin = True
+    else:
+        time.sleep(2)
+        self_driver.find_element_by_id('cn.com.pathbook.idriver.driver:id/et_username').send_keys('140018')
+        self_driver.find_element_by_id('cn.com.pathbook.idriver.driver:id/et_password').send_keys('123456')
+        self_driver.find_element_by_id('cn.com.pathbook.idriver.driver:id/bt_login').click()
+
+    time.sleep(3)
+
 
 
 class RunTest(threading.Thread):
