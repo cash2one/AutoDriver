@@ -3,12 +3,12 @@ __author__ = 'Administrator'
 
 import time
 import unittest
-from framework.core import android_ium,idriver
+from framework.core import extend,idriver
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = android_ium.Android()
+        self.driver = extend.Android()
         self.driver.login('idriver_driver')
 
     def tearDown(self):
