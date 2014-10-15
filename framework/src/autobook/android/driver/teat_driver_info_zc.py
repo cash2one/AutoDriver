@@ -27,12 +27,12 @@ class TestCase(unittest.TestCase):
         self.assertTrue('<bound method Android.current_activity of <framework.core.extend.Android object at 0x01FE1190>>',self.driver.current_activity)
         #跳转到个人信息页面
 
-    # def test_my_name(self):
-    #     self.my_info()
-    #     els=idriver.find_data('select name from t_driver where no=140018')
-    #     name=self.driver.find_id('text_name').text
-    #     self.assertTrue(els,name)
-    #     #查看司机的姓名
+    def test_my_name(self):
+        self.my_info()
+        els=idriver.find_data('select name from t_driver where no=140018')
+        name=self.driver.find_id('text_name').text
+        self.assertTrue(els,name)
+        #查看司机的姓名
 
     def test_my_country(self):
         self.my_info()
@@ -51,17 +51,17 @@ class TestCase(unittest.TestCase):
         self.assertTrue(els,d_age[-2:])
         print els
 
-    # def test_my_drivingAge(self):
-    #     self.my_info()
-    #     els=idriver.find_data('select driving_age from t_driver where no =140018')
-    #     d_age=self.driver.find_id('text_driving_experience').text
-    #     self.assertTrue(els,d_age[-1])
-    #
-    # def test_my_count(self):
-    #     self.my_info()
-    #     els=idriver.find_data('select driving_count from t_driver where no =140018')
-    #     d_age=self.driver.find_id('text_service_times').text
-    #     self.assertTrue(els,d_age[-2])
+    def test_my_drivingAge(self):
+        self.my_info()
+        els=idriver.find_data('select driving_age from t_driver where no =140018')
+        d_age=self.driver.find_id('text_driving_experience').text
+        self.assertTrue(els,d_age[-1])
+
+    def test_my_count(self):
+        self.my_info()
+        els=idriver.find_data('select driving_count from t_driver where no =140018')
+        d_age=self.driver.find_id('text_service_times').text
+        self.assertTrue(els,d_age[-2])
 
 
 
