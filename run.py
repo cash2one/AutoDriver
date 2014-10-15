@@ -2,7 +2,7 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
-from framework.core import the,device,task,idriver
+from framework.core import the,device,task
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
