@@ -2,7 +2,7 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
-from framework.core import the,device,task
+from framework.core import the,device,task,idriver
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -16,4 +16,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    print idriver.find_data('select * from t_driver where id=40')
