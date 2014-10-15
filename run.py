@@ -16,5 +16,5 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
-    print idriver.find_data('select * from t_driver where id=40')
+    main()
+
