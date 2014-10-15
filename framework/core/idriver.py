@@ -5,8 +5,6 @@ __author__ = 'Administrator'
 from framework.core import the
 from framework.util import mysql
 
-db_conf = the.settings['database']
-my_dbm = mysql.DBManager(db_conf['host'],db_conf['user'],db_conf['pwd'],db_conf['db'])
 
 def changeWork(isWorking):
     myself = the.android
@@ -20,6 +18,9 @@ def find_data(sql):
     :param sql:
     :return:
     '''
+    db_conf = the.settings['database']
+    my_dbm = mysql.DBManager(db_conf['host'],db_conf['user'],db_conf['pwd'],db_conf['db'])
+
     cu = my_dbm.get_cursor()
     cu.execute(sql)
     r = cu.fetchone()
