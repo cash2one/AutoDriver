@@ -24,7 +24,7 @@ class TestCase(unittest.TestCase):
 
         self.driver.find_id('personal_list_text').click()
         self.driver.switch_finish(current_activity)
-        self.assertTrue('<bound method Android.current_activity of <framework.core.extend.Android object at 0x01FE1190>>',self.driver.current_activity)
+        self.assertTrue('.MyInfoActivity',self.driver.current_activity)
         #跳转到个人信息页面
 
     def test_my_name(self):
