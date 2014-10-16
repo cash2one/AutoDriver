@@ -12,8 +12,6 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-res = '../../resource/'
-#configs = fs.readConfigs(PATH(res+'config.ini'),'android')
 
 class Android(object):
     def __init__(self,app_ini):
@@ -23,7 +21,7 @@ class Android(object):
             desired_caps['platformName'] = self.configs['platform_name']
             desired_caps['platformVersion'] = self.configs['platform_version']
             desired_caps['deviceName'] = self.configs['device_name']
-            desired_caps['app'] = PATH(res+self.configs['app'])
+            desired_caps['app'] = PATH('../../resource/'+self.configs['app'])
             desired_caps['appPackage'] = self.configs['app_package']
             desired_caps['app-activity'] = self.configs['app_activity']
             the.android = am.Remote('http://localhost:4723/wd/hub', desired_caps)
