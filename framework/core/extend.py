@@ -3,7 +3,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 import os
 import time
-from framework.util import fs
+from framework.util import mysql
 from framework.core import the
 from appium import webdriver as am
 from selenium.common.exceptions import NoSuchElementException
@@ -16,23 +16,20 @@ res = '../../resource/'
 #configs = fs.readConfigs(PATH(res+'config.ini'),'android')
 
 class Android(object):
-    def __init__(self):
+    def __init__(self,app_ini):
+        self.configs= the.project_settings[app_ini]
         if the.android == None:
             desired_caps = {}
-            desired_caps['platformName'] = self.configs('android','platform_name')
-            desired_caps['platformVersion'] = self.configs('android','platform_version')
-            desired_caps['deviceName'] = self.configs('android','device_name')
-            desired_caps['app'] = PATH(res+self.configs('android','app'))
-            desired_caps['appPackage'] = self.configs('android','app_package')
-            desired_caps['app-activity'] = self.configs('android','app_activity')
+            desired_caps['platformName'] = self.configs['platform_name']
+            desired_caps['platformVersion'] = self.configs['platform_version']
+            desired_caps['deviceName'] = self.configs['device_name']
+            desired_caps['app'] = PATH(res+self.configs['app'])
+            desired_caps['appPackage'] = self.configs['app_package']
+            desired_caps['app-activity'] = self.configs['app_activity']
             the.android = am.Remote('http://localhost:4723/wd/hub', desired_caps)
 
         self.driver = the.android
-        self.package = self.configs('android','app_package')+':id/'
-
-
-    def configs(self,selections,option):
-        return the.settings[selections][option]
+        self.package = self.configs['app_package']+':id/'
 
     def find_id(self,id):
         return self.driver.find_element_by_id(self.package+id)
@@ -46,26 +43,40 @@ class Android(object):
     def find_tags(self,clazz):
         return self.driver.find_elements_by_tag_name('android.widget.'+clazz)
 
-    def aa(self):
-        pass
+    def sql(self,sql):
+        '''
+        查询mysql数据
+        :param sql:
+        :return:
+        '''
+        db_host = self.configs['db_host']
+        db_user = self.configs['db_user']
+        db_pwd = self.configs['db_pwd']
+        db_name = self.configs['db_name']
+        my_dbm = mysql.DBManager(db_host,db_user,db_pwd,db_name)
 
-    #self.driver.start_activity()
+        cu = my_dbm.get_cursor()
+        cu.execute(sql)
+        r = cu.fetchone()
+        cu.close()
+        my_dbm.close_db()
+        return r
 
     def switch_to_home(self):
-        main_acitivity = self.configs('android','main_acitivity')
+        main_activity = self.configs['main_activity']
 
         time.sleep(1)
-        if not main_acitivity in self.driver.current_activity:
+        if not main_activity in self.driver.current_activity:
             time.sleep(1)
             self.driver.keyevent(4)
-            if not main_acitivity in self.driver.current_activity:
+            if not main_activity in self.driver.current_activity:
                 self.switch_to_home()
 
     def getConfigs(self):
         pass
 
     def getMainActivity(self):
-        main_activity = self.configs('android','main_acitivity')
+        main_activity = self.configs['main_activity']
 
         isExist = False
 
@@ -79,14 +90,14 @@ class Android(object):
     def current_activity(self):
         return self.driver.current_activity
 
-    def login(self,login_config):
-        login = self.configs('android','login_acitivity')
-        main = self.configs('android','main_acitivity')
-        usr_name = self.configs(login_config,'user_name')
-        usr_pwd = self.configs(login_config,'user_pwd')
-        et_username = self.configs(login_config,'user_name_edittext')
-        et_password = self.configs(login_config,'user_pwd_edittext')
-        bt_login = self.configs(login_config,'user_login_button')
+    def login(self):
+        login = self.configs['login_activity']
+        main = self.configs['main_activity']
+        usr_name = self.configs['user_name']
+        usr_pwd = self.configs['user_pwd']
+        et_username = self.configs['user_name_edittext']
+        et_password = self.configs['user_pwd_edittext']
+        bt_login = self.configs['user_login_button']
 
         isFinishSplash = False
         while not isFinishSplash:

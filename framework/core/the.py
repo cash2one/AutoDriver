@@ -10,6 +10,8 @@ PATH = lambda p: os.path.abspath(
 
 settings = fs.parserConfig(PATH('../../config.ini'))
 
+project_settings = fs.parserConfig(PATH('../../resource/app.ini'))
+
 android = None
 web = None
 ios = None

@@ -8,8 +8,8 @@ from framework.core import extend,idriver
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = extend.Android()
-        self.driver.login('idriver_driver')
+        self.driver = extend.Android('android.idriver.driver')
+        self.driver.login()
 
     def tearDown(self):
         #返回首页
@@ -24,6 +24,8 @@ class TestCase(unittest.TestCase):
         self.driver.switch_finish(current_activity)
 
         title_text = self.driver.find_id('tv_title_text').text
+
+        print self.driver.sql('select name from t_driver where id=40')
         self.assertTrue(u'个人中心' in title_text,'no')
         # self.driver.find_id('personal_list').find_tags('android.widget.LinearLayout')[0].click()
         # time.sleep(1)
