@@ -13,10 +13,14 @@ def changeWork(isWorking):
 
 def license_type(val):
     license_types = {
-        'lt_1':'大型客车','lt_2':'牵引车','lt_3':'城市公交车','lt_4':'中型客车',
-        'lt_5':'大型货车','lt_6':'小型汽车','lt_7':'小型自动挡汽车','lt_8':'低速载货汽车',
-        'lt_9':'三轮汽车','lt_10':'普通三轮摩托车','lt_11':'普通二轮摩托车','lt_12':'轻便摩托车',
-        'lt_13':'其他'
+        'lt_1':'A1','lt_2':'A2','lt_3':'A3','lt_4':'B1',
+        'lt_5':'B2','lt_6':'C1','lt_7':'C2','lt_8':'C3',
+        'lt_9':'C4','lt_10':'D','lt_11':'E','lt_12':'F',
+        'lt_13':'OT'
+        # 'lt_1':'大型客车','lt_2':'牵引车','lt_3':'城市公交车','lt_4':'中型客车',
+        # 'lt_5':'大型货车','lt_6':'小型汽车','lt_7':'小型自动挡汽车','lt_8':'低速载货汽车',
+        # 'lt_9':'三轮汽车','lt_10':'普通三轮摩托车','lt_11':'普通二轮摩托车','lt_12':'轻便摩托车',
+        # 'lt_13':'其他'
     }
     return license_types['lt_'+str(val)]
 
@@ -31,3 +35,6 @@ def province(val):
         'p_30':'内蒙古','p_31':'宁夏','p_32':'新疆','p_33':'香港','p_34':'澳门'
     }
     return provinces['p_'+str(val)]
+
+def get_driver_no():
+    return the.project_settings['android.idriver.driver']['user_name']
