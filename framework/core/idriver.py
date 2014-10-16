@@ -3,7 +3,6 @@ __author__ = 'Administrator'
 
 
 from framework.core import the
-from framework.util import mysql
 
 
 def changeWork(isWorking):

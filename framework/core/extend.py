@@ -43,23 +43,22 @@ class Android(object):
     def find_tags(self,clazz):
         return self.driver.find_elements_by_tag_name('android.widget.'+clazz)
 
-    def sql(self,sql):
-        '''
-        查询mysql数据
-        :param sql:
-        :return:
-        '''
+    def sql(self,sql,size=1):
         db_host = self.configs['db_host']
         db_user = self.configs['db_user']
         db_pwd = self.configs['db_pwd']
-        db_name = self.configs['db_name']
-        my_dbm = mysql.DBManager(db_host,db_user,db_pwd,db_name)
+        dbm = mysql.DBManager(db_host,db_user,db_pwd,self.configs['db_name'])
 
-        cu = my_dbm.get_cursor()
+        r = None
+
+        cu = dbm.get_cursor()
         cu.execute(sql)
-        r = cu.fetchone()
+        if size == 1:
+            r = cu.fetchone()
+        elif size > 1:
+            r = cu.fetchall()
         cu.close()
-        my_dbm.close_db()
+        dbm.close_db()
         return r
 
     def switch_to_home(self):
