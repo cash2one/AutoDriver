@@ -8,7 +8,7 @@ from framework.core import extend,idriver
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = extend.Android('android.idriver_driver')
+        self.driver = extend.Android('android.idriver.driver')
         self.driver.login()
 
     def tearDown(self):
@@ -40,28 +40,27 @@ class TestCase(unittest.TestCase):
         els=idriver.province(t)
         d_age=self.driver.find_id('text_hometown').text
         self.assertTrue(els,d_age[-2:])
-        print els
+        print els #查看司机籍贯
 
     def test_my_license(self):
         self.my_info()
         t=self.driver.sql('select license_type from t_driver where no=140018')[0]
         els=idriver.license_type(t)
-
-        d_age=self.driver.find_id('text_driver_license').text
-        self.assertTrue(els,d_age[-2:])
-        print els
+        l_type=self.driver.find_id('text_driver_license').text
+        self.assertTrue(els,l_type[-2:])
+        print els#查看司机驾照
 
     def test_my_drivingAge(self):
         self.my_info()
         els=self.driver.sql('select driving_age from t_driver where no =140018')
         d_age=self.driver.find_id('text_driving_experience').text
-        self.assertTrue(els,d_age[-1])
+        self.assertTrue(els,d_age[-1])#查看司机驾龄
 
     def test_my_count(self):
         self.my_info()
         els=self.driver.sql('select driving_count from t_driver where no =140018')
-        d_age=self.driver.find_id('text_service_times').text
-        self.assertTrue(els,d_age[-2])
+        d_count=self.driver.find_id('text_service_times').text
+        self.assertTrue(els,d_count[-2])#查看司机代驾次数
 
 
 
