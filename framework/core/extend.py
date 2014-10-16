@@ -44,6 +44,12 @@ class Android(object):
         return self.driver.find_elements_by_tag_name('android.widget.'+clazz)
 
     def sql(self,sql,size=1):
+        '''
+        mysql 查询，size大于1时查询多条记录
+        :param sql:
+        :param size:
+        :return:
+        '''
         db_host = self.configs['db_host']
         db_user = self.configs['db_user']
         db_pwd = self.configs['db_pwd']
