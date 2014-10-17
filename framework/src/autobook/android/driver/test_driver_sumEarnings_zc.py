@@ -4,8 +4,7 @@ __author__ = 'zhangchun'
 import time
 import unittest
 from framework.core import extend,idriver
-import datetime
-import decimal
+
 
 class TestCase(unittest.TestCase):
     def setUp(self):
