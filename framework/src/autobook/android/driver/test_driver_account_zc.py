@@ -18,14 +18,11 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-    def my_income(self):
+    def test_my_yd(self):
         idriver.changeWork(True)
 
         current_activity = self.driver.current_activity()
         self.driver.find_id('rb_order').click()
-
-    def test_my_yd(self):
-        self.my_income()
         yesterday=datetime.date.today()-datetime.timedelta(days=1)
         #获取昨天的日期
 
@@ -40,13 +37,13 @@ class TestCase(unittest.TestCase):
 
         insurance_charge=self.driver.sql('select sum(insurance_charge) from t_statistics_driver_income where driver_no='+self.driver_no+' and s_date='+y)
         #在数据库中查询昨日的保险费支出
-        income=int(amount[0])-int(info_charge[0])-int(insurance_charge[0])
+        income=float(amount[0])-float(info_charge[0])-float(insurance_charge[0])
         #收益=收入-服务费-保险费
 
-        yd_income=self.driver.find_id('he_yd').text[1:]
+        yd_income=self.driver.find_id('he_yd').text
 
-        print income,yd_income
-        self.assertTrue(income==int(yd_income))
+        print income,yd_income[1:]
+        self.assertTrue(income==float(yd_income[1:]))
 
 
     # def test_my_sd(self):
