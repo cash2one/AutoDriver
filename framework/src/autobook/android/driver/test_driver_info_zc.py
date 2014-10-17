@@ -17,7 +17,13 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-    def my_info(self):
+    def find_driver_info(self,tv_id):
+        tv_txt = self.driver.find_id(tv_id).text
+        #获取个人信息页面的司机信息
+        return tv_txt.split(':')[1].strip()
+        #获取的格式为"XX：  XXX",只取后面的名字，split(':')[1]取冒号后的字符串，strip（）过滤左端空格
+
+    def test_my_info(self):
         idriver.changeWork(True)
 
         current_activity = self.driver.current_activity()
@@ -26,48 +32,27 @@ class TestCase(unittest.TestCase):
 
         self.driver.find_id('personal_list_text').click()
         self.driver.switch_finish(current_activity)
-        # self.assertEqual('.MyInfoActivity',self.driver.current_activity())
-        # self.assertTrue('' in self.driver.current_activity(),'err')
-        #跳转到个人信息页面
 
-    def test_my_name(self):
-        self.my_info()
-        els=self.driver.sql('select name from t_driver where no=%s' % self.driver_no)
-        name=self.driver.find_id('text_name').text
-        name1=name.split(':')[1].strip()
-        #获取的格式为"姓名：  XXX",只取后面的名字，split(':')[1]取冒号后的字符串，strip（）过滤左端空格
+        db_result = self.driver.sql('select name,province,license_type,driving_age,driving_count from t_driver where no=%s' % self.driver_no)
+        #将数据库中查询出的数据存入元组
 
-        self.assertEqual(els[0],name1)
-        # self.assertEqual('.MyInfoActivity',self.driver.current_activity())
-        #查看司机的姓名
+        driver_tup = (db_result[0],idriver.province(db_result[1]),idriver.license_type(db_result[2]),unicode(db_result[3]),unicode(db_result[4]))
+        #籍贯和驾照是枚举型，要获取值后存入新元组,代驾次数和驾龄为long型需转换成Unicode
 
-    # def test_my_country(self):
-    #     self.my_info()
-    #     t=self.driver.sql('select province from t_driver where no=%s'% self.driver_no)[0]
-    #     els=idriver.province(t)
-    #     d_age=self.driver.find_id('text_hometown').text
-    #     self.assertEqual(els,d_age[-2:])
-    #     print els #查看司机籍贯
-    #
-    # def test_my_license(self):
-    #     self.my_info()
-    #     t=self.driver.sql('select license_type from t_driver where no=%s'% self.driver_no)[0]
-    #     els=idriver.license_type(t)
-    #     l_type=self.driver.find_id('text_driver_license').text
-    #     self.assertEqual(els,l_type[-2:])
-    #     print els#查看司机驾照
-    #
-    # def test_my_drivingAge(self):
-    #     self.my_info()
-    #     els=self.driver.sql('select driving_age from t_driver where no =%s'% self.driver_no)
-    #     d_age=self.driver.find_id('text_driving_experience').text
-    #     self.assertEqual(els,d_age[-1])#查看司机驾龄
-    #
-    # def test_my_count(self):
-    #     self.my_info()
-    #     els=self.driver.sql('select driving_count from t_driver where no =%s'% self.driver_no)
-    #     d_count=self.driver.find_id('text_service_times').text
-    #     self.assertEqual(els,d_count[-2])#查看司机代驾次数
+        text_name=self.find_driver_info('text_name')
+        text_hometown=self.find_driver_info('text_hometown')
+        text_driver_license=self.find_driver_info('text_driver_license')
+        text_driving_experience=self.find_driver_info('text_driving_experience')[:-1]
+        text_service_times=self.find_driver_info('text_service_times')[:-1]
+        textview_tup = (text_name,text_hometown,text_driver_license,text_driving_experience,text_service_times)
+
+
+        self.assertTrue(textview_tup == driver_tup,'msg')
+        #查看司机的信息与数据库中查询出的是否一致
+
+        self.assertEqual('.MyInfoActivity',self.driver.current_activity())
+        #跳转到个人信息页面，
+
 
 
 
