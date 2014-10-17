@@ -36,7 +36,7 @@ class TestCase(unittest.TestCase):
         #获取系统的日期
         this_month=filter(str.isdigit,str(today))[:-2]
         #获取的日期为2014-10-18的形式，去掉中间的符号,只获取到月
-
+        print(type(this_month))
         amount=self.driver.sql('select sum(amount) from t_statistics_driver_income where driver_no='+self.driver_no+' and s_month='+this_month)
         #在数据库中查询昨日的收入
 
