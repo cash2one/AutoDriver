@@ -5,7 +5,7 @@ import os
 import ConfigParser
 import re
 from SimpleXMLRPCServer import SimpleXMLRPCServer
-
+import order_robot
 
 
 PATH = lambda p: os.path.abspath(
@@ -37,7 +37,7 @@ def get_host():
     return host_addr
 
 def register():
-    import order_robot
+
     inst = order_robot.OrderServer()
 
     host_addr = get_host()

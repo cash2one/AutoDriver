@@ -7,7 +7,7 @@ import sys
 import threading
 import ConfigParser
 import xmlrpclib
-import extend
+import app
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -65,7 +65,7 @@ class MonitorOrder(threading.Thread):
         threading.Thread.__init__(self)
         self.thread_stop = False
         self.sev = xmlrpclib.ServerProxy('http://%s:%s' % (get_host(),int(port)))
-        self.driver = extend.Android()
+        self.driver = app.Android('')
         self.is_order = False
 
     def run(self):

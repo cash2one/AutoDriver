@@ -4,7 +4,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 from framework.util import mysql
-from framework.core import the
+import the
 from appium import webdriver as am
 from selenium.common.exceptions import NoSuchElementException
 
@@ -41,7 +41,7 @@ class Android(object):
     def find_tags(self,clazz):
         return self.driver.find_elements_by_tag_name('android.widget.'+clazz)
 
-    def sql(self,sql,size=1):
+    def sql(self,sql,size=0):
         '''
         mysql 查询，size大于1时查询多条记录
         :param sql:
@@ -57,10 +57,13 @@ class Android(object):
 
         cu = dbm.get_cursor()
         cu.execute(sql)
-        if size == 1:
+        if size == 0:
             r = cu.fetchone()
-        elif size > 1:
+        elif size >= 1:
             r = cu.fetchall()
+        else:
+            print u'error'
+
         cu.close()
         dbm.close_db()
         return r
@@ -158,3 +161,19 @@ class Android(object):
         # time.sleep(1)
 
 
+
+class IOS():
+    def __init__(self,app_ini):
+        self.configs= the.project_settings[app_ini]
+
+    def aa(self):
+        pass
+
+
+
+class Web():
+    def __init__(self,app_ini):
+        self.configs= the.project_settings[app_ini]
+
+    def aa(self):
+        pass
