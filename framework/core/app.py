@@ -24,7 +24,8 @@ class Android(object):
             desired_caps['app'] = PATH('../../resource/'+self.configs['app'])
             desired_caps['appPackage'] = self.configs['app_package']
             desired_caps['app-activity'] = self.configs['app_activity']
-            the.android = am.Remote('http://localhost:4723/wd/hub', desired_caps)
+            am_port = self.configs['remote_port']
+            the.android = am.Remote('http://localhost:%s/wd/hub' % am_port, desired_caps)
 
         self.driver = the.android
         self.package = self.configs['app_package']+':id/'

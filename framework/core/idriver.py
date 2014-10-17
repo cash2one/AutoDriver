@@ -2,7 +2,7 @@
 __author__ = 'Administrator'
 
 from framework.core import the
-
+import xmlrpclib
 
 def changeWork(isWorking):
     myself = the.android
@@ -38,3 +38,67 @@ def province(val):
 
 def get_driver_no():
     return the.project_settings['android.idriver.driver']['user_name']
+
+
+def request_order(host,bol):
+    '''
+    司机端用来通知用户端 发送订单的请求
+    :param host: 192.168.3.130:4725
+    :param bol:
+    :return:
+    '''
+    s = xmlrpclib.ServerProxy('http://'+host)
+    try:
+        s.set_customer_action(bol)
+    except xmlrpclib.Fault:
+        pass
+
+def get_host():
+    '''
+    获取本机ip地址
+    '''
+    import socket
+    host_name = socket.getfqdn(socket.gethostname())
+    host_addr = socket.gethostbyname(host_name)
+    return host_addr
+
+def get_port():
+    return the.settings['xmlrpc']['port']
+
+class OrderServer():
+    '''
+    订单机器人服务器端
+    '''
+    def __init__(self):
+        self.driver_info = {'driver_no':'14009','action':False}
+        self.customer_info = {'user_name':'','action':False,'req':False}
+
+    def get_driver(self,key):
+        try:
+            return self.driver_info[key]
+        except KeyError:
+            pass
+
+    def get_customer(self,key):
+        try:
+            return self.customer_info[key]
+        except KeyError:
+            pass
+
+    def set_driver_action(self,bol):
+        try:
+            self.driver_info['action'] = bol
+        except KeyError:
+            pass
+
+    def set_customer_action(self,bol):
+        try:
+            self.customer_info['action'] = bol
+        except KeyError:
+            pass
+
+    def reply(self,bol):
+        pass
+        # host,port = get_host()
+        # s = xmlrpclib.ServerProxy('http://%s:%s' % (host,port))
+        # s.set_value('req',True)
