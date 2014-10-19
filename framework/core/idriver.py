@@ -53,17 +53,12 @@ def request_order(host,bol):
     except xmlrpclib.Fault:
         pass
 
-def get_host():
-    '''
-    获取本机ip地址
-    '''
-    import socket
-    host_name = socket.getfqdn(socket.gethostname())
-    host_addr = socket.gethostbyname(host_name)
-    return host_addr
 
-def get_port():
+def xmlrpc_port():
     return the.settings['xmlrpc']['port']
+
+def xmlrpc_host():
+    return the.settings['xmlrpc']['host']
 
 class OrderServer():
     '''
