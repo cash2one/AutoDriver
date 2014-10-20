@@ -88,6 +88,10 @@ class Android(object):
         dbm.close_db()
         return r
 
+    def sharep(self):
+        self.driver.setAppPreference('key', 'value')
+        value = self.driver.getAppPreference('key')
+
     def switch_to_home(self):
         main_activity = self.configs['main_activity']
 
@@ -116,6 +120,16 @@ class Android(object):
         return self.driver.current_activity
     # def current_activity(self):
     #     return self.current_activity
+
+    @property
+    def current_context(self):
+        return self.driver.current_context
+
+    def switch_to_window(self,window_name):
+        self.driver.switch_to_window(window_name)
+
+    def switch_to_alert(self):
+        self.driver.switch_to_alert()
 
     def login(self):
         login = self.configs['login_activity']
