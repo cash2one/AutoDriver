@@ -8,9 +8,9 @@ import xmlrpclib
 
 def changeWork(isWorking):
     myself = the.android
-    if the.i_driver['status'] != isWorking:
+    if the.idriver_dict['status'] != isWorking:
         myself.find_element_by_id('cn.com.pathbook.idriver.driver:id/tb_work_state').click()
-        the.i_driver['status'] = isWorking
+        the.idriver_dict['status'] = isWorking
 
 
 def license_type(val):

@@ -24,7 +24,7 @@ class Android(object):
         self.start_appium(am_port)
 
         #if the.android == None:
-        if the.androids[app_ini] == None:
+        if the.devices[app_ini] == None:
             desired_caps = {}
             desired_caps['platformName'] = self.configs['platform_name']
             desired_caps['platformVersion'] = self.configs['platform_version']
@@ -35,10 +35,10 @@ class Android(object):
 
             #the.android = am.Remote('http://localhost:%s/wd/hub' % am_port, desired_caps)
 
-            the.androids[app_ini] = am.Remote('http://localhost:%s/wd/hub' % am_port, desired_caps)
+            the.devices[app_ini] = am.Remote('http://localhost:%s/wd/hub' % am_port, desired_caps)
 
         #self.driver = the.android
-        self.driver = the.androids[app_ini]
+        self.driver = the.devices[app_ini]
         self.package = self.configs['app_package']+':id/'
 
     def getConfigs(self,key):
