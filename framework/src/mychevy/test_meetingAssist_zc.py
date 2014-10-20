@@ -2,7 +2,7 @@ __author__ = 'zhangchun'
 # coding=utf-8
 import unittest
 from time import sleep
-from framework.core import the,device
+from framework.core import the,device_bak
 #点击聚乐会的最新活动，进入活动详情
 
 class TestCase(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         #返回首页
-        device.switchToHome(self,self.mainActivity)
+        device_bak.switchToHome(self,self.mainActivity)
 
     def test_case(self):
         #每个测试用例，都需要把首页加入到变量mainActivity

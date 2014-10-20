@@ -2,7 +2,7 @@ __author__ = 'zhangchun'
 # coding=utf-8
 import unittest
 from time import sleep
-from framework.core import the,device
+from framework.core import the,device_bak
 
 
 class TestCase(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         #返回首页
-        device.switchToHome(self,self.mainActivity)
+        device_bak.switchToHome(self,self.mainActivity)
 
 
     def test_case(self):

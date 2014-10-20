@@ -4,7 +4,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 import time
 import threading
 import xmlrpclib
-from framework.core import apps,idriver
+from framework.core import device,idriver
 
 class MonitorOrder(threading.Thread):
 
@@ -14,7 +14,7 @@ class MonitorOrder(threading.Thread):
         host = idriver.xmlrpc_host()
         port = idriver.xmlrpc_port()
         self.xmlrpc = xmlrpclib.ServerProxy('http://%s:%s' % (host,int(port)))
-        self.driver = apps.Android('android.idriver.driver')
+        self.driver = device.Android('android.idriver.driver')
         self.driver.login()
 
     def run(self):

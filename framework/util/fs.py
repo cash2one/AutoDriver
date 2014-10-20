@@ -17,7 +17,19 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-
+def parser_to_dict(path_str):
+    '''
+    selections组成一个dict
+    :param path_str:
+    :return:
+    '''
+    ands={}
+    conf = ConfigParser.ConfigParser()
+    conf.read(path_str)
+    sec = conf.sections()
+    for s in sec:
+        ands[s] = None
+    return ands
 
 def parserConfig(path_str):
     '''
