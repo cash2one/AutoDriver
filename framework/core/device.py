@@ -20,11 +20,12 @@ PATH = lambda p: os.path.abspath(
 class Android(object):
     def __init__(self,app_ini):
         self.configs= the.project_settings[app_ini]
-        am_port=self.configs['remote_port']
-        self.start_appium(am_port)
 
         #if the.android == None:
         if the.devices[app_ini] == None:
+            am_port=self.configs['remote_port']
+            self.start_appium(am_port)
+
             desired_caps = {}
             desired_caps['platformName'] = self.configs['platform_name']
             desired_caps['platformVersion'] = self.configs['platform_version']
