@@ -4,8 +4,8 @@ __author__ = 'zhangchun'
 import time
 from framework.core import extend,idriver
 import unittest
-from appium import webdriver
-from appium.webdriver import switch_to
+from time import sleep
+
 
 class TestCase(unittest.TestCase):
     def setUp(self):
@@ -24,7 +24,15 @@ class TestCase(unittest.TestCase):
         #获取待补订单列表中订单的信息
         self.driver.find_id('iv_detail').click()
         self.driver.switch_finish(current_activity)
-        self.driver.find_id('confirm_repairorder').click()
+        ctime=self.driver.find_id('ro_ctime').text
+
+        self.driver.find_id('ro_endtime').click()
+        self.driver.switch_finish(current_activity)
+
         self.driver.switch_to_alert()
-        txt=self.driver.find_id('tv_msg').text
-        self.assertTrue(u'结束时间不得为空' in txt)
+        self.driver.find_id('btn_ok').click()
+        sleep(2)
+        time=self.driver.find_id('ro_endtime').text
+
+        self.assertTrue(ctime[:-3]==time)
+
