@@ -27,10 +27,12 @@ class TestCase(unittest.TestCase):
         sum_earning=self.driver.find_id('he_sum').text
         self.driver.find_id('about_function').click()
         self.driver.switch_finish(current_activity)
+
         for i in range(0,3) :
-            text_earning=self.driver.find_ids('historyincome_income')[i].text
-            earning=float(text_earning[1:])
-            earnings=+earning
-            print(earnings)
-            list.append(earning)
-        print(list)
+
+                text_earning=self.driver.find_ids('historyincome_income')[i].text
+                earning=float(text_earning[1:])
+                earnings=0
+                earnings+=earning
+                list.append(earning)
+                print(earnings)

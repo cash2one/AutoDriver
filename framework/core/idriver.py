@@ -38,3 +38,4 @@ def province(val):
 
 def get_driver_no():
     return the.project_settings['android.idriver.driver']['user_name']
+
