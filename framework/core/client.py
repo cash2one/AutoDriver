@@ -42,7 +42,7 @@ if __name__ == "__main__":
             bol = False
 
         if isHostAddr(args[1]):
-            switch(args[1],bol)
+            request_order(args[1],bol)
         else:
             print_help()
     else:

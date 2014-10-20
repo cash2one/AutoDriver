@@ -4,8 +4,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 import time
 import threading
 import xmlrpclib
-from framework.core import app,idriver
-
+from framework.core import apps,idriver
 
 class MonitorOrder(threading.Thread):
 
@@ -15,7 +14,8 @@ class MonitorOrder(threading.Thread):
         host = idriver.xmlrpc_host()
         port = idriver.xmlrpc_port()
         self.xmlrpc = xmlrpclib.ServerProxy('http://%s:%s' % (host,int(port)))
-        self.driver = app.Android('android.idriver.driver')
+        self.driver = apps.Android('android.idriver.driver')
+        self.driver.login()
 
     def run(self):
         while not self.thread_stop:
@@ -23,13 +23,15 @@ class MonitorOrder(threading.Thread):
                 #获取完状态订单状态后，恢复订单状态
                 try:
                     self.xmlrpc.set_customer_action(False)
+                    print 'modify server action'
                 except xmlrpclib.Fault:
                     pass
-                time.sleep(3)
 
+                time.sleep(3)
+                print 'start order'
                 self.order()
 
-            time.sleep(1)
+            time.sleep(2)
 
     def have_driver_action(self):
         return self.xmlrpc.get_customer('action')
@@ -38,8 +40,6 @@ class MonitorOrder(threading.Thread):
         self.thread_stop = True
 
     def order(self):
-        self.driver.login()
-        time.sleep(2)
         self.driver.find_id('iv_head').click()
 
 

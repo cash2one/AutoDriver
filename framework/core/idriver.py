@@ -1,6 +1,8 @@
 # coding=utf-8
 __author__ = 'Administrator'
 
+import re
+import time
 from framework.core import the
 import xmlrpclib
 
@@ -39,19 +41,34 @@ def province(val):
 def get_driver_no():
     return the.project_settings['android.idriver.driver']['user_name']
 
+def get_contact_phone():
+    return the.project_settings['android.idriver.customer']['contact_phone']
 
-def request_order(host,bol):
+def request_order(bol):
     '''
     司机端用来通知用户端 发送订单的请求
-    :param host: 192.168.3.130:4725
+    :param host:
     :param bol:
     :return:
     '''
-    s = xmlrpclib.ServerProxy('http://'+host)
-    try:
-        s.set_customer_action(bol)
-    except xmlrpclib.Fault:
-        pass
+    host = xmlrpc_host()+':'+xmlrpc_port()
+    pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
+    match = pattern.match(host)
+    if match:
+        s = xmlrpclib.ServerProxy('http://'+host)
+        try:
+            s.set_customer_action(bol)
+        except xmlrpclib.Fault:
+            pass
+
+
+def isHostAddr(value):
+    pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
+    match = pattern.match(value)
+    if match:
+        return True #match.group()
+    else:
+        return False
 
 
 def xmlrpc_port():
@@ -59,6 +76,17 @@ def xmlrpc_port():
 
 def xmlrpc_host():
     return the.settings['xmlrpc']['host']
+
+def start_customer(apps):
+    app_activity = apps.getConfigs('app_activity')
+    guide_activity = apps.getConfigs('guide_activity')
+
+    apps.switch_wait(app_activity)
+    apps.find_id('start_btn').click()
+    apps.switch_wait(guide_activity)
+
+    #RegisterActivity
+
 
 class OrderServer():
     '''

@@ -2,6 +2,7 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
+import subprocess
 from framework.core import the,device,task,idriver
 
 PATH = lambda p: os.path.abspath(
@@ -16,5 +17,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-
+    #main()
+    p = subprocess.Popen('appium --port 4725', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p.wait()
+    #print p.stdout.readlines()
+    for line in p.stdout.readlines():
+        print line,
+    p.wait()

@@ -4,12 +4,12 @@ __author__ = 'Administrator'
 import time
 import unittest
 from selenium.common.exceptions import NoSuchElementException
-from framework.core import app,idriver
+from framework.core import apps,idriver
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = app.Android('android.idriver.driver')
+        self.driver = apps.Android('android.idriver.driver')
         self.driver.login()
 
     def tearDown(self):
