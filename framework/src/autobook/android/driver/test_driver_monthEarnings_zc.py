@@ -22,17 +22,14 @@ class TestCase(unittest.TestCase):
         idriver.changeWork(True)
 
         current_activity = self.driver.current_activity()
-        list=[]
         self.driver.find_id('rb_order').click()
         sum_earning=self.driver.find_id('he_sum').text
         self.driver.find_id('about_function').click()
         self.driver.switch_finish(current_activity)
-
+        earnings=0.00
         for i in range(0,3) :
 
-                text_earning=self.driver.find_ids('historyincome_income')[i].text
-                earning=float(text_earning[1:])
-                earnings=0
-                earnings+=earning
-                list.append(earning)
-                print(earnings)
+            text_earning=self.driver.find_ids('historyincome_income')[i].text
+            earning=float(text_earning[1:])
+            earnings+=earning
+        self.assertTrue(unicode(earnings) in sum_earning)
