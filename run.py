@@ -18,11 +18,19 @@ def main():
 
 if __name__ == "__main__":
     #main()
-    p = subprocess.Popen('ls --help', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    import time
+    from framework.core import device
 
-    #print p.stdout.readlines()
-    for line in p.stdout.readlines():
-        print line,
-    #p.wait()
+    dr = device.RunAppium(4725)
+    dr.start()
+    #
+    # p1 = subprocess.Popen('appium --port 4725',stdout=subprocess.PIPE,shell=True)
+    # os.popen('appium --port 4725')
+    #
+    # aa = p1.stdout.read()
+    # if 'debug: Non-default server args: {"port":4725}' in aa:
 
-    print 'continue'
+
+    while 1:
+        print 'gegwwwwww'
+        time.sleep(2)

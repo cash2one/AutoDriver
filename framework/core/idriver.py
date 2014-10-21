@@ -39,10 +39,10 @@ def province(val):
     return provinces['p_'+str(val)]
 
 def get_driver_no():
-    return the.project_settings['android.idriver.driver']['user_name']
+    return the.project_settings['idriver.android.driver']['user_name']
 
 def get_contact_phone():
-    return the.project_settings['android.idriver.customer']['contact_phone']
+    return the.project_settings['idriver.android.customer']['contact_phone']
 
 def request_order(bol):
     '''

@@ -6,6 +6,7 @@ import time
 import subprocess
 from framework.util import mysql
 import the
+import threading
 from appium import webdriver as am
 from selenium.common.exceptions import NoSuchElementException
 
@@ -24,7 +25,6 @@ class Android(object):
         #if the.android == None:
         if the.devices[app_ini] == None:
             am_port=self.configs['remote_port']
-            self.start_appium(am_port)
 
             desired_caps = {}
             desired_caps['platformName'] = self.configs['platform_name']
@@ -41,21 +41,35 @@ class Android(object):
         #self.driver = the.android
         self.driver = the.devices[app_ini]
         self.package = self.configs['app_package']+':id/'
+        self.appium_status = False
 
     def getConfigs(self,key):
         return self.configs[key]
 
     def start_appium(self,port):
         #cmds = os.popen('appium --port %s' % port).readlines()
-        p = subprocess.Popen('appium --port %s' % port, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
+        #p = subprocess.Popen('ipconfig -all', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p=subprocess.Popen('appium --port %s' % port,stdout=subprocess.PIPE,shell=True)
+        out_info = 'Appium REST http interface listener started on 0.0.0.0:%s' % port
+        error = "error: Couldn't start Appium REST http interface listener"
         isFinish = False
         while not isFinish:
-            for line in p.stdout.readlines():
-                if port in line:
-                    isFinish = True
-                    break
+            if out_info in p.stdout.readline():
+                isFinish=True
+
         time.sleep(1)
+        #print p.pid
+        # for line in p.stdout.readlines():
+        #     print line
+        # isFinish = False
+        # while not isFinish:
+        #     print 'start ...a'
+        #     for line in p.stdout.readlines():
+        #         print line
+        #         if port in line:
+        #             isFinish = True
+        #             break
+        # time.sleep(1)
 
 
     def find_id(self,id):
@@ -241,3 +255,24 @@ class Web():
 
     def aa(self):
         pass
+
+
+class RunAppium(threading.Thread):
+    def __init__(self,port):
+        threading.Thread.__init__(self)
+        self.port = port
+
+
+    def run(self):
+        p1 = subprocess.Popen('appium --port %s' % self.port,stdout=subprocess.PIPE,shell=True)
+        #ap = p1.stdout.read()
+        #p1.stdout.readline()
+        isExistPort = False
+        infos = 'server args: {"port":%s}' % self.port
+        print infos
+        while not isExistPort:
+            if infos in p1.stdout.readlines():
+                isExistPort = True
+                print 'ffffffffffffffffffffffff'
+            #time.sleep(2)
+
