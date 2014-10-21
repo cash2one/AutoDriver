@@ -8,12 +8,15 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
 settings = fs.parserConfig(PATH('../../config.ini'))
 
 project_settings = fs.parserConfig(PATH('../../resource/app.ini'))
+devices = fs.parser_to_dict(PATH('../../resource/app.ini'))
 
 android = None
 web = None
 ios = None
 
-i_driver = {'status':False}
+idriver_dict = {'status':False}
+

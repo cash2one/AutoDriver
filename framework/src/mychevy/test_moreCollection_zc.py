@@ -1,7 +1,7 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device
+from framework.core import the,device_bak
 from appium.webdriver.common.touch_action import TouchAction
 from time import sleep
 #点击收藏按钮，在收藏的服务站中显示此服务站
@@ -11,7 +11,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         #返回首页
-        device.switchToHome(self,self.mainActivity)
+        device_bak.switchToHome(self,self.mainActivity)
 
     def test_case1(self):
         #每个测试用例，都需要把首页加入到变量mainActivity

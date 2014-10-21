@@ -4,11 +4,11 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 from selenium import webdriver
 import unittest
-from framework.core import device
+from framework.core import device_bak
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.ff = device.web()
+        self.ff = device_bak.web()
 
     def tearDown(self):
         self.ff.quit()

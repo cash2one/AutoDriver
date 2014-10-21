@@ -1,14 +1,16 @@
 # coding=utf-8
 __author__ = 'Administrator'
 
+import re
+import time
 from framework.core import the
-
+import xmlrpclib
 
 def changeWork(isWorking):
     myself = the.android
-    if the.i_driver['status'] != isWorking:
+    if the.idriver_dict['status'] != isWorking:
         myself.find_element_by_id('cn.com.pathbook.idriver.driver:id/tb_work_state').click()
-        the.i_driver['status'] = isWorking
+        the.idriver_dict['status'] = isWorking
 
 
 def license_type(val):
@@ -39,3 +41,87 @@ def province(val):
 def get_driver_no():
     return the.project_settings['android.idriver.driver']['user_name']
 
+def get_contact_phone():
+    return the.project_settings['android.idriver.customer']['contact_phone']
+
+def request_order(bol):
+    '''
+    司机端用来通知用户端 发送订单的请求
+    :param host:
+    :param bol:
+    :return:
+    '''
+    host = xmlrpc_host()+':'+xmlrpc_port()
+    pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
+    match = pattern.match(host)
+    if match:
+        s = xmlrpclib.ServerProxy('http://'+host)
+        try:
+            s.set_customer_action(bol)
+        except xmlrpclib.Fault:
+            pass
+
+
+def isHostAddr(value):
+    pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
+    match = pattern.match(value)
+    if match:
+        return True #match.group()
+    else:
+        return False
+
+
+def xmlrpc_port():
+    return the.settings['xmlrpc']['port']
+
+def xmlrpc_host():
+    return the.settings['xmlrpc']['host']
+
+def start_customer(apps):
+    app_activity = apps.getConfigs('app_activity')
+    guide_activity = apps.getConfigs('guide_activity')
+
+    apps.switch_wait(app_activity)
+    apps.find_id('start_btn').click()
+    apps.switch_wait(guide_activity)
+
+    #RegisterActivity
+
+
+class OrderServer():
+    '''
+    订单机器人服务器端
+    '''
+    def __init__(self):
+        self.driver_info = {'driver_no':'14009','action':False}
+        self.customer_info = {'user_name':'','action':False,'req':False}
+
+    def get_driver(self,key):
+        try:
+            return self.driver_info[key]
+        except KeyError:
+            pass
+
+    def get_customer(self,key):
+        try:
+            return self.customer_info[key]
+        except KeyError:
+            pass
+
+    def set_driver_action(self,bol):
+        try:
+            self.driver_info['action'] = bol
+        except KeyError:
+            pass
+
+    def set_customer_action(self,bol):
+        try:
+            self.customer_info['action'] = bol
+        except KeyError:
+            pass
+
+    def reply(self,bol):
+        pass
+        # host,port = get_host()
+        # s = xmlrpclib.ServerProxy('http://%s:%s' % (host,port))
+        # s.set_value('req',True)

@@ -3,12 +3,12 @@ __author__ = 'Administrator'
 
 import time
 import unittest
-from framework.core import extend,idriver
+from framework.core import device,idriver
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = extend.Android('android.idriver.driver')
+        self.driver = device.Android('android.idriver.driver2')
         self.driver.login()
 
     def tearDown(self):
@@ -27,18 +27,6 @@ class TestCase(unittest.TestCase):
 
         print self.driver.sql('select name from t_driver where id=40')
         self.assertTrue(u'个人中心' in title_text,'no')
-        # self.driver.find_id('personal_list').find_tags('android.widget.LinearLayout')[0].click()
-        # time.sleep(1)
 
-        # self.driver.find_elements_by_id('cn.com.pathbook.idriver.driver:id/lv_order')
-        # self.drivers.find_elements_by_accessibility_id('cn.com.pathbook.idriver.driver:id/lv_order')
-        #
-        # customer_name = device.findDynamicId('cn.com.pathbook.idriver.driver:id/tv_customer_name')
-        #
-        # self.driver.find_element_by_id('cn.com.pathbook.idriver.driver:id/iv_waiting')
-        # self.driver.find
-
-        #cn.com.pathbook.idriver.driver:id/tv_customer_name
-
-        #cn.com.pathbook.idriver.driver:id/tb_work_state
+        idriver.request_order(True)
 

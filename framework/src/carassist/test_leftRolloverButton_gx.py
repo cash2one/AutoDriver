@@ -2,15 +2,15 @@
 __author__ = 'gaoxu'
 import unittest
 from time import sleep
-from framework.core import the,device
+from framework.core import the,device_bak
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver=device.android()
+        self.driver=device_bak.android()
 
     def tearDown(self):
         #返回首页
-        device.switchToHome(self,self.mainActivity)
+        device_bak.switchToHome(self,self.mainActivity)
 
     def activity(self):
         sleep(15)

@@ -1,1 +1,1 @@
-__author__ = 'Administrator'
+__author__ = 'guguohai@pathbook.com.cn'
