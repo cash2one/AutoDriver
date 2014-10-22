@@ -85,6 +85,8 @@ def start_customer(apps):
     apps.find_id('start_btn').click()
     apps.switch_wait(guide_activity)
 
+
+
     #RegisterActivity
 
 

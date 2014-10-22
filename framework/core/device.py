@@ -41,35 +41,36 @@ class Android(object):
         #self.driver = the.android
         self.driver = the.devices[app_ini]
         self.package = self.configs['app_package']+':id/'
-        self.appium_status = False
+        #self.appium_status = False
+        print 'android start.....'
 
     def getConfigs(self,key):
         return self.configs[key]
 
-    def start_appium(self,port):
-        #cmds = os.popen('appium --port %s' % port).readlines()
-        #p = subprocess.Popen('ipconfig -all', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        p=subprocess.Popen('appium --port %s' % port,stdout=subprocess.PIPE,shell=True)
-        out_info = 'Appium REST http interface listener started on 0.0.0.0:%s' % port
-        error = "error: Couldn't start Appium REST http interface listener"
-        isFinish = False
-        while not isFinish:
-            if out_info in p.stdout.readline():
-                isFinish=True
-
-        time.sleep(1)
-        #print p.pid
-        # for line in p.stdout.readlines():
-        #     print line
-        # isFinish = False
-        # while not isFinish:
-        #     print 'start ...a'
-        #     for line in p.stdout.readlines():
-        #         print line
-        #         if port in line:
-        #             isFinish = True
-        #             break
-        # time.sleep(1)
+    # def start_appium(self,port):
+    #     #cmds = os.popen('appium --port %s' % port).readlines()
+    #     #p = subprocess.Popen('ipconfig -all', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    #     p=subprocess.Popen('appium --port %s' % port,stdout=subprocess.PIPE,shell=True)
+    #     out_info = 'Appium REST http interface listener started on 0.0.0.0:%s' % port
+    #     error = "error: Couldn't start Appium REST http interface listener"
+    #     isFinish = False
+    #     while not isFinish:
+    #         if out_info in p.stdout.readline():
+    #             isFinish=True
+    #
+    #     time.sleep(1)
+    #     #print p.pid
+    #     # for line in p.stdout.readlines():
+    #     #     print line
+    #     # isFinish = False
+    #     # while not isFinish:
+    #     #     print 'start ...a'
+    #     #     for line in p.stdout.readlines():
+    #     #         print line
+    #     #         if port in line:
+    #     #             isFinish = True
+    #     #             break
+    #     # time.sleep(1)
 
 
     def find_id(self,id):
@@ -79,7 +80,7 @@ class Android(object):
         return self.driver.find_elements_by_id(self.package+id)
 
     def find_tag(self,clazz):
-        self.driver.switch_to_alert()
+        #self.driver.switch_to_alert()
         return self.driver.find_element_by_class_name('android.widget.'+clazz)
 
     def find_tags(self,clazz):
