@@ -8,6 +8,8 @@ from framework.util import mysql
 import the
 import threading
 from appium import webdriver as am
+from appium.webdriver import webdriver as wd
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 PATH = lambda p: os.path.abspath(
@@ -17,6 +19,93 @@ PATH = lambda p: os.path.abspath(
 '''
 1020:去除current_activity() 方法，改用原来的current_activity属性
 '''
+
+
+class Androidd(wd.WebDriver):
+    def __init__(self,command_executor='http://127.0.0.1:4444/wd/hub',
+                 browser_profile=None, proxy=None, keep_alive=False,app_config=None):
+        self.app_config = app_config
+        print self.app_config
+        #self.configs = the.project_settings[app_ini]
+        desired_capabilities = {}
+        desired_capabilities['platformName'] = self.app_config['platform_name']
+        desired_capabilities['platformVersion'] = self.app_config['platform_version']
+        desired_capabilities['deviceName'] = self.app_config['device_name']
+        desired_capabilities['app'] = PATH('../../resource/'+self.app_config['app'])
+        desired_capabilities['appPackage'] = self.app_config['app_package']
+        desired_capabilities['app-activity'] = self.app_config['app_activity']
+
+        super(Androidd, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
+
+
+    def find_id(self,id):
+        return self.find_element_by_id(id)
+
+    def find_tag(self,class_name):
+        return self.find_element_by_tag_name(class_name)
+
+    def find_tags(self,class_name):
+        return self.find_elements_by_tag_name(class_name)
+
+    @property
+    def current_activity(self):
+        return self.current_activity
+
+    def switch_to_home(self):
+        main_activity = self.app_config['main_activity']
+
+        time.sleep(1)
+        if not main_activity in self.current_activity:
+            time.sleep(1)
+            self.keyevent(4)
+            if not main_activity in self.current_activity:
+                self.switch_to_home()
+
+
+def app(app_ini):
+    configs= the.project_settings[app_ini]
+    print configs
+    if the.devices[app_ini] == None:
+        if 'android' in app_ini:
+            # desired_caps = {}
+            # desired_caps['platformName'] = configs['platform_name']
+            # desired_caps['platformVersion'] = configs['platform_version']
+            # desired_caps['deviceName'] = configs['device_name']
+            # desired_caps['app'] = PATH('../../resource/'+configs['app'])
+            # desired_caps['appPackage'] = configs['app_package']
+            # desired_caps['app-activity'] = configs['app_activity']
+            the.devices[app_ini] = Androidd('http://localhost:%s/wd/hub' % configs['remote_port'], configs)
+        if 'web' in app_ini:
+            the.devices[app_ini] = Web(app_ini)
+    return the.devices[app_ini]
+
+def sql(self,sql,size=0):
+    '''
+    mysql 查询，size大于1时查询多条记录
+    :param sql:
+    :param size:
+    :return:
+    '''
+    db_host = self.configs['db_host']
+    db_user = self.configs['db_user']
+    db_pwd = self.configs['db_pwd']
+    dbm = mysql.DBManager(db_host,db_user,db_pwd,self.configs['db_name'])
+
+    r = None
+
+    cu = dbm.get_cursor()
+    cu.execute(sql)
+    if size == 0:
+        r = cu.fetchone()
+    elif size >= 1:
+        r = cu.fetchall()
+    else:
+        print u'error'
+
+    cu.close()
+    dbm.close_db()
+    return r
+
 
 class Android(object):
     def __init__(self,app_ini):
@@ -43,6 +132,8 @@ class Android(object):
         self.package = self.configs['app_package']+':id/'
         #self.appium_status = False
         print 'android start.....'
+
+
 
     def getConfigs(self,key):
         return self.configs[key]
@@ -74,7 +165,8 @@ class Android(object):
 
 
     def find_id(self,id):
-        return self.driver.find_element_by_id(self.package+id)
+        return self.driver.find_element(by=By.ID, value=id)
+        #return self.driver.find_element_by_id(self.package+id)
 
     def find_ids(self,id):
         return self.driver.find_elements_by_id(self.package+id)
