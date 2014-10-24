@@ -203,10 +203,10 @@ class Firefox1(selen.Firefox):
         self.opt = 'Firefox'
 
     def find_id(self, id_):
-        return self.find_element_by_id(id_)
+        return super(Firefox1, self).find_element_by_id(id_)
 
     def find_tag(self, class_name):
-        return self.find_element_by_tag_name(class_name)
+        return super(Firefox1, self).find_element_by_tag_name(class_name)
 
     def find_tags(self, class_name):
         return self.find_elements_by_tag_name(class_name)
