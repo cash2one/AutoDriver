@@ -9,7 +9,7 @@ from framework.core import device,idriver
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = device.app('idriver.android.driver')
-        #idriver.start_customer(self.driver)
+        idriver.login_driver(self.driver)
 
     def tearDown(self):
         #返回首页
@@ -17,11 +17,11 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_my_info(self):
-        #self.driver.find_id('rb_order').click()
-        #time.sleep(1)
+        idriver.changeWork(self.driver,True)
 
-        print self.driver.find_id('tv_title_text').text
+        name_id = self.driver.wait_id_text('tv_customer_name',u'xu女士')
 
+        print 'pass.....'
 
-        time.sleep(1)
+        idriver.sql(self.driver,'')
 

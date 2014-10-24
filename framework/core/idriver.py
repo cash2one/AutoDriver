@@ -5,12 +5,48 @@ import re
 import time
 from framework.core import the
 import xmlrpclib
+from selenium.common.exceptions import NoSuchElementException
 
-def changeWork(isWorking):
-    myself = the.android
-    if the.idriver_dict['status'] != isWorking:
-        myself.find_element_by_id('cn.com.pathbook.idriver.driver:id/tb_work_state').click()
-        the.idriver_dict['status'] = isWorking
+def changeWork(instance,isWorking):
+    try:
+        status = the.devices['driver_status']
+    except KeyError:
+        the.devices['driver_status'] = False
+
+    if the.devices['driver_status'] != isWorking:
+        instance.find_id('tb_work_state').click()
+        the.devices['driver_status'] = isWorking
+    # if the.idriver_dict['status'] != isWorking:
+    #     instance.find_id('tb_work_state').click()
+    #     the.idriver_dict['status'] = isWorking
+
+def login_driver(instance):
+    login = instance.configs['login_activity']
+    main = instance.configs['main_activity']
+    usr_name = instance.configs['user_name']
+    usr_pwd = instance.configs['user_pwd']
+
+    isFinishSplash = False
+    while not isFinishSplash:
+        #print instance.current_activity
+        if login in instance.current_activity:
+            isFinishSplash = True
+        if main in instance.current_activity:
+            isFinishSplash = True
+
+    else:
+        time.sleep(2)
+        #在main界面没有登录控件id
+        try:
+            instance.find_id('et_username').send_keys(usr_name)
+            instance.find_id('et_password').send_keys(usr_pwd)
+            instance.find_id('bt_login').click()
+        except NoSuchElementException:
+            pass
+
+    time.sleep(1)
+
+    instance.wait_switch(login)
 
 
 def license_type(val):
@@ -81,9 +117,9 @@ def start_customer(apps):
     app_activity = apps.getConfigs('app_activity')
     guide_activity = apps.getConfigs('guide_activity')
 
-    apps.switch_wait(app_activity)
+    apps.wait_switch(app_activity)
     apps.find_id('start_btn').click()
-    apps.switch_wait(guide_activity)
+    apps.wait_switch(guide_activity)
 
 
 

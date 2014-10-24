@@ -18,5 +18,3 @@ android = None
 web = None
 ios = None
 
-idriver_dict = {'status':False}
-
