@@ -7,6 +7,7 @@ import subprocess
 from framework.util import mysql
 import the
 import threading
+
 from appium import webdriver as am
 from appium.webdriver import webdriver as wd
 from selenium.common.exceptions import NoSuchElementException
@@ -16,6 +17,7 @@ PATH = lambda p: os.path.abspath(
 )
 
 TIME_OUT = 100
+
 
 '''
 1020:去除current_activity() 方法，改用原来的current_activity属性
@@ -108,16 +110,42 @@ class Android(wd.WebDriver):
             raise NameError, 'switch timeout'
 
 
-def app(ini_section):
-    configs = the.project_settings[ini_section]
-    if the.devices[ini_section] == None:
-        if 'android' in ini_section:
-            the.devices[ini_section] = Android(configs)
-            the.devices[ini_section].wait_switch(configs['app_activity'])
-        if 'web' in ini_section:
-            the.devices[ini_section] = Web(configs)
 
-    return the.devices[ini_section]
+firefox = 0
+chrome = 1
+
+
+def app(ini_section, browser=0):
+    '''
+
+    :param ini_section:
+    :param idx:
+    :return:
+    '''
+    if browser == chrome:
+        key_ini = ini_section + '.chrome'
+    else:
+        key_ini = ini_section
+
+    try:
+        the.devices[key_ini]
+    except KeyError:
+        the.devices[key_ini] = None
+
+    configs = the.project_settings[ini_section]
+
+    if the.devices[key_ini] == None:
+        if 'android' in key_ini:
+            the.devices[key_ini] = Android(configs)
+            # android等待splash界面加载完成
+            the.devices[key_ini].wait_switch(configs['app_activity'])
+        if 'web' in ini_section:
+            if browser == firefox:
+                the.devices[key_ini] = Firefox1()
+            elif browser == chrome:
+                the.devices[key_ini] = Chrome1()
+
+    return the.devices[key_ini]
 
 
 def execute_sql(configs, sql, size=0):
@@ -146,6 +174,101 @@ def execute_sql(configs, sql, size=0):
     dbm.close_db()
     return r
 
+
+
+class IOS():
+    def __init__(self, app_ini):
+        self.configs = the.project_settings[app_ini]
+
+    def aa(self):
+        pass
+
+from selenium import webdriver as selen
+from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+
+class Webb(RemoteWebDriver):
+    def __init__(self, command_executor='http://127.0.0.1:4444/wd/hub',
+        desired_capabilities=None, browser_profile=None, proxy=None, keep_alive=False):
+        super(Webb, self).__init__(command_executor, desired_capabilities, browser_profile,
+                                       proxy, keep_alive)
+
+        selen.Firefox()
+
+
+class Firefox1(selen.Firefox):
+    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
+                 capabilities=None, proxy=None):
+        super(Firefox1, self).__init__(firefox_profile, firefox_binary, timeout,
+                                       capabilities, proxy)
+        self.opt = 'Firefox'
+
+    def find_id(self, id_):
+        return self.find_element_by_id(id_)
+
+    def find_tag(self, class_name):
+        return self.find_element_by_tag_name(class_name)
+
+    def find_tags(self, class_name):
+        return self.find_elements_by_tag_name(class_name)
+
+
+class Chrome1(selen.Chrome):
+    def __init__(self, executable_path="chromedriver", port=0,
+                 chrome_options=None, service_args=None,
+                 desired_capabilities=None, service_log_path=None):
+        super(Chrome1, self).__init__(executable_path, port,
+                                     chrome_options, service_args,
+                                     desired_capabilities, service_log_path)
+        self.opt = 'Chrome'
+
+    def find_id(self, id_):
+        return self.find_element_by_id(id_)
+
+    def find_tag(self, class_name):
+        return self.find_element_by_class_name(class_name)
+
+    def find_tags(self, class_name):
+        return self.find_elements_by_class_name(class_name)
+
+
+# def Web(configs):
+#     def __init__(self, app_ini,browser):
+#         if 'firefox' in browser:
+#             selen.Chrome()
+#             selen.Firefox()
+#             self.configs = the.project_settings[app_ini]
+#
+#     def find_id(self, id_):
+#         return self.find_element_by_id(id_)
+#
+#     def find_ids(self, id_):
+#         return self.find_elements_by_id(self.package + id_)
+#
+#     def find_tag(self, class_name):
+#         return self.find_element_by_class_name(class_name)
+#
+#     def find_tags(self, class_name):
+#         return self.find_elements_by_class_name(class_name)
+
+
+class RunAppium(threading.Thread):
+    def __init__(self, port):
+        threading.Thread.__init__(self)
+        self.port = port
+
+
+    def run(self):
+        p1 = subprocess.Popen('appium --port %s' % self.port, stdout=subprocess.PIPE, shell=True)
+        #ap = p1.stdout.read()
+        #p1.stdout.readline()
+        isExistPort = False
+        infos = 'server args: {"port":%s}' % self.port
+        print infos
+        while not isExistPort:
+            if infos in p1.stdout.readlines():
+                isExistPort = True
+                print 'ffffffffffffffffffffffff'
+                #time.sleep(2)
 
 # class Android(object):
 # def __init__(self,app_ini):
@@ -372,38 +495,4 @@ def execute_sql(configs, sql, size=0):
 
 
 
-class IOS():
-    def __init__(self, app_ini):
-        self.configs = the.project_settings[app_ini]
-
-    def aa(self):
-        pass
-
-
-class Web():
-    def __init__(self, app_ini):
-        self.configs = the.project_settings[app_ini]
-
-    def aa(self):
-        pass
-
-
-class RunAppium(threading.Thread):
-    def __init__(self, port):
-        threading.Thread.__init__(self)
-        self.port = port
-
-
-    def run(self):
-        p1 = subprocess.Popen('appium --port %s' % self.port, stdout=subprocess.PIPE, shell=True)
-        #ap = p1.stdout.read()
-        #p1.stdout.readline()
-        isExistPort = False
-        infos = 'server args: {"port":%s}' % self.port
-        print infos
-        while not isExistPort:
-            if infos in p1.stdout.readlines():
-                isExistPort = True
-                print 'ffffffffffffffffffffffff'
-                #time.sleep(2)
 

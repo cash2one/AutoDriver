@@ -8,13 +8,10 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+app_ini = PATH('../../resource/app.ini')
 
 settings = fs.parserConfig(PATH('../../config.ini'))
 
-project_settings = fs.parserConfig(PATH('../../resource/app.ini'))
-devices = fs.parser_to_dict(PATH('../../resource/app.ini'))
+project_settings = fs.parserConfig(app_ini)
 
-android = None
-web = None
-ios = None
-
+devices = fs.parser_to_dict(app_ini)
