@@ -5,8 +5,8 @@ import MySQLdb
 
 class DBManager():
 
-    def __init__(self,url,usr,pwd,db_name):
-        self.conn = MySQLdb.connect(url,usr,pwd,db_name,port=3306,charset='utf8')
+    def __init__(self,url,usr,pwd,db_name,port):
+        self.conn = MySQLdb.connect(url,usr,pwd,db_name,port,charset='utf8')
 
     def get_cursor(self):
         return self.conn.cursor()
