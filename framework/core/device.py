@@ -12,6 +12,7 @@ from selenium import webdriver as selen
 from appium import webdriver as am
 from appium.webdriver import webdriver as wd
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -55,7 +56,24 @@ class Android(wd.WebDriver):
         return self.find_elements_by_class_name('android.widget.' + class_name)
 
     def sql(self, sql, size=0):
-        execute_sql(self.configs, size)
+        dbs = self.configs['database'].split('|')
+        # url,usr,pwd,db_name,port
+        dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
+
+        r = None
+
+        cu = dbm.get_cursor()
+        cu.execute(sql)
+        if size == 0:
+            r = cu.fetchone()
+        elif size >= 1:
+            r = cu.fetchall()
+        else:
+            print u'error'
+
+        cu.close()
+        dbm.close_db()
+        return r
 
     def switch_to_home(self):
         main_activity = self.configs['main_activity']
@@ -149,7 +167,7 @@ def app(ini_section, browser=0):
     return the.devices[key_ini]
 
 
-def execute_sql(configs, sql, size=0):
+def execute_sql(configs, sql, size):
     '''
     mysql 查询，size大于1时查询多条记录
     :param sql:
@@ -195,10 +213,11 @@ class Firefox1(selen.Firefox):
         self.opt = 'Firefox'
 
     def find_id(self, id_):
-        return super(Firefox1, self).find_element_by_id(id_)
+        return self.find_element(by=By.ID, value=id_)
+        #return selen.Firefox.find_element_by_id(self,id_)
 
     def find_tag(self, class_name):
-        return super(Firefox1, self).find_element_by_tag_name(class_name)
+        return selen.Firefox.find_element_by_tag_name(self,class_name)
 
     def find_tags(self, class_name):
         return self.find_elements_by_tag_name(class_name)
