@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_month_earning(self):
-        idriver.changeWork(True)
+        idriver.changeWork(self.driver,True)
         current_activity = self.driver.current_activity()
         #获取待补订单列表中订单的信息
         self.driver.find_id('iv_detail').click()
