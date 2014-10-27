@@ -18,7 +18,7 @@ class TestCase(unittest.TestCase):
     def test_my_info(self):
         idriver.changeWork(self.driver,True)
 
-        current_activity = self.driver.current_activity()
+        current_activity = self.driver.current_activity
         self.driver.find_id('iv_head').click()
 
         self.driver.wait_switch(current_activity)
