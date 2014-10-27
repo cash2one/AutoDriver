@@ -26,8 +26,8 @@ class TestCase(unittest.TestCase):
         print self.ff.find_tag('h2')
         #txt = self.ff.find_element_by_id('w3').find_element_by_tag_name('h2').text
         txt = self.ff.find_id('w3').find_tag('h2').text
-# <selenium.webdriver.remote.webelement.WebElement object at 0x0299A0F0>
-# <selenium.webdriver.remote.webelement.WebElement object at 0x0299A170>
-# <selenium.webdriver.remote.webelement.WebElement object at 0x0298A0F0>
-# <selenium.webdriver.remote.webelement.WebElement object at 0x0298A170>
+        # <selenium.webdriver.remote.webelement.WebElement object at 0x0299A0F0>
+        # <selenium.webdriver.remote.webelement.WebElement object at 0x0299A170>
+        # <selenium.webdriver.remote.webelement.WebElement object at 0x0298A0F0>
+        # <selenium.webdriver.remote.webelement.WebElement object at 0x0298A170>
         self.assertTrue(u'领先的 Web 技术教程 - 全部免费' in txt , 'false')

@@ -13,15 +13,16 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         #返回首页
-        #self.driver.switch_to_home()
+        self.driver.switch_to_home()
         pass
 
     def test_my_info(self):
         idriver.changeWork(self.driver,True)
 
-        name_id = self.driver.wait_id_text('tv_customer_name',u'xu女士')
+        # name_id = self.driver.wait_id_text('tv_customer_name',u'xu女士')
+        #
+        # print 'pass.....'
 
-        print 'pass.....'
-
-        idriver.sql(self.driver,'')
+        txt = self.driver.find_id('ll_order_body').find_id('tv_order_id').text
+        print txt
 

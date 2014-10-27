@@ -132,7 +132,7 @@ class Android(wd.WebDriver):
 
 firefox = 0
 chrome = 1
-
+import firefox
 
 def app(ini_section, browser=0):
     '''
@@ -158,11 +158,11 @@ def app(ini_section, browser=0):
             the.devices[key_ini] = Android(configs)
             # android等待splash界面加载完成
             the.devices[key_ini].wait_switch(configs['app_activity'])
-        if 'web' in ini_section:
-            if browser == firefox:
-                the.devices[key_ini] = Firefox1()
-            elif browser == chrome:
-                the.devices[key_ini] = Chrome1()
+        # if 'web' in ini_section:
+        #     if browser == firefox:
+        #         the.devices[key_ini] = firefox.WebDriver()
+        #     elif browser == chrome:
+        #         the.devices[key_ini] = Chrome1()
 
     return the.devices[key_ini]
 
@@ -196,31 +196,23 @@ def execute_sql(configs, sql, size):
 
 
 
-class IOS():
-    def __init__(self, app_ini):
-        self.configs = the.project_settings[app_ini]
 
-    def aa(self):
-        pass
 
-from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
-
-class Firefox1(selen.Firefox):
-    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
-                 capabilities=None, proxy=None):
-        super(Firefox1, self).__init__(firefox_profile, firefox_binary, timeout,
-                                       capabilities, proxy)
-        self.opt = 'Firefox'
-
-    def find_id(self, id_):
-        return self.find_element(by=By.ID, value=id_)
-        #return selen.Firefox.find_element_by_id(self,id_)
-
-    def find_tag(self, class_name):
-        return selen.Firefox.find_element_by_tag_name(self,class_name)
-
-    def find_tags(self, class_name):
-        return self.find_elements_by_tag_name(class_name)
+# class Firefox1(selen.Firefox):
+#     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
+#                  capabilities=None, proxy=None):
+#         super(Firefox1, self).__init__(firefox_profile, firefox_binary, timeout,
+#                                        capabilities, proxy)
+#
+#
+#     def find_id(self, id_):
+#         return selen.Firefox.find_element_by_id(self,id_)
+#
+#     def find_tag(self, class_name):
+#         return selen.Firefox.find_element_by_tag_name(self,class_name)
+#
+#     def find_tags(self, class_name):
+#         return self.find_elements_by_tag_name(class_name)
 
 
 class Chrome1(selen.Chrome):
