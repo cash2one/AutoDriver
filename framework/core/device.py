@@ -7,6 +7,7 @@ import subprocess
 from framework.util import mysql
 import the
 import threading
+from selenium import webdriver as selen
 
 from appium import webdriver as am
 from appium.webdriver import webdriver as wd
@@ -155,9 +156,10 @@ def execute_sql(configs, sql, size=0):
     :param size:
     :return:
     '''
+
     dbs = configs['database'].split('|')
     # url,usr,pwd,db_name,port
-    dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], dbs[4])
+    dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
 
     r = None
 
@@ -183,17 +185,7 @@ class IOS():
     def aa(self):
         pass
 
-from selenium import webdriver as selen
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
-
-class Webb(RemoteWebDriver):
-    def __init__(self, command_executor='http://127.0.0.1:4444/wd/hub',
-        desired_capabilities=None, browser_profile=None, proxy=None, keep_alive=False):
-        super(Webb, self).__init__(command_executor, desired_capabilities, browser_profile,
-                                       proxy, keep_alive)
-
-        selen.Firefox()
-
 
 class Firefox1(selen.Firefox):
     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
