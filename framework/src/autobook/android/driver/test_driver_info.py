@@ -9,14 +9,14 @@ from framework.core import device,idriver
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.Android('android.idriver.driver')
-        self.driver.login()
+        self.driver = device.app('idriver.android.driver')
+        idriver.login_driver(self.driver)
 
     def tearDown(self):
         self.driver.switch_to_home()
 
     def test_order(self):
-        idriver.changeWork(True)
+        idriver.changeWork(self.driver,True)
 
         isFound = False
         while not isFound:

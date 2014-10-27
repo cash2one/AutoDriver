@@ -8,20 +8,20 @@ from framework.core import device,idriver
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.Android('android.idriver.driver2')
-        self.driver.login()
+        self.driver = device.app('idriver.android.driver')
+        idriver.login_driver(self.driver)
 
     def tearDown(self):
         #返回首页
         self.driver.switch_to_home()
 
     def test_my_info(self):
-        idriver.changeWork(True)
+        idriver.changeWork(self.driver,True)
 
         current_activity = self.driver.current_activity()
         self.driver.find_id('iv_head').click()
 
-        self.driver.switch_finish(current_activity)
+        self.driver.wait_switch(current_activity)
 
         title_text = self.driver.find_id('tv_title_text').text
 

@@ -3,14 +3,14 @@ __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import extend,idriver
+from framework.core import device,idriver
 import datetime
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = extend.Android('android.idriver.driver')
-        self.driver.login()
+        self.driver = device.app('idriver.android.driver')
+        idriver.login_driver(self.driver)
         self.driver_no = idriver.get_driver_no()
         #获取登录司机的工号
 
@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('rb_order').click()
         sum_earning=self.driver.find_id('he_sum').text
         self.driver.find_id('about_function').click()
-        self.driver.switch_finish(current_activity)
+        self.driver.wait_switch(current_activity)
         earnings=0.00
         for i in range(0,3) :
 

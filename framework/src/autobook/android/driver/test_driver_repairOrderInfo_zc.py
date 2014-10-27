@@ -3,14 +3,14 @@ __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import extend,idriver
+from framework.core import device,idriver
 
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = extend.Android('android.idriver.driver')
-        self.driver.login()
+        self.driver = device.app('idriver.android.driver')
+        idriver.login_driver(self.driver)
         self.driver_no = idriver.get_driver_no()
         #获取登录司机的工号
 
@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_month_earning(self):
-        idriver.changeWork(True)
+        idriver.changeWork(self.driver,True)
         current_activity = self.driver.current_activity()
 
         order_no =self.driver.find_ids('tv_order_id')[0].text
@@ -29,7 +29,7 @@ class TestCase(unittest.TestCase):
         txt_order=(order_no[4:],order_time,order_orgin[3:])
         #获取待补订单列表中订单的信息
         self.driver.find_id('iv_detail').click()
-        self.driver.switch_finish(current_activity)
+        self.driver.wait_switch(current_activity)
 
         ro_no=self.driver.find_id('ro_no').text
         ro_ctime=self.driver.find_id('ro_ctime').text

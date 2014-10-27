@@ -3,13 +3,13 @@ __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import extend,idriver
+from framework.core import device,idriver
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = extend.Android('android.idriver.driver')
-        self.driver.login()
+        self.driver = device.app('idriver.android.driver')
+        idriver.login_driver(self.driver)
         self.driver_no = idriver.get_driver_no()
         #获取登录司机的工号
 
@@ -24,14 +24,14 @@ class TestCase(unittest.TestCase):
         #获取的格式为"XX：  XXX",只取后面的名字，split(':')[1]取冒号后的字符串，strip（）过滤左端空格
 
     def test_my_info(self):
-        idriver.changeWork(True)
+        idriver.changeWork(self.driver,True)
 
         current_activity = self.driver.current_activity()
         self.driver.find_id('iv_head').click()
-        self.driver.switch_finish(current_activity)
+        self.driver.wait_switch(current_activity)
 
         self.driver.find_id('personal_list_text').click()
-        self.driver.switch_finish(current_activity)
+        self.driver.wait_switch(current_activity)
 
         db_result = self.driver.sql('select name,province,license_type,driving_age,driving_count from t_driver where no=%s' % self.driver_no)
         #将数据库中查询出的数据存入元组

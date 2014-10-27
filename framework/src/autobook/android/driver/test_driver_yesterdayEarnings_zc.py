@@ -3,14 +3,14 @@ __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import extend,idriver
+from framework.core import device,idriver
 import datetime
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = extend.Android('android.idriver.driver')
-        self.driver.login()
+        self.driver = device.app('idriver.android.driver')
+        idriver.login_driver(self.driver)
         self.driver_no = idriver.get_driver_no()
         #获取登录司机的工号
 
@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_my_yd(self):
-        idriver.changeWork(True)
+        idriver.changeWork(self.driver,True)
 
         current_activity = self.driver.current_activity()
         self.driver.find_id('rb_order').click()
