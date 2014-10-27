@@ -51,7 +51,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(textview_tup == driver_tup,'msg')
         #查看司机的信息与数据库中查询出的是否一致
 
-        self.assertEqual('.MyInfoActivity',self.driver.current_activity())
+        self.assertEqual('.MyInfoActivity',self.driver.current_activity)
         #跳转到个人信息页面，
 
 
