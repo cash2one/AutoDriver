@@ -24,6 +24,9 @@ class TestCase(unittest.TestCase):
         #
         # print 'pass.....'
         print self.pkg
-        txt = self.driver.find_id('ll_order_body').find_id('tv_order_id').text
-        print txt
+        self.driver.find_id('rb_benifit').click()
+        he_td = self.driver.wait_find_id('he_td')
+
+        print he_td.text
+
 

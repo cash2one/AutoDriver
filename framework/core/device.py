@@ -85,24 +85,24 @@ class Android(wd.WebDriver):
             if not main_activity in self.current_activity:
                 self.switch_to_home()
 
-    def wait_id(self, id_):
+    def wait_find_id(self, id_):
         time_out = TIME_OUT
         while time_out > 0:
             try:
-                self.find_id(id_)
+                self.find_element_by_id(self.package + id_)
                 isExist = True
             except NoSuchElementException:
                 isExist = False
 
             if isExist:
-                return self.find_id(id_)
+                return self.find_element_by_id(self.package + id_)
 
             time_out -= 1
             time.sleep(0.5)
         else:
             raise NameError, 'find_element timeout'
 
-    def wait_id_text(self, id_, txt):
+    def wait_find_id_text(self, id_, txt):
         time_out = TIME_OUT
         while time_out > 0:
             try:
@@ -198,21 +198,21 @@ def execute_sql(configs, sql, size):
 
 
 
-# class Firefox1(selen.Firefox):
-#     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
-#                  capabilities=None, proxy=None):
-#         super(Firefox1, self).__init__(firefox_profile, firefox_binary, timeout,
-#                                        capabilities, proxy)
-#
-#
-#     def find_id(self, id_):
-#         return selen.Firefox.find_element_by_id(self,id_)
-#
-#     def find_tag(self, class_name):
-#         return selen.Firefox.find_element_by_tag_name(self,class_name)
-#
-#     def find_tags(self, class_name):
-#         return self.find_elements_by_tag_name(class_name)
+class Firefox1(selen.Firefox):
+    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
+                 capabilities=None, proxy=None):
+        super(Firefox1, self).__init__(firefox_profile, firefox_binary, timeout,
+                                       capabilities, proxy)
+
+
+    def find_id(self, id_):
+        return selen.Firefox.find_element_by_id(self,id_)
+
+    def find_tag(self, class_name):
+        return selen.Firefox.find_element_by_tag_name(self,class_name)
+
+    def find_tags(self, class_name):
+        return self.find_elements_by_tag_name(class_name)
 
 
 class Chrome1(selen.Chrome):
