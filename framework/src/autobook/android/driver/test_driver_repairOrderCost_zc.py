@@ -2,9 +2,8 @@
 __author__ = 'zhangchun'
 
 import time
-import unittest
 from framework.core import device,idriver
-
+import unittest
 
 
 class TestCase(unittest.TestCase):
@@ -21,20 +20,20 @@ class TestCase(unittest.TestCase):
     def test_month_earning(self):
         idriver.changeWork(self.driver,True)
         current_activity = self.driver.current_activity
-
-        order_no =self.driver.find_ids('tv_order_id')[0].text
-
-        order_time =self.driver.find_ids('tv_create_time')[0].text
-        order_orgin =self.driver.find_ids('tv_start_address')[0].text
-        txt_order=(order_no[4:],order_time,order_orgin[3:])
         #获取待补订单列表中订单的信息
         self.driver.find_id('iv_detail').click()
         self.driver.wait_switch(current_activity)
 
-        ro_no=self.driver.find_id('ro_no').text
-        ro_ctime=self.driver.find_id('ro_ctime').text
-        ro_saddr=self.driver.find_id('ro_saddr').text
-        txt_ro=(ro_no,ro_ctime,ro_saddr)
-        #进入补单编辑页面，查看订单信息与列表中是否一致
-        self.assertTrue(txt_ro==txt_order)
-        self.assertTrue('.RepairOrderActivity',self.driver.current_activity)
+        self.driver.find_id('ro_endtime').click()
+        self.driver.switch_to_alert()
+        self.driver.find_elements_by_class_name('android.widget.ImageButton')[6].click()
+        self.driver.find_id('btn_ok').click()
+        time.sleep(3)
+        self.driver.find_id('ro_eaddr').send_keys('ggfdg')
+        time.sleep(3)
+        self.driver.find_id('confirm_repairorder').click()
+        self.driver.switch_to_alert()
+
+        txt=self.driver.find_id('tv_msg').text
+        self.assertTrue(u'费用合计不能低于39元' in txt)
+

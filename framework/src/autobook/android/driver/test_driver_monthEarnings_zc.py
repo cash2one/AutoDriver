@@ -19,11 +19,13 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_month_earning(self):
-        idriver.changeWork(True)
+        idriver.changeWork(self.driver,True)
 
-        current_activity = self.driver.current_activity()
-        self.driver.find_id('rb_order').click()
+        self.driver.find_id('rb_benifit').click()
+        self.driver.wait_find_id('he_td')
         sum_earning=self.driver.find_id('he_sum').text
+
+        current_activity = self.driver.current_activity
         self.driver.find_id('about_function').click()
         self.driver.wait_switch(current_activity)
         earnings=0.00

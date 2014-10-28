@@ -20,14 +20,14 @@ class TestCase(unittest.TestCase):
 
     def test_month_earning(self):
         idriver.changeWork(self.driver,True)
-        current_activity = self.driver.current_activity()
+        current_activity = self.driver.current_activity
         #获取待补订单列表中订单的信息
         self.driver.find_id('iv_detail').click()
         self.driver.wait_switch(current_activity)
+
         ctime=self.driver.find_id('ro_ctime').text
 
         self.driver.find_id('ro_endtime').click()
-        self.driver.wait_switch(current_activity)
 
         self.driver.switch_to_alert()
         self.driver.find_id('btn_ok').click()
@@ -36,3 +36,4 @@ class TestCase(unittest.TestCase):
 
         self.assertTrue(ctime[:-3]==time)
 
+        print ctime[:-3],time

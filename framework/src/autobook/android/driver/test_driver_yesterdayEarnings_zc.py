@@ -21,9 +21,9 @@ class TestCase(unittest.TestCase):
     def test_my_yd(self):
         idriver.changeWork(self.driver,True)
 
-        current_activity = self.driver.current_activity()
-        self.driver.find_id('rb_order').click()
-
+        current_activity = self.driver.current_activity
+        self.driver.find_id('rb_benifit').click()
+        self.driver.wait_find_id('he_td')
         yesterday=datetime.date.today()-datetime.timedelta(days=1)
         #获取昨天的日期
 
