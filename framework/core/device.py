@@ -8,6 +8,7 @@ from framework.util import mysql
 import the
 import threading
 from selenium import webdriver as selen
+import xmlrpclib
 
 from appium import webdriver as am
 from appium.webdriver import webdriver as wd
@@ -24,7 +25,6 @@ TIME_OUT = 100
 '''
 1020:去除current_activity() 方法，改用原来的current_activity属性
 '''
-
 
 class Android(wd.WebDriver):
     def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
@@ -54,6 +54,17 @@ class Android(wd.WebDriver):
 
     def find_tags(self, class_name):
         return self.find_elements_by_class_name('android.widget.' + class_name)
+
+    def send_new_order(self,user_name):
+        # 发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
+        # 查看是不是XX女士，如果不是就改名，并下个1人的周边订单
+        sett = the.settings['xmlrpc']
+        s = xmlrpclib.ServerProxy('http://%s:%s' % (sett['host'],sett['port']))
+        try:
+            s.set_customer(True,user_name)
+        except xmlrpclib.Fault:
+            pass
+
 
     def sql(self, sql, size=0):
         dbs = self.configs['database'].split('|')
@@ -254,7 +265,7 @@ class Chrome1(selen.Chrome):
 #         return self.find_elements_by_class_name(class_name)
 
 
-class RunAppium(threading.Thread):
+class Runium(threading.Thread):
     def __init__(self, port):
         threading.Thread.__init__(self)
         self.port = port
