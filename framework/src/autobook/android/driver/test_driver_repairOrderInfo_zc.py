@@ -20,7 +20,7 @@ class TestCase(unittest.TestCase):
 
     def test_month_earning(self):
         idriver.changeWork(self.driver,True)
-        current_activity = self.driver.current_activity()
+        current_activity = self.driver.current_activity
 
         order_no =self.driver.find_ids('tv_order_id')[0].text
 
@@ -37,4 +37,4 @@ class TestCase(unittest.TestCase):
         txt_ro=(ro_no,ro_ctime,ro_saddr)
         #进入补单编辑页面，查看订单信息与列表中是否一致
         self.assertTrue(txt_ro==txt_order)
-        self.assertTrue('.RepairOrderActivity',self.driver.current_activity())
+        self.assertTrue('.RepairOrderActivity',self.driver.current_activity)

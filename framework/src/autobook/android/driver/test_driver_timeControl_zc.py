@@ -20,12 +20,12 @@ class TestCase(unittest.TestCase):
 
     def test_month_earning(self):
         idriver.changeWork(self.driver,True)
-        current_activity = self.driver.current_activity()
+        current_activity = self.driver.current_activity
         #获取待补订单列表中订单的信息
         self.driver.find_id('iv_detail').click()
         self.driver.wait_switch(current_activity)
         ctime=self.driver.find_id('ro_ctime').text
-
+        current_activity = self.driver.current_activity
         self.driver.find_id('ro_endtime').click()
         self.driver.wait_switch(current_activity)
 

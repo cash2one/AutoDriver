@@ -21,10 +21,11 @@ class TestCase(unittest.TestCase):
     def test_this_month_earning(self):
         idriver.changeWork(self.driver,True)
 
-        current_activity = self.driver.current_activity()
-        self.driver.find_id('rb_order').click()
+        current_activity = self.driver.current_activity
+        self.driver.find_id('rb_benifit').click()
 
-        td=self.driver.find_id('he_td').text[1:]
+        he_td=self.driver.wait_find_id('he_td')
+        td=he_td.text[1:]
         #获取今日收益
         td_earning=filter(str.isdigit,str(td))
         #去掉收益中的小数点
