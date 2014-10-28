@@ -4,7 +4,6 @@ __author__ = 'zhangchun'
 import time
 from framework.core import device,idriver
 import unittest
-from time import sleep
 
 
 class TestCase(unittest.TestCase):
@@ -24,16 +23,7 @@ class TestCase(unittest.TestCase):
         #获取待补订单列表中订单的信息
         self.driver.find_id('iv_detail').click()
         self.driver.wait_switch(current_activity)
-
-        ctime=self.driver.find_id('ro_ctime').text
-
-        self.driver.find_id('ro_endtime').click()
-
+        self.driver.find_id('confirm_repairorder').click()
         self.driver.switch_to_alert()
-        self.driver.find_id('btn_ok').click()
-        sleep(2)
-        time=self.driver.find_id('ro_endtime').text
-
-        self.assertTrue(ctime[:-3]==time)
-
-        print ctime[:-3],time
+        txt=self.driver.find_id('tv_msg').text
+        self.assertTrue(u'结束时间不能为空' in txt)
