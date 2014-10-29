@@ -14,32 +14,32 @@ class MonitorOrder(threading.Thread):
         host = idriver.xmlrpc_host()
         port = idriver.xmlrpc_port()
         self.xmlrpc = xmlrpclib.ServerProxy('http://%s:%s' % (host,int(port)))
-        self.driver = device.Android('android.idriver.driver')
-        self.driver.login()
+        self.driver = device.app('idriver.android.customer')
+        #idriver.login_driver()
 
     def run(self):
         while not self.thread_stop:
-            if self.have_driver_action():
+            if self.have_order():
                 #获取完状态订单状态后，恢复订单状态
                 try:
-                    self.xmlrpc.set_customer_action(False)
+                    self.xmlrpc.set_customer(False,'')
                     print 'modify server action'
                 except xmlrpclib.Fault:
                     pass
 
-                time.sleep(3)
+                time.sleep(5)
                 print 'start order'
-                self.order()
+                self.start_order()
 
             time.sleep(2)
 
-    def have_driver_action(self):
+    def have_order(self):
         return self.xmlrpc.get_customer('action')
 
     def stop(self):
         self.thread_stop = True
 
-    def order(self):
+    def start_order(self):
         self.driver.find_id('iv_head').click()
 
 

@@ -152,9 +152,17 @@ class OrderServer():
         except KeyError:
             pass
 
-    def set_customer_action(self,bol):
+
+    def set_customer(self,bol,user_name):
+        '''
+        设置用户端是否下单，并修改用户名为指定名
+        :param bol:
+        :param user_name:
+        :return:
+        '''
         try:
             self.customer_info['action'] = bol
+            self.customer_info['user_name'] = user_name
         except KeyError:
             pass
 

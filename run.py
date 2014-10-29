@@ -35,5 +35,9 @@ if __name__ == "__main__":
     #     print 'gegwwwwww'
     #     time.sleep(2)
 
-    aa= {}
-    print aa['dda']
+    p1 = subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+    p1.stdout.read()
+
+    p2 = subprocess.Popen('appium --port %s' % 4726, stdout=subprocess.PIPE, shell=True)
+    p2.stdout.read()
+    from framework.core import the
