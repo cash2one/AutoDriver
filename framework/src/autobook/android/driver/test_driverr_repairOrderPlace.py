@@ -17,7 +17,7 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-    def test_month_earning(self):
+    def test_repair_order(self):
         idriver.changeWork(self.driver,True)
         current_activity = self.driver.current_activity
         #获取待补订单列表中订单的信息
