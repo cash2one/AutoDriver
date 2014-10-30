@@ -96,6 +96,7 @@ class Android(wd.WebDriver):
             if not main_activity in self.current_activity:
                 self.switch_to_home()
 
+
     def wait_find_id(self, id_):
         time_out = TIME_OUT
         while time_out > 0:
@@ -144,6 +145,7 @@ class Android(wd.WebDriver):
 firefox = 0
 chrome = 1
 
+
 def app(ini_section, browser=0):
     '''
 
@@ -163,11 +165,13 @@ def app(ini_section, browser=0):
 
     configs = the.project_settings[ini_section]
 
+    # 初始化时，都为None
     if the.devices[key_ini] == None:
         if 'android' in key_ini:
             the.devices[key_ini] = Android(configs)
             # android等待splash界面加载完成
-            the.devices[key_ini].wait_switch(configs['app_activity'])
+            #the.devices[key_ini].wait_switch(configs['app_activity'])
+
         # if 'web' in ini_section:
         #     if browser == firefox:
         #         the.devices[key_ini] = firefox.WebDriver()

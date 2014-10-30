@@ -20,39 +20,68 @@ def changeWork(instance,isWorking):
     #     instance.find_id('tb_work_state').click()
     #     the.idriver_dict['status'] = isWorking
 
-def login_custom(instance,user_name,isRobot=False):
-    app_activity = instance.configs['app_activity']
-    main = instance.configs['main_activity']
+def add_devices(key,val):
+    try:
+        status = the.devices[key]
+    except KeyError:
+        the.devices[key] = val
+
+    return the.devices[key]
+
+
+def register_user(instance,user_name):
+    main_activity = instance.configs['main_activity']
     contact_phone = instance.configs['contact_phone']
     code = instance.configs['code']
+
+    instance.find_id('用户中心头像').click()
+    instance.wait_switch(main_activity)
+    instance.find_id('phone').send_keys(contact_phone)
+    instance.find_id('user_name').send_keys(user_name)
+    instance.find_id('radio')[0].click()
+    instance.find_id('bt').click()
+
+    instance.wait_switch('register_activity')
+
+    instance.find_id('phone_activity').send_keys(code)
+    instance.find_id('bt').click()
+
+    instance.wait_switch('code_activity')
+
+
+def login_custom(instance,robot_name=''):
+    main = instance.configs['main_activity']
     guide_activity = instance.configs['guide_activity']
+    user_name = instance.configs['user_name']
 
-    instance.wait_switch(app_activity)
-
-    instance.find_id('start_btn').click()
-
-    instance.wait_switch(guide_activity)
-
-    #TODO: 订单机器人发起，需要修改用户名。自己登陆成功需要the里写入全局customer_login=True
-
-    #向全局the新增用户端登录状态
-    try:
-        status = the.devices['customer_login']
-    except KeyError:
-        the.devices['customer_login'] = False
-
-    if the.devices['customer_login']:
-        if isRobot:
-            pass #判断名字是否为user_name
-        else:
+    isFinishSplash = False
+    while not isFinishSplash:
+        #print instance.current_activity
+        if guide_activity in instance.current_activity:
+            isFinishSplash = True
+        if main in instance.current_activity:
+            break
+    else:
+        time.sleep(2)
+        #在main界面没有登录控件id
+        try:
+            instance.find_id('start_btn').click()
+        except NoSuchElementException:
             pass
 
+    time.sleep(1)
+    instance.wait_switch(guide_activity)
 
-    instance.find_id('用户中心头像').send_keys('')
-    instance.wait_switch('.')
-    instance.find_id('et_password').send_keys('')
-    instance.find_id('bt_login').click()
+    #向全局the新增用户端登录状态
+    login_status = add_devices('customer_login',False)
 
+    if not login_status:
+        register_user(instance,user_name)
+
+    #订单机器人发起，发起自定义的用户名，需要修改用户名
+    if robot_name!='' and robot_name not in user_name:
+        instance.switch_to_home()
+        register_user(instance,robot_name)
 
 
 def login_driver(instance):
@@ -67,7 +96,8 @@ def login_driver(instance):
         if login in instance.current_activity:
             isFinishSplash = True
         if main in instance.current_activity:
-            isFinishSplash = True
+            break
+            #isFinishSplash = True
 
     else:
         time.sleep(2)
@@ -149,10 +179,10 @@ def xmlrpc_host():
     return the.settings['xmlrpc']['host']
 
 def start_customer(apps):
-    app_activity = apps.getConfigs('app_activity')
-    guide_activity = apps.getConfigs('guide_activity')
+    app_activity = apps.configs['app_activity']
+    guide_activity = apps.configs['guide_activity']
 
-    apps.wait_switch(app_activity)
+    #splash已经在初始化时加载完成
     apps.find_id('start_btn').click()
     apps.wait_switch(guide_activity)
 
@@ -167,7 +197,7 @@ class OrderServer():
     '''
     def __init__(self):
         self.driver_info = {'driver_no':'14009','action':False}
-        self.customer_info = {'user_name':'','action':False,'req':False}
+        self.customer_info = {'user_name':'','action':False}
 
     def get_driver(self,key):
         try:
@@ -181,12 +211,12 @@ class OrderServer():
         except KeyError:
             pass
 
-    def set_driver_action(self,bol):
+    def set_driver(self,bol,no):
         try:
-            self.driver_info['action'] = bol
+            self.customer_info['action'] = bol
+            self.customer_info['driver_no'] = no
         except KeyError:
             pass
-
 
     def set_customer(self,bol,user_name):
         '''
@@ -200,9 +230,3 @@ class OrderServer():
             self.customer_info['user_name'] = user_name
         except KeyError:
             pass
-
-    def reply(self,bol):
-        pass
-        # host,port = get_host()
-        # s = xmlrpclib.ServerProxy('http://%s:%s' % (host,port))
-        # s.set_value('req',True)
