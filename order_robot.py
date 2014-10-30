@@ -7,6 +7,10 @@ import xmlrpclib
 from framework.core import device,idriver
 
 class MonitorOrder(threading.Thread):
+    '''
+    通常order_robot 和 order_server 在一台机器上运行。
+    参数都读取自根目录的config.ini [xmlrpc]
+    '''
 
     def __init__(self):
         threading.Thread.__init__(self)

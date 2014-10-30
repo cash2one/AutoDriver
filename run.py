@@ -2,7 +2,9 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
+import time
 import subprocess
+import threading
 #from framework.core import the,device,task,idriver
 
 PATH = lambda p: os.path.abspath(
@@ -14,6 +16,20 @@ def main():
     # _task = task.Task(PATH('./testcase/'),2)
     # device_run = device.RunTest(_task)
     # device_run.start()
+
+def run_ium(port):
+    p1 = subprocess.Popen('appium --port %s' % port, stdout=subprocess.PIPE, shell=True)
+    p1.stdout.read()
+
+class MonitorOrder(threading.Thread):
+
+    def __init__(self,port=4723):
+        threading.Thread.__init__(self)
+        self.port = port
+
+    def run(self):
+        p1 = subprocess.Popen('appium --port %s' % self.port, stdout=subprocess.PIPE, shell=True)
+        p1.stdout.read()
 
 
 if __name__ == "__main__":
@@ -35,9 +51,37 @@ if __name__ == "__main__":
     #     print 'gegwwwwww'
     #     time.sleep(2)
 
-    p1 = subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
-    p1.stdout.read()
-
-    p2 = subprocess.Popen('appium --port %s' % 4726, stdout=subprocess.PIPE, shell=True)
-    p2.stdout.read()
+    # p1 = subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+    # p1.stdout.read()
+    #
+    # p2 = subprocess.Popen('appium --port %s' % 4726, stdout=subprocess.PIPE, shell=True)
+    # p2.stdout.read()
     from framework.core import the
+    ps = the.project_settings
+
+    # mo = MonitorOrder(4723)
+    # mo.start()
+    # print 'fff'
+    aaa=[4723,4725]
+    for a in aaa:
+        print a
+        mo = MonitorOrder(a)
+        mo.start()
+        print mo.ident
+        time.sleep(5)
+
+
+
+    print 'ffwfwedddddddddddd'
+
+    # for p in ps:
+    #     port_ = 0
+    #     try:
+    #         remote_port = ps[p]['remote_port']
+    #         port_ = int(remote_port)
+    #     except KeyError:
+    #         port_ = 0
+    #
+    #     if port_!=0:
+    #         mo = MonitorOrder(port_)
+    #         mo.start()

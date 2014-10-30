@@ -117,8 +117,8 @@ class Android(wd.WebDriver):
         time_out = TIME_OUT
         while time_out > 0:
             try:
-                if txt in self.find_id(id_).text:
-                    return self.find_id(id_)
+                if txt in self.find_element_by_id(self.package + id_).text:
+                    return self.find_element_by_id(self.package + id_)
                     #break
             except NoSuchElementException:
                 pass
@@ -143,7 +143,6 @@ class Android(wd.WebDriver):
 
 firefox = 0
 chrome = 1
-import firefox
 
 def app(ini_section, browser=0):
     '''

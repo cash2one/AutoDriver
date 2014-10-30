@@ -20,6 +20,41 @@ def changeWork(instance,isWorking):
     #     instance.find_id('tb_work_state').click()
     #     the.idriver_dict['status'] = isWorking
 
+def login_custom(instance,user_name,isRobot=False):
+    app_activity = instance.configs['app_activity']
+    main = instance.configs['main_activity']
+    contact_phone = instance.configs['contact_phone']
+    code = instance.configs['code']
+    guide_activity = instance.configs['guide_activity']
+
+    instance.wait_switch(app_activity)
+
+    instance.find_id('start_btn').click()
+
+    instance.wait_switch(guide_activity)
+
+    #TODO: 订单机器人发起，需要修改用户名。自己登陆成功需要the里写入全局customer_login=True
+
+    #向全局the新增用户端登录状态
+    try:
+        status = the.devices['customer_login']
+    except KeyError:
+        the.devices['customer_login'] = False
+
+    if the.devices['customer_login']:
+        if isRobot:
+            pass #判断名字是否为user_name
+        else:
+            pass
+
+
+    instance.find_id('用户中心头像').send_keys('')
+    instance.wait_switch('.')
+    instance.find_id('et_password').send_keys('')
+    instance.find_id('bt_login').click()
+
+
+
 def login_driver(instance):
     login = instance.configs['login_activity']
     main = instance.configs['main_activity']
