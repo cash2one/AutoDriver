@@ -170,7 +170,7 @@ def app(ini_section, browser=0):
         if 'android' in key_ini:
             the.devices[key_ini] = Android(configs)
             # android等待splash界面加载完成
-            #the.devices[key_ini].wait_switch(configs['app_activity'])
+            the.devices[key_ini].wait_switch(configs['app_activity'])
 
         # if 'web' in ini_section:
         #     if browser == firefox:

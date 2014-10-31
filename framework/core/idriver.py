@@ -7,17 +7,17 @@ from framework.core import the
 import xmlrpclib
 from selenium.common.exceptions import NoSuchElementException
 
-def changeWork(instance,isWorking):
+def changeWork(self_driver,isWorking):
     try:
         status = the.devices['driver_status']
     except KeyError:
         the.devices['driver_status'] = False
 
     if the.devices['driver_status'] != isWorking:
-        instance.find_id('tb_work_state').click()
+        self_driver.find_id('tb_work_state').click()
         the.devices['driver_status'] = isWorking
     # if the.idriver_dict['status'] != isWorking:
-    #     instance.find_id('tb_work_state').click()
+    #     self_driver.find_id('tb_work_state').click()
     #     the.idriver_dict['status'] = isWorking
 
 def add_devices(key,val):
@@ -29,73 +29,79 @@ def add_devices(key,val):
     return the.devices[key]
 
 
-def register_user(instance,user_name):
-    main_activity = instance.configs['main_activity']
-    contact_phone = instance.configs['contact_phone']
-    code = instance.configs['code']
+def register_user(self_driver,user_name):
+    '''
+    用户端个人信息注册
+    :param self_driver:
+    :param user_name:
+    :return:
+    '''
+    main_activity = self_driver.configs['main_activity']
+    contact_phone = self_driver.configs['contact_phone']
+    code = self_driver.configs['code']
 
-    instance.find_id('用户中心头像').click()
-    instance.wait_switch(main_activity)
-    instance.find_id('phone').send_keys(contact_phone)
-    instance.find_id('user_name').send_keys(user_name)
-    instance.find_id('radio')[0].click()
-    instance.find_id('bt').click()
+    self_driver.find_id('用户中心头像').click()
+    self_driver.wait_switch(main_activity)
+    self_driver.find_id('phone').send_keys(contact_phone)
+    self_driver.find_id('user_name').send_keys(user_name)
+    self_driver.find_id('radio')[0].click()
+    self_driver.find_id('bt').click()
 
-    instance.wait_switch('register_activity')
+    self_driver.wait_switch('register_activity')
 
-    instance.find_id('phone_activity').send_keys(code)
-    instance.find_id('bt').click()
+    self_driver.find_id('phone_activity').send_keys(code)
+    self_driver.find_id('bt').click()
 
-    instance.wait_switch('code_activity')
+    self_driver.wait_switch('code_activity')
 
 
-def login_custom(instance,robot_name=''):
-    main = instance.configs['main_activity']
-    guide_activity = instance.configs['guide_activity']
-    user_name = instance.configs['user_name']
+def login_custom(self_driver,robot_name=''):
+    main = self_driver.configs['main_activity']
+    guide_activity = self_driver.configs['guide_activity']
+    user_name = self_driver.configs['user_name']
 
     isFinishSplash = False
     while not isFinishSplash:
-        #print instance.current_activity
-        if guide_activity in instance.current_activity:
+        #print self_driver.current_activity
+        if guide_activity in self_driver.current_activity:
             isFinishSplash = True
-        if main in instance.current_activity:
+        if main in self_driver.current_activity:
             break
     else:
         time.sleep(2)
         #在main界面没有登录控件id
         try:
-            instance.find_id('start_btn').click()
+            self_driver.find_id('start_btn').click()
         except NoSuchElementException:
             pass
 
     time.sleep(1)
-    instance.wait_switch(guide_activity)
+    self_driver.wait_switch(guide_activity)
 
     #向全局the新增用户端登录状态
     login_status = add_devices('customer_login',False)
 
     if not login_status:
-        register_user(instance,user_name)
+        register_user(self_driver,user_name)
 
     #订单机器人发起，发起自定义的用户名，需要修改用户名
     if robot_name!='' and robot_name not in user_name:
-        instance.switch_to_home()
-        register_user(instance,robot_name)
+        self_driver.switch_to_home()
+        register_user(self_driver,robot_name)
 
 
-def login_driver(instance):
-    login = instance.configs['login_activity']
-    main = instance.configs['main_activity']
-    usr_name = instance.configs['user_name']
-    usr_pwd = instance.configs['user_pwd']
+def login_driver(self_driver):
+    login = self_driver.configs['login_activity']
+    main = self_driver.configs['main_activity']
+    usr_name = self_driver.configs['user_name']
+    usr_pwd = self_driver.configs['user_pwd']
 
     isFinishSplash = False
     while not isFinishSplash:
-        #print instance.current_activity
-        if login in instance.current_activity:
+        #print self_driver.current_activity
+        if login in self_driver.current_activity:
             isFinishSplash = True
-        if main in instance.current_activity:
+        if main in self_driver.current_activity:
             break
             #isFinishSplash = True
 
@@ -103,15 +109,15 @@ def login_driver(instance):
         time.sleep(2)
         #在main界面没有登录控件id
         try:
-            instance.find_id('et_username').send_keys(usr_name)
-            instance.find_id('et_password').send_keys(usr_pwd)
-            instance.find_id('bt_login').click()
+            self_driver.find_id('et_username').send_keys(usr_name)
+            self_driver.find_id('et_password').send_keys(usr_pwd)
+            self_driver.find_id('bt_login').click()
         except NoSuchElementException:
             pass
 
     time.sleep(1)
 
-    instance.wait_switch(login)
+    self_driver.wait_switch(login)
 
 
 def license_type(val):
