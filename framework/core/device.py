@@ -55,17 +55,20 @@ class Android(wd.WebDriver):
     def find_tags(self, class_name):
         return self.find_elements_by_class_name('android.widget.' + class_name)
 
-    def clear(self,text):
+    def clear_text(self,id_):
+        txt = self.find_element_by_id(self.package+'tv_phone').get_attribute('text')
+
         self.keyevent(123)
 
-        for i in range(0, len(text)):
+        for i in range(0, len(txt)):
             self.keyevent(67)
 
     def send_new_order(self,user_name):
-        # 发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
-        # 查看是不是XX女士，如果不是就改名，并下个1人的周边订单
-        sett = the.settings['xmlrpc']
-        s = xmlrpclib.ServerProxy('http://%s:%s' % (sett['host'],sett['port']))
+        '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
+        查看是不是XX女士，如果不是就改名，并下个1人的周边订单
+        '''
+        xmlrpc_s = the.settings['xmlrpc']
+        s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'],xmlrpc_s['port']))
         try:
             s.set_customer(True,user_name)
         except xmlrpclib.Fault:
@@ -73,6 +76,9 @@ class Android(wd.WebDriver):
 
 
     def sql(self, sql, size=0):
+        '''
+        mysql数据查询，size大于0时为查询多条数据
+        '''
         dbs = self.configs['database'].split('|')
         # url,usr,pwd,db_name,port
         dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
@@ -93,6 +99,9 @@ class Android(wd.WebDriver):
         return r
 
     def switch_to_home(self):
+        '''
+        切换到主界面
+        '''
         main_activity = self.configs['main_activity']
 
         time.sleep(1)
@@ -104,6 +113,9 @@ class Android(wd.WebDriver):
 
 
     def wait_find_id(self, id_):
+        '''
+        等待动态控件的id 出现
+        '''
         time_out = TIME_OUT
         while time_out > 0:
             try:

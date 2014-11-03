@@ -69,8 +69,9 @@ def register_user(self_driver,user_name):
     self_driver.wait_switch('.PersonActivity')
 
 
-    txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
-    self_driver.clear(txt)
+    #txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
+    #self_driver.clear(txt)
+    self_driver.clear_text('personal_user_name')
 
     self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
 

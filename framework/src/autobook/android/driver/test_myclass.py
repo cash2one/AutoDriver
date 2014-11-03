@@ -27,7 +27,7 @@ class TestCase(unittest.TestCase):
         # self.driver.find_id('rb_benifit').click()
         # he_td = self.driver.wait_find_id('he_td')
 
-        order_owner = u'自动化禁止接单'
+        order_owner = u'AutoZh'
 
         self.driver.send_new_order(order_owner)
 
