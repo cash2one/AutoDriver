@@ -9,7 +9,7 @@ from framework.core import device,idriver
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = device.app('idriver.android.driver1')
-        idriver.login_driver(self.driver)
+        idriver.login_custom(self.driver)
         self.pkg = self.driver.package
 
     def tearDown(self):

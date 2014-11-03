@@ -56,23 +56,28 @@ if __name__ == "__main__":
     #
     # p2 = subprocess.Popen('appium --port %s' % 4726, stdout=subprocess.PIPE, shell=True)
     # p2.stdout.read()
-    from framework.core import the
-    ps = the.project_settings
+    # from framework.core import the
+    # ps = the.project_settings
+    #
+    # # mo = MonitorOrder(4723)
+    # # mo.start()
+    # # print 'fff'
+    # aaa=[4723,4725]
+    # for a in aaa:
+    #     print a
+    #     mo = MonitorOrder(a)
+    #     mo.start()
+    #     print mo.ident
+    #     time.sleep(5)
 
-    # mo = MonitorOrder(4723)
-    # mo.start()
-    # print 'fff'
-    aaa=[4723,4725]
-    for a in aaa:
-        print a
-        mo = MonitorOrder(a)
-        mo.start()
-        print mo.ident
-        time.sleep(5)
 
 
+    aaa={'ff':'dd'}
+    try:
+        print aaa['bb']
+    except KeyError:
+        pass
 
-    print 'ffwfwedddddddddddd'
 
     # for p in ps:
     #     port_ = 0

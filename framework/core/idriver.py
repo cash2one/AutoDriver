@@ -36,26 +36,58 @@ def register_user(self_driver,user_name):
     :param user_name:
     :return:
     '''
+    pkg = self_driver.package
+
     main_activity = self_driver.configs['main_activity']
     contact_phone = self_driver.configs['contact_phone']
+    #user_name = self_driver.configs['user_name']
     code = self_driver.configs['code']
 
-    self_driver.find_id('用户中心头像').click()
+    self_driver.find_id('btn_personalcenter').click()
     self_driver.wait_switch(main_activity)
-    self_driver.find_id('phone').send_keys(contact_phone)
-    self_driver.find_id('user_name').send_keys(user_name)
-    self_driver.find_id('radio')[0].click()
-    self_driver.find_id('bt').click()
 
-    self_driver.wait_switch('register_activity')
+    self_driver.find_ids('personal_name')[0].click()
 
-    self_driver.find_id('phone_activity').send_keys(code)
-    self_driver.find_id('bt').click()
+    self_driver.wait_switch('.PersonActivity')
 
-    self_driver.wait_switch('code_activity')
+    self_driver.find_id('phonenumber').send_keys(contact_phone)
+
+    read_status = self_driver.find_element_by_id(pkg+'login_agree').get_attribute('checked')
+    if 'true' not in read_status:
+        self_driver.find_id('login_agree').click()
+
+    self_driver.find_id('next_step').click()
+    time.sleep(1)
+    self_driver.find_id('verification_code').send_keys(code)
+    self_driver.find_id('code_submit').click()
+
+    #验证码完成后，会返回到PersonActivity
+    self_driver.wait_switch('.MyInfoActivity')
+
+    #点击我的信息
+    self_driver.find_ids('personal_name')[0].click()
+    self_driver.wait_switch('.PersonActivity')
 
 
-def login_custom(self_driver,robot_name=''):
+    txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
+    self_driver.clear(txt)
+
+    self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
+
+    #选择性别
+    if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
+        self_driver.find_id('personal_man').click()
+    #点击完成按钮
+    self_driver.find_id('personal_finish').click()
+
+    self_driver.wait_switch('.MyInfoActivity')
+
+    #点击附近司机，返回到地图界面
+    self_driver.find_id('button_title_back').click()
+    self_driver.wait_switch('.PersonActivity')
+
+
+def login_customer(self_driver,robot_name=''):
     main = self_driver.configs['main_activity']
     guide_activity = self_driver.configs['guide_activity']
     user_name = self_driver.configs['user_name']

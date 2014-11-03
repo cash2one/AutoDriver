@@ -55,6 +55,12 @@ class Android(wd.WebDriver):
     def find_tags(self, class_name):
         return self.find_elements_by_class_name('android.widget.' + class_name)
 
+    def clear(self,text):
+        self.keyevent(123)
+
+        for i in range(0, len(text)):
+            self.keyevent(67)
+
     def send_new_order(self,user_name):
         # 发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
         # 查看是不是XX女士，如果不是就改名，并下个1人的周边订单
