@@ -21,10 +21,10 @@ PATH = lambda p: os.path.abspath(
 
 TIME_OUT = 100
 
-
 '''
 1020:去除current_activity() 方法，改用原来的current_activity属性
 '''
+
 
 class Android(wd.WebDriver):
     def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
@@ -55,22 +55,21 @@ class Android(wd.WebDriver):
     def find_tags(self, class_name):
         return self.find_elements_by_class_name('android.widget.' + class_name)
 
-    def clear_text(self,id_):
-        txt = self.find_element_by_id(self.package+'tv_phone').get_attribute('text')
-
+    def clear_text(self, id_):
+        txt = self.find_element_by_id(self.package + 'tv_phone').get_attribute('text')
         self.keyevent(123)
 
         for i in range(0, len(txt)):
             self.keyevent(67)
 
-    def send_new_order(self,user_name):
+    def send_new_order(self, user_name):
         '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
         查看是不是XX女士，如果不是就改名，并下个1人的周边订单
         '''
         xmlrpc_s = the.settings['xmlrpc']
-        s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'],xmlrpc_s['port']))
+        s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
         try:
-            s.set_customer(True,user_name)
+            s.set_customer(True, user_name)
         except xmlrpclib.Fault:
             pass
 
@@ -138,7 +137,7 @@ class Android(wd.WebDriver):
             try:
                 if txt in self.find_element_by_id(self.package + id_).text:
                     return self.find_element_by_id(self.package + id_)
-                    #break
+                    # break
             except NoSuchElementException:
                 pass
 
@@ -157,7 +156,6 @@ class Android(wd.WebDriver):
             time.sleep(0.5)
         else:
             raise NameError, 'switch timeout'
-
 
 
 firefox = 0
@@ -190,11 +188,11 @@ def app(ini_section, browser=0):
             # android等待splash界面加载完成
             the.devices[key_ini].wait_switch(configs['app_activity'])
 
-        # if 'web' in ini_section:
-        #     if browser == firefox:
-        #         the.devices[key_ini] = firefox.WebDriver()
-        #     elif browser == chrome:
-        #         the.devices[key_ini] = Chrome1()
+            # if 'web' in ini_section:
+            # if browser == firefox:
+            #         the.devices[key_ini] = firefox.WebDriver()
+            #     elif browser == chrome:
+            #         the.devices[key_ini] = Chrome1()
 
     return the.devices[key_ini]
 
@@ -227,9 +225,6 @@ def execute_sql(configs, sql, size):
     return r
 
 
-
-
-
 class Firefox1(selen.Firefox):
     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
                  capabilities=None, proxy=None):
@@ -238,10 +233,10 @@ class Firefox1(selen.Firefox):
 
 
     def find_id(self, id_):
-        return selen.Firefox.find_element_by_id(self,id_)
+        return selen.Firefox.find_element_by_id(self, id_)
 
     def find_tag(self, class_name):
-        return selen.Firefox.find_element_by_tag_name(self,class_name)
+        return selen.Firefox.find_element_by_tag_name(self, class_name)
 
     def find_tags(self, class_name):
         return self.find_elements_by_tag_name(class_name)
@@ -252,8 +247,8 @@ class Chrome1(selen.Chrome):
                  chrome_options=None, service_args=None,
                  desired_capabilities=None, service_log_path=None):
         super(Chrome1, self).__init__(executable_path, port,
-                                     chrome_options, service_args,
-                                     desired_capabilities, service_log_path)
+                                      chrome_options, service_args,
+                                      desired_capabilities, service_log_path)
         self.opt = 'Chrome'
 
     def find_id(self, id_):
@@ -267,7 +262,7 @@ class Chrome1(selen.Chrome):
 
 
 # def Web(configs):
-#     def __init__(self, app_ini,browser):
+# def __init__(self, app_ini,browser):
 #         if 'firefox' in browser:
 #             selen.Chrome()
 #             selen.Firefox()
