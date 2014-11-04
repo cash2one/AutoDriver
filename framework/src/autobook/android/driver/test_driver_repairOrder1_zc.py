@@ -27,24 +27,23 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_name(u'历史订单').click()
         self.driver.wait_switch(current_activity)
 
-        text1=self.driver.find_id('order_number_text').text
-        order_no=text1.split(':')[1]
-        #获取最近一个订单的订单号
+        orders1_no=[]
+        for i in range(0,5):
+            text=self.driver.find_ids('order_number_text')[i].text
+            order_no=text.split(':')[1].strip()
+            orders1_no.append(order_no)
 
-        # text2=self.driver.find_id('order_amount_text').text
-        # t=text2.split(':')[1]
-        # order_amount=filter(str.isdigit,str(t[:-1]))
-        # #获取最近一个订单的费用合计
-        #
-        # text3=self.driver.find_id('order_time_text').text
-        # order_time=text3.split(':')[1]
-        # #获取最近一个订单的时间
-        #
-        # text4=self.driver.find_id('completed_saddr').text
-        # order_time=text3.split(':')[1]
-        # #获取最近一个订单的时间
+        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s' % self.driver_no,1)
+
+        print(type(orders1_no[1]))
+
+        for j in range(0,len(orders1_no)-1):
+            for i in range(0,len(orders2_no)-1):
+                if orders1_no[j]!=orders2_no[i]:
+                    i+=1
+                    return i
+                else:
+                    j+=1
+                    return j
 
 
-        orders_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =140013',1)
-        #self.assertTrue(order_no in orders_no)
-        print(orders_no)
