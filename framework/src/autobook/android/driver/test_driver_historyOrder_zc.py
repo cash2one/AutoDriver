@@ -1,7 +1,7 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 
-import time
+import datetime
 from framework.core import device,idriver
 import unittest
 
@@ -17,21 +17,33 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-    def test_repair_order(self):
+    def test_history_order(self):
         idriver.changeWork(self.driver,True)
         current_activity = self.driver.current_activity
-        #获取待补订单列表中订单的信息
-        self.driver.find_id('iv_detail').click()
+        self.driver.find_id('iv_head').click()
         self.driver.wait_switch(current_activity)
 
-        self.driver.find_id('ro_endtime').click()
-        self.driver.switch_to_alert()
-        self.driver.find_elements_by_class_name('android.widget.ImageButton')[6].click()
+        current_activity = self.driver.current_activity
+        self.driver.find_element_by_name(u'历史订单').click()
+        self.driver.wait_switch(current_activity)
 
-        self.driver.find_id('btn_ok').click()
+        orders1_no=[]
+        for i in range(0,5):
+            text=self.driver.find_ids('order_number_text')[i].text
+            order_no=text.split(':')[1].strip()
+            orders1_no.append(order_no)
 
-        self.driver.find_id('confirm_repairorder').click()
-        self.driver.switch_to_alert()
+        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s' % self.driver_no,1)
 
-        txt=self.driver.find_id('tv_msg').text
-        self.assertTrue(u'结束地点不能为空' in txt)
+        print(type(orders1_no[1]))
+
+        for j in range(0,len(orders1_no)-1):
+            for i in range(0,len(orders2_no)-1):
+                if orders1_no[j]!=orders2_no[i]:
+                    i+=1
+                    return i
+                else:
+                    j+=1
+                    return j
+
+

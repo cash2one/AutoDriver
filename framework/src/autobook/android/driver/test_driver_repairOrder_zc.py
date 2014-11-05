@@ -29,14 +29,9 @@ class TestCase(unittest.TestCase):
         self.driver.find_elements_by_class_name('android.widget.ImageButton')[6].click()
 
         self.driver.find_id('btn_ok').click()
-        self.driver.find_id('ro_eaddr').send_keys('ggfdg')
-        self.driver.find_id('ro_amount').send_keys('39')
 
         self.driver.find_id('confirm_repairorder').click()
         self.driver.switch_to_alert()
+
         txt=self.driver.find_id('tv_msg').text
-
-        self.driver.find_id('btn_confirm').click()
-
-        self.assertTrue(u'补单完毕,请到[个人中心]查看订单信息!' in txt)
-        self.assertTrue('.MainActivity',self.driver.current_activity)
+        self.assertTrue(u'结束地点不能为空' in txt)
