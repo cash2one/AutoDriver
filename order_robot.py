@@ -7,14 +7,19 @@ import xmlrpclib
 from framework.core import device,idriver
 
 class MonitorOrder(threading.Thread):
+    '''
+    通常order_robot 和 order_server 在一台机器上运行。
+    参数都读取自根目录的config.ini [xmlrpc]
+    '''
 
-    def __init__(self):
+    def __init__(self,device_app):
         threading.Thread.__init__(self)
         self.thread_stop = False
         host = idriver.xmlrpc_host()
         port = idriver.xmlrpc_port()
         self.xmlrpc = xmlrpclib.ServerProxy('http://%s:%s' % (host,int(port)))
-        self.driver = device.app('idriver.android.customer')
+        #self.driver = device.app('idriver.android.customer')
+        self.driver = device_app
         #idriver.login_driver()
 
     def run(self):
@@ -29,7 +34,7 @@ class MonitorOrder(threading.Thread):
 
                 time.sleep(5)
                 print 'start order'
-                self.start_order()
+                self.place_order()
 
             time.sleep(2)
 
@@ -39,10 +44,38 @@ class MonitorOrder(threading.Thread):
     def stop(self):
         self.thread_stop = True
 
-    def start_order(self):
-        self.driver.find_id('iv_head').click()
+    def place_order(self):
+        '''
+        下订单
+        :return:
+        '''
+        contact_phone = self.driver.configs['contact_phone']
+
+        idriver.login_customer(self.driver)
+        self.driver.find_id('rb_order').click()
+
+        time.sleep(1)
+        self.driver.clear_text('tv_phone')
+        self.driver.find_id('tv_phone').send_keys(contact_phone)
+
+        self.driver.find_id('tv_address').click()
+        self.driver.wait_switch('.MainActivity')
+
+        self.driver.find_ids('tv_currentposition')[0].click()
+        self.driver.wait_switch('.OrderAdressActivity')
+
+        self.driver.find_id('bt_order').click()
+
+
+    def receive_oder(self):
+        '''
+        接订单
+        :return:
+        '''
+        pass
 
 
 if __name__ == "__main__":
-    mo = MonitorOrder()
+    da = device.app('idriver.android.customer')
+    mo = MonitorOrder(da)
     mo.start()

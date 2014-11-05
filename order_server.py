@@ -13,10 +13,15 @@ def get_host():
     return host_addr
 
 def register():
+    '''
+    通常order_robot 和 order_server 在一台机器上运行。
+    参数都读取自根目录的config.ini [xmlrpc]
+    :return:
+    '''
     from framework.core import idriver
     oss = idriver.OrderServer()
     port = idriver.xmlrpc_port()
-    host = get_host()
+    host = idriver.xmlrpc_host()#get_host()
 
     server = SimpleXMLRPCServer((host, int(port)))
     server.register_instance(oss)
