@@ -72,11 +72,8 @@ if __name__ == "__main__":
 
 
 
-    aaa={'ff':'dd'}
-    try:
-        print aaa['bb']
-    except KeyError:
-        pass
+    from framework.core import idriver
+    print idriver.get_position('上海闵行区万源路2158号')
 
 
     # for p in ps:

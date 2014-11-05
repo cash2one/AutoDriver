@@ -152,6 +152,31 @@ def login_driver(self_driver):
 
     self_driver.wait_switch(login)
 
+def get_position(current_location):
+    import urllib2,json
+    ak = '3QaWoBGE8jWtBdIfl56yn582'
+    req = urllib2.Request('http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s&callback=showLocation' %(current_location,ak))
+    response = urllib2.urlopen(req)
+    the_page = response.read()
+    a = the_page.split('(')[1].replace(')','')
+
+    # pattern = re.compile('\s*\[\s*\{(.*?)\]/')
+    # match = pattern.match(the_page)
+    # if match:
+    #     print match.group()
+    loc = ()
+    try:
+        j = json.loads(a)
+        lat = j['result']['location']['lat']
+        lng = j['result']['location']['lng']
+        loc += (lng,lat)
+    except ValueError:
+        pass
+    except KeyError:
+        pass
+
+    return loc
+
 
 def license_type(val):
     license_types = {
