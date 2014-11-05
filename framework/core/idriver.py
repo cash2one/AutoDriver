@@ -153,6 +153,11 @@ def login_driver(self_driver):
     self_driver.wait_switch(login)
 
 def get_position(current_location):
+    '''
+    通过百度地图api获取经纬度
+    :param current_location:用户端一键下单内获取所在位置
+    :return:
+    '''
     import urllib2,json
     ak = '3QaWoBGE8jWtBdIfl56yn582'
     req = urllib2.Request('http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s&callback=showLocation' %(current_location,ak))
