@@ -23,16 +23,15 @@ class TestCase(unittest.TestCase):
 
        self.driver.wait_loading()
        #点击我的信息
+       self.driver.find_ids('personal_name')[0].click()
+       self.driver.wait_switch()
        vali_tup = ()
 
        if 'true' in self.driver.find_id('personal_name').get_attribute('checked'):
            self.driver.find_id('personal_female').click()
            vali_tup += (u'女士',)
 
-        #pkg = self.driver.package
-       # 选择性别
-       # if 'true' not in self.driver.find_element_by_id(pkg+'personal_female').get_attribute('checked'):
-       #   self.driver.find_id('personal_female').click()
+
        #输入紧急联系电话
        self.driver.find_id('personal_urgent_numbers').click()
        self.driver.find_id('personal_urgent_numbers').send_keys('13636468710')
