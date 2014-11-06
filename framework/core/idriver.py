@@ -210,6 +210,13 @@ def province(val):
     }
     return provinces['p_'+str(val)]
 
+def sex(val):
+    sexs={
+        's_0':u'先生','s_1':u'女士'
+
+    }
+    return sexs['s_'+str(val)]
+
 def get_driver_no():
     return the.project_settings['idriver.android.driver']['user_name']
 
