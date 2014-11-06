@@ -37,7 +37,7 @@ class TestCase(unittest.TestCase):
        if 'true' in self.driver.find_id('login_agree').get_attribute('checked'):
            self.driver.find_id('login_agree').click()
 
-        #直接点击下一步
+        #不勾选同意条款，直接点击下一步
        self.driver.find_id('next_step').click()
        self.driver.switch_to_alert()
        text=self.driver.find_id('tv_msg').text
