@@ -16,6 +16,7 @@ def changeWork(self_driver,isWorking):
     if the.devices['driver_status'] != isWorking:
         self_driver.find_id('tb_work_state').click()
         the.devices['driver_status'] = isWorking
+        self_driver.wait_loading()
     # if the.idriver_dict['status'] != isWorking:
     #     self_driver.find_id('tb_work_state').click()
     #     the.idriver_dict['status'] = isWorking

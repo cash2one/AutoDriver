@@ -111,17 +111,6 @@ class Android(wd.WebDriver):
             if not main_activity in self.current_activity:
                 self.switch_to_home()
 
-    def wait_loading(self):
-        isLoading = False
-        while not isLoading:
-            try:
-                self.find_element_by_id(self.package + 'progressbar_net_wait')
-                #print 'wait ....'
-            except NoSuchElementException:
-                isLoading = True
-        time.sleep(1)
-
-
     def wait_find_id(self, id_):
         '''
         等待动态控件的id 出现
@@ -157,6 +146,18 @@ class Android(wd.WebDriver):
         else:
             raise NameError, 'find_element timeout'
 
+    def wait_loading(self):
+        '''
+        如果有loading，等待加载完成
+        '''
+        isLoading = False
+        while not isLoading:
+            try:
+                self.find_element_by_id(self.package + 'progressbar_net_wait')
+                #print 'wait ....'
+            except NoSuchElementException:
+                isLoading = True
+
     def wait_switch(self, origin_activity):
         time_out = TIME_OUT
         while time_out > 0:
@@ -167,6 +168,8 @@ class Android(wd.WebDriver):
             time.sleep(0.5)
         else:
             raise NameError, 'switch timeout'
+
+        self.wait_loading()
 
 
 firefox = 0
