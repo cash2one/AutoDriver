@@ -50,12 +50,12 @@ class TestCase(unittest.TestCase):
        print array
 
        #个人资料中的信息personal_female
-       text_sex = self.driver.find_id('personal_female').text
-
-       text_urgency = self.driver.find_id('personal_urgent_numbers').text
-       text_group = (text_sex, text_urgency)
-       print text_group
+       # text_sex = self.driver.find_id('personal_female').text
+       #
+       # text_urgency = self.driver.find_id('personal_urgent_numbers').text
+       # text_group = (text_sex, text_urgency)
+       # print text_group
 
        #修改性别、输入的紧急联系电话和数据库中的数据对比
-       self.assertTrue(text_group==array,'msg')
+       self.assertTrue(vali_tup==array,'msg')
 
