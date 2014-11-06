@@ -23,7 +23,7 @@ class TestCase(unittest.TestCase):
        self.driver.find_id('btn_personalcenter').click()
 
        #点击我的信息
-       self.driver.find_id('personal_name').click()
+       self.driver.find_ids('personal_name')[0].click()
        #在填写手机号界面点击下一步
        self.driver.find_id('next_step').click()
        self.driver.switch_to_alert()
