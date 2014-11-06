@@ -12,6 +12,7 @@ import xmlrpclib
 
 from appium import webdriver as am
 from appium.webdriver import webdriver as wd
+
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
@@ -23,12 +24,15 @@ TIME_OUT = 100
 
 '''
 1020:去除current_activity() 方法，改用原来的current_activity属性
+不能find后再find，可能是因为self 调用android，没有初始化
 '''
 
 
-class Android(wd.WebDriver):
-    def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
+class Android(am.Remote):
+    def __init__(self, configs,extra_obj=None,browser_profile=None, proxy=None, keep_alive=False):
         self.configs = configs
+        #self.extra_obj = extra_obj
+        #self.extra = extra_obj(self)
 
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.configs['platform_name']
@@ -42,6 +46,13 @@ class Android(wd.WebDriver):
         super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
 
         self.package = self.configs['app_package'] + ':id/'
+
+    # def extra(self):
+    #     '''
+    #     调用非通用的类，避免污染通用类
+    #     :return:
+    #     '''
+    #     return self.extra_obj(self)
 
     def find_id(self, id_):
         return self.find_element_by_id(self.package + id_)
@@ -172,13 +183,16 @@ class Android(wd.WebDriver):
         self.wait_loading()
 
 
+
 firefox = 0
 chrome = 1
 
 
-def app(ini_section, browser=0):
-    '''
 
+
+def app(ini_section,extra=None, browser=0):
+    '''
+    所有测试任务的容器，装载各类项目对象
     :param ini_section:
     :param idx:
     :return:
@@ -198,7 +212,7 @@ def app(ini_section, browser=0):
     # 初始化时，都为None
     if the.devices[key_ini] == None:
         if 'android' in key_ini:
-            the.devices[key_ini] = Android(configs)
+            the.devices[key_ini] = Android(configs,extra)
             # android等待splash界面加载完成
             the.devices[key_ini].wait_switch(configs['app_activity'])
 

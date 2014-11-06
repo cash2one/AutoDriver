@@ -7,6 +7,67 @@ from framework.core import the
 import xmlrpclib
 from selenium.common.exceptions import NoSuchElementException
 
+
+class Action():
+    def __init__(self,driver):
+        self.driver = driver
+
+    def geta(self):
+        pass
+
+    def wait_loading(self):
+        '''
+        如果有loading，等待加载完成
+        '''
+        isLoading = False
+        while not isLoading:
+            try:
+                self.driver.find_element_by_id(self.driver.package + 'progressbar_net_wait')
+                #print 'wait ....'
+            except NoSuchElementException:
+                isLoading = True
+
+    def changeWork(self,isWorking):
+        try:
+            status = the.devices['driver_status']
+        except KeyError:
+            the.devices['driver_status'] = False
+
+        if the.devices['driver_status'] != isWorking:
+            self.driver.find_element_by_id(self.driver.package + 'tb_work_state').click()
+            the.devices['driver_status'] = isWorking
+            self.wait_loading()
+
+    def login_driver(self):
+        login = self.driver.configs['login_activity']
+        main = self.driver.configs['main_activity']
+        usr_name = self.driver.configs['user_name']
+        usr_pwd = self.driver.configs['user_pwd']
+
+        isFinishSplash = False
+        while not isFinishSplash:
+            #print self_driver.current_activity
+            if login in self.driver.current_activity:
+                isFinishSplash = True
+            if main in self.driver.current_activity:
+                break
+                #isFinishSplash = True
+
+        else:
+            time.sleep(2)
+            #在main界面没有登录控件id
+            try:
+                self.driver.find_id('et_username').send_keys(usr_name)
+                self.driver.find_id('et_password').send_keys(usr_pwd)
+                self.driver.find_id('bt_login').click()
+            except NoSuchElementException:
+                pass
+
+        time.sleep(1)
+
+        self.driver.wait_switch(login)
+
+
 def changeWork(self_driver,isWorking):
     try:
         status = the.devices['driver_status']
