@@ -19,15 +19,12 @@ class TestCase(unittest.TestCase):
         current_activity = self.driver.current_activity
         #点击一键下单，进入一键下单界面
         self.driver.find_id('rb_order').click()
-        #切换2人，3人，4人，1人按钮
-        self.driver.find_id('person_two').click()
-        self.driver.find_id('person_three').click()
-        self.driver.find_id('person_four').click()
-        self.driver.find_id('person_one').click()
         #点击立即下单
         self.driver.find_id('bt_order').click()
-        self.driver.wait_switch(current_activity)
-        self.driver.switch_to_alert()
+        self.driver.wait_loading()
+
+        tv_wait = self.driver.find_id('tv_wait').text
+        self.assertTrue(int(tv_wait)>0,'fail')
 
 
 
