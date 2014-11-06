@@ -56,7 +56,7 @@ class Android(wd.WebDriver):
         return self.find_elements_by_class_name('android.widget.' + class_name)
 
     def clear_text(self, id_):
-        txt = self.find_element_by_id(self.package + 'tv_phone').get_attribute('text')
+        txt = self.find_element_by_id(self.package + id_).get_attribute('text')
         self.keyevent(123)
 
         for i in range(0, len(txt)):

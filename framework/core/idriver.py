@@ -75,7 +75,7 @@ def register_user(self_driver,user_name):
 
     self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
 
-    #选择性别
+     #选择性别
     if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
         self_driver.find_id('personal_man').click()
     #点击完成按钮
@@ -202,6 +202,14 @@ def province(val):
         'p_30':u'内蒙古','p_31':u'宁夏','p_32':u'新疆','p_33':u'香港','p_34':u'澳门'
     }
     return provinces['p_'+str(val)]
+
+def sex(val):
+    sexs={
+        's_0':u'先生','s_1':u'女士'
+
+    }
+    return sexs['s_'+str(val)]
+
 
 def get_driver_no():
     return the.project_settings['idriver.android.driver']['user_name']
