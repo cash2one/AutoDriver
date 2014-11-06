@@ -64,24 +64,26 @@ def register_user(self_driver,user_name):
     #验证码完成后，会返回到PersonActivity
     self_driver.wait_switch('.MyInfoActivity')
 
-    #点击我的信息
-    self_driver.find_ids('personal_name')[0].click()
-    self_driver.wait_switch('.PersonActivity')
-
-
-    #txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
-    #self_driver.clear(txt)
-    self_driver.clear_text('personal_user_name')
-
-    self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
-
-    #选择性别
-    if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
-        self_driver.find_id('personal_man').click()
-    #点击完成按钮
-    self_driver.find_id('personal_finish').click()
-
-    self_driver.wait_switch('.MyInfoActivity')
+    #方便调试先注释
+    # #点击我的信息
+    # self_driver.find_ids('personal_name')[0].click()
+    # self_driver.wait_switch('.PersonActivity')
+    #
+    #
+    # #txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
+    # #self_driver.clear(txt)
+    # self_driver.clear_text('personal_user_name')
+    #
+    # self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
+    #
+    # #选择性别
+    # if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
+    #     self_driver.find_id('personal_man').click()
+    # #点击完成按钮
+    # self_driver.find_id('personal_finish').click()
+    #
+    # self_driver.wait_switch('.MyInfoActivity')
+    #方便调试先注释
 
     #点击附近司机，返回到地图界面
     self_driver.find_id('button_title_back').click()
