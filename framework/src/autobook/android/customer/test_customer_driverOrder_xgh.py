@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.customer')
+        self.driver = device.app('idriver.android.customer',idriver.Action)
         idriver.login_customer(self.driver)
 
     def tearDown(self):
@@ -44,6 +44,11 @@ class TestCase(unittest.TestCase):
 
                 tv_wait = self.driver.find_id('tv_wait').text
                 self.assertTrue(int(tv_wait) > 0, 'fail')
+
+                #等待订单倒计时结束
+                self.driver.extra().order_countdown()
+                idriver.order_countdown(self.driver)
+
                 break
         self.assertTrue(driver_exist, u'没有找到指定司机')
 

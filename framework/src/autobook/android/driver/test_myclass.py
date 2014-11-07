@@ -3,15 +3,15 @@ __author__ = 'Administrator'
 
 import time
 import unittest
-from framework.core import device,idriver
+from framework.core import idriver
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-
-        #self.driver.extra().login_driver()
+        self.driver = idriver.Application('driver')
+        self.driver.login()
+        self.android = self.driver.ium
+        self.pkg = self.driver.package
 
     def tearDown(self):
         #返回首页
@@ -35,7 +35,9 @@ class TestCase(unittest.TestCase):
         # tv_customer_name = self.driver.wait_find_id_text('tv_customer_name',order_owner)
         #
         # print tv_customer_name.text
-        rl = self.driver.find_id('rl_title')
-        print rl.find_id('tv_title_text').text
+        print self.driver.enum('provinces',1)
+
+        txt = self.android.find_element_by_id(self.pkg+'rl_title').find_element_by_id(self.pkg+'tv_title_text').text
+        print txt
 
 

@@ -4,7 +4,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 import subprocess
-from framework.util import mysql
+
 import the
 import threading
 from selenium import webdriver as selen
@@ -20,7 +20,6 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-TIME_OUT = 100
 
 '''
 1020:去除current_activity() 方法，改用原来的current_activity属性
@@ -29,10 +28,8 @@ TIME_OUT = 100
 
 
 class Android(am.Remote):
-    def __init__(self, configs,extra_obj=None,browser_profile=None, proxy=None, keep_alive=False):
+    def __init__(self, configs,browser_profile=None, proxy=None, keep_alive=False):
         self.configs = configs
-        #self.extra_obj = extra_obj
-        #self.extra = extra_obj(self)
 
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.configs['platform_name']
@@ -48,12 +45,6 @@ class Android(am.Remote):
         self.package = self.configs['app_package'] + ':id/'
         self.pkg = self.configs['app_package'] + ':id/'
 
-    # def extra(self):
-    #     '''
-    #     调用非通用的类，避免污染通用类
-    #     :return:
-    #     '''
-    #     return self.extra_obj(self)
 
     def find_id(self, id_):
         return self.find_element_by_id(self.package + id_)
@@ -67,121 +58,7 @@ class Android(am.Remote):
     def find_tags(self, class_name):
         return self.find_elements_by_class_name('android.widget.' + class_name)
 
-    def clear_text(self, id_):
-        txt = self.find_element_by_id(self.package + id_).get_attribute('text')
-        self.keyevent(123)
 
-        for i in range(0, len(txt)):
-            self.keyevent(67)
-
-
-    def send_new_order(self, user_name):
-        '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
-        查看是不是XX女士，如果不是就改名，并下个1人的周边订单
-        '''
-        xmlrpc_s = the.settings['xmlrpc']
-        s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
-        try:
-            s.set_customer(True, user_name)
-        except xmlrpclib.Fault:
-            pass
-
-
-    def sql(self, sql, size=0):
-        '''
-        mysql数据查询，size大于0时为查询多条数据
-        '''
-        dbs = self.configs['database'].split('|')
-        # url,usr,pwd,db_name,port
-        dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
-
-        r = None
-
-        cu = dbm.get_cursor()
-        cu.execute(sql)
-        if size == 0:
-            r = cu.fetchone()
-        elif size >= 1:
-            r = cu.fetchall()
-        else:
-            print u'error'
-
-        cu.close()
-        dbm.close_db()
-        return r
-
-    def switch_to_home(self):
-        '''
-        切换到主界面
-        '''
-        main_activity = self.configs['main_activity']
-
-        time.sleep(1)
-        if not main_activity in self.current_activity:
-            time.sleep(1)
-            self.keyevent(4)
-            if not main_activity in self.current_activity:
-                self.switch_to_home()
-
-    def wait_find_id(self, id_):
-        '''
-        等待动态控件的id 出现
-        '''
-        time_out = TIME_OUT
-        while time_out > 0:
-            try:
-                self.find_element_by_id(self.package + id_)
-                isExist = True
-            except NoSuchElementException:
-                isExist = False
-
-            if isExist:
-                return self.find_element_by_id(self.package + id_)
-
-            time_out -= 1
-            time.sleep(0.5)
-        else:
-            raise NameError, 'find_element timeout'
-
-    def wait_find_id_text(self, id_, txt):
-        time_out = TIME_OUT
-        while time_out > 0:
-            try:
-                if txt in self.find_element_by_id(self.package + id_).text:
-                    return self.find_element_by_id(self.package + id_)
-                    # break
-            except NoSuchElementException:
-                pass
-
-            time_out -= 1
-            time.sleep(0.5)
-        else:
-            raise NameError, 'find_element timeout'
-
-    def wait_loading(self):
-        '''
-        如果有loading，等待加载完成
-        '''
-        isLoading = False
-        while not isLoading:
-            try:
-                self.find_element_by_id(self.package + 'progressbar_net_wait')
-                #print 'wait ....'
-            except NoSuchElementException:
-                isLoading = True
-
-    def wait_switch(self, origin_activity):
-        time_out = TIME_OUT
-        while time_out > 0:
-            if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
-                if origin_activity not in self.current_activity:
-                    break
-            time_out -= 1
-            time.sleep(0.5)
-        else:
-            raise NameError, 'switch timeout'
-
-        self.wait_loading()
 
 
 
@@ -190,8 +67,7 @@ chrome = 1
 
 
 
-
-def app(ini_section,extra=None, browser=0):
+def container(ini_section, browser=0):
     '''
     所有测试任务的容器，装载各类项目对象
     :param ini_section:
@@ -208,14 +84,14 @@ def app(ini_section,extra=None, browser=0):
     except KeyError:
         the.devices[key_ini] = None
 
-    configs = the.project_settings[ini_section]
+    _configs = the.project_settings[ini_section]
 
     # 初始化时，都为None
     if the.devices[key_ini] == None:
         if 'android' in key_ini:
-            the.devices[key_ini] = Android(configs,extra)
+            the.devices[key_ini] = Android(_configs)
             # android等待splash界面加载完成
-            the.devices[key_ini].wait_switch(configs['app_activity'])
+
 
             # if 'web' in ini_section:
             # if browser == firefox:
@@ -226,32 +102,32 @@ def app(ini_section,extra=None, browser=0):
     return the.devices[key_ini]
 
 
-def execute_sql(configs, sql, size):
-    '''
-    mysql 查询，size大于1时查询多条记录
-    :param sql:
-    :param size:
-    :return:
-    '''
-
-    dbs = configs['database'].split('|')
-    # url,usr,pwd,db_name,port
-    dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
-
-    r = None
-
-    cu = dbm.get_cursor()
-    cu.execute(sql)
-    if size == 0:
-        r = cu.fetchone()
-    elif size >= 1:
-        r = cu.fetchall()
-    else:
-        print u'error'
-
-    cu.close()
-    dbm.close_db()
-    return r
+# def execute_sql(configs, sql, size):
+#     '''
+#     mysql 查询，size大于1时查询多条记录
+#     :param sql:
+#     :param size:
+#     :return:
+#     '''
+#
+#     dbs = configs['database'].split('|')
+#     # url,usr,pwd,db_name,port
+#     dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
+#
+#     r = None
+#
+#     cu = dbm.get_cursor()
+#     cu.execute(sql)
+#     if size == 0:
+#         r = cu.fetchone()
+#     elif size >= 1:
+#         r = cu.fetchall()
+#     else:
+#         print u'error'
+#
+#     cu.close()
+#     dbm.close_db()
+#     return r
 
 
 class Firefox1(selen.Firefox):
