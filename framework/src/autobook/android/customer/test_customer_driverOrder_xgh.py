@@ -44,5 +44,5 @@ class TestCase(unittest.TestCase):
 
                     tv_wait = self.driver.find_id('tv_wait').text
                     self.assertTrue(int(tv_wait)>0,'fail')
-        #else:
-        #    print "附近没有司机，请拨打客服电话"
+        else:
+            print "附近没有司机，请拨打客服电话"
