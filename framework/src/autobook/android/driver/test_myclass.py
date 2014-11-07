@@ -11,6 +11,8 @@ class TestCase(unittest.TestCase):
         self.driver = device.app('idriver.android.driver')
         idriver.login_driver(self.driver)
 
+        #self.driver.extra().login_driver()
+
     def tearDown(self):
         #返回首页
         self.driver.switch_to_home()
@@ -33,6 +35,7 @@ class TestCase(unittest.TestCase):
         # tv_customer_name = self.driver.wait_find_id_text('tv_customer_name',order_owner)
         #
         # print tv_customer_name.text
+        rl = self.driver.find_id('rl_title')
+        print rl.find_id('tv_title_text').text
 
 
-        self.driver.wait_loading()
