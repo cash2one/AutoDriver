@@ -24,25 +24,26 @@ class TestCase(unittest.TestCase):
 
         #if nearby_list:
             #若附近司机列表为真，则点击司机列表第一个,目前点击的第三个
-
+        driverName_list = []
         try:
-           driverName_list = self.driver.find_elements_by_id('nearbyriver')
+            driverName_list = self.driver.find_elements_by_id(self.driver.package + 'nearbyriver')
         except NoSuchElementException:
             pass
-
         print driverName_list
+        self.assertTrue(len(driverName_list) > 0, u'附近没有司机')
 
-        if len(driverName_list)>0:
-            for i in range(0,len(driverName_list)):
-                if driverName_list[i].find_element_by_id(self.package+'big_drivername').text == u'司马小二啊哈':
-                    print i
-                    driverName_list[i].click()
-                    self.driver.wait_switch()
-                    #点击立即下单
-                    self.driver.find_id('driver_order').click()
-                    self.driver.wait_loading()
+        driver_exist = False
+        for i in range(0, len(driverName_list)):
+            if driverName_list[i].find_element_by_id(self.driver.package + 'big_drivername').text == u'司马小二啊哈':
+                driver_exist = True
+                driverName_list[i].click()
+                self.driver.wait_switch('.MainActivity')
+                # 点击立即下单
+                self.driver.find_id('driver_order').click()
+                self.driver.wait_loading()
 
-                    tv_wait = self.driver.find_id('tv_wait').text
-                    self.assertTrue(int(tv_wait)>0,'fail')
-        else:
-            print "附近没有司机，请拨打客服电话"
+                tv_wait = self.driver.find_id('tv_wait').text
+                self.assertTrue(int(tv_wait) > 0, 'fail')
+                break
+        self.assertTrue(driver_exist, u'没有找到指定司机')
+

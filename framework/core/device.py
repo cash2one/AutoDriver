@@ -46,6 +46,7 @@ class Android(am.Remote):
         super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
 
         self.package = self.configs['app_package'] + ':id/'
+        self.pkg = self.configs['app_package'] + ':id/'
 
     # def extra(self):
     #     '''
