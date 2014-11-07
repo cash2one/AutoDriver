@@ -70,10 +70,28 @@ if __name__ == "__main__":
     #     print mo.ident
     #     time.sleep(5)
 
+    class DemoOne():
+        def __init__(self,word):
+            self.word = word
 
+        def do1(self):
+            print self.word
 
-    from framework.core import idriver
-    print idriver.get_position('上海闵行区万源路2158号')
+        def do2(self):
+            return 'abcdddd'
+
+    class DemoTwo():
+        def __init__(self,inst=None):
+            self.inst = inst('aad')
+
+        def dt1(self):
+            return self.inst
+
+    dt = DemoTwo(DemoOne)
+
+    dt.dt1().do1()
+    print dt.dt1().do2()
+
 
 
     # for p in ps:
