@@ -12,8 +12,6 @@ class TestCase(unittest.TestCase):
         self.driver = idriver.customer()
         self.driver.login()
 
-        self.pkg = self.driver.package
-
     def tearDown(self):
         # 返回首页
         self.driver.switch_to_home()
@@ -21,7 +19,7 @@ class TestCase(unittest.TestCase):
     def test_driver_Order(self):
         current_activity = self.driver.current_activity
         # 点击附近司机列表
-        self.driver.find_element_by_id(self.pkg + 'rb_maplist').click()
+        self.driver.find_element_by_id(self.driver.pkg + 'rb_maplist').click()
         self.driver.wait_loading()
         # nearby_list = self.driver.find_id('nearbyriver')
 
@@ -29,7 +27,7 @@ class TestCase(unittest.TestCase):
         #若附近司机列表为真，则点击司机列表第一个,目前点击的第三个
         driverName_list = []
         try:
-            driverName_list = self.driver.find_elements_by_id(self.pkg + 'nearbyriver')
+            driverName_list = self.driver.find_elements_by_id(self.driver.pkg + 'nearbyriver')
         except NoSuchElementException:
             pass
 
@@ -38,16 +36,16 @@ class TestCase(unittest.TestCase):
         driver_exist = False
 
         for driverName in driverName_list:
-            if u'蒋芷文' in driverName.find_element_by_id(self.pkg + 'big_drivername').text:
+            if u'蒋芷文' in driverName.find_element_by_id(self.driver.pkg + 'big_drivername').text:
                 driver_exist = True
                 driverName.click()
                 self.driver.wait_switch('.MainActivity')
 
                 # 点击立即下单
-                self.driver.find_element_by_id('driver_order').click()
+                self.driver.find_element_by_id(self.driver.pkg + 'driver_order').click()
                 self.driver.wait_loading()
 
-                tv_wait = self.driver.find_id('tv_wait').text
+                tv_wait = self.driver.find_element_by_id(self.driver.pkg + 'tv_wait').text
                 self.assertTrue(int(tv_wait) > 0, 'fail')
 
                 break

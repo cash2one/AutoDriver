@@ -4,13 +4,13 @@ __author__ = 'Administrator'
 
 import time
 import unittest
-from framework.core import device,idriver
+from framework.core import idriver
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.customer')
-        idriver.login_customer(self.driver)
+        self.driver = idriver.customer()
+        self.driver.login()
 
     def tearDown(self):
         #返回首页
@@ -25,4 +25,4 @@ class TestCase(unittest.TestCase):
        #清除用户名
 
        self.driver.clear_text('personal_user_name')
-       self.driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
+       self.driver.find_element_by_id(self.driver.pkg+'personal_user_name').send_keys(user_name)
