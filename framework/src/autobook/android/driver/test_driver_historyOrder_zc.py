@@ -2,25 +2,23 @@
 __author__ = 'zhangchun'
 
 import datetime
-from framework.core import device,idriver
+from framework.core import idriver
 import unittest
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
-        #获取登录司机的工号
+        self.driver = idriver.driver()
+        self.driver.login()
 
     def tearDown(self):
-        #返回首页
         self.driver.switch_to_home()
 
     def test_history_order(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
+
         current_activity = self.driver.current_activity
-        self.driver.find_id('iv_head').click()
+        self.driver.find_element_by_id(self.driver.pkg + 'iv_head').click()
         self.driver.wait_switch(current_activity)
 
         current_activity = self.driver.current_activity
@@ -29,7 +27,7 @@ class TestCase(unittest.TestCase):
 
         orders1_no=[]
         for i in range(0,5):
-            text=self.driver.find_ids('order_number_text')[i].text
+            text=self.driver.find_elements_by_id(self.driver.pkg + 'order_number_text')[i].text
             order_no=text.split(':')[1].strip()
             orders1_no.append(order_no)
 

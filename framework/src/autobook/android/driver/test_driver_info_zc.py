@@ -3,15 +3,13 @@ __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import device,idriver
+from framework.core import idriver
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
-        #获取登录司机的工号
+        self.driver = idriver.driver()
+        self.driver.login()
 
     def tearDown(self):
         #返回首页
@@ -24,7 +22,7 @@ class TestCase(unittest.TestCase):
         #获取的格式为"XX：  XXX",只取后面的名字，split(':')[1]取冒号后的字符串，strip（）过滤左端空格
 
     def test_my_info(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
 
         current_activity = self.driver.current_activity
         self.driver.find_id('iv_head').click()

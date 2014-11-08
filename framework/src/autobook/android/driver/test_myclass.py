@@ -8,10 +8,8 @@ from framework.core import idriver
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver.Application('driver')
+        self.driver = idriver.driver()
         self.driver.login()
-        self.android = self.driver.ium
-        self.pkg = self.driver.package
 
     def tearDown(self):
         #返回首页
@@ -37,7 +35,8 @@ class TestCase(unittest.TestCase):
         # print tv_customer_name.text
         print self.driver.enum('provinces',1)
 
-        txt = self.android.find_element_by_id(self.pkg+'rl_title').find_element_by_id(self.pkg+'tv_title_text').text
+        txt = self.driver.find_element_by_id(self.pkg+'rl_title').find_element_by_id(self.pkg+'tv_title_text').text
         print txt
+
 
 

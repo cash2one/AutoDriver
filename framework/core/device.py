@@ -20,46 +20,49 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-
-'''
-1020:去除current_activity() 方法，改用原来的current_activity属性
-不能find后再find，可能是因为self 调用android，没有初始化
-'''
+DRIVER = 'idriver.android.driver'
+CUSTOMER = 'idriver.android.customer'
 
 
-class Android(am.Remote):
-    def __init__(self, configs,browser_profile=None, proxy=None, keep_alive=False):
-        self.configs = configs
+# class Android(am.Remote):
+#     def __init__(self, configs,browser_profile=None, proxy=None, keep_alive=False):
+#         self.configs = configs
+#         print self.configs['platform_name']
+#
+#         desired_capabilities = {}
+#         desired_capabilities['platformName'] = self.configs['platform_name']
+#         desired_capabilities['platformVersion'] = self.configs['platform_version']
+#         desired_capabilities['deviceName'] = self.configs['device_name']
+#         desired_capabilities['app'] = PATH('../../resource/' + self.configs['app'])
+#         desired_capabilities['appPackage'] = self.configs['app_package']
+#         desired_capabilities['app-activity'] = self.configs['app_activity']
+#         command_executor = 'http://localhost:%s/wd/hub' % self.configs['remote_port']
+#
+#         super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
+#
+#         self.package = self.configs['app_package'] + ':id/'
+#         self.pkg = self.configs['app_package'] + ':id/'
+#
+#
+#     def find_id(self, id_):
+#         return self.find_element_by_id(self.package + id_)
+#
+#     def find_ids(self, id_):
+#         return self.find_elements_by_id(self.package + id_)
+#
+#     def find_tag(self, class_name):
+#         return self.find_element_by_class_name('android.widget.' + class_name)
+#
+#     def find_tags(self, class_name):
+#         return self.find_elements_by_class_name('android.widget.' + class_name)
 
-        desired_capabilities = {}
-        desired_capabilities['platformName'] = self.configs['platform_name']
-        desired_capabilities['platformVersion'] = self.configs['platform_version']
-        desired_capabilities['deviceName'] = self.configs['device_name']
-        desired_capabilities['app'] = PATH('../../resource/' + self.configs['app'])
-        desired_capabilities['appPackage'] = self.configs['app_package']
-        desired_capabilities['app-activity'] = self.configs['app_activity']
-        command_executor = 'http://localhost:%s/wd/hub' % self.configs['remote_port']
 
-        super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
-
-        self.package = self.configs['app_package'] + ':id/'
-        self.pkg = self.configs['app_package'] + ':id/'
+def xmlrpc_port():
+    return the.settings['xmlrpc']['port']
 
 
-    def find_id(self, id_):
-        return self.find_element_by_id(self.package + id_)
-
-    def find_ids(self, id_):
-        return self.find_elements_by_id(self.package + id_)
-
-    def find_tag(self, class_name):
-        return self.find_element_by_class_name('android.widget.' + class_name)
-
-    def find_tags(self, class_name):
-        return self.find_elements_by_class_name('android.widget.' + class_name)
-
-
-
+def xmlrpc_host():
+    return the.settings['xmlrpc']['host']
 
 
 firefox = 0
@@ -67,31 +70,34 @@ chrome = 1
 
 
 
-def container(ini_section, browser=0):
+
+def app(ini_section,browser=0):
     '''
     所有测试任务的容器，装载各类项目对象
     :param ini_section:
     :param idx:
     :return:
     '''
+    obj = the.devices[0]
+    opts = the.devices[1]
     if browser == chrome:
         key_ini = ini_section + '.chrome'
     else:
         key_ini = ini_section
 
     try:
-        the.devices[key_ini]
+        obj[key_ini]
     except KeyError:
-        the.devices[key_ini] = None
+        obj[key_ini] = None
 
-    _configs = the.project_settings[ini_section]
-
+    _configs = the.devices[1][key_ini]
     # 初始化时，都为None
-    if the.devices[key_ini] == None:
-        if 'android' in key_ini:
-            the.devices[key_ini] = Android(_configs)
+    if obj[key_ini] == None:
+        if 'idriver.android' in key_ini:
+            import idriver
+            obj[key_ini] = idriver.Android(_configs)
             # android等待splash界面加载完成
-
+            obj[key_ini].wait_switch(_configs['app_activity'])
 
             # if 'web' in ini_section:
             # if browser == firefox:
@@ -99,7 +105,7 @@ def container(ini_section, browser=0):
             #     elif browser == chrome:
             #         the.devices[key_ini] = Chrome1()
 
-    return the.devices[key_ini]
+    return obj[key_ini]
 
 
 # def execute_sql(configs, sql, size):
