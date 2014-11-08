@@ -18,10 +18,10 @@ def register():
     参数都读取自根目录的config.ini [xmlrpc]
     :return:
     '''
-    from framework.core import idriver
-    oss = idriver.OrderServer()
-    port = idriver.xmlrpc_port()
-    host = idriver.xmlrpc_host()#get_host()
+    from framework.core import idriver_android
+    oss = idriver_android.OrderServer()
+    port = idriver_android.xmlrpc_port()
+    host = idriver_android.xmlrpc_host()#get_host()
 
     server = SimpleXMLRPCServer((host, int(port)))
     server.register_instance(oss)

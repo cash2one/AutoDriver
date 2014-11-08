@@ -4,12 +4,12 @@ __author__ = 'Administrator'
 
 import time
 import unittest
-from framework.core import idriver
+from framework.core import idriver_android
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver.customer()
+        self.driver = idriver_android.customer()
         self.driver.login()
 
     def tearDown(self):
@@ -47,7 +47,7 @@ class TestCase(unittest.TestCase):
        #数据库中取数据
        db_array=self.driver.sql('select sex,urgency_phone from t_customer where phone=13918359985')
        #性别类型转换
-       array=(idriver.sex(int(db_array[0])),db_array[1])
+       array=(idriver_android.sex(int(db_array[0])),db_array[1])
        print array
 
        #个人资料中的信息personal_female

@@ -3,13 +3,13 @@ __author__ = 'xuguanghua'
 
 import time
 import unittest
-from framework.core import idriver
+from framework.core import idriver_android
 from selenium.common.exceptions import NoSuchElementException
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver.customer()
+        self.driver = idriver_android.customer()
         self.driver.login()
 
     def tearDown(self):

@@ -94,8 +94,8 @@ def app(ini_section,browser=0):
     # 初始化时，都为None
     if obj[key_ini] == None:
         if 'idriver.android' in key_ini:
-            import idriver
-            obj[key_ini] = idriver.Android(_configs)
+            import idriver_android
+            obj[key_ini] = idriver_android.Android(_configs)
             # android等待splash界面加载完成
             obj[key_ini].wait_switch(_configs['app_activity'])
 
