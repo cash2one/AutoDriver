@@ -35,7 +35,7 @@ class TestCase(unittest.TestCase):
         # print tv_customer_name.text
         print self.driver.enum('provinces',1)
 
-        txt = self.driver.find_element_by_id(self.pkg+'rl_title').find_element_by_id(self.pkg+'tv_title_text').text
+        txt = self.driver.find_element_by_id(self.driver.pkg+'rl_title').find_element_by_id(self.driver.pkg+'tv_title_text').text
         print txt
 
 
