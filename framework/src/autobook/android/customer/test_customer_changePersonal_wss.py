@@ -1,5 +1,4 @@
 # coding=utf-8
-
 __author__ = 'Administrator'
 
 import time
@@ -47,7 +46,7 @@ class TestCase(unittest.TestCase):
        #数据库中取数据
        db_array=self.driver.sql('select sex,urgency_phone from t_customer where phone=13918359985')
        #性别类型转换
-       array=(idriver_android.sex(int(db_array[0])),db_array[1])
+       array=(self.driver.enum('sex',int(db_array[0])),db_array[1])
        print array
 
        #个人资料中的信息personal_female

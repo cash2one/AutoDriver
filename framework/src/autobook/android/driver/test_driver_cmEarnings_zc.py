@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'zhangchun'
+__author__ = 'zhangchun@pathbook.com.cn'
 
 import time
 import unittest
@@ -20,14 +20,14 @@ class TestCase(unittest.TestCase):
         self.driver.change_status(True)
 
         current_activity = self.driver.current_activity
-        self.driver.find_element_by_id(self.driver.pkg + 'rb_benifit').click()
+        self.driver.find_id('rb_benifit').click()
 
         he_td = self.driver.wait_find_id('he_td')
         td = he_td.text[1:]
         # 获取今日收益
         td_earning = filter(str.isdigit, str(td))
         # 去掉收益中的小数点
-        cm = self.driver.find_element_by_id(self.driver.pkg + 'he_cm').text[1:]
+        cm = self.driver.find_id('he_cm').text[1:]
         #获取本月收益
         cm_earning = filter(str.isdigit, str(cm))
 

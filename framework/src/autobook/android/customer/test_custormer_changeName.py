@@ -1,5 +1,4 @@
 # coding=utf-8
-
 __author__ = 'Administrator'
 
 import time
@@ -13,7 +12,6 @@ class TestCase(unittest.TestCase):
         self.driver.login()
 
     def tearDown(self):
-        #返回首页
         self.driver.switch_to_home()
 
     def test_change_Personal(self):
@@ -25,4 +23,4 @@ class TestCase(unittest.TestCase):
        #清除用户名
 
        self.driver.clear_text('personal_user_name')
-       self.driver.find_element_by_id(self.driver.pkg+'personal_user_name').send_keys(user_name)
+       self.driver.find_id('personal_user_name').send_keys(user_name)

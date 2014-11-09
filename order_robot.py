@@ -15,8 +15,8 @@ class MonitorOrder(threading.Thread):
     def __init__(self,device_app):
         threading.Thread.__init__(self)
         self.thread_stop = False
-        host = idriver_android.xmlrpc_host()
-        port = idriver_android.xmlrpc_port()
+        host = device.xmlrpc_host()
+        port = device.xmlrpc_port()
         self.xmlrpc = xmlrpclib.ServerProxy('http://%s:%s' % (host,int(port)))
         #self.driver = device.app('idriver.android.customer')
         self.driver = device_app

@@ -20,18 +20,18 @@ class TestCase(unittest.TestCase):
 
         current_activity = self.driver.current_activity
         #获取待补订单列表中订单的信息
-        self.driver.find_element_by_id(self.driver.pkg + 'iv_detail').click()
+        self.driver.find_id('iv_detail').click()
         self.driver.wait_switch(current_activity)
 
-        ctime=self.driver.find_element_by_id(self.driver.pkg + 'ro_ctime').text
+        ctime=self.driver.find_id('ro_ctime').text
 
-        self.driver.find_element_by_id(self.driver.pkg + 'ro_endtime').click()
+        self.driver.find_id('ro_endtime').click()
 
         self.driver.switch_to_alert()
         self.driver.find_id('btn_ok').click()
         time.sleep(2)
-        time=self.driver.find_element_by_id(self.driver.pkg + 'ro_endtime').text
+        ro_endtime=self.driver.find_id('ro_endtime').text
 
-        self.assertTrue(ctime[:-3]==time)
+        self.assertTrue(ctime[:-3]==ro_endtime)
 
         print ctime[:-3],time

@@ -7,14 +7,6 @@ import subprocess
 
 import the
 import threading
-from selenium import webdriver as selen
-import xmlrpclib
-
-from appium import webdriver as am
-from appium.webdriver import webdriver as wd
-
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.by import By
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -22,6 +14,37 @@ PATH = lambda p: os.path.abspath(
 
 DRIVER = 'idriver.android.driver'
 CUSTOMER = 'idriver.android.customer'
+
+def xmlrpc_port():
+    return the.settings['xmlrpc']['port']
+
+
+def xmlrpc_host():
+    return the.settings['xmlrpc']['host']
+
+
+firefox = 0
+chrome = 1
+
+class Runium(threading.Thread):
+    def __init__(self, port):
+        threading.Thread.__init__(self)
+        self.port = port
+
+
+    def run(self):
+        p1 = subprocess.Popen('appium --port %s' % self.port, stdout=subprocess.PIPE, shell=True)
+        #ap = p1.stdout.read()
+        #p1.stdout.readline()
+        isExistPort = False
+        infos = 'server args: {"port":%s}' % self.port
+        print infos
+        while not isExistPort:
+            if infos in p1.stdout.readlines():
+                isExistPort = True
+                print 'ffffffffffffffffffffffff'
+                #time.sleep(2)
+
 
 
 # class Android(am.Remote):
@@ -57,55 +80,44 @@ CUSTOMER = 'idriver.android.customer'
 #         return self.find_elements_by_class_name('android.widget.' + class_name)
 
 
-def xmlrpc_port():
-    return the.settings['xmlrpc']['port']
-
-
-def xmlrpc_host():
-    return the.settings['xmlrpc']['host']
-
-
-firefox = 0
-chrome = 1
 
 
 
-
-def app(ini_section,browser=0):
-    '''
-    所有测试任务的容器，装载各类项目对象
-    :param ini_section:
-    :param idx:
-    :return:
-    '''
-    obj = the.devices[0]
-    opts = the.devices[1]
-    if browser == chrome:
-        key_ini = ini_section + '.chrome'
-    else:
-        key_ini = ini_section
-
-    try:
-        obj[key_ini]
-    except KeyError:
-        obj[key_ini] = None
-
-    _configs = the.devices[1][key_ini]
-    # 初始化时，都为None
-    if obj[key_ini] == None:
-        if 'idriver.android' in key_ini:
-            import idriver_android
-            obj[key_ini] = idriver_android.Android(_configs)
-            # android等待splash界面加载完成
-            obj[key_ini].wait_switch(_configs['app_activity'])
-
-            # if 'web' in ini_section:
-            # if browser == firefox:
-            #         the.devices[key_ini] = firefox.WebDriver()
-            #     elif browser == chrome:
-            #         the.devices[key_ini] = Chrome1()
-
-    return obj[key_ini]
+# def app(ini_section,browser=0):
+#     '''
+#     所有测试任务的容器，装载各类项目对象
+#     :param ini_section:
+#     :param idx:
+#     :return:
+#     '''
+#     obj = the.devices[0]
+#     opts = the.devices[1]
+#     if browser == chrome:
+#         key_ini = ini_section + '.chrome'
+#     else:
+#         key_ini = ini_section
+#
+#     try:
+#         obj[key_ini]
+#     except KeyError:
+#         obj[key_ini] = None
+#
+#     _configs = the.devices[1][key_ini]
+#     # 初始化时，都为None
+#     if obj[key_ini] == None:
+#         if 'idriver.android' in key_ini:
+#             import idriver_android
+#             obj[key_ini] = idriver_android.Android(_configs)
+#             # android等待splash界面加载完成
+#             obj[key_ini].wait_switch(_configs['app_activity'])
+#
+#             # if 'web' in ini_section:
+#             # if browser == firefox:
+#             #         the.devices[key_ini] = firefox.WebDriver()
+#             #     elif browser == chrome:
+#             #         the.devices[key_ini] = Chrome1()
+#
+#     return obj[key_ini]
 
 
 # def execute_sql(configs, sql, size):
@@ -136,40 +148,40 @@ def app(ini_section,browser=0):
 #     return r
 
 
-class Firefox1(selen.Firefox):
-    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
-                 capabilities=None, proxy=None):
-        super(Firefox1, self).__init__(firefox_profile, firefox_binary, timeout,
-                                       capabilities, proxy)
-
-
-    def find_id(self, id_):
-        return selen.Firefox.find_element_by_id(self, id_)
-
-    def find_tag(self, class_name):
-        return selen.Firefox.find_element_by_tag_name(self, class_name)
-
-    def find_tags(self, class_name):
-        return self.find_elements_by_tag_name(class_name)
-
-
-class Chrome1(selen.Chrome):
-    def __init__(self, executable_path="chromedriver", port=0,
-                 chrome_options=None, service_args=None,
-                 desired_capabilities=None, service_log_path=None):
-        super(Chrome1, self).__init__(executable_path, port,
-                                      chrome_options, service_args,
-                                      desired_capabilities, service_log_path)
-        self.opt = 'Chrome'
-
-    def find_id(self, id_):
-        return self.find_element_by_id(id_)
-
-    def find_tag(self, class_name):
-        return self.find_element_by_class_name(class_name)
-
-    def find_tags(self, class_name):
-        return self.find_elements_by_class_name(class_name)
+# class Firefox1(selen.Firefox):
+#     def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
+#                  capabilities=None, proxy=None):
+#         super(Firefox1, self).__init__(firefox_profile, firefox_binary, timeout,
+#                                        capabilities, proxy)
+#
+#
+#     def find_id(self, id_):
+#         return selen.Firefox.find_element_by_id(self, id_)
+#
+#     def find_tag(self, class_name):
+#         return selen.Firefox.find_element_by_tag_name(self, class_name)
+#
+#     def find_tags(self, class_name):
+#         return self.find_elements_by_tag_name(class_name)
+#
+#
+# class Chrome1(selen.Chrome):
+#     def __init__(self, executable_path="chromedriver", port=0,
+#                  chrome_options=None, service_args=None,
+#                  desired_capabilities=None, service_log_path=None):
+#         super(Chrome1, self).__init__(executable_path, port,
+#                                       chrome_options, service_args,
+#                                       desired_capabilities, service_log_path)
+#         self.opt = 'Chrome'
+#
+#     def find_id(self, id_):
+#         return self.find_element_by_id(id_)
+#
+#     def find_tag(self, class_name):
+#         return self.find_element_by_class_name(class_name)
+#
+#     def find_tags(self, class_name):
+#         return self.find_elements_by_class_name(class_name)
 
 
 # def Web(configs):
@@ -192,24 +204,7 @@ class Chrome1(selen.Chrome):
 #         return self.find_elements_by_class_name(class_name)
 
 
-class Runium(threading.Thread):
-    def __init__(self, port):
-        threading.Thread.__init__(self)
-        self.port = port
 
-
-    def run(self):
-        p1 = subprocess.Popen('appium --port %s' % self.port, stdout=subprocess.PIPE, shell=True)
-        #ap = p1.stdout.read()
-        #p1.stdout.readline()
-        isExistPort = False
-        infos = 'server args: {"port":%s}' % self.port
-        print infos
-        while not isExistPort:
-            if infos in p1.stdout.readlines():
-                isExistPort = True
-                print 'ffffffffffffffffffffffff'
-                #time.sleep(2)
 
 # class Android(object):
 # def __init__(self,app_ini):

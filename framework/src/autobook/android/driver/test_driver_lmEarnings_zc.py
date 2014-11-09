@@ -20,13 +20,13 @@ class TestCase(unittest.TestCase):
         self.driver.change_status(True)
 
         current_activity = self.driver.current_activity
-        self.driver.find_element_by_id(self.driver.pkg + 'rb_benifit').click()
+        self.driver.find_id('rb_benifit').click()
         self.driver.wait_find_id('he_td')
-        td=self.driver.find_element_by_id(self.driver.pkg + 'he_td').text[1:]
+        td=self.driver.find_id('he_td').text[1:]
         #获取今日收益
         td_earning=filter(str.isdigit,str(td))
         #去掉收益中的小数点
-        lm=self.driver.find_element_by_id(self.driver.pkg + 'he_lm').text[1:]
+        lm=self.driver.find_id('he_lm').text[1:]
         #获取上月收益
         lm_earning=filter(str.isdigit,str(lm))
 

@@ -20,7 +20,7 @@ class TestCase(unittest.TestCase):
         self.driver.change_status(True)
 
         current_activity = self.driver.current_activity
-        self.driver.find_element_by_id(self.driver.pkg + 'rb_benifit').click()
+        self.driver.find_id('rb_benifit').click()
         self.driver.wait_find_id('he_td')
         yesterday = datetime.date.today() - datetime.timedelta(days=1)
         # 获取昨天的日期
@@ -43,7 +43,7 @@ class TestCase(unittest.TestCase):
 
         #收益=收入-服务费-保险费
 
-        text_yd_earning = self.driver.find_element_by_id(self.driver.pkg + 'he_yd').text
+        text_yd_earning = self.driver.find_id('he_yd').text
         yd_earning = filter(str.isdigit, str(text_yd_earning[1:]))
 
         self.assertTrue(earning == int(yd_earning))

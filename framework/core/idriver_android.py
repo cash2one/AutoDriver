@@ -7,7 +7,7 @@ import time
 import the
 from framework.util import idriver_const
 from framework.util import mysql
-from appium import webdriver as am
+from appium import webdriver
 import xmlrpclib
 from selenium.common.exceptions import NoSuchElementException
 
@@ -20,7 +20,7 @@ PATH = lambda p: os.path.abspath(
 )
 
 def driver():
-    _configs = the.project_settings[DRIVER]
+    _configs = the.app_configs[DRIVER]
     if the.devices[DRIVER] == None:
         the.devices[DRIVER] = Android(_configs)
         the.devices[DRIVER].wait_switch(_configs['app_activity'])
@@ -28,7 +28,7 @@ def driver():
     return the.devices[DRIVER]
 
 def customer():
-    _configs = the.project_settings[CUSTOMER]
+    _configs = the.app_configs[CUSTOMER]
     if the.devices[CUSTOMER] == None:
         the.devices[CUSTOMER] = Android(_configs)
         the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
@@ -37,10 +37,9 @@ def customer():
 
 
 
-class Android(am.Remote):
+class Android(webdriver.Remote):
     def __init__(self, configs,browser_profile=None, proxy=None, keep_alive=False):
         self.configs = configs
-        #print self.configs['platform_name']
 
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.configs['platform_name']
@@ -68,6 +67,10 @@ class Android(am.Remote):
 
     def find_tags(self, class_name):
         return self.find_elements_by_class_name('android.widget.' + class_name)
+
+    def find_name(self, name_):
+        return self.find_element_by_name(name_)
+
 
     def wait_loading(self):
         '''
@@ -251,21 +254,6 @@ class Android(am.Remote):
         self.wait_loading()
 
 
-# def changeWork(self_driver, isWorking):
-#     try:
-#         status = the.devices['driver_status']
-#     except KeyError:
-#         the.devices['driver_status'] = False
-#
-#     if the.devices['driver_status'] != isWorking:
-#         self_driver.find_id('tb_work_state').click()
-#         the.devices['driver_status'] = isWorking
-#         self_driver.wait_loading()
-#         # if the.idriver_dict['status'] != isWorking:
-#         # self_driver.find_id('tb_work_state').click()
-#         #     the.idriver_dict['status'] = isWorking
-
-
 
 def add_devices(key, val):
     try:
@@ -400,17 +388,6 @@ def login_driver(self_driver):
     time.sleep(1)
 
     self_driver.wait_switch(login)
-
-
-
-def license_type(val):
-    return idriver_const.idriver_enum['license_types']['key_' + str(val)]
-
-def province(val):
-    return idriver_const.idriver_enum['provinces']['key_' + str(val)]
-
-def sex(val):
-    return idriver_const.idriver_enum['sex']['key_' + str(val)]
 
 # def get_driver_no():
 #     return the.project_settings['idriver.android.driver']['user_name']
