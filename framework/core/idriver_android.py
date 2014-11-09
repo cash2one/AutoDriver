@@ -415,55 +415,10 @@ def login_driver(self_driver):
 #             pass
 
 
-def isHostAddr(value):
-    pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
-    match = pattern.match(value)
-    if match:
-        return True  # match.group()
-    else:
-        return False
-
-
-
-
-
-class OrderServer():
-    '''
-    订单机器人服务器端
-    '''
-
-    def __init__(self):
-        self.driver_info = {'driver_no': '14009', 'action': False}
-        self.customer_info = {'user_name': '', 'action': False}
-
-    def get_driver(self, key):
-        try:
-            return self.driver_info[key]
-        except KeyError:
-            pass
-
-    def get_customer(self, key):
-        try:
-            return self.customer_info[key]
-        except KeyError:
-            pass
-
-    def set_driver(self, bol, no):
-        try:
-            self.customer_info['action'] = bol
-            self.customer_info['driver_no'] = no
-        except KeyError:
-            pass
-
-    def set_customer(self, bol, user_name):
-        '''
-        设置用户端是否下单，并修改用户名为指定名
-        :param bol:
-        :param user_name:
-        :return:
-        '''
-        try:
-            self.customer_info['action'] = bol
-            self.customer_info['user_name'] = user_name
-        except KeyError:
-            pass
+# def isHostAddr(value):
+#     pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
+#     match = pattern.match(value)
+#     if match:
+#         return True  # match.group()
+#     else:
+#         return False

@@ -3,14 +3,6 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 
-def get_host():
-    '''
-    获取本机ip地址
-    '''
-    import socket
-    host_name = socket.getfqdn(socket.gethostname())
-    host_addr = socket.gethostbyname(host_name)
-    return host_addr
 
 def register():
     '''
@@ -18,10 +10,10 @@ def register():
     参数都读取自根目录的config.ini [xmlrpc]
     :return:
     '''
-    from framework.core import idriver_android
-    oss = idriver_android.OrderServer()
-    port = idriver_android.xmlrpc_port()
-    host = idriver_android.xmlrpc_host()#get_host()
+    from framework.core import device
+    oss = device.OrderServer()
+    port = device.xmlrpc_port()
+    host = device.xmlrpc_host()#get_host()
 
     server = SimpleXMLRPCServer((host, int(port)))
     server.register_instance(oss)
