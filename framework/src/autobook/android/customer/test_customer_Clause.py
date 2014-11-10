@@ -4,13 +4,12 @@ __author__ = 'wangshanshan'
 
 import time
 import unittest
-from framework.core import device,idriver
-
+from framework.core import idriver_android
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.customer')
-        #idriver.login_customer(self.driver)
+        self.driver = idriver_android.customer()
+        self.driver.login()
 
     def tearDown(self):
         #返回首页
