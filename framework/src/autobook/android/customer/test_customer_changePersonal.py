@@ -23,7 +23,7 @@ class TestCase(unittest.TestCase):
        self.driver.wait_loading()
        #点击我的信息
        self.driver.find_ids('personal_name')[0].click()
-       self.driver.wait_switch()
+       #self.driver.wait_switch()
        vali_tup = ()
 
        if 'true' in self.driver.find_id('personal_name').get_attribute('checked'):
