@@ -3,23 +3,21 @@ __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import device,idriver
+from framework.core import idriver_android
 
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
-        #获取登录司机的工号
+        self.driver = idriver_android.driver()
+        self.driver.login()
 
     def tearDown(self):
-        #返回首页
         self.driver.switch_to_home()
 
     def test_repair_Order(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
+
         current_activity = self.driver.current_activity
 
         order_no =self.driver.find_ids('tv_order_id')[0].text

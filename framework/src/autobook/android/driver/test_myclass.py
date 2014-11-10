@@ -3,13 +3,13 @@ __author__ = 'Administrator'
 
 import time
 import unittest
-from framework.core import device,idriver
+from framework.core import idriver_android
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_customer(self.driver)
+        self.driver = idriver_android.driver()
+        self.driver.login()
 
     def tearDown(self):
         #返回首页
@@ -17,7 +17,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_my_info(self):
-        idriver.changeWork(self.driver,True)
+        #idriver.changeWork(self.driver,True)
 
         # name_id = self.driver.wait_id_text('tv_customer_name',u'xu女士')
         #
@@ -26,14 +26,17 @@ class TestCase(unittest.TestCase):
         # self.driver.find_id('rb_benifit').click()
         # he_td = self.driver.wait_find_id('he_td')
 
-        order_owner = u'AutoZh'
 
-        self.driver.send_new_order(order_owner)
+        # #自动下单
+        # order_owner = u'AutoZh'
+        # self.driver.send_new_order(order_owner)
+        # tv_customer_name = self.driver.wait_find_id_text('tv_customer_name',order_owner)
+        #
+        # print tv_customer_name.text
+        print self.driver.enum('provinces',1)
 
-        tv_customer_name = self.driver.wait_find_id_text('tv_customer_name',order_owner)
+        txt = self.driver.find_element_by_id(self.driver.pkg+'rl_title').find_element_by_id(self.driver.pkg+'tv_title_text').text
+        print txt
 
-        print tv_customer_name.text
-
-        #print he_td.text
 
 

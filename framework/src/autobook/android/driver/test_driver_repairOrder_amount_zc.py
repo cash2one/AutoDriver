@@ -2,23 +2,20 @@
 __author__ = 'zhangchun'
 
 import time
-from framework.core import device,idriver
+from framework.core import idriver_android
 import unittest
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
-        #获取登录司机的工号
+        self.driver = idriver_android.driver()
+        self.driver.login()
 
     def tearDown(self):
-        #返回首页
         self.driver.switch_to_home()
 
     def test_repair_order(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
 
         self.driver.find_id('rb_benifit').click()
         self.driver.wait_find_id('he_td')
@@ -37,7 +34,7 @@ class TestCase(unittest.TestCase):
 
         self.driver.find_id('ro_endtime').click()
         self.driver.switch_to_alert()
-        self.driver.find_elements_by_class_name('android.widget.ImageButton')[6].click()
+        self.driver.find_tags('ImageButton')[6].click()
 
         self.driver.find_id('btn_ok').click()
         self.driver.find_id('ro_eaddr').send_keys('ggfdg')

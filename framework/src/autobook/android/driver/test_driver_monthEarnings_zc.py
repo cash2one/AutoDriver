@@ -3,23 +3,20 @@ __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import device,idriver
+from framework.core import idriver_android
 import datetime
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
-        #获取登录司机的工号
+        self.driver = idriver_android.driver()
+        self.driver.login()
 
     def tearDown(self):
-        #返回首页
         self.driver.switch_to_home()
 
     def test_month_earning(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
 
         self.driver.find_id('rb_benifit').click()
         self.driver.wait_find_id('he_td')
@@ -31,7 +28,7 @@ class TestCase(unittest.TestCase):
         earnings=0.00
         for i in range(0,3) :
 
-            text_earning=self.driver.find_ids('historyincome_income')[i].text
+            text_earning=self.driver.find_id('historyincome_income')[i].text
             earning=float(text_earning[1:])
             earnings+=earning
         self.assertTrue(unicode(earnings) in sum_earning)
