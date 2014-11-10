@@ -2,7 +2,7 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 idriver_enum = {
-    'provinces': {
+    'province': {
         'key_0': u'全国', 'key_1': u'北京', 'key_2': u'天津', 'key_3': u'上海', 'key_4': u'重庆',
         'key_5': u'河北', 'key_6': u'山西', 'key_7': u'辽宁', 'key_8': u'吉林', 'key_9': u'黑龙江',
         'key_10': u'江苏', 'key_11': u'浙江', 'key_12': u'安徽', 'key_13': u'福建', 'key_14': u'江西',
@@ -14,7 +14,7 @@ idriver_enum = {
     'sex': {
         'key_0': u'先生', 'key_1': u'女士'
     },
-    'license_types': {
+    'license_type': {
         'key_1': u'A1', 'key_2': u'A2', 'key_3': u'A3', 'key_4': u'B1',
         'key_5': u'B2', 'key_6': u'C1', 'key_7': u'C2', 'key_8': u'C3',
         'key_9': u'C4', 'key_10': u'D', 'key_11': u'E', 'key_12': u'F',
