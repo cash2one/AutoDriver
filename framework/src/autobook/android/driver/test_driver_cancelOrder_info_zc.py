@@ -2,16 +2,15 @@
 __author__ = 'zhangchun'
 
 import datetime
-from framework.core import device,idriver
+from framework.core import idriver_android
 import unittest
 import time
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
+        self.driver = idriver_android.driver()
+        self.driver.login()
         #获取登录司机的工号
 
     def tearDown(self):
@@ -19,7 +18,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_history_order(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
         current_activity = self.driver.current_activity
         self.driver.find_id('iv_head').click()
         self.driver.wait_switch(current_activity)
