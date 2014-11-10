@@ -124,17 +124,22 @@ class Android(webdriver.Remote):
         '''
         列表滑动，找到匹配的内容后，click
         '''
-        while True:
+        time_out = TIME_OUT + 50
+        while time_out > 0:
             items = self.find_elements_by_id(self.package + item_id)
             for item in items:
                 if target_txt in item.find_element_by_id(target_id).text:
-                    if execute_id!='':
+                    if execute_id != '':
                         item.find_element_by_id(execute_id).click()
                     else:
                         item.click()
                     break
             self.swipe_up(list_id)
-            #self.wait_find_id(ORDER_LOAD)
+            time_out -= 1
+            time.sleep(0.5)
+            # self.wait_find_id(ORDER_LOAD)
+        else:
+            raise NameError, 'find_element timeout'
 
     def swipe_load_item(self, list_id, item_id,sub_item_id=(), page_size=1):
         '''
