@@ -14,6 +14,12 @@ from selenium.common.exceptions import NoSuchElementException
 TIME_OUT = 100
 DRIVER = 'idriver.android.driver'
 CUSTOMER = 'idriver.android.customer'
+#订单加载loading
+ORDER_LOAD = 'order_load'
+HISTORY_ORDER_FINISH = 'history_order_finish'
+HISTORY_ORDER_CANCLE = 'history_order_cancle'
+WORK_STATE = 'tb_work_state'
+NET_WAIT='progressbar_net_wait'
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -79,7 +85,7 @@ class Android(webdriver.Remote):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package + 'progressbar_net_wait')
+                self.find_element_by_id(self.package + NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True
@@ -91,7 +97,7 @@ class Android(webdriver.Remote):
             the.devices['driver_status'] = False
 
         if the.devices['driver_status'] != isWorking:
-            self.find_element_by_id(self.package + 'tb_work_state').click()
+            self.find_element_by_id(self.package + WORK_STATE).click()
             the.devices['driver_status'] = isWorking
             self.wait_loading()
 
@@ -111,6 +117,55 @@ class Android(webdriver.Remote):
         end_y = start_y-5 + sz['height']-5
 
         self.swipe(5,end_y,5,start_y,500)
+        time.sleep(2)
+
+
+    def swipe_click(self,list_id,item_id,target_id,target_txt,execute_id=''):
+        '''
+        列表滑动，找到匹配的内容后，click
+        '''
+        time_out = TIME_OUT + 50
+        while time_out > 0:
+            items = self.find_elements_by_id(self.package + item_id)
+            for item in items:
+                if target_txt in item.find_element_by_id(target_id).text:
+                    if execute_id != '':
+                        item.find_element_by_id(execute_id).click()
+                    else:
+                        item.click()
+                    break
+            self.swipe_up(list_id)
+            time_out -= 1
+            time.sleep(0.5)
+            # self.wait_find_id(ORDER_LOAD)
+        else:
+            raise NameError, 'find_element timeout'
+
+    def swipe_load_item(self, list_id, item_id,sub_item_id=(), page_size=1):
+        '''
+        列表滑动，装载ListView item,[{'id':'id_text'}]
+        '''
+        datas = ()
+        while page_size > 0:
+            items = self.find_elements_by_id(self.package + item_id)
+
+            for item in items:
+                if len(sub_item_id) > 0:
+                    sub_tup = ()
+                    for sub in sub_item_id:
+                        try:
+                            sub_txt = item.find_element_by_id(self.package + sub).text
+                            sub_tup += (sub_txt,)
+                        except NoSuchElementException:
+                            pass
+                    if len(sub_tup)>0:
+                        datas+=(sub_tup,)
+
+            self.swipe_up(list_id)
+            #self.wait_find_id(ORDER_LOAD)
+            page_size -= 1
+
+        return datas
 
 
     def countdown(self):
