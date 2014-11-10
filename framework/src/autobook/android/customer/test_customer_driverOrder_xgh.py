@@ -4,6 +4,7 @@ __author__ = 'xuguanghua'
 import time
 import unittest
 from framework.core import idriver_android
+from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException
 
 
@@ -17,6 +18,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_driver_Order(self):
+
         current_activity = self.driver.current_activity
         # 点击附近司机列表
         self.driver.find_id('rb_maplist').click()
@@ -34,7 +36,11 @@ class TestCase(unittest.TestCase):
         driver_exist = False
 
         for d in nearbyrivers:
-            if u'蒋芷文' in d.find_element_by_id(self.driver.pkg + 'big_drivername').text:
+            d_name = d.find_element_by_id(self.driver.pkg+'big_drivername').text
+            self.driver.swipe(0,0,0,100,0.8)
+
+            print d_name
+            if u'蒋芷文' in d_name:
                 driver_exist = True
                 d.click()
                 self.driver.wait_switch('.MainActivity')
@@ -45,6 +51,8 @@ class TestCase(unittest.TestCase):
 
                 tv_wait = self.driver.find_id('tv_wait').text
                 self.assertTrue(int(tv_wait) > 0, 'fail')
+
+                self.driver.countdown()
 
                 break
 

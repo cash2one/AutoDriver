@@ -33,10 +33,19 @@ class TestCase(unittest.TestCase):
         # tv_customer_name = self.driver.wait_find_id_text('tv_customer_name',order_owner)
         #
         # print tv_customer_name.text
-        print self.driver.enum('provinces',1)
+        activity = self.driver.current_activity
 
-        txt = self.driver.find_element_by_id(self.driver.pkg+'rl_title').find_element_by_id(self.driver.pkg+'tv_title_text').text
-        print txt
+        print self.driver.app_strings
+        self.driver.find_id('tv_history_order').click()
+
+        self.driver.wait_switch(activity)
+
+        self.driver.swipe_up('lv_completed')
+
+        time.sleep(5)
+
+        #txt = self.driver.find_element_by_id(self.driver.pkg+'rl_title').find_element_by_id(self.driver.pkg+'tv_title_text').text
+        #print txt
 
 
 

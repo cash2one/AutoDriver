@@ -101,6 +101,18 @@ class Android(webdriver.Remote):
         elif '.customer' in self.configs['app_package']:
             login_customer(self,robot_name)
 
+    def swipe_up(self,id_):
+        #{'y': 274, 'x': 0}
+        #{'width': 720, 'height': 894}
+        loc = self.find_element_by_id(self.package + id_).location
+        sz = self.find_element_by_id(self.package + id_).size
+
+        start_y = loc['y']+5
+        end_y = start_y-5 + sz['height']-5
+
+        self.swipe(5,end_y,5,start_y,500)
+
+
     def countdown(self):
         '''
         订单倒计时
