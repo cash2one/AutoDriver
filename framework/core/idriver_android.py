@@ -117,21 +117,24 @@ class Android(webdriver.Remote):
         end_y = start_y-5 + sz['height']-5
 
         self.swipe(5,end_y,5,start_y,500)
-        time.sleep(1)
+        time.sleep(2)
 
 
-    def swipe_click(self,list_id,item_id,target_id,target_txt,page_size=0):
+    def swipe_click(self,list_id,item_id,target_id,target_txt,execute_id=''):
         '''
         列表滑动，找到匹配的内容后，click
         '''
         while True:
-            itemss = self.find_elements_by_id(self.package + item_id)
-            for item in itemss:
+            items = self.find_elements_by_id(self.package + item_id)
+            for item in items:
                 if target_txt in item.find_element_by_id(target_id).text:
-                    item.click()
+                    if execute_id!='':
+                        item.find_element_by_id(execute_id).click()
+                    else:
+                        item.click()
                     break
             self.swipe_up(list_id)
-            self.wait_find_id(ORDER_LOAD)
+            #self.wait_find_id(ORDER_LOAD)
 
     def swipe_load_item(self, list_id, item_id,sub_item_id=(), page_size=1):
         '''
