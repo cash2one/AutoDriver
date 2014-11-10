@@ -35,14 +35,15 @@ class TestCase(unittest.TestCase):
         # print tv_customer_name.text
         activity = self.driver.current_activity
 
-        print self.driver.app_strings
+        #print self.driver.app_strings
         self.driver.find_id('tv_history_order').click()
 
         self.driver.wait_switch(activity)
 
-        self.driver.swipe_up('lv_completed')
+        items = self.driver.swipe_load_item('lv_completed','history_order_finish',('order_number_text',),3)
 
-        time.sleep(5)
+        print items
+
 
         #txt = self.driver.find_element_by_id(self.driver.pkg+'rl_title').find_element_by_id(self.driver.pkg+'tv_title_text').text
         #print txt
