@@ -145,21 +145,21 @@ class Android(webdriver.Remote):
         '''
         列表滑动，装载ListView item,[{'id':'id_text'}]
         '''
-        datas = []
+        datas = ()
         while page_size > 0:
             items = self.find_elements_by_id(self.package + item_id)
 
             for item in items:
                 if len(sub_item_id) > 0:
-                    sub_dict = {}
+                    sub_tup = ()
                     for sub in sub_item_id:
                         try:
                             sub_txt = item.find_element_by_id(self.package + sub).text
-                            sub_dict[sub] = sub_txt
+                            sub_tup += (sub_txt,)
                         except NoSuchElementException:
                             pass
-                    if len(sub_dict)>0:
-                        datas.append(sub_dict)
+                    if len(sub_tup)>0:
+                        datas+=(sub_tup,)
 
             self.swipe_up(list_id)
             #self.wait_find_id(ORDER_LOAD)
