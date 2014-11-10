@@ -1,4 +1,5 @@
 # coding=utf-8
+# coding=utf-8
 __author__ = 'zhangchun'
 
 import time
@@ -51,6 +52,10 @@ class TestCase(unittest.TestCase):
 
         self.assertEqual('.MyInfoActivity',self.driver.current_activity)
         #跳转到个人信息页面，
+
+
+
+
 
 
 
