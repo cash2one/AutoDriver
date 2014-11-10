@@ -1,17 +1,16 @@
 # coding=utf-8
+# coding=utf-8
 __author__ = 'zhangchun'
 
 import time
 import unittest
-from framework.core import device,idriver
+from framework.core import idriver_android
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
-        #获取登录司机的工号
+        self.driver = idriver_android.driver()
+        self.driver.login()
 
     def tearDown(self):
         #返回首页
@@ -24,7 +23,7 @@ class TestCase(unittest.TestCase):
         #获取的格式为"XX：  XXX",只取后面的名字，split(':')[1]取冒号后的字符串，strip（）过滤左端空格
 
     def test_my_info(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
 
         current_activity = self.driver.current_activity
         self.driver.find_id('iv_head').click()
@@ -34,10 +33,10 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('personal_list_text').click()
         self.driver.wait_switch(current_activity)
 
-        db_result = self.driver.sql('select name,province,license_type,driving_age,driving_count from t_driver where no=%s' % self.driver_no)
+        db_result = self.driver.sql('select name,province,license_type,driving_age,driving_count from t_driver where no=%s' % self.driver.no)
         #将数据库中查询出的数据存入元组
 
-        driver_tup = (db_result[0],idriver.province(db_result[1]),idriver.license_type(db_result[2]),unicode(db_result[3]),unicode(db_result[4]))
+        driver_tup = (db_result[0],self.driver.enum('province',db_result[1]),self.driver.enum('license_type',db_result[2]),unicode(db_result[3]),unicode(db_result[4]))
         #籍贯和驾照是枚举型，要获取值后存入新元组,代驾次数和驾龄为long型需转换成Unicode
 
         text_name=self.find_driver_info('text_name')
@@ -53,6 +52,10 @@ class TestCase(unittest.TestCase):
 
         self.assertEqual('.MyInfoActivity',self.driver.current_activity)
         #跳转到个人信息页面，
+
+
+
+
 
 
 

@@ -2,15 +2,14 @@
 __author__ = 'zhangchun'
 
 import datetime
-from framework.core import device,idriver
+from framework.core import idriver_android
 import unittest
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = device.app('idriver.android.driver')
-        idriver.login_driver(self.driver)
-        self.driver_no = idriver.get_driver_no()
+        self.driver = idriver_android.driver()
+        self.driver.login()
         #获取登录司机的工号
 
     def tearDown(self):
@@ -18,7 +17,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_history_order(self):
-        idriver.changeWork(self.driver,True)
+        self.driver.change_status(True)
         current_activity = self.driver.current_activity
         self.driver.find_id('iv_head').click()
         self.driver.wait_switch(current_activity)
@@ -32,8 +31,10 @@ class TestCase(unittest.TestCase):
             text=self.driver.find_ids('order_number_text')[i].text
             order_no=text.split(':')[1].strip()
             orders1_no.append(order_no)
+        #获取当前页面上的所有订单号
 
         orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s' % self.driver_no,1)
+        #在数据库中关联查询该司机的所有订单
 
         print(type(orders1_no[1]))
 
