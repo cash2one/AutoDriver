@@ -24,13 +24,13 @@ class TestCase(unittest.TestCase):
             if el.is_displayed():
                 self.driver.find_id("iv_head").click()
                 self.driver.wait_switch(current_activity)
-                text1=self.driver.find_id("personal_msg_count").text
+
                 current_activity = self.driver.current_activity
                 self.driver.find_element_by_name(u"消息公告").click()
                 self.driver.wait_switch(current_activity)
 
                 txt=self.driver.find_id('bulletin_text').text
-                title1=txt.split(" ")[1]
+                title1=txt.split(" ")[2]
 
                 current_activity = self.driver.current_activity
                 self.driver.find_id('bulletin_text').click()
@@ -41,19 +41,15 @@ class TestCase(unittest.TestCase):
                 # current_activity = self.driver.current_activity
                 # self.driver.find_elements_by_class_name('android.widget.Button')[0].click()
                 # self.driver.wait_switch(current_activity)
-                self.driver.back()
 
-                text2=self.driver.find_id("personal_msg_count").text
-
-                # self.assertTrue(title1==title2)
+                self.assertTrue(title1==title2)
                 # self.assertTrue(content1==content2)
                 # self.assertTrue(text1==text2)
-                print text1,title1,title2,text2
 
             else:
                 pass
 
         except :
-            print ("fdf")
+            print ("no informs")
 
 
