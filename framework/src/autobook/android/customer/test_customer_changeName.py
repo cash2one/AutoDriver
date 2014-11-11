@@ -19,7 +19,14 @@ class TestCase(unittest.TestCase):
 
        #点击用户中心
        self.driver.find_id('btn_personalcenter').click()
-       #点击历史订单
-       self.driver.find_ids('personal_name')[1].click()
-       #点击待评价的订单
-       self.driver.swipe('lv_finish','order_Eval','待评价').clidk()
+       #我的信息
+       self.driver.find_ids('personal_name')[0].click()
+      #修改用户名
+       #self.driver.clear_text('personal_user_name')
+       #self.driver.find_id('personal_user_name').send_keys('user_name')
+       self.driver.find_id('personal_user_name').click()
+       self.driver.keyevent(67)
+       time.sleep(3)
+
+       #点击完成（修改成功）
+       self.driver.find_id('personal_finish').click()
