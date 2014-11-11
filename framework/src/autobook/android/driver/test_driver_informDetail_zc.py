@@ -22,25 +22,27 @@ class TestCase(unittest.TestCase):
         try:
             el=self.driver.find_id('tv_msg_count')
             if el.is_displayed():
-                text1=el.text
-
                 self.driver.find_id("iv_head").click()
                 self.driver.wait_switch(current_activity)
-                text2=self.driver.find_id("personal_msg_count").text
+
+                current_activity = self.driver.current_activity
                 self.driver.find_element_by_name(u"消息公告").click()
                 self.driver.wait_switch(current_activity)
-                red=self.driver.find_ids('bulletin_read')
-                text3=len(red)
-                self.assertTrue(text1==text2==unicode(text3))
+
+                txt=self.driver.find_id('bulletin_text').text
+                title1=txt.split(" ")[2]
+
+                current_activity = self.driver.current_activity
+                self.driver.find_id('bulletin_text').click()
+                self.driver.wait_switch(current_activity)
+
+                title2=self.driver.find_id('tv_title_text').text
+                self.assertTrue(title1==title2)
 
             else:
                 pass
 
-
         except :
-            self.driver.find_id("iv_head").click()
-            self.driver.wait_switch(current_activity)
-            self.driver.find_element_by_name(u"消息公告").click()
-            txt=self.driver.find_elements_by_class_name('android.widget.TextView')[1].text
-            self.assertTrue(u"当前没有消息提示" in txt)
-            print("no informs")
+            print ("no informs")
+
+

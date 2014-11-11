@@ -40,7 +40,7 @@ class TestCase(unittest.TestCase):
 
         self.driver.wait_switch(activity)
 
-        items = self.driver.swipe_load_item('lv_completed','history_order_finish',('order_number_text',),3)
+        items = self.driver.swipe_load_item('lv_completed','history_order_finish',('order_number_text','order_amount_text'),3)
 
         print items
 
