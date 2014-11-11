@@ -37,14 +37,7 @@ class TestCase(unittest.TestCase):
                 self.driver.wait_switch(current_activity)
 
                 title2=self.driver.find_id('tv_title_text').text
-
-                # current_activity = self.driver.current_activity
-                # self.driver.find_elements_by_class_name('android.widget.Button')[0].click()
-                # self.driver.wait_switch(current_activity)
-
                 self.assertTrue(title1==title2)
-                # self.assertTrue(content1==content2)
-                # self.assertTrue(text1==text2)
 
             else:
                 pass
