@@ -40,9 +40,11 @@ class TestCase(unittest.TestCase):
 
         self.driver.wait_switch(activity)
 
-        items = self.driver.swipe_load_item('lv_completed','history_order_finish',('order_number_text','order_amount_text'),3)
+        #items = self.driver.swipe_load_item('lv_completed','history_order_finish',('order_number_text','order_amount_text'),3)
+        for i in range(0,10):
+            self.driver.swipee('history_order_finish')
 
-        print items
+        #print items
 
 
         #txt = self.driver.find_element_by_id(self.driver.pkg+'rl_title').find_element_by_id(self.driver.pkg+'tv_title_text').text
