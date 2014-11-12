@@ -117,13 +117,40 @@ class Android(webdriver.Remote):
         end_y = start_y-5 + sz['height']-5
 
         self.swipe(5,end_y,5,start_y,500)
-        time.sleep(2)
+        time.sleep(1)
+
+        #listview 数据载入
+        isLoading = False
+        while not isLoading:
+            try:
+                self.find_element_by_id(self.package + ORDER_LOAD)
+            except NoSuchElementException:
+                isLoading = True
+
+    def swipee(self,id_):
+        ids = self.find_elements_by_id(self.package + id_)
+        first_y = ids[0].location['y']
+        item_height = ids[0].size['height']
+
+        end_y = first_y+item_height*(len(ids)-1)
+        print len(ids)-1
+
+        self.swipe(5,end_y,5,first_y,500)
+        time.sleep(1)
+        #listview 数据载入
+        isLoading = False
+        while not isLoading:
+            try:
+                self.find_element_by_id(self.package + ORDER_LOAD)
+            except NoSuchElementException:
+                isLoading = True
 
 
     def swipe_click(self,list_id,item_id,target_id,target_txt,execute_id=''):
         '''
         列表滑动，找到匹配的内容后，click
         '''
+        self.find_element_by_id(self.package + item_id)
         time_out = TIME_OUT + 50
         while time_out > 0:
             items = self.find_elements_by_id(self.package + item_id)
@@ -137,11 +164,11 @@ class Android(webdriver.Remote):
             self.swipe_up(list_id)
             time_out -= 1
             time.sleep(0.5)
-            # self.wait_find_id(ORDER_LOAD)
+
         else:
             raise NameError, 'find_element timeout'
 
-    def swipe_load_item(self, list_id, item_id,sub_item_id=(), page_size=1):
+    def swipe_load_item(self, list_id, item_id,sub_items, page_size=1):
         '''
         列表滑动，装载ListView item,[{'id':'id_text'}]
         '''
@@ -150,19 +177,23 @@ class Android(webdriver.Remote):
             items = self.find_elements_by_id(self.package + item_id)
 
             for item in items:
-                if len(sub_item_id) > 0:
-                    sub_tup = ()
-                    for sub in sub_item_id:
-                        try:
-                            sub_txt = item.find_element_by_id(self.package + sub).text
-                            sub_tup += (sub_txt,)
-                        except NoSuchElementException:
-                            pass
-                    if len(sub_tup)>0:
-                        datas+=(sub_tup,)
+                # if len(sub_item_id) > 0:
+                sub_tup = ()
+
+                for sub in sub_items:
+                    sub_txt = ''
+                    try:
+                        sub_txt = item.find_element_by_id(self.package + sub).text
+                        sub_tup += (sub_txt,)
+                    except NoSuchElementException:
+                        print 'find id fail',sub_txt
+                        sub_tup = ()
+
+                if len(sub_tup) > 0 and sub_tup not in datas:
+                    datas += (sub_tup,)
 
             self.swipe_up(list_id)
-            #self.wait_find_id(ORDER_LOAD)
+
             page_size -= 1
 
         return datas
