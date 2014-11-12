@@ -23,6 +23,9 @@ class TestCase(unittest.TestCase):
        #self.driver.find_id('personal_name').click()
        #点击我的信息
        self.driver.find_ids('personal_name')[0].click()
+       #输入少于11位的手机号
+       self.driver.find_id('').click()
+       self.driver.find_id('').send_keys('136364')
        #在填写手机号界面点击下一步
        self.driver.find_id('next_step').click()
        self.driver.switch_to_alert()
