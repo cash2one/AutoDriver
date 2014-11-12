@@ -16,8 +16,8 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_change_Personal(self):
+       #点击进入使用
        self.driver.find_id('start_btn').click()
-
        #点击用户中心
        self.driver.find_id('btn_personalcenter').click()
 
