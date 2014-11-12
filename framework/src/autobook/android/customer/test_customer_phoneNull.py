@@ -17,6 +17,8 @@ class TestCase(unittest.TestCase):
 
     def test_change_Personal(self):
 
+       #点击进入使用
+       self.driver.find_id('start_btn').click()
        #点击用户中心
        self.driver.find_id('btn_personalcenter').click()
        #点击我的信息
