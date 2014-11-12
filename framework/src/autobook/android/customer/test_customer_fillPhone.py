@@ -29,3 +29,4 @@ class TestCase(unittest.TestCase):
        text=self.driver.find_id('tv_msg').text
        print text
        self.assertTrue(u'请填写手机号！' in text,'msg')
+
