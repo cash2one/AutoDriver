@@ -20,15 +20,18 @@ class TestCase(unittest.TestCase):
 
         self.driver.find_id('rb_benifit').click()
         self.driver.wait_find_id('he_td')
-        sum_earning=self.driver.find_id('he_sum').text
+        he_sum=self.driver.find_id('he_sum').text
+        sum_earning=float(he_sum[1:])
 
         current_activity = self.driver.current_activity
         self.driver.find_id('about_function').click()
         self.driver.wait_switch(current_activity)
+        months=self.driver.find_ids('rl')
         earnings=0.00
-        for i in range(0,3) :
+        for i in range(0,len(months)-1) :
 
-            text_earning=self.driver.find_id('historyincome_income')[i].text
+            text_earning=self.driver.find_ids('historyincome_income')[i].text
             earning=float(text_earning[1:])
             earnings+=earning
-        self.assertTrue(unicode(earnings) in sum_earning)
+        self.assertTrue(earnings==sum_earning)
+
