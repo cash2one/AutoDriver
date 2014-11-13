@@ -31,7 +31,7 @@ class TestCase(unittest.TestCase):
         msg_count1=self.driver.find_id('personal_msg_count')
         self.driver.find_element_by_name(u"消息公告").click()
         self.driver.wait_switch(current_activity)
-        red=self.driver.find_element_by_class_name('android.widget.ListView').find_elements_by_class_name('android.widget.LinearLayout')[0].find_element_by_id('bulletin_read')
+        red=self.driver.find_elements_by_class_name('android.widget.LinearLayout')[1].find_element_by_id('bulletin_read')
         current_activity = self.driver.current_activity
 
         self.driver.find_ids('bulletin_text')[0].click()
@@ -42,7 +42,7 @@ class TestCase(unittest.TestCase):
         self.assertFalse(red.is_displayed())
         self.driver.find_id('button_title_back').click()
         self.driver.wait_switch(current_activity)
-        print text1,unicode(1)
+        print text1,type(text1)
 
         # if text1==unicode(1):
         #
