@@ -31,7 +31,7 @@ class TestCase(unittest.TestCase):
         msg_count1=self.driver.find_id('personal_msg_count')
         self.driver.find_element_by_name(u"消息公告").click()
         self.driver.wait_switch(current_activity)
-        red=self.driver.find_elements_by_class_name('android.widget.LinearLayout')[1].find_element_by_id('bulletin_read')
+        red=self.driver.find_ids('bulletin_read')[0]
         current_activity = self.driver.current_activity
 
         self.driver.find_ids('bulletin_text')[0].click()
@@ -39,17 +39,21 @@ class TestCase(unittest.TestCase):
 
         self.driver.find_element_by_class_name('android.widget.Button').click()
 
-        self.assertFalse(red.is_displayed())
-        self.driver.find_id('button_title_back').click()
-        self.driver.wait_switch(current_activity)
+
+
         print text1,type(text1)
 
-        # if text1==unicode(1):
-        #
-        #     self.assertFalse(msg_count1.is_displayed())
-        # else :
-        #     msg_count2=self.driver.find_id('personal_msg_count')
-        #     print int(msg_count1.text)-int(msg_count2.text)
+        if text1==unicode(1):
+            self.assertFalse(red.is_displayed())
+            self.assertFalse(msg_count1.is_displayed())
+            self.driver.find_id('button_title_back').click()
+            self.driver.wait_switch(current_activity)
+        else :
+            self.driver.find_id('button_title_back').click()
+            self.driver.wait_switch(current_activity)
+            msg_count2=self.driver.find_id('personal_msg_count')
+            print msg_count1.text,msg_count2.text
+            print int(msg_count1.text)-int(msg_count2.text)
 
         # try:
         #     el=self.driver.find_id('tv_msg_count')
