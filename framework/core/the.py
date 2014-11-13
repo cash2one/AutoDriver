@@ -6,7 +6,7 @@ from framework.util import fs
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
-
+#os.path.join(os.path.dirname(__file__), 'templates'),
 
 settings = fs.parserConfig(PATH('../../config.ini'))
 
