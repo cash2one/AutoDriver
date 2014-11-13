@@ -69,29 +69,32 @@ if __name__ == "__main__":
     #     mo.start()
     #     print mo.ident
     #     time.sleep(5)
+    #
+    # class DemoOne():
+    #     def __init__(self,word):
+    #         self.word = word
+    #
+    #     def do1(self):
+    #         print self.word
+    #
+    #     def do2(self):
+    #         return 'abcdddd'
+    #
+    # class DemoTwo():
+    #     def __init__(self,inst=None):
+    #         self.inst = inst('aad')
+    #
+    #     def dt1(self):
+    #         return self.inst
+    #
+    # dt = DemoTwo(DemoOne)
+    #
+    # dt.dt1().do1()
+    # print dt.dt1().do2()
 
-    class DemoOne():
-        def __init__(self,word):
-            self.word = word
-
-        def do1(self):
-            print self.word
-
-        def do2(self):
-            return 'abcdddd'
-
-    class DemoTwo():
-        def __init__(self,inst=None):
-            self.inst = inst('aad')
-
-        def dt1(self):
-            return self.inst
-
-    dt = DemoTwo(DemoOne)
-
-    dt.dt1().do1()
-    print dt.dt1().do2()
-
+    aaa=((1,3),(3,4),(5,6))
+    if (1,3) in aaa:
+        print '------eee'
 
 
     # for p in ps:
