@@ -92,9 +92,8 @@ if __name__ == "__main__":
     # dt.dt1().do1()
     # print dt.dt1().do2()
 
-    aaa=((1,3),(3,4),(5,6))
-    if (1,3) in aaa:
-        print '------eee'
+
+    print os.path.dirname(PATH('./test.txt'))
 
 
     # for p in ps:
