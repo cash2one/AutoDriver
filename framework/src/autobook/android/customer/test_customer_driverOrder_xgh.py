@@ -24,7 +24,6 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('rb_maplist').click()
         self.driver.wait_loading()
 
-        #若附近司机列表为真，则点击司机列表第一个,目前点击的第三个
         nearbyrivers = []
         try:
             nearbyrivers = self.driver.find_ids('nearbyriver')
