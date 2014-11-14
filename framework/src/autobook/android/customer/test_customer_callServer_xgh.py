@@ -16,7 +16,7 @@ class TestCase(unittest.TestCase):
 
     def test_call_server(self):
         current_activity = self.driver.current_activity
-        #在附近司机界面点击联系客服按钮
+        #在附近司机界面点击联系客服
         self.driver.find_id('btn_callserver').click()
         self.driver.switch_to_alert()
         text_msg = self.driver.find_id('tvv_msg').text

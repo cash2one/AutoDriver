@@ -40,7 +40,7 @@ class TestCase(unittest.TestCase):
         #拿列表最近一个订单号从数据库中取出该订单的金额和完成时间
         order_info = self.driver.sql('SELECT amount,insert_time FROM t_order_info a, t_order_history b WHERE a.id = b.order_info_id and a.order_no='+order_Nos,1)
 
-        #长整形转换为整形
+        #长整形转换为整形hhh
         sql_info =self.driver.enum(int(order_info[0]),str(order_info[1]))
 
         print sql_info
