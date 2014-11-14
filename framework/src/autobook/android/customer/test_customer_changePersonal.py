@@ -26,7 +26,7 @@ class TestCase(unittest.TestCase):
        #self.driver.wait_switch()
        vali_tup = ()
 
-       if 'true' in self.driver.find_id('personal_name').get_attribute('checked'):
+       if 'true' in self.driver.find_id('personal_man').get_attribute('checked'):
            self.driver.find_id('personal_female').click()
            vali_tup += (u'女士',)
 
