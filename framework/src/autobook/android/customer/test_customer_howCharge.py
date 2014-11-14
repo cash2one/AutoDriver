@@ -1,10 +1,10 @@
 # coding=utf-8
-__author__ = 'Administrator'
+
+__author__ = 'wangsahnshan'
 
 import time
 import unittest
 from framework.core import idriver_android
-
 
 class TestCase(unittest.TestCase):
     def setUp(self):
@@ -12,15 +12,16 @@ class TestCase(unittest.TestCase):
         self.driver.login()
 
     def tearDown(self):
+        #返回首页
         self.driver.switch_to_home()
 
     def test_change_Personal(self):
 
        #点击用户中心
        self.driver.find_id('btn_personalcenter').click()
-       #点击我的信息
-       self.driver.find_id('personal_name').click()
-       #清除用户名
+       #查看如何收费
+       self.driver.find_ids('personal_name')[2].click()
 
-       self.driver.clear_text('personal_user_name')
-       self.driver.find_id('personal_user_name').send_keys(user_name)
+       text=self.driver.find_id('tv_title_text').text
+       print text
+       self.assertTrue(u'如何收费' in text,'msg')
