@@ -91,9 +91,13 @@ if __name__ == "__main__":
     #
     # dt.dt1().do1()
     # print dt.dt1().do2()
+    from framework.util import str
 
+    #dd = str.to_datetime(u'2014-11-12 15:51:52')
 
-    print os.path.dirname(PATH('./test.txt'))
+    import string
+    print str.to_int('1302203.332')
+
 
 
     # for p in ps:
