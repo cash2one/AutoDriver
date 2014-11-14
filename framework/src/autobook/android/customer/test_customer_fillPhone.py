@@ -1,6 +1,6 @@
 # coding=utf-8
 
-__author__ = 'wangsahnshan'
+__author__ = 'wangsahnshan@126.com'
 
 import time
 import unittest
