@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'Administrator'
+__author__ = 'guguohai@pathbook.com.cn11'
 
 import os
 import re
