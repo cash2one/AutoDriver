@@ -25,6 +25,7 @@ class TestCase(unittest.TestCase):
        self.driver.find_ids('personal_name')[0].click()
        #在填写手机号界面点击条款
        self.driver.find_id('login_clause').click()
+
        self.driver.switch_to_alert()
        text=self.driver.find_id('tv_title_text').text
        print text
@@ -38,6 +39,7 @@ class TestCase(unittest.TestCase):
 
         #不勾选同意条款，直接点击下一步
        self.driver.find_id('next_step').click()
+       #弹框验证
        self.driver.switch_to_alert()
        text=self.driver.find_id('tv_msg').text
        print text
