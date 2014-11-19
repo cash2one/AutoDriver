@@ -7,7 +7,7 @@ __pycache__/
 
 #pycharm
 .idea/
-resource/app.ini
+app.ini
 *.html
 *.db
 testcase/
