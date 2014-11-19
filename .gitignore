@@ -7,11 +7,11 @@ __pycache__/
 
 #pycharm
 .idea/
-app.ini
 *.html
 *.db
 testcase/
 resource/*.apk
+resource/app.ini
 
 # Distribution / packaging
 .Python
