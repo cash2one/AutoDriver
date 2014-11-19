@@ -36,8 +36,22 @@ class TestCase(unittest.TestCase):
             pass
 
        self.assertTrue(len(nearbyrivers) > 0, u'附近没有司机')
-       #选择列表中的第一个司机
-       self.driver.find_ids('nearbyriver')[0].click()
+
+       driver_exist = False
+
+       for d in nearbyrivers:
+            d_name = d.find_element_by_id(self.driver.pkg+'big_drivername').text
+            self.driver.swipe(0,0,0,100,0.8)
+
+            print d_name
+            if u'蒋芷文' in d_name:
+                driver_exist = True
+                d.click()
+                #self.driver.wait_switch('.MainActivity')
+                self.driver.wait_loading()
+
+
+
        #跳转到司机信息界面点击立即下单
        self.driver.find_id('driver_order').click()
        #跳转到填写手机号界面
