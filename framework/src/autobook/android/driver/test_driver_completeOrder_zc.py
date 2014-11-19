@@ -37,22 +37,25 @@ class TestCase(unittest.TestCase):
         for i in range(0,5):
             text=self.driver.find_ids('order_number_text')[i].text
             order_no=text.split(':')[1].strip()
-            orders1_no+=(order_no,)
+            orders1_no+=((order_no,),)
 
 
 
-        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s' % self.driver_no,1)
+        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s ORDER BY a.create_time desc' % self.driver.no,1)
         #在数据库中关联查询该司机的所有订单
 
-        print(type(orders1_no[1]))
+        print(type(orders1_no[1]),type(orders2_no[1]))
+        print orders1_no
+        print orders2_no
+        self.assertTrue(orders1_no in orders2_no )
 
-        for j in range(0,len(orders1_no)-1):
-            for i in range(0,len(orders2_no)-1):
-                if orders1_no[j]!=orders2_no[i]:
-                    i+=1
-                    return i
-                else:
-                    j+=1
-                    return j
+        # for j in range(0,len(orders1_no)-1):
+        #     for i in range(0,len(orders2_no)-1):
+        #         if orders1_no[j]!=orders2_no[i]:
+        #             i+=1
+        #             return i
+        #         else:
+        #             j+=1
+        #             return j
 
 
