@@ -205,7 +205,12 @@ class Android(webdriver.Remote):
         :return:
         '''
         while True:
-            tv_wait = self.find_element_by_id(self.package + 'tv_wait').text
+            tv_wait=''
+            try:
+                tv_wait = self.find_element_by_id(self.package + 'tv_wait').text
+            except NoSuchElementException:
+                break
+
             if int(tv_wait) <= 0:
                 break
             time.sleep(1)
