@@ -9,6 +9,7 @@ from framework.core import idriver_android
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException
 
+
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = idriver_android.customer()
@@ -21,13 +22,14 @@ class TestCase(unittest.TestCase):
 
     def test_change_Personal(self):
 
+       current_activity = self.driver.current_activity
        #点击进入使用
        self.driver.find_id('start_btn').click()
-        #去除加载
        self.driver.wait_loading()
 
        #点击附近司机列表
        self.driver.find_id('rb_maplist').click()
+       self.driver.wait_loading()
        #判断列表中是否有司机
        nearbyrivers = []
        try:
@@ -40,20 +42,24 @@ class TestCase(unittest.TestCase):
        driver_exist = False
 
        for d in nearbyrivers:
-            d_name = d.find_element_by_id(self.driver.pkg+'big_drivername').text
-            self.driver.swipe(0,0,0,100,0.8)
+           d_name = d.find_element_by_id(self.driver.pkg+'big_drivername').text
+           self.driver.swipe(0,0,0,100,0.8)
 
-            print d_name
-            if u'蒋芷文' in d_name:
-                driver_exist = True
-                d.click()
-                #self.driver.wait_switch('.MainActivity')
-                self.driver.wait_loading()
+           print d_name
+           if u'康小薇哈' in d_name:
+               driver_exist = True
+               d.click()
+               self.driver.wait_switch('.MainActivity')
+
+               # 点击立即下单
+               self.driver.find_id('driver_order').click()
+               self.driver.wait_loading()
 
 
+               break
 
-       #跳转到司机信息界面点击立即下单
-       self.driver.find_id('driver_order').click()
+       self.assertTrue(driver_exist, u'没有找到指定司机')
+
        #跳转到填写手机号界面
        txt=self.driver.find_id('tv_title_text').text
        print txt
