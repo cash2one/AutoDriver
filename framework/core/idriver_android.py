@@ -51,7 +51,7 @@ class Android(webdriver.Remote):
         desired_capabilities['platformName'] = self.configs['platform_name']
         desired_capabilities['platformVersion'] = self.configs['platform_version']
         desired_capabilities['deviceName'] = self.configs['device_name']
-        desired_capabilities['app'] = PATH('../../resource/apk/' + self.configs['app'])
+        desired_capabilities['app'] = PATH('../../resource/app/' + self.configs['app'])
         desired_capabilities['appPackage'] = self.configs['app_package']
         desired_capabilities['app-activity'] = self.configs['app_activity']
         command_executor = 'http://localhost:%s/wd/hub' % self.configs['remote_port']
