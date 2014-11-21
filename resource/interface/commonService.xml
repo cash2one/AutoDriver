@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <interface url="service/commonService/activeTest" displayName="连接测试" desc="">
+        <parameter name="tokenNo" type="String" required="false" desc="令牌号" />
+    </interface>
+    <interface url="service/commonService/getResourse" displayName="获取资源文件" desc="">
+        <parameter name="no" type="String" required="false" desc="资源号(部分请求的返回值携带资源号)，与path二选一。" />
+        <parameter name="path" type="String" required="false" desc="资源相对路径，与no二选一。" />
+    </interface>
+    <interface url="service/commonService/getHelpInfoList" displayName="查询帮助信息列表" desc="">
+        <parameter name="tokenNo" type="String" required="false" desc="令牌号，注意这里非必填，默认取客户帮助信息。" />
+        <parameter name="title" type="String" required="false" desc="筛选条件：标题，模糊匹配，可空。" />
+    </interface>
+    <interface url="service/commonService/getHelpInfoDetail" displayName="查询帮助信息详情" desc="">
+        <parameter name="tokenNo" type="String" required="false" desc="令牌号，这里非必填，默认只能访问客户帮助信息。" />
+        <parameter name="docId" type="long" required="true" desc="文档ID。" />
+        <parameter name="modifyTime" type="long" required="false" desc="修改时间，时间的long类型。默认不携带，如果携带，则只在信息的实际修改时间大于该参数时才会返回具体内容。" />
+    </interface>
+    <interface url="service/commonService/getBaseInfo" displayName="查询基本信息" desc="">
+        <parameter name="tag" type="int" required="true" desc="基本信息标记，参见常量定义4.2.8。" />
+        <parameter name="modifyTime" type="long" required="false" desc="参见查询帮助信息详情的modifyTime参数。" />
+    </interface>
+    <interface url="service/commonService/getChargeParams" displayName="查询计费参数" desc="" />
+    <interface url="service/commonService/getRequestStatus" desc="查询请求状态">
+        <parameter name="destRequestId" type="String" required="true" desc="请求号。" />
+    </interface>
+</root>
