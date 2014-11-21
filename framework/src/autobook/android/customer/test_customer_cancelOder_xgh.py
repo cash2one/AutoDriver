@@ -21,9 +21,12 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('btn_personalcenter').click()
         self.driver.wait_loading()
 
+
         #点击历史订单
         personal_names = self.driver.find_ids('personal_name')
         personal_names[1].click()
+        self.driver.wait_loading()
+        self.driver.find_id('iscancle').click()
         self.driver.wait_loading()
 
         #获取已完成订单列表的订单号
@@ -47,7 +50,3 @@ class TestCase(unittest.TestCase):
         print order_info
 
         self.assertTrue(list_info == order_info)
-
-
-
-
