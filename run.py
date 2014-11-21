@@ -96,7 +96,7 @@ if __name__ == "__main__":
     #dd = str.to_datetime(u'2014-11-12 15:51:52')
 
     import string
-    print str.to_int('1302203.332')
+    print str.to_long('1302203.332')
 
 
 
