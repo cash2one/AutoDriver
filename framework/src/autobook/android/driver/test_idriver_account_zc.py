@@ -34,6 +34,8 @@ class TestCase(unittest.TestCase):
             recharge_info+=((time,text,recharge_in,),)
         print recharge_info
 
+        recharge_info1=self.driver.sql('SELECT * from t_driver_account_flow a,t_driver_account b where a.driver_account=b.id and b.driver_no=140019','fa')
+        print recharge_info1
 
 
 
