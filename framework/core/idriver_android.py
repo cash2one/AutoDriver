@@ -279,7 +279,7 @@ class Android(webdriver.Remote):
         '''
         db_conf = 'database'
         if len(db_config.strip()) > 0:
-            db_conf += db_config
+            db_conf += ('_'+db_config)
 
         # url,usr,pwd,db_name,port
         dbs = self.configs[db_conf].split('|')
