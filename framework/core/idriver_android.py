@@ -14,16 +14,17 @@ from selenium.common.exceptions import NoSuchElementException
 TIME_OUT = 100
 DRIVER = 'idriver.android.driver'
 CUSTOMER = 'idriver.android.customer'
-#订单加载loading
+# 订单加载loading
 ORDER_LOAD = 'order_load'
 HISTORY_ORDER_FINISH = 'history_order_finish'
 HISTORY_ORDER_CANCLE = 'history_order_cancle'
 WORK_STATE = 'tb_work_state'
-NET_WAIT='progressbar_net_wait'
+NET_WAIT = 'progressbar_net_wait'
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
+
 
 def driver():
     _configs = the.app_configs[DRIVER]
@@ -32,6 +33,7 @@ def driver():
         the.devices[DRIVER].wait_switch(_configs['app_activity'])
 
     return the.devices[DRIVER]
+
 
 def customer():
     _configs = the.app_configs[CUSTOMER]
@@ -42,9 +44,8 @@ def customer():
     return the.devices[CUSTOMER]
 
 
-
 class Android(webdriver.Remote):
-    def __init__(self, configs,browser_profile=None, proxy=None, keep_alive=False):
+    def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
         self.configs = configs
 
         desired_capabilities = {}
@@ -101,22 +102,22 @@ class Android(webdriver.Remote):
             the.devices['driver_status'] = isWorking
             self.wait_loading()
 
-    def login(self,robot_name=''):
+    def login(self, robot_name=''):
         if '.driver' in self.configs['app_package']:
             login_driver(self)
         elif '.customer' in self.configs['app_package']:
-            login_customer(self,robot_name)
+            login_customer(self, robot_name)
 
-    def swipe_up(self,id_):
+    def swipe_up(self, id_):
         #{'y': 274, 'x': 0}
         #{'width': 720, 'height': 894}
         loc = self.find_element_by_id(self.package + id_).location
         sz = self.find_element_by_id(self.package + id_).size
 
-        start_y = loc['y']+5
-        end_y = start_y-5 + sz['height']-5
+        start_y = loc['y'] + 5
+        end_y = start_y - 5 + sz['height'] - 5
 
-        self.swipe(5,end_y,5,start_y,500)
+        self.swipe(5, end_y, 5, start_y, 500)
         time.sleep(1)
 
         #listview 数据载入
@@ -127,15 +128,15 @@ class Android(webdriver.Remote):
             except NoSuchElementException:
                 isLoading = True
 
-    def swipee(self,id_):
+    def swipee(self, id_):
         ids = self.find_elements_by_id(self.package + id_)
         first_y = ids[0].location['y']
         item_height = ids[0].size['height']
 
-        end_y = first_y+item_height*(len(ids)-1)
-        print len(ids)-1
+        end_y = first_y + item_height * (len(ids) - 1)
+        print len(ids) - 1
 
-        self.swipe(5,end_y,5,first_y,500)
+        self.swipe(5, end_y, 5, first_y, 500)
         time.sleep(1)
         #listview 数据载入
         isLoading = False
@@ -146,7 +147,7 @@ class Android(webdriver.Remote):
                 isLoading = True
 
 
-    def swipe_click(self,list_id,item_id,target_id,target_txt,execute_id=''):
+    def swipe_click(self, list_id, item_id, target_id, target_txt, execute_id=''):
         '''
         列表滑动，找到匹配的内容后，click
         '''
@@ -168,7 +169,7 @@ class Android(webdriver.Remote):
         else:
             raise NameError, 'find_element timeout'
 
-    def swipe_load_item(self, list_id, item_id,sub_items, page_size=1):
+    def swipe_load_item(self, list_id, item_id, sub_items, page_size=1):
         '''
         列表滑动，装载ListView item,[{'id':'id_text'}]
         '''
@@ -186,7 +187,7 @@ class Android(webdriver.Remote):
                         sub_txt = item.find_element_by_id(self.package + sub).text
                         sub_tup += (sub_txt,)
                     except NoSuchElementException:
-                        print 'find id fail',sub_txt
+                        print 'find id fail', sub_txt
                         sub_tup = ()
 
                 if len(sub_tup) > 0 and sub_tup not in datas:
@@ -205,7 +206,7 @@ class Android(webdriver.Remote):
         :return:
         '''
         while True:
-            tv_wait=''
+            tv_wait = ''
             try:
                 tv_wait = self.find_element_by_id(self.package + 'tv_wait').text
             except NoSuchElementException:
@@ -215,7 +216,7 @@ class Android(webdriver.Remote):
                 break
             time.sleep(1)
 
-    def location(self,current_location):
+    def location(self, current_location):
         '''
         通过百度地图api获取经纬度
         :param current_location:用户端一键下单内获取所在位置
@@ -224,7 +225,8 @@ class Android(webdriver.Remote):
         import urllib2, json
 
         ak = '3QaWoBGE8jWtBdIfl56yn582'
-        uri = 'http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s&callback=showLocation' % (current_location, ak)
+        uri = 'http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s&callback=showLocation' % (
+        current_location, ak)
         req = urllib2.Request(uri)
         response = urllib2.urlopen(req)
         the_page = response.read()
@@ -254,15 +256,15 @@ class Android(webdriver.Remote):
         except xmlrpclib.Fault:
             pass
 
-    def enum(self,key,val):
+    def enum(self, key, val):
         return idriver_const.idriver_enum[key]['key_' + str(val)]
 
     @property
     def no(self):
-        return self.configs['user_name']#['idriver.android.ium']
+        return self.configs['user_name']  #['idriver.android.ium']
 
     def phone(self):
-        return self.configs['contact_phone']#['idriver.android.customer']
+        return self.configs['contact_phone']  #['idriver.android.customer']
 
     def clear_text(self, id_):
         txt = self.find_element_by_id(self.package + id_).get_attribute('text')
@@ -271,12 +273,17 @@ class Android(webdriver.Remote):
         for i in range(0, len(txt)):
             self.keyevent(67)
 
-    def sql(self, sql, size=0):
+    def sql(self, sql, db_config='', size=0):
         '''
         mysql数据查询，size大于0时为查询多条数据
         '''
-        dbs = self.configs['database'].split('|')
+        db_conf = 'database'
+        if len(db_config.strip()) > 0:
+            db_conf += db_config
+
         # url,usr,pwd,db_name,port
+        dbs = self.configs[db_conf].split('|')
+
         dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
 
         r = None
@@ -355,7 +362,6 @@ class Android(webdriver.Remote):
             raise NameError, 'switch timeout'
 
         self.wait_loading()
-
 
 
 def add_devices(key, val):
@@ -482,9 +488,9 @@ def login_driver(self_driver):
         time.sleep(2)
         # 在main界面没有登录控件id
         try:
-            self_driver.find_element_by_id(self_driver.package+'et_username').send_keys(usr_name)
-            self_driver.find_element_by_id(self_driver.package+'et_password').send_keys(usr_pwd)
-            self_driver.find_element_by_id(self_driver.package+'bt_login').click()
+            self_driver.find_element_by_id(self_driver.package + 'et_username').send_keys(usr_name)
+            self_driver.find_element_by_id(self_driver.package + 'et_password').send_keys(usr_pwd)
+            self_driver.find_element_by_id(self_driver.package + 'bt_login').click()
         except NoSuchElementException:
             pass
 
