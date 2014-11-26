@@ -82,35 +82,3 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('btn_confirm').click()
         current_activity = self.driver.current_activity
 
-
-    # def test_value(self,driver_no,driver_phone):
-    #     #清除文本框中已有的数据
-    #     self.driver.find_id('driver_no').clear()
-    #     #文本框中输入值
-    #     self.driver.find_id('driver_no').send_keys(driver_no,driver_phone)
-    #     #清除文本框中已有的数据
-    #     self.driver.find_element_by_id('driver_phone').clear()
-    #     #文本框中输入值
-    #     self.driver.find_id('driver_no').send_keys(driver_no,driver_phone)
-    #
-    #
-    #
-    #
-    # def test_correct_value(self):
-    #     #都为空
-    #     self.test_value('','')
-    # def test_error(self):
-    #     #都为空
-    #     self.test_value('140014','')
-    #     # self.test_value('abc','123456')
-    #
-    #
-    #     #点击id为u6的按钮
-    #     #self.ff.find_element_by_id('u6').click()
-
-
-
-# driver_no
-# driver_phone
-#
-# send_new_psd
