@@ -16,6 +16,8 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
+
+
     #司机信息都为空
     def test_no_null(self):
         self.driver.find_id('login_forget').click()
@@ -26,6 +28,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(u'司机工号不能为空' in txt)
         self.driver.find_id('btn_confirm').click()
         current_activity = self.driver.current_activity
+
 
          #司机手机号码为空
     def test_phone_null(self):
@@ -39,6 +42,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(u'司机手机号不能为空' in txt)
         self.driver.find_id('btn_confirm').click()
         current_activity = self.driver.current_activity
+
 
     #司机工号错误
     def test_no_error(self):
@@ -54,6 +58,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('btn_confirm').click()
         current_activity = self.driver.current_activity
 
+
         #司机手机号码格式错误
     def test_phone_error(self):
         self.driver.find_id('login_forget').click()
@@ -68,6 +73,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('btn_confirm').click()
         current_activity = self.driver.current_activity
 
+
       #司机手机号码格式错误
     def test_phone_mismatches(self):
         self.driver.find_id('login_forget').click()
@@ -81,4 +87,5 @@ class TestCase(unittest.TestCase):
         self.assertTrue(u'手机号错误' in txt)
         self.driver.find_id('btn_confirm').click()
         current_activity = self.driver.current_activity
+
 
