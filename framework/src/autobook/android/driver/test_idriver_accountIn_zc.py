@@ -37,7 +37,7 @@ class TestCase(unittest.TestCase):
         str1 =str1.decode(encoding='UTF-8', errors='strict')
         str2=u'入职付款'
         str2 =str2.decode(encoding='UTF-8', errors='strict')
-        recharge_info1=self.driver.sql('SELECT a.insert_time,a.digest,a.pledge_in+a.prepay_in from t_driver_account_flow a,t_driver_account b where a.driver_account=b.id and b.driver_no=140019  and  (a.digest='+str1+' or a.digest='+str2+')',1,1)
+        recharge_info1=self.driver.sql('SELECT a.insert_time,a.digest,a.pledge_in+a.prepay_in from t_driver_account_flow a,t_driver_account b where a.driver_account=b.id and b.driver_no='+self.driver.no+' and  (a.digest='+str1+' or a.digest='+str2+')',1,1)
         print recharge_info1
 
 

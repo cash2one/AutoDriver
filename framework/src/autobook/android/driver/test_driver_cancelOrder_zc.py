@@ -35,7 +35,7 @@ class TestCase(unittest.TestCase):
         #获取当前页面上的所有订单号
 
 
-        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s ORDER BY a.create_time desc' % self.driver.no,'',1)
+        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s ORDER BY a.create_time desc' % self.driver.no,0,1)
         #在数据库中关联查询该司机的所有订单
 
         #print(type(orders1_no[1]),type(orders2_no[1]))
