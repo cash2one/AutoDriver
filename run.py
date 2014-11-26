@@ -91,13 +91,39 @@ if __name__ == "__main__":
     #
     # dt.dt1().do1()
     # print dt.dt1().do2()
-    from framework.util import str
+    from framework.core import the
+    def sql(self, sql, db_config='', size=0):
 
-    #dd = str.to_datetime(u'2014-11-12 15:51:52')
+        from framework.util import mysql
+        '''
+        mysql数据查询，size大于0时为查询多条数据
+        '''
+        db_conf = 'database'
+        if len(db_config.strip()) > 0:
+            db_conf += ('_'+db_config)
 
-    import string
-    print str.to_long('1302203.332')
+        # url,usr,pwd,db_name,port
+        DRIVER = 'idriver.android.driver'
+        dbs = the.app_configs[DRIVER][db_conf].split('|')#  self.configs[db_conf].split('|')
 
+        dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
+
+        r = None
+
+        cu = dbm.get_cursor()
+        cu.execute(sql)
+        if size == 0:
+            r = cu.fetchone()
+        elif size >= 1:
+            r = cu.fetchall()
+        else:
+            print u'error'
+
+        cu.close()
+        dbm.close_db()
+        return r
+
+    print ''
 
 
     # for p in ps:
