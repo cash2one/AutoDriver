@@ -26,28 +26,28 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_name(u'历史订单').click()
         self.driver.wait_switch(current_activity)
 
-        # orders1_no=[]
-        # for i in range(0,5):
-        #     text=self.driver.find_ids('order_number_text')[i].text
-        #     order_no=text.split(':')[1].strip()
-        #     orders1_no.append(order_no)
-        #获取当前页面上的所有订单号
-
         orders1_no=()
         for i in range(0,5):
             text=self.driver.find_ids('order_number_text')[i].text
             order_no=text.split(':')[1].strip()
             orders1_no+=((order_no,),)
+        #获取当前页面上的所有订单号
 
 
-
-        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s ORDER BY a.create_time desc' % self.driver.no,1)
+        orders2_no=self.driver.sql('SELECT a.order_no FROM t_order_info a, t_driver b WHERE a.driver_id = b.id and b.no =%s ORDER BY a.create_time desc' % self.driver.no,'',1)
         #在数据库中关联查询该司机的所有订单
 
-        print(type(orders1_no[1]),type(orders2_no[1]))
+        #print(type(orders1_no[1]),type(orders2_no[1]))
         print orders1_no
         print orders2_no
-        self.assertTrue(orders1_no in orders2_no )
+
+        isExist = True
+        for no in orders1_no:
+            if no not in orders2_no:
+                isExist = False
+                break
+
+        self.assertTrue(isExist,'false')
 
         # for j in range(0,len(orders1_no)-1):
         #     for i in range(0,len(orders2_no)-1):

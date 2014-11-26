@@ -33,10 +33,10 @@ class TestCase(unittest.TestCase):
             recharge_in=self.driver.find_ids('recharge_in')[i].text
             recharge_info+=((time,text,recharge_in,),)
         print recharge_info
-        str1='预付款充值'
-        str1 =str1.encode('utf-8')
-        str2='入职付款'
-        str2 =str2.encode('utf-8')
+        str1=u'预付款充值'
+        str1 =str1.decode(encoding='UTF-8', errors='strict')
+        str2=u'入职付款'
+        str2 =str2.decode(encoding='UTF-8', errors='strict')
         recharge_info1=self.driver.sql('SELECT a.insert_time,a.digest,a.pledge_in+a.prepay_in from t_driver_account_flow a,t_driver_account b where a.driver_account=b.id and b.driver_no=140019  and  (a.digest='+str1+' or a.digest='+str2+')','fa',1)
         print recharge_info1
 
