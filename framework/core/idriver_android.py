@@ -273,16 +273,17 @@ class Android(webdriver.Remote):
         for i in range(0, len(txt)):
             self.keyevent(67)
 
-    def sql(self, sql, db_config='', size=0):
+    def sql(self, sql, db_no=0, size=0):
         '''
         mysql数据查询，size大于0时为查询多条数据
         '''
-        db_conf = 'database'
-        if len(db_config.strip()) > 0:
-            db_conf += ('_'+db_config)
+        # db_conf = 'database'
+        # if len(db_config.strip()) > 0:
+        #     db_conf += ('_'+db_config)
 
         # url,usr,pwd,db_name,port
-        dbs = self.configs[db_conf].split('|')
+        db_array = self.configs['database'].split('|')[db_no]
+        dbs = db_array.split(',')
 
         dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
 
