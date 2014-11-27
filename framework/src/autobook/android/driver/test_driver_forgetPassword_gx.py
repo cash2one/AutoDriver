@@ -22,6 +22,9 @@ class TestCase(unittest.TestCase):
     def test_no_null(self):
         self.driver.find_id('login_forget').click()
         current_activity = self.driver.current_activity
+        #判断是否正确跳转至对应的界面
+        print(self.driver.current_activity)
+        # self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
         self.driver.find_id('send_new_psd').click()
         self.driver.switch_to_alert()
         txt = self.driver.find_id('tv_msg').text
@@ -34,6 +37,9 @@ class TestCase(unittest.TestCase):
     def test_phone_null(self):
         self.driver.find_id('login_forget').click()
         current_activity = self.driver.current_activity
+        #判断是否正确跳转至对应的界面
+        print(self.driver.current_activity)
+        # self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
         self.driver.find_id('driver_no').clear()
         self.driver.find_id('driver_no').send_keys('140014')
         self.driver.find_id('send_new_psd').click()
@@ -48,6 +54,9 @@ class TestCase(unittest.TestCase):
     def test_no_error(self):
         self.driver.find_id('login_forget').click()
         current_activity = self.driver.current_activity
+        #判断是否正确跳转至对应的界面
+        print(self.driver.current_activity)
+        # self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
         self.driver.find_id('driver_no').clear()
         self.driver.find_id('driver_no').send_keys('123abc')
         self.driver.find_id(' driver_phone').send_keys('13122302222')
@@ -63,6 +72,9 @@ class TestCase(unittest.TestCase):
     def test_phone_error(self):
         self.driver.find_id('login_forget').click()
         current_activity = self.driver.current_activity
+        #判断是否正确跳转至对应的界面
+        print(self.driver.current_activity)
+        # self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
         self.driver.find_id('driver_no').clear()
         self.driver.find_id('driver_no').send_keys('140015')
         self.driver.find_id(' driver_phone').send_keys('1234')
@@ -78,6 +90,9 @@ class TestCase(unittest.TestCase):
     def test_phone_mismatches(self):
         self.driver.find_id('login_forget').click()
         current_activity = self.driver.current_activity
+        #判断是否正确跳转至对应的界面
+        print(self.driver.current_activity)
+        # self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
         self.driver.find_id('driver_no').clear()
         self.driver.find_id('driver_no').send_keys('140015')
         self.driver.find_id(' driver_phone').send_keys('13100000000')
