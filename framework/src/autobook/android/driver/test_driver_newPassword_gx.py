@@ -16,18 +16,38 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-     #判断是否跳转至对应的界面
+
     def test_newpage(self):
+        #判断是否跳转至对应的界面
         self.driver.find_id('login_forget').click()
         current_activity = self.driver.current_activity
-        self.driver.find_id('driver_no').clear()
-        self.driver.find_id('driver_no').send_keys('140014')
-        self.driver.find_id('driver_phone').clear()
-        self.driver.find_id('driver_phone').send_keys('13122302705')
+        no=self.driver.find_id('driver_no').send_keys('140014')
+        phone=self.driver.find_id('driver_phone').send_keys('13122302705')
+        notx=no.text
+        pnonetx= phone.text
+        print notx+'no'
+        print  pnonetx+'ph'
         self.driver.find_id('send_new_psd').click()
         current_activity = self.driver.current_activity
         print(self.driver.current_activity)
-        self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
+        # self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
+        newPageno=self.driver.find_id('driver_no').text
+        newPagephone=self.driver.find_id('driver_phone').text
+        print newPageno
+        print newPagephone
 
+#
+#     def test_information(self):
+#
+#
 
+#
+#
+#
+# /tv_time tv_unmsg 新密码已发送到您的手机，请注意查收。
+# send_code_again
+# login_again
+#
+# tv_msg 密码错误
+#
 
