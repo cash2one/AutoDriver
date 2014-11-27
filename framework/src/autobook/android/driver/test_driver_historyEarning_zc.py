@@ -24,8 +24,12 @@ class TestCase(unittest.TestCase):
         #点击收益
         self.driver.find_id('rb_benifit').click()
         current_activity = self.driver.current_activity
-        #点击历史收益
+        td=self.driver.find_id('he_td').text[1:]
+        #获取今日收益
+        td_earning=filter(str.isdigit,str(td))
+        #去掉收益中的小数点
         self.driver.find_id('about_function').click()
+        #点击历史收益
         self.driver.wait_switch(current_activity)
 
 
@@ -51,10 +55,11 @@ class TestCase(unittest.TestCase):
 
         tup_earning=()
         e=self.driver.sql('SELECT sum(amount-info_charge-insurance_charge) from t_statistics_driver_income where driver_no='+self.driver.no+' and s_month='+tup_month[0])
-        tup_earning+=(str(e[0]),)
+        this_mouth_Earning=int(e[0]+int(td_earning))
+        tup_earning+=(str(this_mouth_Earning),)
         for i in range(1,len(month_id)):
             earning=self.driver.sql('SELECT sum(amount-info_charge-insurance_charge) from t_statistics_driver_income where driver_no='+self.driver.no+' and s_month='+tup_month[i])
 
             tup_earning+=(str(earning[0]),)
-        print tup_earning
+        print tup_earning,this_mouth_Earning
         self.assertTrue(tup_earning==tup_income)
