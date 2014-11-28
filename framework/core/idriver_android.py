@@ -2,7 +2,6 @@
 __author__ = 'guguohai@pathbook.com.cn23'
 
 import os
-import re
 import time
 import the
 from framework.util import idriver_const
@@ -13,8 +12,9 @@ from selenium.common.exceptions import NoSuchElementException
 
 TIME_OUT = 100
 DRIVER = 'idriver.android.driver'
+DRIVER_ROBOT = 'idriver.android.driver_robot'
 CUSTOMER = 'idriver.android.customer'
-CUSTOMER1 = 'idriver.android.customer1'
+CUSTOMER_ROBOT = 'idriver.android.customer_robot'
 # 订单加载loading
 ORDER_LOAD = 'order_load'
 HISTORY_ORDER_FINISH = 'history_order_finish'
@@ -32,27 +32,28 @@ def driver():
     if the.devices[DRIVER] == None:
         the.devices[DRIVER] = Android(_configs)
         the.devices[DRIVER].wait_switch(_configs['app_activity'])
-
     return the.devices[DRIVER]
-
 
 def customer():
     _configs = the.app_configs[CUSTOMER]
     if the.devices[CUSTOMER] == None:
         the.devices[CUSTOMER] = Android(_configs)
         the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
-        print CUSTOMER
-
     return the.devices[CUSTOMER]
 
-def customer1():
-    _configs = the.app_configs[CUSTOMER1]
-    if the.devices[CUSTOMER1] == None:
-        the.devices[CUSTOMER1] = Android(_configs)
-        the.devices[CUSTOMER1].wait_switch(_configs['app_activity'])
-        print CUSTOMER1
+def driver_robot():
+    _configs = the.app_configs[DRIVER_ROBOT]
+    if the.devices[DRIVER_ROBOT] == None:
+        the.devices[DRIVER_ROBOT] = Android(_configs)
+        the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
+    return the.devices[DRIVER_ROBOT]
 
-    return the.devices[CUSTOMER1]
+def customer_robot():
+    _configs = the.app_configs[CUSTOMER_ROBOT]
+    if the.devices[CUSTOMER_ROBOT] == None:
+        the.devices[CUSTOMER_ROBOT] = Android(_configs)
+        the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
+    return the.devices[CUSTOMER_ROBOT]
 
 
 class Android(webdriver.Remote):
