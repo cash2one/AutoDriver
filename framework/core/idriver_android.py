@@ -14,6 +14,7 @@ from selenium.common.exceptions import NoSuchElementException
 TIME_OUT = 100
 DRIVER = 'idriver.android.driver'
 CUSTOMER = 'idriver.android.customer'
+CUSTOMER1 = 'idriver.android.customer1'
 # 订单加载loading
 ORDER_LOAD = 'order_load'
 HISTORY_ORDER_FINISH = 'history_order_finish'
@@ -40,8 +41,18 @@ def customer():
     if the.devices[CUSTOMER] == None:
         the.devices[CUSTOMER] = Android(_configs)
         the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
+        print CUSTOMER
 
     return the.devices[CUSTOMER]
+
+def customer1():
+    _configs = the.app_configs[CUSTOMER1]
+    if the.devices[CUSTOMER1] == None:
+        the.devices[CUSTOMER1] = Android(_configs)
+        the.devices[CUSTOMER1].wait_switch(_configs['app_activity'])
+        print CUSTOMER1
+
+    return the.devices[CUSTOMER1]
 
 
 class Android(webdriver.Remote):
