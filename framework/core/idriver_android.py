@@ -499,6 +499,30 @@ def login_driver(self_driver):
 
     self_driver.wait_switch(login)
 
+
+def server(py_file):
+    import socket,subprocess
+    sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    sock.bind(('localhost',7556))
+    sock.listen(5)
+    while True:
+        connection,address = sock.accept()
+        #print "client ip is "
+        #print address
+        try:
+            connection.settimeout(5)
+            buf = connection.recv(1024)
+            if buf == '1':
+                connection.send('welcome to python server!')
+                #执行一个下订单的脚本
+                subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+        except socket.timeout:
+            print 'time out'
+        connection.close()
+
+
+
+
 # def get_driver_no():
 #     return the.project_settings['idriver.android.driver']['user_name']
 #
