@@ -512,7 +512,7 @@ def login_driver(self_driver):
     self_driver.wait_switch(login)
 
 
-def server(py_file):
+def server():
     import socket,subprocess
     sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     sock.bind(('localhost',7556))
@@ -527,13 +527,34 @@ def server(py_file):
             if buf == '1':
                 connection.send('welcome to python server!')
                 #执行一个下订单的脚本
-                subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+                #subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+                py_file=PATH('../src/autobook/android/customer/test.py')
+                p = subprocess.Popen("python %s" % py_file, stdout=subprocess.PIPE, shell=True)
+                print p.stdout.read()
         except socket.timeout:
             print 'time out'
         connection.close()
 
+def client():
+    import socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(('localhost',7556))
+    import time
+    time.sleep(2)
+    sock.send('1')
+    print sock.recv(1024)
+    sock.close()
 
+def printtest():
+    print 'gegweeeeeeeeee'
 
+if __name__ == "__main__":
+    import sys
+    args = sys.argv
+    if args[1]=='-server':
+        server()
+    elif args[1]=='-client':
+        client()
 
 # def get_driver_no():
 #     return the.project_settings['idriver.android.driver']['user_name']
