@@ -4,6 +4,7 @@ __author__ = 'guguohai@pathbook.com.cn23'
 import os
 import time
 import the
+import socket,subprocess
 from framework.util import idriver_const
 from framework.util import mysql
 from appium import webdriver
@@ -34,6 +35,7 @@ def driver():
         the.devices[DRIVER].wait_switch(_configs['app_activity'])
     return the.devices[DRIVER]
 
+
 def customer():
     _configs = the.app_configs[CUSTOMER]
     if the.devices[CUSTOMER] == None:
@@ -41,12 +43,14 @@ def customer():
         the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
     return the.devices[CUSTOMER]
 
+
 def driver_robot():
     _configs = the.app_configs[DRIVER_ROBOT]
     if the.devices[DRIVER_ROBOT] == None:
         the.devices[DRIVER_ROBOT] = Android(_configs)
         the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
     return the.devices[DRIVER_ROBOT]
+
 
 def customer_robot():
     _configs = the.app_configs[CUSTOMER_ROBOT]
@@ -121,7 +125,7 @@ class Android(webdriver.Remote):
             login_customer(self, robot_name)
 
     def swipe_up(self, id_):
-        #{'y': 274, 'x': 0}
+        # {'y': 274, 'x': 0}
         #{'width': 720, 'height': 894}
         loc = self.find_element_by_id(self.package + id_).location
         sz = self.find_element_by_id(self.package + id_).size
@@ -150,7 +154,7 @@ class Android(webdriver.Remote):
 
         self.swipe(5, end_y, 5, first_y, 500)
         time.sleep(1)
-        #listview 数据载入
+        # listview 数据载入
         isLoading = False
         while not isLoading:
             try:
@@ -238,7 +242,7 @@ class Android(webdriver.Remote):
 
         ak = '3QaWoBGE8jWtBdIfl56yn582'
         uri = 'http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s&callback=showLocation' % (
-        current_location, ak)
+            current_location, ak)
         req = urllib2.Request(uri)
         response = urllib2.urlopen(req)
         the_page = response.read()
@@ -273,10 +277,10 @@ class Android(webdriver.Remote):
 
     @property
     def no(self):
-        return self.configs['user_name']  #['idriver.android.ium']
+        return self.configs['user_name']  # ['idriver.android.ium']
 
     def phone(self):
-        return self.configs['contact_phone']  #['idriver.android.customer']
+        return self.configs['contact_phone']  # ['idriver.android.customer']
 
     def clear_text(self, id_):
         txt = self.find_element_by_id(self.package + id_).get_attribute('text')
@@ -291,7 +295,7 @@ class Android(webdriver.Remote):
         '''
         # db_conf = 'database'
         # if len(db_config.strip()) > 0:
-        #     db_conf += ('_'+db_config)
+        # db_conf += ('_'+db_config)
 
         # url,usr,pwd,db_name,port
         db_array = self.configs['database'].split('|')[db_no]
@@ -418,7 +422,7 @@ def register_user(self_driver, user_name):
     self_driver.find_element_by_id(pkg + 'verification_code').send_keys(code)
     self_driver.find_element_by_id(pkg + 'code_submit').click()
 
-    #验证码完成后，会返回到PersonActivity
+    # 验证码完成后，会返回到PersonActivity
     self_driver.wait_switch('.MyInfoActivity')
 
     #方便调试先注释
@@ -476,7 +480,7 @@ def login_customer(self_driver, robot_name=''):
     if not login_status:
         register_user(self_driver, user_name)
 
-    #订单机器人发起，发起自定义的用户名，需要修改用户名
+    # 订单机器人发起，发起自定义的用户名，需要修改用户名
     if robot_name != '' and robot_name not in user_name:
         self_driver.switch_to_home()
         register_user(self_driver, robot_name)
@@ -495,7 +499,7 @@ def login_driver(self_driver):
             isFinishSplash = True
         if main in self_driver.current_activity:
             break
-            #isFinishSplash = True
+            # isFinishSplash = True
 
     else:
         time.sleep(2)
@@ -511,53 +515,49 @@ def login_driver(self_driver):
 
     self_driver.wait_switch(login)
 
+socket_sign = 1
+socket_addr = 'localhost'
 
-def server():
-    import socket,subprocess
-    sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    sock.bind(('localhost',7556))
+def customer_server(py_file):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((socket_addr, 7556))
     sock.listen(5)
     while True:
-        connection,address = sock.accept()
-        #print "client ip is "
+        connection, address = sock.accept()
+        # print "client ip is "
         #print address
         try:
             connection.settimeout(5)
             buf = connection.recv(1024)
-            if buf == '1':
+            if buf == socket_sign:
                 connection.send('welcome to python server!')
                 #执行一个下订单的脚本
                 #subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
-                py_file=PATH('../src/autobook/android/customer/test.py')
-                p = subprocess.Popen("python %s" % py_file, stdout=subprocess.PIPE, shell=True)
+                cmd = PATH('../src/autobook/android/customer/%s' % py_file)
+                p = subprocess.Popen("python %s" % cmd, stdout=subprocess.PIPE, shell=True)
                 print p.stdout.read()
         except socket.timeout:
             print 'time out'
         connection.close()
 
+
 def client():
-    import socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect(('localhost',7556))
-    import time
+    sock.connect(('localhost', 7556))
+
     time.sleep(2)
     sock.send('1')
-    print sock.recv(1024)
+    recv_str = sock.recv(1024)
     sock.close()
+    return recv_str
+
 
 def printtest():
     print 'gegweeeeeeeeee'
 
-if __name__ == "__main__":
-    import sys
-    args = sys.argv
-    if args[1]=='-server':
-        server()
-    elif args[1]=='-client':
-        client()
 
 # def get_driver_no():
-#     return the.project_settings['idriver.android.driver']['user_name']
+# return the.project_settings['idriver.android.driver']['user_name']
 #
 #
 # def get_contact_phone():
