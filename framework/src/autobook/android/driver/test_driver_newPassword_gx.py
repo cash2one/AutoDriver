@@ -27,23 +27,3 @@ class TestCase(unittest.TestCase):
         current_activity = self.driver.current_activity
         print(self.driver.current_activity)
         self.assertEqual('.ForgetPsdActivity',self.driver.current_activity)
-
-
-
-
-
-#
-#     def test_information(self):
-#
-#
-
-#
-#
-#
-# /tv_time tv_unmsg 新密码已发送到您的手机，请注意查收。
-# send_code_again
-# login_again
-#
-# tv_msg 密码错误
-#
-
