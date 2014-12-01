@@ -25,7 +25,8 @@ class TestCase(unittest.TestCase):
         current_activity = self.driver.current_activity
         self.driver.find_element_by_name(u'历史订单').click()
         self.driver.wait_switch(current_activity)
-
+        self.driver.find_element_by_name(u'已取消').click()
+        self.driver.wait_find_id("rb_cancel")
         orders1_no=()
         for i in range(0,5):
             text=self.driver.find_ids('order_number_text')[i].text
@@ -48,7 +49,4 @@ class TestCase(unittest.TestCase):
                 break
 
         self.assertTrue(isExist,'false')
-
-
-
 

@@ -76,6 +76,8 @@ class MonitorOrder(threading.Thread):
 
 
 if __name__ == "__main__":
-    da = device.app('idriver.android.customer')
-    mo = MonitorOrder(da)
-    mo.start()
+    # da = device.app('idriver.android.customer')
+    # mo = MonitorOrder(da)
+    # mo.start()
+    from framework.core import idriver_android
+    print idriver_android.order('abcddefe')
