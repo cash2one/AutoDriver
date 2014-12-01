@@ -17,4 +17,4 @@ class TestCase(unittest.TestCase):
         PATH = lambda p: os.path.abspath(
             os.path.join(os.path.dirname(__file__), p)
         )
-        print self.driver.order(PATH('./test_order_robot.py'))
+        print self.driver.auto_order(PATH('./test_order_robot.py'))

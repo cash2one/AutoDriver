@@ -14,7 +14,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_call_order(self):
-        #执行下订单操作
+        #写具体执行下订单操作
         print u'我已经下了订单'
 
 if __name__ == '__main__':
