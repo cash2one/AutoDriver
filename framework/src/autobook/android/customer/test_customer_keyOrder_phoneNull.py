@@ -28,6 +28,7 @@ class TestCase(unittest.TestCase):
        #删除联系电话
        self.driver.clear_text('tv_phone')
        self.driver.find_id('tv_phone').send.keys('13636468713')
+       time.sleep(3)
 
 
 
