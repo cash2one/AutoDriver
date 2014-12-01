@@ -2,9 +2,9 @@
 __author__ = 'guguohai@pathbook.com.cn23'
 
 import os
-import re
 import time
 import the
+import socket,subprocess
 from framework.util import idriver_const
 from framework.util import mysql
 from appium import webdriver
@@ -13,7 +13,9 @@ from selenium.common.exceptions import NoSuchElementException
 
 TIME_OUT = 100
 DRIVER = 'idriver.android.driver'
+DRIVER_ROBOT = 'idriver.android.driver_robot'
 CUSTOMER = 'idriver.android.customer'
+CUSTOMER_ROBOT = 'idriver.android.customer_robot'
 # 订单加载loading
 ORDER_LOAD = 'order_load'
 HISTORY_ORDER_FINISH = 'history_order_finish'
@@ -31,7 +33,6 @@ def driver():
     if the.devices[DRIVER] == None:
         the.devices[DRIVER] = Android(_configs)
         the.devices[DRIVER].wait_switch(_configs['app_activity'])
-
     return the.devices[DRIVER]
 
 
@@ -40,8 +41,23 @@ def customer():
     if the.devices[CUSTOMER] == None:
         the.devices[CUSTOMER] = Android(_configs)
         the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
-
     return the.devices[CUSTOMER]
+
+
+def driver_robot():
+    _configs = the.app_configs[DRIVER_ROBOT]
+    if the.devices[DRIVER_ROBOT] == None:
+        the.devices[DRIVER_ROBOT] = Android(_configs)
+        the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
+    return the.devices[DRIVER_ROBOT]
+
+
+def customer_robot():
+    _configs = the.app_configs[CUSTOMER_ROBOT]
+    if the.devices[CUSTOMER_ROBOT] == None:
+        the.devices[CUSTOMER_ROBOT] = Android(_configs)
+        the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
+    return the.devices[CUSTOMER_ROBOT]
 
 
 class Android(webdriver.Remote):
@@ -109,7 +125,7 @@ class Android(webdriver.Remote):
             login_customer(self, robot_name)
 
     def swipe_up(self, id_):
-        #{'y': 274, 'x': 0}
+        # {'y': 274, 'x': 0}
         #{'width': 720, 'height': 894}
         loc = self.find_element_by_id(self.package + id_).location
         sz = self.find_element_by_id(self.package + id_).size
@@ -138,7 +154,7 @@ class Android(webdriver.Remote):
 
         self.swipe(5, end_y, 5, first_y, 500)
         time.sleep(1)
-        #listview 数据载入
+        # listview 数据载入
         isLoading = False
         while not isLoading:
             try:
@@ -226,7 +242,7 @@ class Android(webdriver.Remote):
 
         ak = '3QaWoBGE8jWtBdIfl56yn582'
         uri = 'http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s&callback=showLocation' % (
-        current_location, ak)
+            current_location, ak)
         req = urllib2.Request(uri)
         response = urllib2.urlopen(req)
         the_page = response.read()
@@ -245,26 +261,42 @@ class Android(webdriver.Remote):
 
         return loc
 
-    def request_order(self, user_name):
-        '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
-        查看是不是XX女士，如果不是就改名，并下个1人的周边订单
-        '''
-        xmlrpc_s = the.settings['xmlrpc']
-        s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
-        try:
-            s.set_customer(True, user_name)
-        except xmlrpclib.Fault:
-            pass
+    # def request_order(self, user_name):
+    #     '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
+    #     查看是不是XX女士，如果不是就改名，并下个1人的周边订单
+    #     '''
+    #     xmlrpc_s = the.settings['xmlrpc']
+    #     s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
+    #     try:
+    #         s.set_customer(True, user_name)
+    #     except xmlrpclib.Fault:
+    #         pass
+
+
+    def auto_order(self,cmd):
+        """
+        与其他端通信，发送或者接收订单
+        :param cmd:
+        :return:
+        """
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(('localhost', 7556))
+
+        time.sleep(2)
+        sock.send('request_order:%s' %cmd)
+        recv_str = sock.recv(1024)
+        sock.close()
+        return recv_str
 
     def enum(self, key, val):
         return idriver_const.idriver_enum[key]['key_' + str(val)]
 
     @property
     def no(self):
-        return self.configs['user_name']  #['idriver.android.ium']
+        return self.configs['user_name']  # ['idriver.android.ium']
 
     def phone(self):
-        return self.configs['contact_phone']  #['idriver.android.customer']
+        return self.configs['contact_phone']  # ['idriver.android.customer']
 
     def clear_text(self, id_):
         txt = self.find_element_by_id(self.package + id_).get_attribute('text')
@@ -279,7 +311,7 @@ class Android(webdriver.Remote):
         '''
         # db_conf = 'database'
         # if len(db_config.strip()) > 0:
-        #     db_conf += ('_'+db_config)
+        # db_conf += ('_'+db_config)
 
         # url,usr,pwd,db_name,port
         db_array = self.configs['database'].split('|')[db_no]
@@ -406,7 +438,7 @@ def register_user(self_driver, user_name):
     self_driver.find_element_by_id(pkg + 'verification_code').send_keys(code)
     self_driver.find_element_by_id(pkg + 'code_submit').click()
 
-    #验证码完成后，会返回到PersonActivity
+    # 验证码完成后，会返回到PersonActivity
     self_driver.wait_switch('.MyInfoActivity')
 
     #方便调试先注释
@@ -464,7 +496,7 @@ def login_customer(self_driver, robot_name=''):
     if not login_status:
         register_user(self_driver, user_name)
 
-    #订单机器人发起，发起自定义的用户名，需要修改用户名
+    # 订单机器人发起，发起自定义的用户名，需要修改用户名
     if robot_name != '' and robot_name not in user_name:
         self_driver.switch_to_home()
         register_user(self_driver, robot_name)
@@ -483,7 +515,7 @@ def login_driver(self_driver):
             isFinishSplash = True
         if main in self_driver.current_activity:
             break
-            #isFinishSplash = True
+            # isFinishSplash = True
 
     else:
         time.sleep(2)
@@ -499,8 +531,50 @@ def login_driver(self_driver):
 
     self_driver.wait_switch(login)
 
+socket_sign = '1'
+socket_addr = 'localhost'
+
+def customer_server():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((socket_addr, 7556))
+    sock.listen(5)
+    while True:
+        connection, address = sock.accept()
+        try:
+            connection.settimeout(5)
+            buf = connection.recv(1024)
+            if 'request_order:' in buf:
+                ss=buf.split('request_order:')[1]
+            #if buf == socket_sign:
+                #connection.send('welcome to python server!')
+                #执行一个下订单的脚本
+                #subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+                #cmd = PATH('../src/autobook/android/customer/%s' % py_file)
+                p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
+                connection.send(p.stdout.read())
+        except socket.timeout:
+            print 'time out'
+        connection.close()
+
+def order_client(cmd):
+    """
+    与其他端通信，发送或者接收订单
+    :param cmd:
+    :return:
+    """
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(('localhost', 7556))
+
+    time.sleep(2)
+    sock.send('request_order:%s' %cmd)
+    recv_str = sock.recv(1024)
+    sock.close()
+    return recv_str
+
+
+
 # def get_driver_no():
-#     return the.project_settings['idriver.android.driver']['user_name']
+# return the.project_settings['idriver.android.driver']['user_name']
 #
 #
 # def get_contact_phone():
