@@ -13,6 +13,6 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_call_server(self):
-        script = os.path.join(os.path.dirname(__file__), './test_order_robot.py')
+        script = os.path.join(os.path.dirname(__file__), 'test_order_robot.py')
         print script
         print self.driver.auto_order(script)

@@ -123,7 +123,7 @@ if __name__ == "__main__":
         dbm.close_db()
         return r
 
-    print os.path.dirname('.')
+    print ''
 
 
     # for p in ps:
