@@ -273,7 +273,7 @@ class Android(webdriver.Remote):
     #         pass
 
 
-    def order(self,cmd):
+    def auto_order(self,cmd):
         """
         与其他端通信，发送或者接收订单
         :param cmd:
