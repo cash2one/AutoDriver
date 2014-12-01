@@ -261,16 +261,32 @@ class Android(webdriver.Remote):
 
         return loc
 
-    def request_order(self, user_name):
-        '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
-        查看是不是XX女士，如果不是就改名，并下个1人的周边订单
-        '''
-        xmlrpc_s = the.settings['xmlrpc']
-        s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
-        try:
-            s.set_customer(True, user_name)
-        except xmlrpclib.Fault:
-            pass
+    # def request_order(self, user_name):
+    #     '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
+    #     查看是不是XX女士，如果不是就改名，并下个1人的周边订单
+    #     '''
+    #     xmlrpc_s = the.settings['xmlrpc']
+    #     s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
+    #     try:
+    #         s.set_customer(True, user_name)
+    #     except xmlrpclib.Fault:
+    #         pass
+
+
+    def order(self,cmd):
+        """
+        与其他端通信，发送或者接收订单
+        :param cmd:
+        :return:
+        """
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(('localhost', 7556))
+
+        time.sleep(2)
+        sock.send('request_order:%s' %cmd)
+        recv_str = sock.recv(1024)
+        sock.close()
+        return recv_str
 
     def enum(self, key, val):
         return idriver_const.idriver_enum[key]['key_' + str(val)]
@@ -515,45 +531,46 @@ def login_driver(self_driver):
 
     self_driver.wait_switch(login)
 
-socket_sign = 1
+socket_sign = '1'
 socket_addr = 'localhost'
 
-def customer_server(py_file):
+def customer_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((socket_addr, 7556))
     sock.listen(5)
     while True:
         connection, address = sock.accept()
-        # print "client ip is "
-        #print address
         try:
             connection.settimeout(5)
             buf = connection.recv(1024)
-            if buf == socket_sign:
-                connection.send('welcome to python server!')
+            if 'request_order:' in buf:
+                ss=buf.split('request_order:')[1]
+            #if buf == socket_sign:
+                #connection.send('welcome to python server!')
                 #执行一个下订单的脚本
                 #subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
-                cmd = PATH('../src/autobook/android/customer/%s' % py_file)
-                p = subprocess.Popen("python %s" % cmd, stdout=subprocess.PIPE, shell=True)
-                print p.stdout.read()
+                #cmd = PATH('../src/autobook/android/customer/%s' % py_file)
+                p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
+                connection.send(p.stdout.read())
         except socket.timeout:
             print 'time out'
         connection.close()
 
-
-def client():
+def order_client(cmd):
+    """
+    与其他端通信，发送或者接收订单
+    :param cmd:
+    :return:
+    """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect(('localhost', 7556))
 
     time.sleep(2)
-    sock.send('1')
+    sock.send('request_order:%s' %cmd)
     recv_str = sock.recv(1024)
     sock.close()
     return recv_str
 
-
-def printtest():
-    print 'gegweeeeeeeeee'
 
 
 # def get_driver_no():

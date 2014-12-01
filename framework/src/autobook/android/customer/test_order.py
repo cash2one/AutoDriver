@@ -1,17 +1,20 @@
 # coding=utf-8
 __author__ = 'guanghua_2011@126.com'
 
-import time
+import os
 import unittest
 from framework.core import idriver_android
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        pass
+        self.driver = idriver_android.customer()
 
     def tearDown(self):
         pass
 
     def test_call_server(self):
-        print idriver_android.client()
-        time.sleep(10)
+
+        PATH = lambda p: os.path.abspath(
+            os.path.join(os.path.dirname(__file__), p)
+        )
+        print self.driver.order(PATH('./test_order_robot.py'))

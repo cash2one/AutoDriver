@@ -80,4 +80,4 @@ if __name__ == "__main__":
     # mo = MonitorOrder(da)
     # mo.start()
     from framework.core import idriver_android
-    idriver_android.client()
+    print idriver_android.order('abcddefe')
