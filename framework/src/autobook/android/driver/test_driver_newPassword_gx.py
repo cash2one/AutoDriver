@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'gaoxu'
+__author__ = 'gaoxu@pathbook.com.cn'
 
 import datetime
 from framework.core import idriver_android
