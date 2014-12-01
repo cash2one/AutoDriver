@@ -31,11 +31,12 @@ class TestCase(unittest.TestCase):
        self.assertTrue(u'一键下单' in text,'msg')
        #判断联系电话为空
        if 'null'== self.driver.find_id('tv_phone').text:
-            self.driver.find_id('tv_phone').send_keys('123456')
-
-       #点击立即下单
-       self.driver.find_id('bt_order').click()
-       #跳转到填写手机号界面
-       txt=self.driver.find_id('tv_title_text').text
-       print txt
-       self.assertTrue(u'填写手机号' in txt,'msg')
+           pass
+       #      self.driver.find_id('tv_phone').send_keys('123456')
+       #
+       # #点击立即下单
+       # self.driver.find_id('bt_order').click()
+       # #跳转到填写手机号界面
+       # txt=self.driver.find_id('tv_title_text').text
+       # print txt
+       # self.assertTrue(u'填写手机号' in txt,'msg')
