@@ -1,6 +1,6 @@
 # coding=utf-8
 
-__author__ = 'wsssss'
+__author__ = 'wangshanshan@pathbook.com.cn'
 #用户登录，修改用户名
 
 import time

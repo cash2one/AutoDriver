@@ -1,7 +1,7 @@
 # coding=utf-8
 
-__author__ = 'wangsahnshan'
-
+__author__ = 'wangshanshan@pathbook.com.cn'
+#用户未登录，填写手机号码界面，手机号为空
 import time
 import unittest
 from framework.core import idriver_android
