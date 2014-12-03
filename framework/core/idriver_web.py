@@ -5,17 +5,17 @@ import os
 import re
 import time
 import the
+from framework.util import constant
 from selenium import webdriver as selen
 
 TIME_OUT = 100
 
-def firefox(web_config):
-    _configs = the.app_configs[web_config]
-    if the.devices[web_config] == None:
-        the.devices[web_config] = Firefox(_configs)
-        #设置等待时间，防止页面未加载完成脚本提示异常
-
-    return the.devices[web_config]
+def firefox(sections):
+    info = the.products[sections]
+    p = info[constant.PRODUCT]
+    if p == None:
+        p = Firefox(info)
+    return p
 
 
 
