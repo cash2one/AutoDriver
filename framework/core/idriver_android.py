@@ -27,13 +27,13 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
 def app(sections):
     info = the.products[sections]
-    p = info[constant.PRODUCT]
-    if p == None:
-        p = Android(info)
-        p.wait_switch(info['app_activity'])
-    return p
+    if info[constant.PRODUCT] == None:
+        info[constant.PRODUCT] = Android(info)
+        info[constant.PRODUCT].wait_switch(info['app_activity'])
+    return info[constant.PRODUCT]
 
 def driver():
     _configs = the.app_configs[DRIVER]

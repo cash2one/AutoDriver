@@ -12,10 +12,9 @@ TIME_OUT = 100
 
 def firefox(sections):
     info = the.products[sections]
-    p = info[constant.PRODUCT]
-    if p == None:
-        p = Firefox(info)
-    return p
+    if info[constant.PRODUCT] == None:
+        info[constant.PRODUCT] = Firefox(info)
+    return info[constant.PRODUCT]
 
 
 
