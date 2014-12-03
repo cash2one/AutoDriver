@@ -1,13 +1,17 @@
-__author__ = 'Administrator'
+# coding=utf-8
+
+#把一串数字从大到小排列
+# num=[1,6,5,9,3,7,15]
+# for k in range(0,len(num)-1):
+#  for i in range(0,len(num)-1):
+#       if num[i]<num[i+1]:
+#           t=num[i]
+#           num[i]=num[i+1]
+#           num[i+1]=t
+# print num
+
+#把一串字母大写转小写，小写转大写
+letter=['abcDEFG']
 
 
-def longToInt(value):
-    if value > 2147483647:
-        return (value & (2 ** 31 - 1))
-    else:
-        return value
 
-
-if __name__ == "__main__":
-    a=long(1L)
-    print a,type(a)

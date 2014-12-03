@@ -5,7 +5,7 @@ import os
 import time
 import the
 import socket,subprocess
-from framework.util import idriver_const
+from framework.util import idriver_const,constant
 from framework.util import mysql
 from appium import webdriver
 import xmlrpclib
@@ -27,6 +27,13 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+def app(sections):
+    info = the.products[sections]
+    p = info[constant.PRODUCT]
+    if p == None:
+        p = Android(info)
+        p.wait_switch(info['app_activity'])
+    return p
 
 def driver():
     _configs = the.app_configs[DRIVER]
