@@ -21,6 +21,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_my_info(self):
+        self.driver.change_status(True)
         self.driver.auto_order(PATH('./test_order_robot.py'))
 
 
