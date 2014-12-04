@@ -22,7 +22,6 @@ def firefox(file_):
     info = the.products[st]
     if info[constant.PRODUCT] == None:
         the.products[st][constant.PRODUCT] = Firefox(info)
-        the.products[st][constant.PRODUCT].wait_switch(info['app_activity'])
     return the.products[st][constant.PRODUCT]
 
 
