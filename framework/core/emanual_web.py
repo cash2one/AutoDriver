@@ -49,6 +49,22 @@ class Firefox(WebDriver):
         proxy=None
         super(Firefox, self).__init__(firefox_profile, firefox_binary, timeout,
                                       capabilities, proxy)
+
+    def find_id(self, id_):
+        return self.find_element_by_id(id_)
+
+    def find_ids(self, id_):
+        return self.find_elements_by_id(id_)
+
+    def find_tag(self, class_name):
+        return self.find_element_by_class_name(class_name)
+
+    def find_tags(self, class_name):
+        return self.find_elements_by_class_name(class_name)
+
+    def find_name(self, name_):
+        return self.find_element_by_name(name_)
+
     def index_url(self,value=''):
         index_url=''
         try:
