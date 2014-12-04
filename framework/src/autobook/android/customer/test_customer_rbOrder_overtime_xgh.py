@@ -14,7 +14,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         self.driver.switch_to_home()
 
-    def test_rb_Order(self):
+    def test_rb_selectDriver(self):
         current_activity = self.driver.current_activity
         #点击一键下单，进入一键下单界面
         self.driver.find_id('rb_order').click()
@@ -26,8 +26,12 @@ class TestCase(unittest.TestCase):
         self.assertTrue(int(tv_wait)>0,'fail')
 
 
+        self.driver.switch_to_alert()
 
-
-
-
-
+        # tv_order_service = self.driver.find_id('select').text
+        # if u'轮单失败' in tv_order_service :
+        #点击重新选择司机下单
+        self.driver.find_id('select_driver').click()
+        self.driver.wait_loading()
+        # else :
+        #     pass

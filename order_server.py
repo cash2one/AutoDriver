@@ -2,7 +2,7 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 from SimpleXMLRPCServer import SimpleXMLRPCServer
-
+from framework.core import idriver_android
 
 def register():
     '''
@@ -22,4 +22,6 @@ def register():
 
 
 if __name__ == "__main__":
-    register()
+    #register()
+    idriver_android.customer_server()
+

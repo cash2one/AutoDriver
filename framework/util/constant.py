@@ -1,6 +1,15 @@
 # coding=utf-8
 __author__ = 'guguohai@pathbook.com.cn'
 
+#初始化项目时的字典统一key
+PRODUCT='pathbook_product'
+
+driver = 'idriver.android.driver'
+driver_robot = 'idriver.android.driver_robot'
+customer = 'idriver.android.customer'
+customer_robot = 'idriver.android.customer_robot'
+ir='emanual.web.ir'
+
 SEP = '|'
 FLOW_NAME = 'flow'
 INTERFACE_FOLDER = 'autobook_interface'
