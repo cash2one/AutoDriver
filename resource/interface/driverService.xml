@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <interface url="service/driverService/login" displayName="司机登录" desc="">
+        <parameter name="imsi" type="String" required="true" desc="SIM卡唯一标识号。" />
+        <parameter name="versionNo" type="String" required="true" desc="APP版本号。" />
+        <parameter name="driverNo" type="String" required="true" desc="司机工号。" />
+        <parameter name="password" type="String" required="true" desc="密码，MD5密文形式。" />
+        <parameter name="pmId" type="String" required="true" desc="消息推送的客户端ID。" />
+        <parameter name="loginMode" type="int" required="false" desc="登录方式，0工作，1休息，2服务中，默认为0。" />
+        <parameter name="unDoneOrderNo" type="String" required="false" desc="未完成订单号，loginMode为2时必填，其他非必填。" />
+        <parameter name="lng" type="double" required="true" desc="司机当前位置—经度。" />
+        <parameter name="lat" type="double" required="true" desc="司机当前位置—纬度。" />
+    </interface>
+    <interface url="service/driverService/logout" displayName="司机登出" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/resetPassword" displayName="重置密码" desc="">
+        <parameter name="imsi" type="String" required="true" desc="SIM卡唯一标识号。" />
+        <parameter name="driverNo" type="String" required="true" desc="司机工号。" />
+        <parameter name="phone" type="String" required="true" desc="接收手机号。" />
+    </interface>
+    <interface url="service/driverService/changeStatus" display="切换工作状态" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="destStatus" type="int" required="true" desc="目标状态，0工作，1休息。" />
+    </interface>
+    <interface url="service/driverService/dealOrder" displayName="推进订单流程" desc="
+    	订单业务流程的核心接口。不同订单事件要求不同参数，各事件及要求参数如下(默认必填)：\n
+		接受订单：event、orderNo或masterNo。\n
+		确认就位：event、orderNo、lng、lat。\n
+		开始服务：event、orderNo、lng、lat。\n
+		结束服务：event、orderNo、lng、lat。\n
+		上报订单：event、orderNo、lng、lat、address、dist、distCharge、waitTime、waitCharge、amount。\n
+		取消订单：event、orderNo、cancelType、memo。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="event" type="int" required="true" desc="订单事件，参见常量定义4.2.3，这里可以出现的事件限于以下几种：接受订单、确认就位、开始服务、结束服务、上报订单、取消订单(包含拒绝订单)。" />
+        <parameter name="orderNo" type="String" required="true" desc="订单号。" />
+        <parameter name="masterNo" type="String" required="false" desc="主单号。（接受订单时，与订单号，二者必填其一）" />
+        <parameter name="lng" type="double" required="false" desc="经度，默认表示司机位置，报单时表示订单结束位置。" />
+        <parameter name="lat" type="double" required="false" desc="纬度，默认表示司机位置，报单时表示订单结束位置。" />
+        <parameter name="address" type="String" required="false" desc="订单结束位置描述。" />
+        <parameter name="dist" type="int" required="false" desc="里程数(米)。" />
+        <parameter name="distCharge" type="int" required="false" desc="里程费用(分)。" />
+        <parameter name="waitTime" type="int" required="false" desc="等候时间(秒)。" />
+        <parameter name="waitCharge" type="int" required="false" desc="等候费用(分)。" />
+        <parameter name="amount" type="int" required="false" desc="结算金额(分)。" />
+        <parameter name="cancelType" type="int" required="false" desc="取消原因，参见参量定义4.2.4，这里只可出现司机拒绝和司机取消两种原因。" />
+        <parameter name="memo" type="int" required="false" desc="取消订单时表示附加信息。" />
+    </interface>
+    <interface url="service/driverService/getOrderForRepair" displayName="获取待补订单" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/repairOrder" displayName="司机补单" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderNo" type="String" required="true" desc="订单号。" />
+        <parameter name="eTime" type="long" required="true" desc="服务结束时间，long类型格式。" />
+        <parameter name="eAddress" type="String" required="true" desc="服务结束位置。" />
+        <parameter name="amount" type="int" required="true" desc="结算金额(分)。" />
+    </interface>
+    <interface url="service/driverService/getIncomeInfo" displayName="查询收益概况" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/getMonthIncome" displayName="查询每月收益" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getIncomeList" displayName="查询收益详单" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="month" type="String" required="true" desc="月份，格式yyyyMM。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getBalance" displayName="查询账户余额" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/getAccountFlow" displayName="查询账户详单" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="digest" type="String" required="false" desc="交易摘要，默认为空，取全部交易。" />
+        <parameter name="inOutType" type="int" required="false" desc="收支类别，0全部，1收入，2支出，默认为0。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getDriverInfo" displayName="查询个人信息" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/updatePassword" displayName="修改登录密码" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="currPassword" type="String" required="true" desc="当前密码，MD5密文。" />
+        <parameter name="newPassword" type="String" required="true" desc="新密码，MD5密文。" />
+    </interface>
+    <interface url="service/driverService/getOrderHistory" displayName="查询历史订单" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderResult" type="int" required="true" desc="订单结果，0-全部，1-成功，2-失败，默认为0。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getUnreadNotice" displayName="获取公告列表" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/getNoticeDetail" displayName="获取公告详情" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="noticeId" type="int" required="true" desc="公告ID。" />
+    </interface>
+    <interface url="service/driverService/submitFeedback" displayName="反馈使用意见" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="content" type="String" required="true" desc="意见内容。" />
+    </interface>
+    <interface url="service/driverService/refreshLocation" displayName="更新司机位置" desc="">
+        <parameter name="imsi" type="String" required="true" desc="SIM卡唯一标识号。" />
+        <parameter name="lng" type="double" required="true" desc="司机当前位置—经度。" />
+        <parameter name="lat" type="double" required="true" desc="司机当前位置—纬度。" />
+    </interface>
+    <interface url="service/driverService/getWorkingStatus" displayName="查询工作状态" desc="">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+</root>

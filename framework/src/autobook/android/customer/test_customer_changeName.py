@@ -22,10 +22,10 @@ class TestCase(unittest.TestCase):
        #我的信息
        self.driver.find_ids('personal_name')[0].click()
       #修改用户名
-       #self.driver.clear_text('personal_user_name')
-       #self.driver.find_id('personal_user_name').send_keys('user_name')
-       self.driver.find_id('personal_user_name').click()
-       self.driver.keyevent(67)
+       self.driver.clear_text('personal_user_name')
+       self.driver.find_id('personal_user_name').send_keys('AutoTst1')
+       # self.driver.find_id('personal_user_name').click()
+       # self.driver.keyevent(67)
        time.sleep(3)
 
        #点击完成（修改成功）

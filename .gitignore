@@ -10,7 +10,7 @@ __pycache__/
 *.html
 *.db
 testcase/
-resource/*.apk
+*.apk
 resource/app.ini
 
 # Distribution / packaging
