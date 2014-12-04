@@ -7,7 +7,7 @@ import the
 import socket,subprocess
 from framework.util import idriver_const,constant
 from framework.util import mysql
-from appium import webdriver
+from appium.webdriver.webdriver import WebDriver
 import xmlrpclib
 from selenium.common.exceptions import NoSuchElementException
 
@@ -27,13 +27,20 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+#调用示例self.driver = idriver_android.app(__file__)
+def app(current_file):
+    #获取项目路径，转换成app.init 的sections
+    init_size = len(os.path.dirname(__file__))
+    tar_path = os.path.dirname(current_file)
+    sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
 
-def app(sections):
-    info = the.products[sections]
+    st = sections.replace('autobook','idriver')
+    info = the.products[st]
     if info[constant.PRODUCT] == None:
-        info[constant.PRODUCT] = Android(info)
-        info[constant.PRODUCT].wait_switch(info['app_activity'])
-    return info[constant.PRODUCT]
+        the.products[st][constant.PRODUCT] = Android(info)
+        the.products[st][constant.PRODUCT].wait_switch(info['app_activity'])
+    return the.products[st][constant.PRODUCT]
+
 
 def driver():
     _configs = the.app_configs[DRIVER]
@@ -67,7 +74,7 @@ def customer_robot():
     return the.devices[CUSTOMER_ROBOT]
 
 
-class Android(webdriver.Remote):
+class Android(WebDriver):
     def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
         self.configs = configs
 
@@ -116,13 +123,13 @@ class Android(webdriver.Remote):
 
     def change_status(self, isWorking):
         try:
-            status = the.devices['driver_status']
+            status = self.configs['driver_status']
         except KeyError:
-            the.devices['driver_status'] = False
+            self.configs['driver_status'] = False
 
-        if the.devices['driver_status'] != isWorking:
+        if self.configs['driver_status'] != isWorking:
             self.find_element_by_id(self.package + WORK_STATE).click()
-            the.devices['driver_status'] = isWorking
+            self.configs['driver_status'] = isWorking
             self.wait_loading()
 
     def login(self, robot_name=''):
