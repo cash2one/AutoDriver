@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
       self.ff.close()
 
     def test_test_popUpBox1(self):
-      self.ff.get("http://192.168.3.81/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html") #测试网页地址
+      self.ff.get("http://192.168.3.31/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html") #测试网页地址
           #浏览器最大化
       self.ff.maximize_window()
         #选择所有的input
