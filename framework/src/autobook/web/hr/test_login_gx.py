@@ -7,51 +7,53 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import time
-from util.fileUtil import *
+# from util.fileUtil import *
+from framework.core import idriver_web
 import os
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.ff = webdriver.Firefox()#打开火狐浏览器
+        # self.ff = webdriver.Firefox()#打开火狐浏览器
         # self.ff.implicitly_wait(10) #设置网页打开超时时间
+        self.driver = idriver_web.firefox(__file__)
 
     #关闭
     def tearDown(self):
-        self.ff.close()
+        self.driver.close()
 
        #循环
     #self为关键字，user_name,user_pwd,login_button分别为三个参数
     def initInputValue(self,user_name,user_pwd,user_captcha):
         #打开网址路径
-        self.ff.get("http://192.168.3.31/hr/")
+        self.driver.get("http://192.168.3.31/hr/")
         time.sleep(1)
         #浏览器最大化
-        self.ff.maximize_window()
+        self.driver.maximize_window()
         #清除id为u4文本框中已有的数据
         time.sleep(1)
         #清除id为u4文本框中已有的数据
-        self.ff.find_element_by_id('u4').clear()
+        self.driver.find_element_by_id('username').clear()
         #在id为u4文本框中输入值
-        self.ff.find_element_by_id('u4').send_keys(user_name)
+        self.driver.find_element_by_id('username').send_keys(user_name)
         #清除id为u5文本框中已有的数据
-        self.ff.find_element_by_id('u5').clear()
+        self.driver.find_element_by_id('password').clear()
         #time.sleep(3)
         #self.ff.execute_script(u"alert('用户名输入有误！')")
        # time.sleep(3)
         #在id为u5文本框中输入值
-        self.ff.find_element_by_id('u5').send_keys(user_pwd)
+        self.driver.find_element_by_id('password').send_keys(user_pwd)
         #清除id为u10文本框中已有的数据
-        self.ff.find_element_by_id('u10').clear()
+        self.driver.find_element_by_id('captcha').clear()
         #在id为u10文本框中输入值
-        self.ff.find_element_by_id('u10').send_keys(user_captcha)
+        self.driver.find_element_by_id('captcha').send_keys(user_captcha)
         #睡眠3S
         time.sleep(1)
         #点击id为u6的按钮
-        self.ff.find_element_by_id('u6').click()
+        self.driver.find_element_by_id('login').click()
          #捕获异常
         try:
-            self.assertTrue('http://192.168.3.31/hr/%E6%B7%BB%E5%8A%A0%E5%8F%B8%E6%9C%BA.html' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr/hr/driver/addDriver.html' in self.driver.current_url)
         finally:
             pass
 
@@ -61,22 +63,22 @@ class TestCase(unittest.TestCase):
     #self为关键字，user_name,user_pwd,login_button分别为三个参数
     def initInputValueerror(self,user_name):
         #打开网址路径
-        self.ff.get("http://192.168.3.31/hr/")
+        self.driver.get("http://192.168.3.31/hr/")
         time.sleep(1)
         #浏览器最大化
-        self.ff.maximize_window()
+        self.driver.maximize_window()
         #清除id为u4文本框中已有的数据
         time.sleep(1)
         #清除id为u4文本框中已有的数据
-        self.ff.find_element_by_id('u4').clear()
+        self.driver.find_element_by_id('username').clear()
         #在id为u4文本框中输入值
-        self.ff.find_element_by_id('u4').send_keys(user_name)
+        self.driver.find_element_by_id('username').send_keys(user_name)
         #清除id为u5文本框中已有的数据
-        self.ff.find_element_by_id('u5').clear()
+        self.driver.find_element_by_id('password').clear()
         #点击id为u6的按钮
         #self.ff.find_element_by_id('u6').click()
         try:
-            self.assertTrue('http://192.168.3.31/hr' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr' in self.driver.current_url)
         finally:
             pass
 
