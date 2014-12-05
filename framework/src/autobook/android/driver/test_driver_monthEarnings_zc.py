@@ -10,7 +10,7 @@ from framework.util import str
 class TestCase(unittest.TestCase):
     #获取登录司机的工号
     def setUp(self):
-        self.driver = idriver_android.driver()
+        self.driver = idriver_android.app(__file__)
         self.driver.login()
 
     #返回首页

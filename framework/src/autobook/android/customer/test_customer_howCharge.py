@@ -1,7 +1,7 @@
 # coding=utf-8
 
-__author__ = 'wangsahnshan'
-
+__author__ = 'wangshanshan@pathbook.com.cn'
+#用户登录，查看如何收费界面
 import time
 import unittest
 from framework.core import idriver_android

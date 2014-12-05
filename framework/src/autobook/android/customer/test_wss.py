@@ -11,7 +11,9 @@
 # print num
 
 #把一串字母大写转小写，小写转大写
-letter=['abcDEFG']
+# letter=['abcDEFG']
 
+import time,datetime
+print '%f' %(time.time()*1000)
 
-
+print datetime.datetime.time()

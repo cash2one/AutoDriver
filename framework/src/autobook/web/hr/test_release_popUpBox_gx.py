@@ -22,13 +22,13 @@ class TestCase(unittest.TestCase):
     #循环
     #self为关键字，idnumber
     def initInputValue(self,id_u4,id_u5):
-        self.ff.get("http://192.168.3.81/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html")
+        self.ff.get("http://192.168.3.31/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html")
         #浏览器最大化
         self.ff.maximize_window()
         self.ff.find_element_by_id('u194_img').click()
         time.sleep(1)
         #打开网址路径
-        self.ff.get("http://192.168.3.81/hr/%E5%8F%91%E5%B8%83%E5%85%AC%E5%91%8A.html")
+        self.ff.get("http://192.168.3.31/hr/%E5%8F%91%E5%B8%83%E5%85%AC%E5%91%8A.html")
         time.sleep(1)
         #浏览器最大化
         self.ff.maximize_window()
@@ -46,7 +46,7 @@ class TestCase(unittest.TestCase):
 
      #捕获异常
         try:
-            self.assertTrue('http://192.168.3.81/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html' in self.ff.current_url)
         finally:
             pass
 
@@ -71,7 +71,7 @@ class TestCase(unittest.TestCase):
         self.ff.find_element_by_id('u6_img').click()
          #捕获异常
         try:
-            self.assertTrue('http://192.168.3.81/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html' in self.ff.current_url)
         finally:
             pass
 
