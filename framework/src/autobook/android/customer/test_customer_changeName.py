@@ -1,6 +1,7 @@
 # coding=utf-8
 
-__author__ = 'wsssss'
+__author__ = 'wangshanshan@pathbook.com.cn'
+#用户登录，修改用户名
 
 import time
 import unittest
@@ -17,6 +18,7 @@ class TestCase(unittest.TestCase):
 
     def test_change_Personal(self):
 
+       self.driver.wait_loading()
        #点击用户中心
        self.driver.find_id('btn_personalcenter').click()
        #我的信息
@@ -26,6 +28,8 @@ class TestCase(unittest.TestCase):
        self.driver.find_id('personal_user_name').send_keys('AutoTst1')
        # self.driver.find_id('personal_user_name').click()
        # self.driver.keyevent(67)
+
+
        time.sleep(3)
 
        #点击完成（修改成功）

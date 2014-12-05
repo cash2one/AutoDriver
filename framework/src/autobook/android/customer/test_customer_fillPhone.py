@@ -1,7 +1,7 @@
 # coding=utf-8
 
-__author__ = 'wangsahnshan@126.com'
-
+__author__ = 'wangshanshan@pathbook.com.cn'
+#填写手机号码界面输入少于11位的手机号
 import time
 import unittest
 from framework.core import idriver_android
