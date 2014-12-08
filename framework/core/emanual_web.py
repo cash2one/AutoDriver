@@ -74,7 +74,7 @@ class Firefox(WebDriver):
 
         return self.configs['index_url']
 
-    def wait_find_id(self, id_):
+    def find_ajax_id(self, id_):
         '''
         系统已有默认等待30秒，这里多加了20秒，防止ajax加载缓慢
         :param id_:
