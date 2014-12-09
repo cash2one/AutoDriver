@@ -58,8 +58,6 @@ class TestCase(unittest.TestCase):
 
                break
 
-       self.assertTrue(driver_exist, u'没有找到指定司机')
-
        #跳转到填写手机号界面
        txt=self.driver.find_id('tv_title_text').text
        print txt
