@@ -1,15 +1,14 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 
-import datetime
-from framework.core import idriver_android
 import unittest
+from framework.core import idriver_android
 import time
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.driver()
+        self.driver = idriver_android.app(__file__)
         self.driver.login()
         #获取登录司机的工号
 

@@ -1,6 +1,6 @@
 # coding=utf-8
 
-__author__ = 'wangsahnshan@126.com'
+__author__ = 'wangshanshan@pathbook.com.cn'
 #用户登录，一键下单界面点击通讯录
 
 import time

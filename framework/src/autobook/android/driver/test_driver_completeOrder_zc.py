@@ -8,7 +8,7 @@ import unittest
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.driver()
+        self.driver = idriver_android.app(__file__)
         self.driver.login()
         #获取登录司机的工号
 

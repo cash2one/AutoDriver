@@ -1,6 +1,7 @@
 # coding=utf-8
 
-__author__ = 'wangshanshan'
+__author__ = 'wangshanshan@pathbook.com.cn'
+#用户未登录，1,查看条款 2,不勾选条款。
 
 import time
 import unittest
@@ -15,7 +16,7 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-    def test_change_Personal(self):
+    def test_clause(self):
        #点击进入使用
        self.driver.find_id('start_btn').click()
        #点击用户中心
@@ -30,6 +31,7 @@ class TestCase(unittest.TestCase):
        text=self.driver.find_id('tv_title_text').text
        print text
        self.assertTrue(u'代驾协议' in text,'msg')
+
 
        #点击返回注册按钮
        self.driver.find_id('button_title_back').click()

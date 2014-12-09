@@ -1,5 +1,6 @@
 # coding=utf-8
-__author__ = 'wangshanshan'
+__author__ = 'wangshanshan@pathbook.com.cn'
+#用户登录,选择性别，判断紧急电话是否为空，若不为空输入紧急联系电话
 
 import time
 import unittest
@@ -28,16 +29,23 @@ class TestCase(unittest.TestCase):
 
        if 'true' in self.driver.find_id('personal_man').get_attribute('checked'):
            self.driver.find_id('personal_female').click()
+           vali_tup += (u'先生',)
+       else:
            vali_tup += (u'女士',)
 
 
        #输入紧急联系电话
-       self.driver.find_id('personal_urgent_numbers').click()
-       self.driver.find_id('personal_urgent_numbers').send_keys('13636468710')
+       # self.driver.find_id('personal_urgent_numbers').click()
+       # self.driver.find_id('personal_urgent_numbers').send_keys('13636468710')
 
-       vali_tup += ('13636468710',)
-
-       print vali_tup
+       urgent_numbers=self.driver.find_id('personal_urgent_numbers').text
+       print urgent_numbers
+       if len(urgent_numbers.strip())==0:
+            self.driver.find_id('personal_urgent_numbers').send_keys('13636468710')
+            vali_tup += ('13636468710',)
+       else:
+           vali_tup += (urgent_numbers,)
+           print vali_tup
 
        #点击完成
        self.driver.find_id('personal_finish').click()
