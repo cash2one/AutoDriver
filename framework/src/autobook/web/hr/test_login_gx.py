@@ -24,7 +24,7 @@ class TestCase(unittest.TestCase):
     #self为关键字，user_name,user_pwd,login_button分别为三个参数
     def initInputValue(self,user_name,user_pwd,user_captcha):
         #打开网址路径
-        self.ff.get("http://192.168.3.81/hr/")
+        self.ff.get("http://192.168.3.31/hr/")
         time.sleep(1)
         #浏览器最大化
         self.ff.maximize_window()
@@ -51,7 +51,7 @@ class TestCase(unittest.TestCase):
         self.ff.find_element_by_id('u6').click()
          #捕获异常
         try:
-            self.assertTrue('http://192.168.3.81/hr/%E6%B7%BB%E5%8A%A0%E5%8F%B8%E6%9C%BA.html' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr/%E6%B7%BB%E5%8A%A0%E5%8F%B8%E6%9C%BA.html' in self.ff.current_url)
         finally:
             pass
 
@@ -61,7 +61,7 @@ class TestCase(unittest.TestCase):
     #self为关键字，user_name,user_pwd,login_button分别为三个参数
     def initInputValueerror(self,user_name):
         #打开网址路径
-        self.ff.get("http://192.168.3.81/hr/")
+        self.ff.get("http://192.168.3.31/hr/")
         time.sleep(1)
         #浏览器最大化
         self.ff.maximize_window()
@@ -76,7 +76,7 @@ class TestCase(unittest.TestCase):
         #点击id为u6的按钮
         #self.ff.find_element_by_id('u6').click()
         try:
-            self.assertTrue('http://192.168.3.81/hr' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr' in self.ff.current_url)
         finally:
             pass
 

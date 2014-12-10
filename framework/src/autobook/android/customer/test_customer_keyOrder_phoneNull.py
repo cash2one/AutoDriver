@@ -21,19 +21,23 @@ class TestCase(unittest.TestCase):
     def test_change_Personal(self):
 
 
-
+       self.driver.wait_loading()
        #点击一键下单按钮跳转到一键下单界面
        self.driver.find_id('rb_order').click()
 
        #删除联系电话
-       self.driver.clear_text('tv_phone')
-       self.driver.find_id('tv_phone').send.keys('13636468713')
+       # self.driver.find_id('tv_phone').click()
+       # self.driver.clear_text('tv_phone')
+       text=self.driver.find_id('tv_phone').text
+       print text
+       for i in range(0,len(text)-1):
+           self.driver.keyevent(67)
 
 
-
-       #点击立即下单
-       #self.driver.find_id('bt_order').click()
-       #跳转到填写手机号界面
-       #txt1=self.driver.find_id('tv_title_text').text
-       #print txt1
-       #self.assertTrue(u'填写手机号' in txt1,'msg')
+       # #点击立即下单
+       # self.driver.find_id('bt_order').click()
+       # # 弹出提示框请填写手机号
+       # self.driver.switch_to_alert()
+       # text=self.driver.find_id('tv_msg').text
+       # print text
+       # self.assertTrue(u'请填写手机号！' in text,'msg')

@@ -1,7 +1,8 @@
 # coding=utf-8
 
 __author__ = 'wangshanshan@pathbook.com.cn'
-#用户未登录，填写手机号码界面，手机号为空
+#用户登录，用户名为空
+
 import time
 import unittest
 from framework.core import idriver_android
@@ -9,25 +10,28 @@ from framework.core import idriver_android
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = idriver_android.customer()
-        #self.driver.login()
+        self.driver.login()
 
     def tearDown(self):
         #返回首页
         self.driver.switch_to_home()
 
-    def test_change_Personal(self):
+    def test_changePhone(self):
 
-       #点击进入使用
-       self.driver.find_id('start_btn').click()
+       self.driver.wait_loading()
        #点击用户中心
        self.driver.find_id('btn_personalcenter').click()
-       #点击我的信息
-       #self.driver.find_id('personal_name').click()
-       #点击我的信息
+       #我的信息
        self.driver.find_ids('personal_name')[0].click()
-       #在填写手机号界面点击下一步
-       self.driver.find_id('next_step').click()
+      #删除姓名
+       self.driver.clear_text('personal_user_name')
+
+       time.sleep(3)
+       #点击完成（修改成功）
+       self.driver.find_id('personal_finish').click()
+
+       #判断是否有弹出框
        self.driver.switch_to_alert()
        text=self.driver.find_id('tv_msg').text
        print text
-       self.assertTrue(u'请填写手机号！' in text,'msg')
+       self.assertTrue(u'姓名不能为空' in text,'msg')

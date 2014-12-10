@@ -1,6 +1,6 @@
 # coding=utf-8
 
-__author__ = 'wangsahnshan@126.com'
+__author__ = 'wangshanshan@pathbook.com.cn'
 #用户未登录，直接一键下单
 
 import time
