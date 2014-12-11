@@ -74,7 +74,7 @@ class Firefox(WebDriver):
 
         return self.configs['index_url']
 
-    def wait_find_id(self, id_):
+    def find_ajax_id(self, id_):
         '''
         系统已有默认等待30秒，这里多加了20秒，防止ajax加载缓慢
         :param id_:
@@ -98,13 +98,23 @@ class Firefox(WebDriver):
         time.sleep(2)
         self.get(url)
 
-    def login(self):
+    def login(self,role=''):
         ini_url = self.configs['url']
         login_ids = self.configs['login_elements'].split(',')
         usrname_id = login_ids[0]
         pwd_id = login_ids[1]
-        usrname = self.configs['username']
-        pwd = self.configs['password']
+        usrname=''
+        pwd=''
+        if len(role.strip())==0:
+            usrname = self.configs['username']
+            pwd = self.configs['password']
+        else:
+            try:
+                role_str = self.configs[role].split(',')
+                usrname = role_str[0]
+                pwd = role_str[1]
+            except KeyError:
+                raise NameError, 'account is not exist'
 
         if cmp('about:blank',self.current_url)==0:
             self.get(ini_url)
