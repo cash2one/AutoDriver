@@ -88,29 +88,29 @@ class TestCase(unittest.TestCase):
      #调用initInputValue，并输入用户名不存在的参数
     def test_userName_noTexist1(self):
         self.initInputValueerror('ghjrecf')
-     #调用initInputValue，用户名为空，输入其他正确的参数
-    def test_userName_null2(self):
-        self.initInputValueerror('')
-      #  self.error(u'用户名不能为空！')
-     #调用initInputValue，用户名超长，输入其他正确的参数
-    def test_userName_veryLong3(self):
-        self.initInputValueerror('aaaaaaaaaaaaaaaaaaaaaaaaaaa')
-
-     #调用initInputValue，用户名为数字，输入其他正确的参数
-    def test_userName_number4(self):
-        self.initInputValueerror('123123123')
-       #调用initInputValue，用户名为特殊字符，输入其他正确的参数
-    def test_userName_specialCharacters5(self):
-        self.initInputValueerror('$#%&@*')
-
-    #调用initInputValue，用户名前面加空格，输入其他正确的参数
-    def test_userName_frontBlankCharacter6(self):
-        self.initInputValueerror('  aaa')
-
-    #调用initInputValue，用户名中间加空格，输入其他正确的参数
-    def test_userName_middleBlankCharacter7(self):
-        self.initInputValueerror('a aa')
-
-    #调用initInputValue，用户名后面加空格，输入其他正确的参数
-    def test_userName_rearBlankCharacter8(self):
-        self.initInputValueerror('aaa ')
+    #  #调用initInputValue，用户名为空，输入其他正确的参数
+    # def test_userName_null2(self):
+    #     self.initInputValueerror('')
+    #   #  self.error(u'用户名不能为空！')
+    #  #调用initInputValue，用户名超长，输入其他正确的参数
+    # def test_userName_veryLong3(self):
+    #     self.initInputValueerror('aaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    #
+    #  #调用initInputValue，用户名为数字，输入其他正确的参数
+    # def test_userName_number4(self):
+    #     self.initInputValueerror('123123123')
+    #    #调用initInputValue，用户名为特殊字符，输入其他正确的参数
+    # def test_userName_specialCharacters5(self):
+    #     self.initInputValueerror('$#%&@*')
+    #
+    # #调用initInputValue，用户名前面加空格，输入其他正确的参数
+    # def test_userName_frontBlankCharacter6(self):
+    #     self.initInputValueerror('  aaa')
+    #
+    # #调用initInputValue，用户名中间加空格，输入其他正确的参数
+    # def test_userName_middleBlankCharacter7(self):
+    #     self.initInputValueerror('a aa')
+    #
+    # #调用initInputValue，用户名后面加空格，输入其他正确的参数
+    # def test_userName_rearBlankCharacter8(self):
+    #     self.initInputValueerror('aaa ')
