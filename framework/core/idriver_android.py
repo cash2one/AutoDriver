@@ -254,9 +254,11 @@ class Android(WebDriver):
         '''
         import urllib2, json
 
+        cl = current_location.encode('utf-8')
+
         ak = '3QaWoBGE8jWtBdIfl56yn582'
-        uri = 'http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s&callback=showLocation' % (
-            current_location, ak)
+        uri = 'http://api.map.baidu.com/geocoder/v2/?address=%s&output=json&ak=%s' % (
+            cl, ak)
         req = urllib2.Request(uri)
         response = urllib2.urlopen(req)
         the_page = response.read()
