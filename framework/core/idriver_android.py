@@ -78,7 +78,7 @@ class Android(WebDriver):
     def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
         self.configs = configs
 
-        self.layouts = fs.parser_to_dict(PATH('../../resource/%s' % self.configs['layout']))
+        self.app_layouts = fs.parser_to_dict(PATH('../../resource/%s' % self.configs['layout']))
 
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.configs['platform_name']
@@ -94,18 +94,12 @@ class Android(WebDriver):
         self.package = self.configs['app_package'] + ':id/'
         self.pkg = self.configs['app_package'] + ':id/'
 
-    def layout(self, alias):
+    def layout(self):
         activity_name = self.current_activity.replace('.', '')
-        layout_ids = None
         try:
-            layout_ids = self.layouts[activity_name]
+            return self.app_layouts[activity_name]
         except KeyError:
             raise NameError, 'current_activity error'
-
-        try:
-            return layout_ids[alias]
-        except KeyError:
-            raise NameError, 'option not exist'
 
 
     def find_id(self, id_):
