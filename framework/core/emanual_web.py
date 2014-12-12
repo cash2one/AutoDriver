@@ -84,6 +84,7 @@ class Firefox(WebDriver):
         while time_out > 0:
             try:
                 return self.find_element_by_id(id_)
+            
             except exceptions.NoSuchElementException:
                 pass
             time_out -= 1
