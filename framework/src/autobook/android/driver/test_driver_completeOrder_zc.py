@@ -25,9 +25,9 @@ class TestCase(unittest.TestCase):
         current_activity = self.driver.current_activity
         self.driver.find_element_by_name(u'历史订单').click()
         self.driver.wait_switch(current_activity)
-
+        ids=self.driver.find_ids('order_number_text')
         orders1_no=()
-        for i in range(0,5):
+        for i in range(0,len(ids)-1):
             text=self.driver.find_ids('order_number_text')[i].text
             order_no=text.split(':')[1].strip()
             orders1_no+=((order_no,),)
