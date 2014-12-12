@@ -32,6 +32,25 @@ class MonitorOrder(threading.Thread):
         p1.stdout.read()
 
 
+def split211(file_path):
+    f=open(file_path,'r')
+
+    file_lines = 1700 #大文件行数
+    num = 7 #人数
+
+    every_line = int(file_lines / num) #每个人分配到的行数
+
+    while file_lines > 0:
+        temp = every_line
+
+        new_file = open(PATH('./file%s.txt' % file_lines), 'w')
+        while temp > 0:
+            new_file.write(f.readline())
+            temp = temp - 1
+
+        file_lines = file_lines - every_line
+
+
 if __name__ == "__main__":
     # #main()
     # import time
@@ -123,7 +142,7 @@ if __name__ == "__main__":
         dbm.close_db()
         return r
 
-    print ''
+    split211(PATH('./k211_ddd.txt'))
 
 
     # for p in ps:

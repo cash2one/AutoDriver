@@ -436,7 +436,7 @@ def register_user(self_driver, user_name):
     # user_name = self_driver.configs['user_name']
     code = self_driver.configs['code']
 
-    self_driver.find_element_by_id(pkg + 'btn_personalcenter').click()
+    self_driver.find_element_by_id(pkg + 'btn_personal_center').click()
     self_driver.wait_switch(main_activity)
 
     self_driver.find_elements_by_id(pkg + 'personal_name')[0].click()
