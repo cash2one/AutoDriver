@@ -15,7 +15,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_rb_Order(self):
-        print '----aa'
+
         current_activity = self.driver.current_activity
         #点击一键下单，进入一键下单界面
         self.driver.find_id('rb_order').click()
