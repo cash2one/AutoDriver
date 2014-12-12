@@ -94,18 +94,19 @@ class Android(WebDriver):
         self.package = self.configs['app_package'] + ':id/'
         self.pkg = self.configs['app_package'] + ':id/'
 
-    def layout(self,alias):
+    def layout(self):
         activity_name = self.current_activity.replace('.', '')
         layout_ids = None
         try:
-            layout_ids = self.app_layouts[activity_name]
+           #layout_ids = self.app_layouts[activity_name]
+            return self.app_layouts[activity_name]
         except KeyError:
             raise NameError, 'current_activity error'
 
-        try:
-            return layout_ids[alias]
-        except KeyError:
-            raise NameError, 'option not exist'
+        # try:
+        #     return layout_ids[alias]
+        # except KeyError:
+        #     raise NameError, 'option not exist'
 
 
     def find_id(self, id_):
