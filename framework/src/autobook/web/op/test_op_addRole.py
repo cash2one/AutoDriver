@@ -42,15 +42,15 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[1]/a').click()
         self.driver.find_id('create').click()
         #进入角色添加页面
-        self.driver.find_id('role_name').send_keys(u'财务超级管理员8')
+        self.driver.find_id('role_name').send_keys(u'财务超级管理员1')
         self.driver.find_id('sure_create_role_btn').click()
         self.driver.switch_to_alert()
         time.sleep(2)
         text=self.driver.find_element_by_class_name('xubox_main').text
         self.assertTrue(u"添加角色成功" in text)
         self.driver.find_element_by_xpath(u'/html/body/div[5]/div[1]/span[2]/a').click()
-        name=self.driver.find_id('list').find_elements_by_class_name('tr')[1].find_elements_by_class_name('td')[2].text
-        self.assertTrue(name==u'财务超级管理员8')
+        name=self.driver.find_id('list').find_elements_by_class_name('tr')[0].find_elements_by_class_name('td')[2].text
+        self.assertTrue(name==u'财务超级管理员1')
 
 
 
