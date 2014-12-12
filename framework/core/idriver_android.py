@@ -94,26 +94,28 @@ class Android(WebDriver):
         self.package = self.configs['app_package'] + ':id/'
         self.pkg = self.configs['app_package'] + ':id/'
 
-    def layout(self):
+    def layouts(self):
         activity_name = self.current_activity.replace('.', '')
-        layout_ids = None
+        #layout_ids = None
         try:
            #layout_ids = self.app_layouts[activity_name]
             return self.app_layouts[activity_name]
         except KeyError:
             raise NameError, 'current_activity error'
 
-        # try:
-        #     return layout_ids[alias]
-        # except KeyError:
-        #     raise NameError, 'option not exist'
-
+    def layout(self,id_):
+        try:
+            return self.layouts()[id_]
+        except KeyError:
+            raise NameError, 'option not exist'
 
     def find_id(self, id_):
-        return self.find_element_by_id(self.package + id_)
+        id = self.layout(id_)
+        return self.find_element_by_id(self.package + id)
 
     def find_ids(self, id_):
-        return self.find_elements_by_id(self.package + id_)
+        id = self.layout(id_)
+        return self.find_elements_by_id(self.package + id)
 
     def find_tag(self, class_name):
         return self.find_element_by_class_name('android.widget.' + class_name)
