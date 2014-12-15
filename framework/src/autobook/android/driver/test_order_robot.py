@@ -16,7 +16,8 @@ class TestCase(unittest.TestCase):
     def test_call_order(self):
         #写具体执行下订单操作
         current_activity = self.driver.current_activity
-        self.driver.find_id('bt_order').click()
+        #self.driver.find_id('bt_order').click()
+        print('下单')
 
 
 
