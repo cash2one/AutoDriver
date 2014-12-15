@@ -6,7 +6,7 @@ import time
 import the
 import socket,subprocess
 from framework.util import idriver_const,constant
-from framework.util import mysql
+from framework.util import mysql,fs
 from appium.webdriver.webdriver import WebDriver
 import xmlrpclib
 from selenium.common.exceptions import NoSuchElementException
@@ -78,6 +78,8 @@ class Android(WebDriver):
     def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
         self.configs = configs
 
+        self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.configs['layout']))
+
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.configs['platform_name']
         desired_capabilities['platformVersion'] = self.configs['platform_version']
@@ -92,12 +94,27 @@ class Android(WebDriver):
         self.package = self.configs['app_package'] + ':id/'
         self.pkg = self.configs['app_package'] + ':id/'
 
+    def layouts(self):
+        #layout_ids = None
+        try:
+           #layout_ids = self.app_layouts[self.current_activity]
+            return self.app_layouts[self.current_activity]
+        except KeyError:
+            raise NameError, 'current_activity error'
+
+    def layout(self,id_):
+        try:
+            return self.layouts()[id_]
+        except KeyError:
+            raise NameError, 'option not exist'
 
     def find_id(self, id_):
-        return self.find_element_by_id(self.package + id_)
+        id = self.layout(id_)
+        return self.find_element_by_id(self.package + id)
 
     def find_ids(self, id_):
-        return self.find_elements_by_id(self.package + id_)
+        id = self.layout(id_)
+        return self.find_elements_by_id(self.package + id)
 
     def find_tag(self, class_name):
         return self.find_element_by_class_name('android.widget.' + class_name)

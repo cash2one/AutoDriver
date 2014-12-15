@@ -22,7 +22,7 @@ class TestCase(unittest.TestCase):
        #点击用户中心
        self.driver.find_id('btn_personalcenter').click()
        #我的信息
-       self.driver.find_ids('personal_name')[0].click()
+       self.driver.find_ids('person_item')[0].click()
       #删除姓名
        self.driver.clear_text('personal_user_name')
 
