@@ -20,11 +20,11 @@ class TestCase(unittest.TestCase):
        #点击进入使用
        self.driver.find_id('start_btn').click()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #点击我的信息
        #self.driver.find_id('personal_name').click()
        #点击我的信息
-       self.driver.find_ids('personal_name')[0].click()
+       self.driver.find_ids('person_item')[0].click()
        #在填写手机号界面点击下一步
        self.driver.find_id('next_step').click()
        self.driver.switch_to_alert()

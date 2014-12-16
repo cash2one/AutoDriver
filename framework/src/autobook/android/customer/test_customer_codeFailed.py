@@ -1,7 +1,7 @@
 # coding=utf-8
 
 __author__ = 'wangsahnshan@126.com'
-# 用户未登录，在填写手机号页面输入少于11位的手机号码
+# 用户登录，验证码输入错误
 import time
 import unittest
 from framework.core import idriver_android
@@ -19,10 +19,11 @@ class TestCase(unittest.TestCase):
 
        #点击进入使用
        self.driver.find_id('start_btn').click()
+       self.driver.wait_loading()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #点击我的信息
-       self.driver.find_ids('personal_name')[0].click()
+       self.driver.find_ids('person_item')[0].click()
        #输入正确的手机号
        self.driver.find_id('phonenumber').click()
        self.driver.find_id('phonenumber').send_keys('18964086193')

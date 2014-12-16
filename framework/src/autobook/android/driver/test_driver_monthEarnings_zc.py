@@ -22,19 +22,20 @@ class TestCase(unittest.TestCase):
         self.driver.change_status(True)
 
         self.driver.find_id('rb_benifit').click()
+
         #点击收益
         current_activity = self.driver.current_activity
         #点击历史收益
         self.driver.find_id('about_function').click()
         self.driver.wait_switch(current_activity)
         current_activity = self.driver.current_activity
-        self.driver.find_id('historyincome_right').click()
+        self.driver.find_ids('rl')[0].click()
         self.driver.wait_switch(current_activity)
         orders=()
-        ids=self.driver.find_ids('historyincome_income')
+        ids=self.driver.find_ids('incomelist_in')
 
         for i in range(0,len(ids)):
-            income=self.driver.find_ids('historyincome_income')[i].text[1:]
+            income=self.driver.find_ids('incomelist_in')[i].text[1:]
             order_income=str.to_long(income.split('.')[0]+income.split('.')[1])
             #获取屏幕上各记录的收益
             time=self.driver.find_ids('incomelist_time')[i].text
