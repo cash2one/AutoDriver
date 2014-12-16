@@ -32,7 +32,7 @@ class TestCase(unittest.TestCase):
        #点击立即下单
        self.driver.find_id('bt_order').click()
        #跳转到填写手机号
-       text=self.driver.find_id('tv_title_text').text
-       print text
-       self.assertTrue(u'填写手机号' in text,'msg')
+       text1=self.driver.find_id('tv_title_text').text
+       print text1
+       self.assertTrue(u'填写手机号' in text1,'msg')
 

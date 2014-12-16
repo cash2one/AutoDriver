@@ -26,12 +26,12 @@ class TestCase(unittest.TestCase):
        self.driver.find_id('rb_order').click()
 
        #删除联系电话
-       # self.driver.find_id('tv_phone').click()
-       # self.driver.clear_text('tv_phone')
-       text=self.driver.find_id('tv_phone').text
-       print text
-       for i in range(0,len(text)-1):
-           self.driver.keyevent(67)
+       self.driver.find_id('tv_phone').click()
+       self.driver.clear_text('tv_phone')
+       # text=self.driver.find_id('tv_phone').text
+       # print text
+       # for i in range(0,len(text)):
+       #     self.driver.keyevent(67)
 
 
        # #点击立即下单
