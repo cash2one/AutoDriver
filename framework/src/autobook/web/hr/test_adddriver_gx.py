@@ -8,16 +8,18 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import time
 import os
-
+# from util.fileUtil import *
+from framework.core import idriver_web
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.ff = webdriver.Firefox()#打开火狐浏览器
+        # self.ff = webdriver.Firefox()#打开火狐浏览器
         # self.ff.implicitly_wait(10) #设置网页打开超时时间
+        self.driver = idriver_web.firefox(__file__)
 
     #关闭
     def tearDown(self):
-        self.ff.close()
+        self.driver.close()
 
     #循环
     #self为关键字，user_name,user_pwd,login_button分别为三个参数
@@ -27,19 +29,19 @@ class TestCase(unittest.TestCase):
         # self.ff.maximize_window()
         # self.ff.find_element_by_id('u6').click()
         #打开网址路径
-        self.ff.get("http://192.168.3.31/hr/%E6%B7%BB%E5%8A%A0%E5%8F%B8%E6%9C%BA.html")
+        self.driver.get("http://192.168.3.31/hr")
         time.sleep(1)
         #浏览器最大化
-        self.ff.maximize_window()
+        self.driver.maximize_window()
         #清除id为u11文本框中已有的数据
-        self.ff.find_element_by_id('u11').clear()
+        self.driver.find_element_by_id('u11').clear()
         #在id为u11文本框中输入值
-        self.ff.find_element_by_id('u11').send_keys(driver_name)
+        self.driver.find_element_by_id('u11').send_keys(driver_name)
         time.sleep(1)
-        self.ff.find_element_by_id('u60_img').click()
+        self.driver.find_element_by_id('u60_img').click()
       #捕获异常
         try:
-            self.assertTrue('http://192.168.3.31/hr/%E5%8F%B8%E6%9C%BA%E5%88%97%E8%A1%A8.html' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr' in self.driver.current_url)
         finally:
              pass
 
@@ -49,19 +51,19 @@ class TestCase(unittest.TestCase):
         # self.ff.maximize_window()
         # self.ff.find_element_by_id('u6').click()
         #打开网址路径
-        self.ff.get("http://192.168.3.31/hr/%E6%B7%BB%E5%8A%A0%E5%8F%B8%E6%9C%BA.html")
+        self.driver.get("http://192.168.3.31/hr")
         time.sleep(1)
         #浏览器最大化
-        self.ff.maximize_window()
+        self.driver.maximize_window()
         #清除id为u4文本框中已有的数据
-        self.ff.find_element_by_id('u11').clear()
+        self.driver.find_element_by_id('u11').clear()
         #在id为u11文本框中输入值
-        self.ff.find_element_by_id('u11').send_keys(driver_name)
+        self.driver.find_element_by_id('u11').send_keys(driver_name)
        # self.ff.find_element_by_id('u60_img').click()
 
         #捕获异常
         try:
-            self.assertTrue('http://192.168.3.31/hr/%E6%B7%BB%E5%8A%A0%E5%8F%B8%E6%9C%BA' in self.ff.current_url)
+            self.assertTrue('http://192.168.3.31/hr' in self.driver.current_url)
         finally:
             pass
 
