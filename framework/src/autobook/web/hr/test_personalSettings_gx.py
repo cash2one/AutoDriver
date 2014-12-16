@@ -109,8 +109,8 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('email').clear()
         self.driver.find_id('email').send_keys(u'zhang@.163.com')
         #点击清空按钮
-        sub=self.driver.find_class_name('div_submit')
-        sub.find_element_by_name(u'重置').click()
+        # sub=self.driver.find_class_name('div_submit')
+        # sub.find_class_name('a_button a_reset').click()
 
 
 
