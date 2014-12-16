@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
 
         current_activity = self.driver.current_activity
         # 点击附近司机列表
-        self.driver.find_id('rb_maplist').click()
+        self.driver.find_id('rb_map_list').click()
         self.driver.wait_loading()
 
         nearbyrivers = []

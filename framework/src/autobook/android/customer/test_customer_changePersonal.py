@@ -19,11 +19,11 @@ class TestCase(unittest.TestCase):
     def test_change_Personal(self):
        current_activity = self.driver.current_activity
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
 
        self.driver.wait_loading()
        #点击我的信息
-       self.driver.find_ids('personal_name')[0].click()
+       self.driver.find_ids('person_item')[0].click()
        #self.driver.wait_switch()
        vali_tup = ()
 
@@ -51,7 +51,7 @@ class TestCase(unittest.TestCase):
        self.driver.find_id('personal_finish').click()
 
        #数据库中取数据
-       db_array=self.driver.sql('select sex,urgency_phone from t_customer where phone=13918359985')
+       db_array=self.driver.sql('select sex,urgency_phone from t_customer where phone=18964086193')
        #性别类型转换
        array=(self.driver.enum('sex',int(db_array[0])),db_array[1])
        print array

@@ -28,6 +28,11 @@ class TestCase(unittest.TestCase):
         self.driver.wait_loading()
 
 
+
+        # list_text = self.driver.find_id('tv_notice').text
+        # if u'暂无已完成历史订单' in list_text :
+        #     pass
+        # else:
         #获取所有已完成订单列表的订单号
         orders_no=()
         order = self.driver.find_ids('order_no')
@@ -47,3 +52,5 @@ class TestCase(unittest.TestCase):
                 isExist = False
                 break
         self.assertTrue(isExist,'false')
+
+

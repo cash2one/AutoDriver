@@ -20,7 +20,7 @@ class TestCase(unittest.TestCase):
 
        self.driver.wait_loading()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #我的信息
        self.driver.find_ids('person_item')[0].click()
       #删除姓名
