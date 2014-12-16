@@ -1,12 +1,13 @@
 __author__ = 'wangshanshan@pathbook.com.cn'
 # coding=utf-8
-#查询失败
+#创建订单
 
 
 
 import time
 import unittest
 from framework.core import idriver_web
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -28,6 +29,8 @@ class TestCase(unittest.TestCase):
 
         for i in range(len(menu)-1):
             if menu[i]==u'订单管理':
-                self.driver.find_element_by_id('main_menu').click()
+                # above=self.driver.find_element_by_id('main_menu').click()
+                ActionChains(self.driver).move_to_element(u'订单管理').perform()
                 time.sleep(3)
+
 
