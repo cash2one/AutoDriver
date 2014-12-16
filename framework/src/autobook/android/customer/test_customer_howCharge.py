@@ -18,9 +18,9 @@ class TestCase(unittest.TestCase):
     def test_change_Personal(self):
 
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #查看如何收费
-       self.driver.find_ids('personal_name')[2].click()
+       self.driver.find_ids('person_item')[2].click()
 
        text=self.driver.find_id('tv_title_text').text
        print text
