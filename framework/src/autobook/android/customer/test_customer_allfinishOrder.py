@@ -17,8 +17,10 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_allfinishOrder(self):
-
+        # activity = self.driver.current_activity
+        # layout_ids = self.driver.layout[activity]
         #点击用户中心图标，进入用户中心列表
+        # self.driver.find_id(layout_ids['btn_personal_center']).click()
         self.driver.find_id('btn_personal_center').click()
         self.driver.wait_loading()
         #点击历史订单
