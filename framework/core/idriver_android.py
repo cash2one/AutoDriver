@@ -38,7 +38,7 @@ def app(current_file):
     cfg = the.taskConfig[st]
     if cfg[constant.PRODUCT] == None:
         the.taskConfig[st][constant.PRODUCT] = Android(cfg[constant.TASK_CONFIG])
-        the.taskConfig[st][constant.PRODUCT].wait_switch(cfg[constant.TASK_CONFIG]['app_activity'])
+        the.taskConfig[st][constant.PRODUCT].splash()
     return the.taskConfig[st][constant.PRODUCT]
 
 
@@ -94,6 +94,8 @@ class Android(WebDriver):
 
         self.package = self.settings['app_package'] + ':id/'
         self.pkg = self.settings['app_package'] + ':id/'
+
+
 
     def layouts(self):
         #layout_ids = None
@@ -416,6 +418,19 @@ class Android(WebDriver):
         else:
             raise NameError, 'find_element timeout'
 
+    def splash(self):
+        splash_activity = self.settings['app_activity']
+        time_out = TIME_OUT
+        while time_out > 0:
+            if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+                if splash_activity not in self.current_activity:
+                    break
+            time_out -= 1
+            time.sleep(0.5)
+        else:
+            raise NameError, 'switch timeout'
+
+        self.wait_loading()
 
     def wait_switch(self, origin_activity):
         time_out = TIME_OUT
