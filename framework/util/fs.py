@@ -18,19 +18,19 @@ PATH = lambda p: os.path.abspath(
 )
 
 
-def app_container(path_str, selections):
+def task_container(path_str, selections):
     conf = ConfigParser.ConfigParser()
     conf.read(path_str)
 
-    lists = []
+    all = {}
     options = conf.options(selections)
     for opt in options:  # 取出sections内的所有options
         str_val = conf.get(selections, opt)
         dictCase = {}
-        dictCase[constant.CONFIG] = str_val
+        dictCase[constant.TASK_CONFIG] = str_val
         dictCase[constant.PRODUCT] = None
-        lists.append(dictCase)
-    return lists
+        all[opt]=dictCase
+    return all
 
 
 
