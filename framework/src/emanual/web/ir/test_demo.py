@@ -17,11 +17,14 @@ class TestCase(unittest.TestCase):
 
 
     def test_my_reset(self):
-        td=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[7]
-        td.find_elements_by_link_text(u'启用')[1].click()
-
-        self.driver.switch_to_alert()
-        time.sleep(4)
+        # td=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[7]
+        # td.find_elements_by_link_text(u'启用')[1].click()
+        #
+        # self.driver.switch_to_alert()
+        # time.sleep(4)
+        print self.driver.find_id('myNes').text
+        self.driver.find_id('myNes').click()
+        print self.driver.find_id('welcome').text
 
 
 
