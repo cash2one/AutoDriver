@@ -12,7 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.customer()
+        self.driver = idriver_android.app(__file__)
         #self.driver.login()
 
 
