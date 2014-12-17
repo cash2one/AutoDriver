@@ -14,7 +14,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
+    #评价历史订单时，取消
     def test_cancel_EvalHistory(self):
         current_activity = self.driver.current_activity
         #点击用户中心图标，进入用户中心列表
