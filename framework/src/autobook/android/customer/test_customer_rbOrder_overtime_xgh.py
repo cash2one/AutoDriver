@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
+    #周边下单倒计时结束后，点击重新选择司机-待完成
     def test_rb_selectDriver(self):
         current_activity = self.driver.current_activity
         #点击一键下单，进入一键下单界面
