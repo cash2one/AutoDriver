@@ -142,9 +142,8 @@ if __name__ == "__main__":
         dbm.close_db()
         return r
 
-    from framework.util import fs
-    products = fs.app_container(PATH('./config.ini'),'task')
-    print products
+    print the.taskConfig
+    print the.products
 
 
     # for p in ps:

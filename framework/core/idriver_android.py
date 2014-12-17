@@ -104,7 +104,7 @@ class Android(WebDriver):
 
     def layout(self,id_):
         try:
-            return self.layouts()[id_]
+            return self.layouts()[id_.lower()]
         except KeyError:
             raise NameError, 'option not exist'
 
