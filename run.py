@@ -143,7 +143,6 @@ if __name__ == "__main__":
         return r
 
     print the.taskConfig
-    print the.products
 
 
     # for p in ps:
