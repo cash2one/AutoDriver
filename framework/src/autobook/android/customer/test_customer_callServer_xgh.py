@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
+    #拨打客服电话
     def test_call_server(self):
         current_activity = self.driver.current_activity
         #点击进入使用

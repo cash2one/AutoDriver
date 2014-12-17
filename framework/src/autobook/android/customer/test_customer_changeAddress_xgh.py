@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
+    #一键下单界面，更改所在位置
     def test_change_Address(self):
         current_activity = self.driver.current_activity
         #点击一键下单，进入一键下单界面

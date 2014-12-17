@@ -16,7 +16,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         # 返回首页
         self.driver.switch_to_home()
-
+    #指定司机下单
     def test_driver_Order(self):
 
         current_activity = self.driver.current_activity
