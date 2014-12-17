@@ -8,7 +8,7 @@ from framework.core import idriver_android
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.driver()
+        self.driver = idriver_android.app(__file__)
         self.driver.login()
 
     def tearDown(self):
@@ -34,15 +34,15 @@ class TestCase(unittest.TestCase):
         #
         # print tv_customer_name.text
         activity = self.driver.current_activity
-
+        self.driver.change_status(True)
         #print self.driver.app_strings
         self.driver.find_id('tv_history_order').click()
 
         self.driver.wait_switch(activity)
 
         #items = self.driver.swipe_load_item('lv_completed','history_order_finish',('order_number_text','order_amount_text'),3)
-        for i in range(0,10):
-            self.driver.swipee('history_order_finish')
+        # for i in range(0,10):
+        #     self.driver.swipee('history_order_finish'
 
         #print items
 
