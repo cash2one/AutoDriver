@@ -19,14 +19,16 @@ class TestCase(unittest.TestCase):
     def test_history_order(self):
         self.driver.change_status(True)
         current_activity = self.driver.current_activity
+
         self.driver.find_id('iv_head').click()
         self.driver.wait_switch(current_activity)
 
         current_activity = self.driver.current_activity
-        self.driver.find_element_by_name(u'历史订单').click()
-        self.driver.wait_switch(current_activity)
 
+        self.driver.find_id('personal_list_text').click()
+        self.driver.wait_switch(current_activity)
         self.driver.find_id('rb_cancel').click()
+
         time.sleep(3)
 
         text=self.driver.find_id('order_number_text').text

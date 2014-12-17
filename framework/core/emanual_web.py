@@ -5,31 +5,36 @@ import os
 import re
 import time
 import the
-from framework.util import constant
+from framework.util import constant, fs
 from selenium import webdriver as selen
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.common import exceptions
 
 TIME_OUT = 100
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
 
 def firefox(file_):
-    #获取项目路径，转换成app.init 的sections
+    # 获取项目路径，转换成app.init 的sections
     init_size = len(os.path.dirname(__file__))
     tar_path = os.path.dirname(file_)
-    sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
+    sections = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
 
-    st = sections.replace('autobook','idriver')
+    st = sections.replace('autobook', 'idriver')
     info = the.products[st]
     if info[constant.PRODUCT] == None:
         the.products[st][constant.PRODUCT] = Firefox(info)
     return the.products[st][constant.PRODUCT]
 
 
-
 class Firefox(WebDriver):
-    def __init__(self,configs,timeout=30):
+    def __init__(self, configs, timeout=30):
         self.configs = configs
-        self.timeout=timeout
+        self.timeout = timeout
+        self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.configs['layout']))
+        self.cfg=fs.readConfigs()
 
         # fp = FirefoxProfile()
         # fp.set_preference("browser.download.folderList",2)
@@ -42,18 +47,36 @@ class Firefox(WebDriver):
         # fp.set_preference("network.cookie.cookieBehavior",0)
         # fp.set_preference("network.cookie.thirdparty.sessionOnly",False)
 
-        #caps=DesiredCapabilities()
-        firefox_profile=None
-        firefox_binary=None
-        capabilities=None
-        proxy=None
+        # caps=DesiredCapabilities()
+        firefox_profile = None
+        firefox_binary = None
+        capabilities = None
+        proxy = None
         super(Firefox, self).__init__(firefox_profile, firefox_binary, timeout,
                                       capabilities, proxy)
 
+    def layouts(self):
+        # 截取current_url作为ini的selections
+        try:
+            server_url = self.configs['url']
+            url = self.current_url.replace(server_url,'')
+            return self.app_layouts[url]
+        except KeyError:
+            raise NameError, 'current_url error'
+
+    def layout(self, id_):
+        try:
+            return self.layouts()[id_]
+        except KeyError:
+            raise NameError, 'option not exist'
+
+
     def find_id(self, id_):
+        id = self.layout(id_)
         return self.find_element_by_id(id_)
 
     def find_ids(self, id_):
+        id = self.layout(id_)
         return self.find_elements_by_id(id_)
 
     def find_tag(self, class_name):
@@ -65,8 +88,8 @@ class Firefox(WebDriver):
     def find_name(self, name_):
         return self.find_element_by_name(name_)
 
-    def index_url(self,value=''):
-        index_url=''
+    def index_url(self, value=''):
+        index_url = ''
         try:
             index_url = self.configs['index_url']
         except KeyError:
@@ -84,7 +107,7 @@ class Firefox(WebDriver):
         while time_out > 0:
             try:
                 return self.find_element_by_id(id_)
-            
+
             except exceptions.NoSuchElementException:
                 pass
             time_out -= 1
@@ -95,18 +118,18 @@ class Firefox(WebDriver):
 
 
     def switch_to_home(self):
-        url=self.configs['index_url']
+        url = self.configs['index_url']
         time.sleep(2)
         self.get(url)
 
-    def login(self,role=''):
+    def login(self, role=''):
         ini_url = self.configs['url']
         login_ids = self.configs['login_elements'].split(',')
         usrname_id = login_ids[0]
         pwd_id = login_ids[1]
-        usrname=''
-        pwd=''
-        if len(role.strip())==0:
+        usrname = ''
+        pwd = ''
+        if len(role.strip()) == 0:
             usrname = self.configs['username']
             pwd = self.configs['password']
         else:
@@ -117,7 +140,8 @@ class Firefox(WebDriver):
             except KeyError:
                 raise NameError, 'account is not exist'
 
-        if cmp('about:blank',self.current_url)==0:
+        if cmp('about:blank', self.current_url) == 0:
+            ini_url=ini_url.replace('//','/')
             self.get(ini_url)
             self.implicitly_wait(30)
 
@@ -127,14 +151,13 @@ class Firefox(WebDriver):
             # self.find_element_by_id(pwd_id).send_keys(code)
             # self.find_element_by_id('login').click()
 
-            #等待输入验证码
+            # 等待输入验证码
             while True:
-                if cmp(ini_url,self.current_url)==-1:
+                if cmp(ini_url, self.current_url) == -1:
                     break
                 time.sleep(0.5)
 
             self.index_url(self.current_url)
-
 
 
 class Chrome(selen.Chrome):
