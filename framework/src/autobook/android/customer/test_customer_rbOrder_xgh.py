@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'guanghua_2011@126.comjhhhh'
+__author__ = 'guanghua_2011@126.com'
 
 import time
 import unittest
@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
+    #一键下单
     def test_rb_Order(self):
 
         current_activity = self.driver.current_activity
