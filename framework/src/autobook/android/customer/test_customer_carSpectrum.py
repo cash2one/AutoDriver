@@ -27,7 +27,7 @@ class TestCase(unittest.TestCase):
        # self.driver.find_id('start_btn').click()
        # self.driver.wait_loading()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #点击关于车谱
        self.driver.find_ids('person_item')[4].click()
        #对比
@@ -43,7 +43,7 @@ class TestCase(unittest.TestCase):
     def test_email(self):
 
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #点击关于车谱
        self.driver.find_ids('person_item')[4].click()
 
@@ -72,7 +72,7 @@ class TestCase(unittest.TestCase):
     def test_web(self):
 
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #点击关于车谱
        self.driver.find_ids('person_item')[4].click()
        #点击官方网站
@@ -82,5 +82,5 @@ class TestCase(unittest.TestCase):
        # self.driver.find_id('').click()
 
        #点击左上角返回按钮
-       self.driver.find_id('button_title_back').click()
+       # self.driver.find_id('button_title_back').click()
 

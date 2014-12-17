@@ -27,7 +27,7 @@ class TestCase(unittest.TestCase):
        # self.driver.find_id('start_btn').click()
        # self.driver.wait_loading()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #点击代驾协议
        self.driver.find_ids('person_item')[3].click()
 

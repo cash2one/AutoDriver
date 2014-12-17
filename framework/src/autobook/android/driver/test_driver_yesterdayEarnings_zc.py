@@ -33,7 +33,7 @@ class TestCase(unittest.TestCase):
         #在数据库中查询昨日的收入
 
         info_charge = self.driver.sql(
-            'select sum(info_charge) from t_statistics_driver_income where driver_no=' + self.driver_no + ' and s_date=' + y)
+            'select sum(info_charge) from t_statistics_driver_income where driver_no=' + self.driver.no + ' and s_date=' + y)
         #在数据库中查询昨日的服务费支出
 
         insurance_charge = self.driver.sql(

@@ -20,9 +20,9 @@ class TestCase(unittest.TestCase):
 
        self.driver.wait_loading()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #我的信息
-       self.driver.find_ids('personal_name')[0].click()
+       self.driver.find_ids('person_item')[0].click()
       #修改紧急联系电话
        self.driver.find_id('personal_urgent_numbers').click()
        self.driver.clear_text('personal_urgent_numbers')
@@ -38,9 +38,9 @@ class TestCase(unittest.TestCase):
     def test_urgency_phone(self):
        self.driver.wait_loading()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #我的信息
-       self.driver.find_ids('personal_name')[0].click()
+       self.driver.find_ids('person_item')[0].click()
       #修改紧急联系电话
        self.driver.find_id('personal_urgent_numbers').click()
        self.driver.clear_text('personal_urgent_numbers')

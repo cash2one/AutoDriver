@@ -18,12 +18,12 @@ class TestCase(unittest.TestCase):
     def test_cancel_Order(self):
         current_activity = self.driver.current_activity
         #点击用户中心图标，进入用户中心列表
-        self.driver.find_id('btn_personalcenter').click()
+        self.driver.find_id('btn_personal_center').click()
         self.driver.wait_loading()
 
 
         #点击历史订单
-        personal_names = self.driver.find_ids('personal_name')
+        personal_names = self.driver.find_ids('person_item')
         personal_names[1].click()
         self.driver.wait_loading()
         #点击已取消

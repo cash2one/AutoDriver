@@ -142,7 +142,9 @@ if __name__ == "__main__":
         dbm.close_db()
         return r
 
-    split211(PATH('./k211_ddd.txt'))
+    from framework.util import fs
+    products = fs.app_container(PATH('./config.ini'),'task')
+    print products
 
 
     # for p in ps:
