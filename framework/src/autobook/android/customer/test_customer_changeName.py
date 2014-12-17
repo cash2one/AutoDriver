@@ -9,7 +9,7 @@ from framework.core import idriver_android
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.customer()
+        self.driver = idriver_android.app(__file__)
         self.driver.login()
 
     def tearDown(self):
@@ -20,7 +20,7 @@ class TestCase(unittest.TestCase):
 
        self.driver.wait_loading()
        #点击用户中心
-       self.driver.find_id('btn_personalcenter').click()
+       self.driver.find_id('btn_personal_center').click()
        #我的信息
        self.driver.find_ids('personal_name')[0].click()
       #修改用户名

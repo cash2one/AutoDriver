@@ -9,7 +9,7 @@ from framework.util import str
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.customer()
+        self.driver = idriver_android.app(__file__)
         self.driver.login()
 
     def tearDown(self):
@@ -18,12 +18,12 @@ class TestCase(unittest.TestCase):
     def test_cancel_EvalHistory(self):
         current_activity = self.driver.current_activity
         #点击用户中心图标，进入用户中心列表
-        self.driver.find_id('btn_personalcenter').click()
+        self.driver.find_id('btn_personal_center').click()
         self.driver.wait_loading()
 
 
         #点击历史订单
-        personal_names = self.driver.find_ids('personal_name')
+        personal_names = self.driver.find_ids('person_item')
         personal_names[1].click()
         self.driver.wait_loading()
 

@@ -10,15 +10,17 @@ from framework.core import idriver_android
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.customer()
+        self.driver = idriver_android.app(__file__)
         self.driver.login()
 
     def tearDown(self):
         self.driver.switch_to_home()
 
     def test_allfinishOrder(self):
-
+        # activity = self.driver.current_activity
+        # layout_ids = self.driver.layout[activity]
         #点击用户中心图标，进入用户中心列表
+        # self.driver.find_id(layout_ids['btn_personal_center']).click()
         self.driver.find_id('btn_personal_center').click()
         self.driver.wait_loading()
         #点击历史订单
@@ -26,6 +28,11 @@ class TestCase(unittest.TestCase):
         self.driver.wait_loading()
 
 
+
+        # list_text = self.driver.find_id('tv_notice').text
+        # if u'暂无已完成历史订单' in list_text :
+        #     pass
+        # else:
         #获取所有已完成订单列表的订单号
         orders_no=()
         order = self.driver.find_ids('order_no')
@@ -45,3 +52,5 @@ class TestCase(unittest.TestCase):
                 isExist = False
                 break
         self.assertTrue(isExist,'false')
+
+

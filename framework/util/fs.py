@@ -18,6 +18,22 @@ PATH = lambda p: os.path.abspath(
 )
 
 
+def task_container(path_str, selections):
+    conf = ConfigParser.ConfigParser()
+    conf.read(path_str)
+
+    all = {}
+    options = conf.options(selections)
+    for opt in options:  # 取出sections内的所有options
+        str_val = conf.get(selections, opt)
+        dictCase = {}
+        dictCase[constant.TASK_CONFIG] = str_val
+        dictCase[constant.PRODUCT] = None
+        all[opt]=dictCase
+    return all
+
+
+
 def init_project(path_str):
     conf = ConfigParser.ConfigParser()
     conf.read(path_str)

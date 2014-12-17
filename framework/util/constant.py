@@ -3,6 +3,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 #初始化项目时的字典统一key
 PRODUCT='pathbook_product'
+TASK_CONFIG='app_config'
 
 driver = 'idriver.android.driver'
 driver_robot = 'idriver.android.driver_robot'
