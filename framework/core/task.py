@@ -84,6 +84,13 @@ class Task():
         load = unittest.defaultTestLoader.loadTestsFromModule
         return unittest.TestSuite(map(load, modules))
 
+    def isFinish(self):
+        pass
+
+    def isRunning(self):
+        pass
+
+
     def start(self):
         #print self.getTestSuite()
         self.__state = True

@@ -51,24 +51,30 @@ def init():
     print u'初始化完成，输入[run.py -s]运行'
 
 
-
 def start():
     d = device.android(the.settings['android_mychevy'])
     xlss = data.getExcelsData(PATH(xls_path),False)
     tk = task.Task(False,xlss)
-    # #TODO: 需要加入android启动的等待时间
-    #
+
+    #把不同的项目用例放到 不同的文件夹，例如： testcase/idriver_android_customer/,再载入到不同的task
+    tk1=task.Task(False,xlss)
+
+    tasklist = []
+    tasklist.append(tk)
+    tasklist.append(tk1)
+
+    for tkk in tasklist:
+        if not tkk.isFinish() and tkk.isRunning():
+            pass
+
+
+
+
     serv = routine.TaskAction(tk,data.getDatabasePath(root_dir))
     serv.start()
     print u'脚本已经开始执行.....'
 
     #oldRunner(tk.getTestSuite())
-
-
-def startStress():
-    stress_settings = the.settings['stress']
-    stress.start(stress_settings)
-
 
 def startReport():
     '''
@@ -138,8 +144,6 @@ def main():
             init()
         elif args[1]=="-s":
             start()
-        elif args[1]=="-stress":
-            startStress()
         elif args[1]=="-r":
             startReport()
         elif args[1]=="-h":
@@ -157,81 +161,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-    #init()
-    # a,b=data.sortTestCase(PATH('./resource/xls/autobook_interface_app.xls'))
-    #
-    # for aa in b:
-    #     print aa
-
-
-    # for i in range(1,len(products)):
-    #     if products[i] in db_data.os:
-
-
-    #start()
-    # from collections import defaultdict
-    # desc_list = []
-    # for x in xlss:
-    #     for d in x['desc'].split('|'):
-    #         desc_list.append(x['desc'].split('?')[0])
-    #
-    # d = defaultdict(list)
-    # for k,va in [(v,i) for i,v in enumerate(desc_list)]:
-    #     d[k].append(va)
-    # print  d.items()
-
-    # import json
-    # aa= '{"res":"0","test":["test1","test2"],"myv":[{"t":"t1","tt":"t2"},{"q":"q1","qq":"q2"}],"tokenNo":"fgw","msg":{"tokenNo":"fgw","orders":[{"orderno":"135","hasEval":"1"}],"ord":"oo"}}'
-    # bb='{"msg": {"list": []}, "res": "0"}'
-    # cc = '{"res":"0","msg":{"list":[1]}}'
-    # j = json.loads(cc)
-    # #json_v = json.loads()
-    # rules={'tokenNo':'','test':''}
-    # print interface.walkJson(j,rules)
-    #
-
-    #
-    # from PIL import Image
-    # import subprocess
-    # file_name = 'screenshot123333.png'
-    # cmd = 'adb shell /system/bin/screencap -p /sdcard/' + file_name
-    # cmd_pull = 'adb pull /sdcard/screenshot.png d:/' + file_name
-    # p1 = subprocess.Popen(cmd, shell=True, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    # # p.communicate()  # Returns (stdoutdata, stderrdata): stdout and stderr are ignored, here
-    # # if prog.returncode:
-    # #     raise Exception('program returned error code {0}'.format(prog.returncode))
-    #
-    # curline = p1.stdout.readline()
-    # while(curline != ""):
-    #     #print (curline)
-    #     curline = p1.stdout.readline()
-    #     p1.wait()
-
-
-    # timestamp = time.strftime('%Y-%m-%d-%H-%M-%S',time.localtime(time.time()))
-    # os.popen("adb wait-for-device")
-    # os.popen("adb shell screencap -p /data/local/tmp/tmp.png")
-    # if not os.path.isdir(PATH('./screenshot/')):
-    #     os.makedirs(PATH('./screenshot/'))
-    #     os.popen("adb pull /data/local/tmp/tmp.png " + PATH("./screenshot/" + timestamp + ".png"))
-    #     os.popen("adb shell rm /data/local/tmp/tmp.png")
-    #     print "success"
-
-    # from framework.core import image
-    # print image.isSame(PATH('./screenshot/a.png'),PATH('./screenshot/b.png'))
-
-
-
-
-
-
-
-
-
-
-
 
 
 
