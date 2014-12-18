@@ -27,30 +27,30 @@ class TestCase(unittest.TestCase):
         self.driver.find_ids('person_item')[1].click()
         self.driver.wait_loading()
 
+        #判断是否有已完成订单
+        try:
+           list_text = self.driver.find_id('tv_notice').text
+           if u'暂无已完成历史订单' in list_text :
+               pass
+        except:
+            #获取所有已完成订单列表的订单号
+            orders_no=()
+            order = self.driver.find_ids('order_no')
+            for i in range(0,len(order)-1):
+                order_Nos=self.driver.find_ids('order_no')[i].text
+                orders_no+=((order_Nos,),)
+                print orders_no
 
+                #从数据库中获取所有订单号
+                sql_order=self.driver.sql('SELECT order_no FROM t_order_info where customer_id=34' ,0,1)
+                print sql_order
 
-        # list_text = self.driver.find_id('tv_notice').text
-        # if u'暂无已完成历史订单' in list_text :
-        #     pass
-        # else:
-        #获取所有已完成订单列表的订单号
-        orders_no=()
-        order = self.driver.find_ids('order_no')
-        for i in range(0,len(order)-1):
-            order_Nos=self.driver.find_ids('order_no')[i].text
-            orders_no+=((order_Nos,),)
-            print orders_no
-
-        #从数据库中获取所有订单号
-        sql_order=self.driver.sql('SELECT order_no FROM t_order_info where customer_id=34' ,0,1)
-        print sql_order
-
-        #判断若有一个订单不在数据库中跳出
-        isExist = True
-        for no in orders_no:
-            if no not in sql_order:
-                isExist = False
-                break
-        self.assertTrue(isExist,'false')
+                #判断若有一个订单不在数据库中跳出
+                isExist = True
+                for no in orders_no:
+                   if no not in sql_order:
+                    isExist = False
+                    break
+                self.assertTrue(isExist,'false')
 
 
