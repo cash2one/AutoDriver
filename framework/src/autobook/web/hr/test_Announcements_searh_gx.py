@@ -28,13 +28,13 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('noticeInfo').clear()
         self.driver.find_id('noticeInfo').send_keys(u'公告')
         time.sleep(5)
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         #点击排序
-        self.driver.find_element_by_id('jqgh_list_title').click()
+        self.driver.find_id('jqgh_list_title').click()
         time.sleep(2)
-        self.driver.find_element_by_id('jqgh_list_creator_realName').click()
+        self.driver.find_id('jqgh_list_creator_realName').click()
         time.sleep(2)
-        self.driver.find_element_by_id('jqgh_list_createTime').click()
+        self.driver.find_id('jqgh_list_createTime').click()
         time.sleep(2)
 
 
