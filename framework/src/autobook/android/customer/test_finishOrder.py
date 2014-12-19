@@ -14,7 +14,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
+    #用户中心-历史订单已完成订单
     def test_finish_Order(self):
         current_activity = self.driver.current_activity
         #点击用户中心图标，进入用户中心列表

@@ -14,8 +14,8 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
-    def test_cancel_EvalHistory(self):
+    #评价历史订单
+    def test_Evaluate_History(self):
         current_activity = self.driver.current_activity
         #点击用户中心图标，进入用户中心列表
         self.driver.find_id('btn_personal_center').click()
@@ -41,9 +41,6 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert()
         tv_text = self.driver.find_id('tv_msg').text
         self.assertTrue(u'是否确认要提交' in tv_text,'msg')
-        #点击取消
-        self.driver.find_id('btn_cancel').click()
-
 
 
 
