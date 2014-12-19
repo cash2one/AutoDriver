@@ -7,7 +7,7 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 # os.path.join(os.path.dirname(__file__), 'templates'),
-
+db_path = ''
 settings = fs.parserConfig(PATH('../../config.ini'))
 
 app_configs = fs.parserConfig(PATH('../../resource/app.ini'))
