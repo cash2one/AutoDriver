@@ -34,7 +34,7 @@ def app(current_file):
     tar_path = os.path.dirname(current_file)
     sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
 
-    st = sections.replace('autobook','idriver')
+    st = sections.lower().replace('autobook','idriver').replace('testcase','')
     cfg = the.taskConfig[st]
     if cfg[constant.PRODUCT] == None:
         the.taskConfig[st][constant.PRODUCT] = Android(cfg[constant.TASK_CONFIG])
