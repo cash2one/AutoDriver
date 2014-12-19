@@ -1,17 +1,27 @@
 # coding=utf-8
 __author__ = 'guguohai@pathbook.com.cn'
 
+import sys
 import os
 import time
 import subprocess
 from framework.core import task
+from framework.util import mail
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
 
-def main():
+def createDatabase():
+    time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
+    # the.db_path = 'report'+time_str + '.db'
+    #
+    # gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir,the.db_path))
+    # gdata.close()
+
+
+def start():
     case_list = [
         {'cases': {'test_customer_allfinishOrder': 5, 'test_customer_callServer_xgh': 3}, 'status': 0,
          'path': 'testcase/AutobookClient/customer'},
@@ -27,9 +37,73 @@ def main():
     runner = task.TestRunner(task_list)
     runner.start()
 
+def startReport():
+    pass
+
+def sendMail(mail_to):
+    '''
+    把静态html打包后，发送邮件
+    :param mail_to:
+    :return:
+    '''
+    path =PATH('./report/')
+    if os.path.isdir(path):
+        if os.path.exists(os.path.join(path,'report.zip')):
+            #mail_list = ['19319752@qq.com','gghsean@163.com']
+            #mail_to = ','.join(mail_list)
+            m = mail.Mail(PATH('./report/'))
+            mail_title = 'testss'
+            mail_content = '一封邮件的内容'
+            m.send_mail('gghsean@163.com',mail_to,mail_title,mail_content)
+        else:
+            pass#生成文件 及压缩包
+
+    else:
+        pass#文件夹，生成文件 及压缩包
+
+def order_robot():
+    from framework.core import idriver_android
+    idriver_android.customer_server()
+
+def help():
+    print u'''
+        自动化脚本帮助列表：\n
+        -start     执行脚本\n
+        -robot     启动订单机器人\n
+        -report    生成测试报告\n
+        -mail      打包测试报告并以邮件发送
+        '''
+
+
+def main():
+    args = sys.argv
+
+    if len(args) > 1:
+        if args[1]=="-start":
+            start()
+        elif args[1]=="-report":
+            startReport()
+        elif args[1]=="-robot":
+            order_robot()
+        elif args[1]=="-help":
+            help()
+        elif args[1]=="-mail":
+            if len(args)>2 and args[2]!='':
+                sendMail(args[2])
+            else:
+                print u'参数错误，[run.py -m 参数]'
+        else:
+            print u'查看帮助 -h'
+    else:
+        print u'查看帮助 -h'
+
+
 
 if __name__ == "__main__":
-    main()
+    #main()
+    print os.path.join(os.path.dirname(__file__))
+
+
     # import time
     # from framework.core import device
     #

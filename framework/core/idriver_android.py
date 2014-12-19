@@ -30,12 +30,12 @@ PATH = lambda p: os.path.abspath(
 #调用示例self.driver = idriver_android.app(__file__)
 def app(current_file):
     #获取项目路径，转换成app.init 的sections
-    init_size = len(os.path.dirname(__file__))
+    #init_size = len(os.path.dirname(__file__))
+    init_size = len(PATH('../../testcase'))+1
     tar_path = os.path.dirname(current_file)
     sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
 
-    #临时变量
-    st = sections.lower().replace('autobook','idriver').replace('testcase.','')
+    st = sections.lower()#.replace('autobook','idriver')
     cfg = the.taskConfig[st]
     if cfg[constant.PRODUCT] == None:
         the.taskConfig[st][constant.PRODUCT] = Android(cfg[constant.TASK_CONFIG])

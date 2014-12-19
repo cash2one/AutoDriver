@@ -13,6 +13,8 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_call_server(self):
-        script = os.path.join(os.path.dirname(__file__), 'test_order_robot.py')
-        print script
+        #自动订单发送cmd
+        driver_file = os.path.dirname(__file__).replace('customer', 'driver')
+        script = os.path.join(driver_file, 'test_order_robot.py')
+
         print self.driver.auto_order(script)
