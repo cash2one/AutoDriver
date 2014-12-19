@@ -101,20 +101,12 @@ class TestCase(unittest.TestCase):
             if opt.get_attribute('text')==u'客服专员':  #获取对象属性
                 opt.click()
 
-
+        time.sleep(4)
         #点击重置
-        op=self.driver.find_element_by_id('status').find_elements_by_tag_name('option')
-
-        tes=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[5].text
-        #判断名字是不是客服专员
-        self.assertEqual(tes,u'客服专员')
-        for ops in op:
-         #判断下拉列表里面的是不是禁用
-            if ops.get_attribute('text')==u'禁用':  #获取对象属性
-                ops.click()
-        time.sleep(3)
         self.driver.find_element_by_id('resetValue').click()
 
+
+        #点击启用（编辑）
     def test_my_reset(self):
         #找到td里面的状态
         text=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[6].text

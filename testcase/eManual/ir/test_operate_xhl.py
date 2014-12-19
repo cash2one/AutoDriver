@@ -9,11 +9,10 @@ import time
 from framework.core import idriver_web
 import os
 
-
 class TestCase(unittest.TestCase):
     def setUp(self):
         self.driver = idriver_web.firefox(__file__)
-        self.driver.login('role_oper')
+        self.driver.login('role_operation')
 
     def tearDown(self):
         #返回首页
