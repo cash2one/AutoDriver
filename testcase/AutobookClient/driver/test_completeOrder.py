@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'zhangchun'
+__author__ = 'zhangchun@pathbook.com.cn'
 
 import datetime
 from framework.core import idriver_android
@@ -25,10 +25,9 @@ class TestCase(unittest.TestCase):
         current_activity = self.driver.current_activity
         self.driver.find_element_by_name(u'历史订单').click()
         self.driver.wait_switch(current_activity)
-        self.driver.find_element_by_name(u'已取消').click()
-        self.driver.wait_find_id("rb_cancel")
+        ids=self.driver.find_ids('order_number_text')
         orders1_no=()
-        for i in range(0,5):
+        for i in range(0,len(ids)-1):
             text=self.driver.find_ids('order_number_text')[i].text
             order_no=text.split(':')[1].strip()
             orders1_no+=((order_no,),)
@@ -49,4 +48,7 @@ class TestCase(unittest.TestCase):
                 break
 
         self.assertTrue(isExist,'false')
+
+
+
 
