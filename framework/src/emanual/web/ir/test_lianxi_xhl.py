@@ -100,10 +100,12 @@ class TestCase(unittest.TestCase):
     def test_my_into(self):
         self.driver.find_element_by_id('add').click()
         self.driver.find_element_by_id('operatorInfo').send_keys(u'你好')
+        time.sleep(3)
         self.driver.find_element_by_id('querychildList').click()
-        time.sleep(10)
+
 
     def test_my_into_select(self):
+
         self.driver.find_element_by_id('add').click()
         self.driver.find_ajax_id("operatorInfo")
         self.driver.find_element_by_id('operatorInfo').send_keys(u'你好啊')
