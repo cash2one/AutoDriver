@@ -30,11 +30,12 @@ PATH = lambda p: os.path.abspath(
 #调用示例self.driver = idriver_android.app(__file__)
 def app(current_file):
     #获取项目路径，转换成app.init 的sections
-    init_size = len(os.path.dirname(__file__))
+    #init_size = len(os.path.dirname(__file__))
+    init_size = len(PATH('../../testcase'))+1
     tar_path = os.path.dirname(current_file)
     sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
 
-    st = sections.replace('autobook','idriver')
+    st = sections.lower()#.replace('autobook','idriver')
     cfg = the.taskConfig[st]
     if cfg[constant.PRODUCT] == None:
         the.taskConfig[st][constant.PRODUCT] = Android(cfg[constant.TASK_CONFIG])
@@ -85,7 +86,7 @@ class Android(WebDriver):
         desired_capabilities['platformName'] = self.settings['platform_name']
         desired_capabilities['platformVersion'] = self.settings['platform_version']
         desired_capabilities['deviceName'] = self.settings['device_name']
-        desired_capabilities['app'] = PATH('../../resource/app/' + cfs[1])
+        desired_capabilities['app'] = PATH('../../resource/app/' + self.settings['app'])
         desired_capabilities['appPackage'] = self.settings['app_package']
         desired_capabilities['app-activity'] = self.settings['app_activity']
         command_executor = 'http://localhost:%s/wd/hub' % self.settings['remote_port']
