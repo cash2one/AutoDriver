@@ -25,7 +25,12 @@ class TestCase(unittest.TestCase):
         self.driver.find_ids('person_item')[1].click()
         self.driver.wait_loading()
 
+        try:
+           list_text = self.driver.find_id('tv_notice').text
+           if u'暂无已完成历史订单' in list_text :
+              pass
+        except:
+            #获取所有已完成订单列表的订单号
+            order = self.driver.swipe_load_item('lv_finish','order_finish_item','order_no',page_size=10)
 
-        #获取所有已完成订单列表的订单号
-        order = self.driver.swipe_load_item('lv_finish','order_finish_item','order_no',page_size=10)
 

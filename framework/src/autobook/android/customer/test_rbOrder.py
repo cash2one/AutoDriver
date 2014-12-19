@@ -13,7 +13,7 @@ class TestCase(unittest.TestCase):
 
     def tearDown(self):
         self.driver.switch_to_home()
-
+    #一键下单
     def test_rb_Order(self):
 
         current_activity = self.driver.current_activity
