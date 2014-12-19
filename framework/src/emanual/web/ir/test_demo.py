@@ -3,6 +3,7 @@ __author__ = 'wangshanshan'
 
 import unittest
 from framework.core import emanual_web
+import time
 
 
 class TestCase(unittest.TestCase):
@@ -14,14 +15,16 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         self.driver.switch_to_home()
 
-    def test_list(self):
-        print self.driver.find_element_by_id('welcome').text
 
-
-    def test_next(self):
-        self.driver.find_element_by_id('myNes').click()
-        self.driver.implicitly_wait(30)
-        print self.driver.find_element_by_id('realName').text
+    def test_my_reset(self):
+        # td=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[7]
+        # td.find_elements_by_link_text(u'启用')[1].click()
+        #
+        # self.driver.switch_to_alert()
+        # time.sleep(4)
+        print self.driver.find_id('myNes').text
+        self.driver.find_id('myNes').click()
+        print self.driver.find_id('welcome').text
 
 
 

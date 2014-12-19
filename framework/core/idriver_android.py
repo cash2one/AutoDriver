@@ -6,7 +6,7 @@ import time
 import the
 import socket,subprocess
 from framework.util import idriver_const,constant
-from framework.util import mysql
+from framework.util import mysql,fs
 from appium.webdriver.webdriver import WebDriver
 import xmlrpclib
 from selenium.common.exceptions import NoSuchElementException
@@ -34,12 +34,13 @@ def app(current_file):
     tar_path = os.path.dirname(current_file)
     sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
 
-    st = sections.replace('autobook','idriver')
-    info = the.products[st]
-    if info[constant.PRODUCT] == None:
-        the.products[st][constant.PRODUCT] = Android(info)
-        the.products[st][constant.PRODUCT].wait_switch(info['app_activity'])
-    return the.products[st][constant.PRODUCT]
+    #临时变量
+    st = sections.lower().replace('autobook','idriver').replace('testcase.','')
+    cfg = the.taskConfig[st]
+    if cfg[constant.PRODUCT] == None:
+        the.taskConfig[st][constant.PRODUCT] = Android(cfg[constant.TASK_CONFIG])
+        the.taskConfig[st][constant.PRODUCT].splash()
+    return the.taskConfig[st][constant.PRODUCT]
 
 
 def driver():
@@ -75,29 +76,49 @@ def customer_robot():
 
 
 class Android(WebDriver):
-    def __init__(self, configs, browser_profile=None, proxy=None, keep_alive=False):
-        self.configs = configs
+    def __init__(self, config, browser_profile=None, proxy=None, keep_alive=False):
+        cfs = config.strip().split('|')
+        self.config = fs.parserConfig(PATH('../../resource/app/%s' % cfs[0]))
+        self.settings = self.config['settings']
+        #self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.config['layout']))
 
         desired_capabilities = {}
-        desired_capabilities['platformName'] = self.configs['platform_name']
-        desired_capabilities['platformVersion'] = self.configs['platform_version']
-        desired_capabilities['deviceName'] = self.configs['device_name']
-        desired_capabilities['app'] = PATH('../../resource/app/' + self.configs['app'])
-        desired_capabilities['appPackage'] = self.configs['app_package']
-        desired_capabilities['app-activity'] = self.configs['app_activity']
-        command_executor = 'http://localhost:%s/wd/hub' % self.configs['remote_port']
+        desired_capabilities['platformName'] = self.settings['platform_name']
+        desired_capabilities['platformVersion'] = self.settings['platform_version']
+        desired_capabilities['deviceName'] = self.settings['device_name']
+        desired_capabilities['app'] = PATH('../../resource/app/' + self.settings['app'])
+        desired_capabilities['appPackage'] = self.settings['app_package']
+        desired_capabilities['app-activity'] = self.settings['app_activity']
+        command_executor = 'http://localhost:%s/wd/hub' % self.settings['remote_port']
 
         super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
 
-        self.package = self.configs['app_package'] + ':id/'
-        self.pkg = self.configs['app_package'] + ':id/'
+        self.package = self.settings['app_package'] + ':id/'
+        self.pkg = self.settings['app_package'] + ':id/'
 
+
+
+    def layouts(self):
+        #layout_ids = None
+        try:
+           #layout_ids = self.app_layouts[self.current_activity]
+            return self.config[self.current_activity]
+        except KeyError:
+            raise NameError, 'current_activity error'
+
+    def layout(self,id_):
+        try:
+            return self.layouts()[id_.lower()]
+        except KeyError:
+            raise NameError, 'option not exist'
 
     def find_id(self, id_):
-        return self.find_element_by_id(self.package + id_)
+        id = self.layout(id_)
+        return self.find_element_by_id(self.package + id)
 
     def find_ids(self, id_):
-        return self.find_elements_by_id(self.package + id_)
+        id = self.layout(id_)
+        return self.find_elements_by_id(self.package + id)
 
     def find_tag(self, class_name):
         return self.find_element_by_class_name('android.widget.' + class_name)
@@ -123,19 +144,19 @@ class Android(WebDriver):
 
     def change_status(self, isWorking):
         try:
-            status = self.configs['driver_status']
+            status = self.settings['driver_status']
         except KeyError:
-            self.configs['driver_status'] = False
+            self.settings['driver_status'] = False
 
-        if self.configs['driver_status'] != isWorking:
+        if self.settings['driver_status'] != isWorking:
             self.find_element_by_id(self.package + WORK_STATE).click()
-            self.configs['driver_status'] = isWorking
+            self.settings['driver_status'] = isWorking
             self.wait_loading()
 
     def login(self, robot_name=''):
-        if '.driver' in self.configs['app_package']:
+        if '.driver' in self.settings['app_package']:
             login_driver(self)
-        elif '.customer' in self.configs['app_package']:
+        elif '.customer' in self.settings['app_package']:
             login_customer(self, robot_name)
 
     def swipe_up(self, id_):
@@ -309,10 +330,10 @@ class Android(WebDriver):
 
     @property
     def no(self):
-        return self.configs['user_name']  # ['idriver.android.ium']
+        return self.settings['user_name']  # ['idriver.android.ium']
 
     def phone(self):
-        return self.configs['contact_phone']  # ['idriver.android.customer']
+        return self.settings['contact_phone']  # ['idriver.android.customer']
 
     def clear_text(self, id_):
         txt = self.find_element_by_id(self.package + id_).get_attribute('text')
@@ -330,7 +351,7 @@ class Android(WebDriver):
         # db_conf += ('_'+db_config)
 
         # url,usr,pwd,db_name,port
-        db_array = self.configs['database'].split('|')[db_no]
+        db_array = self.settings['database'].split('|')[db_no]
         dbs = db_array.split(',')
 
         dbm = mysql.DBManager(dbs[0], dbs[1], dbs[2], dbs[3], int(dbs[4]))
@@ -354,7 +375,7 @@ class Android(WebDriver):
         '''
         切换到主界面
         '''
-        main_activity = self.configs['main_activity']
+        main_activity = self.settings['main_activity']
 
         time.sleep(1)
         if not main_activity in self.current_activity:
@@ -398,6 +419,19 @@ class Android(WebDriver):
         else:
             raise NameError, 'find_element timeout'
 
+    def splash(self):
+        splash_activity = self.settings['app_activity']
+        time_out = TIME_OUT
+        while time_out > 0:
+            if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+                if splash_activity not in self.current_activity:
+                    break
+            time_out -= 1
+            time.sleep(0.5)
+        else:
+            raise NameError, 'switch timeout'
+
+        self.wait_loading()
 
     def wait_switch(self, origin_activity):
         time_out = TIME_OUT
@@ -431,12 +465,12 @@ def register_user(self_driver, user_name):
     '''
     pkg = self_driver.package
 
-    main_activity = self_driver.configs['main_activity']
-    contact_phone = self_driver.configs['contact_phone']
+    main_activity = self_driver.settings['main_activity']
+    contact_phone = self_driver.settings['contact_phone']
     # user_name = self_driver.configs['user_name']
-    code = self_driver.configs['code']
+    code = self_driver.settings['code']
 
-    self_driver.find_element_by_id(pkg + 'btn_personalcenter').click()
+    self_driver.find_element_by_id(pkg + 'btn_personal_center').click()
     self_driver.wait_switch(main_activity)
 
     self_driver.find_elements_by_id(pkg + 'personal_name')[0].click()
@@ -484,9 +518,9 @@ def register_user(self_driver, user_name):
 
 
 def login_customer(self_driver, robot_name=''):
-    main = self_driver.configs['main_activity']
-    guide_activity = self_driver.configs['guide_activity']
-    user_name = self_driver.configs['user_name']
+    main = self_driver.settings['main_activity']
+    guide_activity = self_driver.settings['guide_activity']
+    user_name = self_driver.settings['user_name']
 
     isFinishSplash = False
     while not isFinishSplash:
@@ -519,10 +553,10 @@ def login_customer(self_driver, robot_name=''):
 
 
 def login_driver(self_driver):
-    login = self_driver.configs['login_activity']
-    main = self_driver.configs['main_activity']
-    usr_name = self_driver.configs['user_name']
-    usr_pwd = self_driver.configs['user_pwd']
+    login = self_driver.settings['login_activity']
+    main = self_driver.settings['main_activity']
+    usr_name = self_driver.settings['user_name']
+    usr_pwd = self_driver.settings['user_pwd']
 
     isFinishSplash = False
     while not isFinishSplash:
