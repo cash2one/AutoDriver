@@ -1,8 +1,8 @@
 # coding=utf-8
-__author__ = 'zhangchun'
+__author__ = 'zhangchun@pathbook.com.cn'
 
 import time
-from framework.core import idriver_android
+from framework.core import device,idriver_android
 import unittest
 
 
@@ -15,7 +15,7 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-    def test_time_control(self):
+    def test_repair_order(self):
         self.driver.change_status(True)
 
         current_activity = self.driver.current_activity
@@ -23,15 +23,14 @@ class TestCase(unittest.TestCase):
         self.driver.find_id('iv_detail').click()
         self.driver.wait_switch(current_activity)
 
-        ctime=self.driver.find_id('ro_ctime').text
-
         self.driver.find_id('ro_endtime').click()
-
         self.driver.switch_to_alert()
+        self.driver.find_tags('ImageButton')[6].click()
+
         self.driver.find_id('btn_ok').click()
-        time.sleep(2)
-        ro_endtime=self.driver.find_id('ro_endtime').text
 
-        self.assertTrue(ctime[:-3]==ro_endtime)
+        self.driver.find_id('confirm_repairorder').click()
+        self.driver.switch_to_alert()
 
-        print ctime[:-3],time
+        txt=self.driver.find_id('tv_msg').text
+        self.assertTrue(u'结束地点不能为空' in txt)
