@@ -9,7 +9,6 @@ __pycache__/
 .idea/
 *.html
 *.db
-testcase/
 *.apk
 resource/app.ini
 
