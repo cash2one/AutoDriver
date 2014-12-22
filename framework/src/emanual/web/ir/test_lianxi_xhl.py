@@ -59,7 +59,7 @@ class TestCase(unittest.TestCase):
          else:
             pass
 
-    #查询客服专员和禁用
+
     def test_my_sele(self):
         opts=self.driver.find_element_by_id('role').find_elements_by_tag_name('option')
         for opt in opts:
