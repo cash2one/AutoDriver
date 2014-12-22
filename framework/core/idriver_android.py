@@ -574,7 +574,7 @@ def login_driver(self_driver):
             self_driver.find_element_by_id(self_driver.package + 'et_username').send_keys(usr_name)
             self_driver.find_element_by_id(self_driver.package + 'et_password').send_keys(usr_pwd)
             self_driver.find_element_by_id(self_driver.package + 'bt_login').click()
-        except NoSuchElementException:
+        except  :
             pass
 
     time.sleep(1)
