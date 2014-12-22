@@ -29,27 +29,11 @@
     <string>run</string>
    </property>
   </widget>
-  <widget class="QLabel" name="labela">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>340</y>
-     <width>72</width>
-     <height>15</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
-   </property>
-   <property name="text">
-    <string>已选文件</string>
-   </property>
-  </widget>
   <widget class="QListView" name="lv_testcase">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
+     <y>110</y>
      <width>311</width>
      <height>261</height>
     </rect>
@@ -95,16 +79,6 @@
    </property>
    <property name="styleSheet">
     <string notr="true">font: 9pt &quot;微软雅黑&quot;;</string>
-   </property>
-  </widget>
-  <widget class="QListView" name="lv_testcase_2">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>60</y>
-     <width>311</width>
-     <height>261</height>
-    </rect>
    </property>
   </widget>
  </widget>

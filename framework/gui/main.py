@@ -30,14 +30,14 @@ class MainForm(QtGui.QWidget):
         self.cmb_project.activated[str].connect(self.OnActivated)
         self.cmb_subproject.activated[str].connect(self.onSubActivated)
         # self.connect(self.cmb_project, QtCore.SIGNAL('activated(QString)'), self.OnActivated)
-        #self.connect(self.cmb_subproject, QtCore.SIGNAL('activated(QString)'), self.onSubActivated)
+        # self.connect(self.cmb_subproject, QtCore.SIGNAL('activated(QString)'), self.onSubActivated)
 
     def show_project(self):
         di = os.listdir(PATH('../../testcase'))
         for d in di:
             self.cmb_project.addItem(d)
 
-    def show_files(self,files):
+    def show_files(self, files):
         re_f = re.compile(".py", re.IGNORECASE)
         f = filter(re_f.search, files)
 
@@ -57,8 +57,8 @@ class MainForm(QtGui.QWidget):
 
         self.show_files(f)
 
-    def onSubActivated(self,txt):
-        f = os.listdir(PATH('../../testcase/%s/%s' % (self.cmb_project.currentText(),txt)))
+    def onSubActivated(self, txt):
+        f = os.listdir(PATH('../../testcase/%s/%s' % (self.cmb_project.currentText(), txt)))
         self.show_files(f)
 
 
@@ -73,9 +73,32 @@ class MainForm(QtGui.QWidget):
         self.listview.show()
 
 
+from framework.gui.ui import main_frame
+
+
+class MainFrame(QtGui.QMainWindow):
+    def __init__(self):
+        super(MainFrame, self).__init__()
+
+        # self.ui = main_frame.Ui_MainWindow()
+        # self.ui.setupUi(self)
+        self.setWindowTitle( "hello" )
+        self.resize( 200, 300 )
+
+        grid = QtGui.QGridLayout()
+
+        self.ui = main_form.Ui_Form()
+        self.ui.setupUi(self)
+
+        widget=QtGui.QWidget()
+        self.ui.setLayout(grid)
+
+        self.setCentralWidget(widget)
+
+
 def show():
     app = QtGui.QApplication(sys.argv)
-    main = MainForm()
+    main = MainFrame()
     main.show()
 
     app.exec_()
