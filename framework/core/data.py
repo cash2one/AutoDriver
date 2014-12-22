@@ -5,7 +5,7 @@ import os
 import re
 import json
 import datetime
-from framework.core import the,db_models
+from framework.core import the,models
 from framework.util import xls,constant,sqlite
 
 PATH = lambda p: os.path.abspath(
@@ -15,7 +15,7 @@ PATH = lambda p: os.path.abspath(
 settings = PATH('../../config.ini')
 product_json = PATH('../config/product.json')
 
-server_url = the.settings['interface']['url']
+#server_url = the.settings['interface']['url']
 
 
 #读取制定xls文件的数据
@@ -326,7 +326,7 @@ class generateData():
 
     def initTable(self,_dbm):
         #初始化，建表
-        sql_list = db_models.sql(db_models.Tables())
+        sql_list = models.sql(models.Tables())
 
         for sql in sql_list:
             self.cursor.execute(sql)
