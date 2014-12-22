@@ -10,6 +10,8 @@ __pycache__/
 *.html
 *.db
 *.apk
+*.xls
+*.xlsx
 resource/app.ini
 
 # Distribution / packaging
@@ -28,6 +30,8 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+
+
 
 # Installer logs
 pip-log.txt

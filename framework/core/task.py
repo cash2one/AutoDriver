@@ -84,7 +84,7 @@ class Task():
             if num > 0:
                 num -= 1
                 self.datas[self.CASES][ca] = num
-                if num > 0:
+                if num > 0:#递减后的数量仍大于零
                     left_cases += 1
 
         if left_cases > 0:
