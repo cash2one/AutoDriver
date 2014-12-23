@@ -4,7 +4,9 @@ __author__ = 'Administrator'
 import os
 import sys
 import re
-from PyQt4 import QtGui, QtCore
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
 from framework.gui.ui import main_form
 from framework.gui.models import list_model
 
@@ -13,7 +15,7 @@ PATH = lambda p: os.path.abspath(
 )
 
 
-class MainForm(QtGui.QWidget):
+class MainForm(QWidget):
     def __init__(self):
         super(MainForm, self).__init__()
 
@@ -26,11 +28,10 @@ class MainForm(QtGui.QWidget):
         self.cmb_subproject = self.ui.cmb_subProject
         self.labela = self.ui.labela
         self.show_project()
-        self.connect(self.button, QtCore.SIGNAL('clicked()'), self.OnButton)
+        # self.connect(self.button, QtCore.SIGNAL('clicked()'), self.OnButton)
         self.cmb_project.activated[str].connect(self.OnActivated)
         self.cmb_subproject.activated[str].connect(self.onSubActivated)
-        # self.connect(self.cmb_project, QtCore.SIGNAL('activated(QString)'), self.OnActivated)
-        # self.connect(self.cmb_subproject, QtCore.SIGNAL('activated(QString)'), self.onSubActivated)
+
 
     def show_project(self):
         di = os.listdir(PATH('../../testcase'))
@@ -62,43 +63,20 @@ class MainForm(QtGui.QWidget):
         self.show_files(f)
 
 
-    def OnButton(self):
-        f = os.listdir(PATH('../../testcase/AutobookClient/customer'))
-        re_f = re.compile(".py", re.IGNORECASE)
-        f = filter(re_f.search, f)
-
-        model = list_model.MyListModel(f)
-
-        self.listview.setModel(model)
-        self.listview.show()
-
-
-from framework.gui.ui import main_frame
-
-
-class MainFrame(QtGui.QMainWindow):
-    def __init__(self):
-        super(MainFrame, self).__init__()
-
-        # self.ui = main_frame.Ui_MainWindow()
-        # self.ui.setupUi(self)
-        self.setWindowTitle( "hello" )
-        self.resize( 200, 300 )
-
-        grid = QtGui.QGridLayout()
-
-        self.ui = main_form.Ui_Form()
-        self.ui.setupUi(self)
-
-        widget=QtGui.QWidget()
-        self.ui.setLayout(grid)
-
-        self.setCentralWidget(widget)
+        # def OnButton(self):
+        # f = os.listdir(PATH('../../testcase/AutobookClient/customer'))
+        # re_f = re.compile(".py", re.IGNORECASE)
+        #     f = filter(re_f.search, f)
+        #
+        #     model = list_model.MyListModel(f)
+        #
+        #     self.listview.setModel(model)
+        #     self.listview.show()
 
 
 def show():
-    app = QtGui.QApplication(sys.argv)
-    main = MainFrame()
+    app = QApplication(sys.argv)
+    main = MainForm()
     main.show()
 
     app.exec_()
