@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="task">
+    <file>res/inbox-table.png</file>
+  </qresource>
+</RCC>

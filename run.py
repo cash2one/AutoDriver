@@ -102,7 +102,15 @@ def main():
 
 
 if __name__ == "__main__":
-    createDatabase()
+    from framework.util import jira
+
+    ja = jira.JIRA('guguohai', 'guguohai')
+    project = 'IDRIVERC'
+    start = '10'
+    end = '20'
+    print ja.get('/rest/api/2/search?jql=project+%3D+' + project + '&startAt=' + start + '&maxResults=' + end)
+
+
     # import time
     # from framework.core import device
     #

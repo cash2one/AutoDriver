@@ -4,7 +4,9 @@ __author__ = 'Administrator'
 import os
 import sys
 import re
-from PyQt4 import QtGui, QtCore
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
 from framework.gui.ui import main_form
 from framework.gui.models import list_model
 
@@ -13,7 +15,7 @@ PATH = lambda p: os.path.abspath(
 )
 
 
-class MainForm(QtGui.QWidget):
+class MainForm(QWidget):
     def __init__(self):
         super(MainForm, self).__init__()
 
@@ -26,18 +28,17 @@ class MainForm(QtGui.QWidget):
         self.cmb_subproject = self.ui.cmb_subProject
         self.labela = self.ui.labela
         self.show_project()
-        self.connect(self.button, QtCore.SIGNAL('clicked()'), self.OnButton)
+        # self.connect(self.button, QtCore.SIGNAL('clicked()'), self.OnButton)
         self.cmb_project.activated[str].connect(self.OnActivated)
         self.cmb_subproject.activated[str].connect(self.onSubActivated)
-        # self.connect(self.cmb_project, QtCore.SIGNAL('activated(QString)'), self.OnActivated)
-        #self.connect(self.cmb_subproject, QtCore.SIGNAL('activated(QString)'), self.onSubActivated)
+
 
     def show_project(self):
         di = os.listdir(PATH('../../testcase'))
         for d in di:
             self.cmb_project.addItem(d)
 
-    def show_files(self,files):
+    def show_files(self, files):
         re_f = re.compile(".py", re.IGNORECASE)
         f = filter(re_f.search, files)
 
@@ -57,24 +58,24 @@ class MainForm(QtGui.QWidget):
 
         self.show_files(f)
 
-    def onSubActivated(self,txt):
-        f = os.listdir(PATH('../../testcase/%s/%s' % (self.cmb_project.currentText(),txt)))
+    def onSubActivated(self, txt):
+        f = os.listdir(PATH('../../testcase/%s/%s' % (self.cmb_project.currentText(), txt)))
         self.show_files(f)
 
 
-    def OnButton(self):
-        f = os.listdir(PATH('../../testcase/AutobookClient/customer'))
-        re_f = re.compile(".py", re.IGNORECASE)
-        f = filter(re_f.search, f)
-
-        model = list_model.MyListModel(f)
-
-        self.listview.setModel(model)
-        self.listview.show()
+        # def OnButton(self):
+        # f = os.listdir(PATH('../../testcase/AutobookClient/customer'))
+        # re_f = re.compile(".py", re.IGNORECASE)
+        #     f = filter(re_f.search, f)
+        #
+        #     model = list_model.MyListModel(f)
+        #
+        #     self.listview.setModel(model)
+        #     self.listview.show()
 
 
 def show():
-    app = QtGui.QApplication(sys.argv)
+    app = QApplication(sys.argv)
     main = MainForm()
     main.show()
 
