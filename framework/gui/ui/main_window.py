@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'main_window.ui'
 #
-# Created: Tue Dec 23 15:20:52 2014
+# Created: Wed Dec 24 15:13:16 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,10 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(720, 514)
+        MainWindow.resize(845, 514)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/wp/res/wp.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.pushButton = QtGui.QPushButton(self.centralwidget)
@@ -43,7 +46,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 720, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 845, 26))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menu = QtGui.QMenu(self.menubar)
         self.menu.setObjectName(_fromUtf8("menu"))
@@ -71,9 +74,9 @@ class Ui_MainWindow(object):
         self.action_4.setObjectName(_fromUtf8("action_4"))
         self.action_save = QtGui.QAction(MainWindow)
         self.action_save.setCheckable(True)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/task/res/inbox-table.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.action_save.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/task/res/inbox-table.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_save.setIcon(icon1)
         self.action_save.setObjectName(_fromUtf8("action_save"))
         self.menu.addAction(self.action_JIRA)
         self.menu.addAction(self.action_upload)

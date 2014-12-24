@@ -18,4 +18,4 @@ products = fs.init_project(PATH('../../resource/app.ini'))
 
 taskConfig = fs.task_container(PATH('../../config.ini'), 'task')
 
-account = None
+JIRA = None

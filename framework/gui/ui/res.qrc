@@ -2,4 +2,7 @@
   <qresource prefix="task">
     <file>res/inbox-table.png</file>
   </qresource>
+  <qresource prefix="wp">
+    <file>res/wp.ico</file>
+  </qresource>
 </RCC>
