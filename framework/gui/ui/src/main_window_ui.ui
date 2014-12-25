@@ -17,7 +17,7 @@
    <string>Autotest</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="res.qrc">
+   <iconset resource="../res.qrc">
     <normaloff>:/wp/res/wp.ico</normaloff>:/wp/res/wp.ico</iconset>
   </property>
   <property name="autoFillBackground">
@@ -61,7 +61,7 @@
      <x>0</x>
      <y>0</y>
      <width>845</width>
-     <height>19</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -136,7 +136,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset resource="../res.qrc">
      <normaloff>:/task/res/inbox-table.png</normaloff>:/task/res/inbox-table.png</iconset>
    </property>
    <property name="text">
@@ -156,7 +156,7 @@
   </action>
  </widget>
  <resources>
-  <include location="res.qrc"/>
+  <include location="../res.qrc"/>
  </resources>
  <connections/>
 </ui>

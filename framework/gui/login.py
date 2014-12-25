@@ -5,11 +5,11 @@ import time
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import login_ja
+from framework.gui.ui import login_jira
 from framework.core import the, jira
 
 
-class MainDialog(QDialog, login_ja.Ui_Form):
+class MainDialog(QDialog, login_jira.Ui_Form):
     def __init__(self):
         QDialog.__init__(self)
 
