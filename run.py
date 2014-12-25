@@ -4,10 +4,10 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
-import subprocess
-from framework.core import task,the,data
+
+from framework.core import task,the,data, jira
 from framework.util import mail
-import Tkinter
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

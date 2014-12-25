@@ -3,7 +3,7 @@
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.models import tree_model
-from framework.gui.ui import select_task
+from framework.gui.ui import select_task, task_ui
 
 
 class SelectAutomate(QDialog, select_task.Ui_Form):
@@ -25,6 +25,19 @@ class SelectAutomate(QDialog, select_task.Ui_Form):
         self.reject()  # 关闭窗口
 
 
+class New(QDialog, task_ui.Ui_Form):
+    def __init__(self):
+        QDialog.__init__(self)
+
+        self.setupUi(self)
+        self.connect(self.btnAutomate, SIGNAL("clicked()"), self.select_tasks)
+
+    def confirm(self):
+        self.reject()  # 关闭窗口
+
+    def select_tasks(self):
+        t = SelectAutomate()
+        t.exec_()
 
         # class SelectTask(QDialog):
         # def __init__(self, ui):

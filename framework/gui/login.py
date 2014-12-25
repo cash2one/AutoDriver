@@ -2,17 +2,18 @@
 
 import threading
 import time
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.ui import login_ja
-from framework.core import the
-from framework.util import jira
+from framework.core import the, jira
 
-class MainDialog(QDialog,login_ja.Ui_Form):
+
+class MainDialog(QDialog, login_ja.Ui_Form):
     def __init__(self):
         QDialog.__init__(self)
 
-        #self.ui = login_ja.Ui_Form()
+        # self.ui = login_ja.Ui_Form()
         #self.ui.setupUi(self)
         self.setupUi(self)
 

@@ -10,9 +10,6 @@ import time
 import threading
 
 JIRA_URL = 'http://192.168.3.11:8080'
-PATH = lambda p: os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
 
 
 class JIRA():
