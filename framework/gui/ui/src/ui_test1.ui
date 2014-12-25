@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>737</width>
-    <height>485</height>
+    <width>886</width>
+    <height>564</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QSplitter" name="splitter">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>50</y>
+     <x>40</x>
+     <y>20</y>
      <width>173</width>
      <height>28</height>
     </rect>

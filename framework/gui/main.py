@@ -1,86 +1,110 @@
-# coding=utf-8
-__author__ = 'Administrator'
+# -*- coding: utf-8 -*-
 
-import os
 import sys
-import re
-from PyQt4.QtGui import *
+import time
+import threading
+
 from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from framework.gui.ui import main_window, ui_test2, ui_test3, index, login_ja, select_task
 
-from framework.gui.ui import main_form
-from framework.gui.models import list_model
+from framework.core import the
 
-PATH = lambda p: os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
-
-
-class MainForm(QWidget):
-    def __init__(self):
-        super(MainForm, self).__init__()
-
-        self.ui = main_form.Ui_Form()
-        self.ui.setupUi(self)
-
-        self.button = self.ui.pushButton
-        self.listview = self.ui.lv_testcase
-        self.cmb_project = self.ui.cmbProject
-        self.cmb_subproject = self.ui.cmb_subProject
-        self.labela = self.ui.labela
-        self.show_project()
-        # self.connect(self.button, QtCore.SIGNAL('clicked()'), self.OnButton)
-        self.cmb_project.activated[str].connect(self.OnActivated)
-        self.cmb_subproject.activated[str].connect(self.onSubActivated)
+import task,login
 
 
-    def show_project(self):
-        di = os.listdir(PATH('../../testcase'))
-        for d in di:
-            self.cmb_project.addItem(d)
+class MainWindow(QMainWindow, main_window.Ui_MainWindow):
+    firstUi = None
+    secondUi = None
+    thridUi = None
 
-    def show_files(self, files):
-        re_f = re.compile(".py", re.IGNORECASE)
-        f = filter(re_f.search, files)
+    def __init__(self, parent=None):
+        """
+        Constructor
+        """
+        QMainWindow.__init__(self, parent)
+        self.setupUi(self)
+        # self.widget
+        #self.centralwidget
 
-        model = list_model.MyListModel(f)
+        self.load_index()
 
-        self.listview.setModel(model)
-        self.listview.show()
+    # 打开第一个窗口
+    def load_index(self):
+        # self.form=idx.MainForm()
+        # self.form.show()
+
+        self.initMainWinEvent()  # 初始化主界面的事件
+        self.firstUi = index.Ui_Form()
+        w1 = QWidget(self.widget)
+        self.firstUi.setupUi(w1)
+
+        self.firstUi.table_task.setHorizontalHeaderLabels([u'编号', u'任务名称', u'任务状态', u'任务类型',
+                                                           u'优先级', u'执行人', u'创建人', u'创建时间'])
+        self.firstUi.table_task.setVerticalHeaderLabels(['1', '2', '3', '4',
+                                                         '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'])
+        self.firstUi.table_task.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.firstUi.table_task.setEditTriggers(QTableWidget.NoEditTriggers)
+
+        table_rows = self.firstUi.table_task.rowCount()
+        table_cols = self.firstUi.table_task.columnCount()
+        for i in range(table_rows):
+            for j in range(table_cols):
+                cnt = '(%d,%d)' % (i, j)
+                newItem = QTableWidgetItem(cnt)
+                self.firstUi.table_task.setItem(i, j, newItem)
+
+        # self.connect(self.firstUi.pushButton, SIGNAL("clicked()"), self.login_dialog)
+        self.connect(self.firstUi.pushButton, SIGNAL("clicked()"), self.select_tasks)
+        self.firstUi.table_task.cellDoubleClicked.connect(self.select_tasks)
+
+    # 打开第二个窗口
+    def btn2_click(self):
+        self.initMainWinEvent()
+        self.secondUi = ui_test2.Ui_Form()
+        w2 = QWidget(self.widget)
+        self.secondUi.setupUi(w2)
+
+        project = 'IDRIVERC'
+        start = '10'
+        end = '20'
+        if the.JIRA != None:
+            p = the.JIRA.get(
+                '/rest/api/2/search?jql=project+%3D+' + project + '&startAt=' + start + '&maxResults=' + end)
+
+            self.secondUi.label.setText(str(p['maxResults']))
+
+    # 打开第三个窗口
+    def btn3_click(self):
+        self.initMainWinEvent()
+        # 将窗体定义成类成员变量
+        self.thridUi = ui_test3.Ui_Form()
+        w3 = QWidget(self.widget)
+        self.thridUi.setupUi(w3)
+
+    # 通过单击第一个窗口里的按钮，弹出第四个窗口
+    def login_dialog(self):
+        lg = login.MainDialog()
+        lg.exec_()
+
+    def select_tasks(self):
+        t = task.SelectAutomate()
+        t.exec_()
 
 
-    def OnActivated(self, txt):
-        self.cmb_subproject.clear()
-        f = os.listdir(PATH('../../testcase/%s' % txt))
-
-        for subf in f:
-            if os.path.isdir(PATH('../../testcase/%s/%s' % (txt, subf))):
-                self.cmb_subproject.addItem(subf)
-
-        self.show_files(f)
-
-    def onSubActivated(self, txt):
-        f = os.listdir(PATH('../../testcase/%s/%s' % (self.cmb_project.currentText(), txt)))
-        self.show_files(f)
-
-
-        # def OnButton(self):
-        # f = os.listdir(PATH('../../testcase/AutobookClient/customer'))
-        # re_f = re.compile(".py", re.IGNORECASE)
-        #     f = filter(re_f.search, f)
-        #
-        #     model = list_model.MyListModel(f)
-        #
-        #     self.listview.setModel(model)
-        #     self.listview.show()
-
-
-def show():
-    app = QApplication(sys.argv)
-    main = MainForm()
-    main.show()
-
-    app.exec_()
+    # 初始化主界面，进行按钮的动态绑定
+    def initMainWinEvent(self):
+        self.setupUi(self)
+        # if the.JIRA!=None:
+        #     self.statusBar().showMessage(the.JIRA.dislayName)
+        self.connect(self.action_JIRA, SIGNAL(("triggered()")), self.login_dialog)
+        self.connect(self.pushButton, SIGNAL("clicked()"), self.load_index)
+        self.connect(self.pushButton_2, SIGNAL("clicked()"), self.btn2_click)
+        self.connect(self.pushButton_3, SIGNAL("clicked()"), self.btn3_click)
 
 
 if __name__ == "__main__":
-    show()
+    app = QApplication(sys.argv)
+    mainWin = MainWindow()
+    mainWin.show()
+    sys.exit(app.exec_())
