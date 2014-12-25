@@ -38,5 +38,5 @@ class MainForm(QWidget, index.Ui_Form):
         self.table_task.cellDoubleClicked.connect(self.select_tasks)
 
     def select_tasks(self):
-        t = task.SelectAutomate()
+        t = task.SelectTaskDialog()
         t.exec_()

@@ -6,7 +6,7 @@ from framework.gui.models import tree_model
 from framework.gui.ui import select_task, task_ui
 
 
-class SelectAutomate(QDialog, select_task.Ui_Form):
+class SelectTaskDialog(QDialog, select_task.Ui_Form):
     def __init__(self):
         QDialog.__init__(self)
 
@@ -25,7 +25,7 @@ class SelectAutomate(QDialog, select_task.Ui_Form):
         self.reject()  # 关闭窗口
 
 
-class New(QDialog, task_ui.Ui_Form):
+class NewTaskDialog(QDialog, task_ui.Ui_Form):
     def __init__(self):
         QDialog.__init__(self)
 
@@ -36,7 +36,7 @@ class New(QDialog, task_ui.Ui_Form):
         self.reject()  # 关闭窗口
 
     def select_tasks(self):
-        t = SelectAutomate()
+        t = SelectTaskDialog()
         t.exec_()
 
         # class SelectTask(QDialog):
