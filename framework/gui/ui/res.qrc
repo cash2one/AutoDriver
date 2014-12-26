@@ -1,8 +1,21 @@
 <RCC>
-  <qresource prefix="task">
-    <file>res/inbox-table.png</file>
+  <qresource prefix="toolbars">
+    <file>res/eye.png</file>
+    <file>res/save.png</file>
+    <file>res/case.png</file>
+    <file>res/home.png</file>
+    <file>res/table.png</file>
   </qresource>
-  <qresource prefix="wp">
+  <qresource prefix="button">
+    <file>res/add.png</file>
+  </qresource>
+  <qresource prefix="bg">
+    <file>res/login.png</file>
+  </qresource>
+  <qresource prefix="formicon">
+    <file>res/alert.png</file>
+  </qresource>
+  <qresource prefix="mainicon">
     <file>res/wp.ico</file>
   </qresource>
 </RCC>

@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import threading
+import sys
 import time
-
+import threading
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import login_jira
+from framework.gui.ui import login_ui,msg_ui,autos_ui,task_ui
 from framework.core import the, jira
+from framework.gui.models import tree_model
 
 
-class MainDialog(QDialog, login_jira.Ui_Form):
+class LoginDialog(QDialog, login_ui.Ui_Form):
     def __init__(self):
-        QDialog.__init__(self)
+        super(LoginDialog, self).__init__()
+        #QDialog.__init__(self)
 
         # self.ui = login_ja.Ui_Form()
         #self.ui.setupUi(self)
@@ -23,7 +25,7 @@ class MainDialog(QDialog, login_jira.Ui_Form):
         self.connect(self, SIGNAL("loginError()"), self.time_out)
 
     def time_out(self):
-        self.ui.lbl_info.setText(u'登录超时，账号密码错误.')
+        self.lbl_info.setText(u'登录超时，账号密码错误.')
 
     def login_action(self):
         username = self.txt_username.text()
@@ -79,3 +81,67 @@ class LoginFor405(threading.Thread):
 
     def stop(self):
         self.thread_stop = True
+
+
+class MsgDialog(QDialog, msg_ui.Ui_Dialog):
+    def __init__(self,msg_txt):
+        super(MsgDialog, self).__init__()
+
+        self.setupUi(self)
+
+        self.lbl_msg.setText(msg_txt)
+
+
+class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):
+    def __init__(self):
+        QDialog.__init__(self)
+
+        # self.ui = select_task.Ui_Form()
+        # self.ui.setupUi(self)
+        self.setupUi(self)
+
+        f = QFile(':/default.txt')
+        f.open(QIODevice.ReadOnly)
+        model = tree_model.TreeModel(f.readAll())
+        f.close()
+        self.treeView.setModel(model)
+
+
+    def confirm(self):
+        self.reject()  # 关闭窗口
+
+
+class TaskDialog(QDialog, task_ui.Ui_Form):
+    def __init__(self):
+        QDialog.__init__(self)
+
+        self.setupUi(self)
+        self.btn_Automate.hide()
+        self.connect(self.btn_Automate, SIGNAL("clicked()"), self.select_tasks)
+        self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
+
+    def onActivated(self,txt):
+        if txt==u'自动化':
+            self.btn_Automate.show()
+        else:
+            self.btn_Automate.hide()
+
+        # self.label.setText(txt)
+        # self.label.adjustSize()
+
+    def confirm(self):
+        self.reject()  # 关闭窗口
+
+    def select_tasks(self):
+        t = SelectScriptsDialog()
+        t.exec_()
+
+#
+# def login(self):
+#     dlg_login = LoginDialog()
+#     dlg_login.exec_()
+#
+#
+# def show_msg(self, txt):
+#     msgg = MsgDialog(txt)
+#     msgg.exec_()

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file './src/select_task.ui'
+# Form implementation generated from reading ui file './src/autos.ui'
 #
-# Created: Thu Dec 25 09:54:47 2014
+# Created: Fri Dec 26 16:37:06 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,12 +26,12 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(754, 462)
+        Form.resize(1000, 600)
         self.pushButton = QtGui.QPushButton(Form)
-        self.pushButton.setGeometry(QtCore.QRect(550, 410, 90, 32))
+        self.pushButton.setGeometry(QtCore.QRect(420, 550, 90, 32))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.tableWidget = QtGui.QTableWidget(Form)
-        self.tableWidget.setGeometry(QtCore.QRect(220, 10, 521, 371))
+        self.tableWidget.setGeometry(QtCore.QRect(270, 10, 721, 531))
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
         self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(0)
@@ -44,15 +44,10 @@ class Ui_Form(object):
         item = QtGui.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(3, item)
         self.pushButton_2 = QtGui.QPushButton(Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(650, 410, 90, 32))
+        self.pushButton_2.setGeometry(QtCore.QRect(530, 550, 90, 32))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
-        self.line = QtGui.QFrame(Form)
-        self.line.setGeometry(QtCore.QRect(10, 385, 731, 16))
-        self.line.setFrameShape(QtGui.QFrame.HLine)
-        self.line.setFrameShadow(QtGui.QFrame.Sunken)
-        self.line.setObjectName(_fromUtf8("line"))
         self.treeView = QtGui.QTreeView(Form)
-        self.treeView.setGeometry(QtCore.QRect(10, 10, 201, 371))
+        self.treeView.setGeometry(QtCore.QRect(10, 10, 251, 531))
         self.treeView.setObjectName(_fromUtf8("treeView"))
 
         self.retranslateUi(Form)
