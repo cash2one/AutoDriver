@@ -21,13 +21,36 @@ class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
         self.dlg_new_task = None
         self.dlg_task=None
         self.tasks=None
-
-        self.connect(self.menu_login, SIGNAL(("triggered()")), self.login_dialog)
+        self.menu_login.triggered.connect(self.login_dialog)
+        #self.connect(self.menu_login, SIGNAL(("triggered()")), self.login_dialog)
         self.connect(self.toolbar_home, SIGNAL(("triggered()")), self.load_index)
         self.connect(self.toolbar_jira, SIGNAL("triggered()"), self.load_jira)
-        self.statusBar().showMessage(u'未登录')
+
+        #显示托盘信息
+        self.trayIcon = QSystemTrayIcon(self)
+        self.trayIcon.setIcon(QIcon("./ui/res/wp.ico"))
+        self.trayIcon.show()
+        self.trayIcon.activated.connect(self.trayClick)       #点击托盘
+        self.trayMenu()#右键菜单
+
+        self.setFont(QFont("Microsoft YaHei", 10))
+        self.showMaximized()
         self.load_index()
 
+    def trayMenu(self):
+       #右击托盘弹出的菜单
+       img_main = QIcon("./ui/res/app.png")
+       img_exit = QIcon("./ui/res/exit.png")
+       self.trayIcon.setToolTip(u'Autotest')
+       self.restoreAction = QAction(img_main,u"打开主窗口", self)
+       self.restoreAction.triggered.connect(self.showNormal)
+       self.quitAction = QAction(img_exit,u"退出", self)
+       self.quitAction.triggered.connect(qApp.quit)
+       self.trayIconMenu = QMenu(self)
+       self.trayIconMenu.addAction(self.restoreAction)
+       self.trayIconMenu.addSeparator()
+       self.trayIconMenu.addAction(self.quitAction)
+       self.trayIcon.setContextMenu(self.trayIconMenu)
 
     def load_index(self):
         self.tasks = ({'info': (u'001', u'测试用户端', u'未开始', u'自动化', u'高', u'顾国海', u'顾国海', u'2015-02-22'), 'autos': []},
@@ -44,14 +67,31 @@ class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
             return
         print(unicode(Item))
 
+    def trayClick(self,reason):
+        if reason==QSystemTrayIcon.DoubleClick:
+            print 'fff'
+            self.showNormal()
+        else:
+            pass
+
+
+    def showMessage(self):
+        icon=QSystemTrayIcon.Information
+
+        self.trayicon.showMessage(u" 提示信息 ",u" 点我干嘛？ ",icon)
+
     def load_jira(self):
         if the.JIRA == None:
             self.msgHandler()
             return
 
         if the.JIRA.isActive:
-            self.frm_jira = form.JIRAForm()
+            ddd=the.JIRA.get('/rest/api/2/search?jql=project{0}&startAt={1}&maxResults={2}' %('BVAL','10','20'))
+
+            self.frm_jira = form.JIRAForm(ddd)
             self.setCentralWidget(self.frm_jira)
+
+
         else:
             self.msgHandler()
 

@@ -18,11 +18,41 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         # self.ui = login_ja.Ui_Form()
         #self.ui.setupUi(self)
         self.setupUi(self)
-
+        self.setFont(QFont("Microsoft YaHei", 10))
+        self.setWindowFlags(Qt.FramelessWindowHint)#无边框
         self.connect(self.btn_login, SIGNAL("clicked()"), self.login_action)
         self.connect(self.btn_cancel, SIGNAL("clicked()"), self.confirm)
         self.connect(self, SIGNAL("loginFinish()"), self.confirm)
         self.connect(self, SIGNAL("loginError()"), self.time_out)
+        self.setBackgroundImg()
+
+
+    def mousePressEvent(self,event):
+       #定义鼠标点击事件
+       if event.button() == Qt.LeftButton:
+           self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
+           event.accept()
+
+
+    def mouseMoveEvent(self,event):
+       #定义鼠标移动事件
+        if event.buttons() ==Qt.LeftButton:
+            self.move(event.globalPos() - self.dragPosition)
+            event.accept()
+
+
+    def setBackgroundImg(self):
+        png=QPixmap(self)
+        png.load("./ui/res/login.png")
+        palette1 =QPalette(self)
+        palette1.setBrush(self.backgroundRole(), QBrush(png))
+        self.widget.setPalette(palette1)
+
+
+        # self.shadow = QGraphicsDropShadowEffect(self)
+        # self.shadow.setBlurRadius(15)
+        # self.shadow.setOffset(5,5)
+        # self.widget.setGraphicsEffect(self.shadow)
 
     def time_out(self):
         self.lbl_info.setText(u'登录超时，账号密码错误.')

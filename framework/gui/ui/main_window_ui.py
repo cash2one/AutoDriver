@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/main_window.ui'
 #
-# Created: Fri Dec 26 16:04:48 2014
+# Created: Sun Dec 28 00:44:03 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 23))
         self.menubar.setStyleSheet(_fromUtf8(""))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menu_file = QtGui.QMenu(self.menubar)
@@ -68,15 +68,30 @@ class Ui_MainWindow(object):
         icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/home.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolbar_home.setIcon(icon1)
         self.toolbar_home.setObjectName(_fromUtf8("toolbar_home"))
-        self.toolbar_jira = QtGui.QAction(MainWindow)
+        self.toolbar_case = QtGui.QAction(MainWindow)
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/table.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.toolbar_jira.setIcon(icon2)
-        self.toolbar_jira.setObjectName(_fromUtf8("toolbar_jira"))
+        self.toolbar_case.setIcon(icon2)
+        self.toolbar_case.setObjectName(_fromUtf8("toolbar_case"))
         self.menu_inf = QtGui.QAction(MainWindow)
         self.menu_inf.setObjectName(_fromUtf8("menu_inf"))
         self.menu_settings = QtGui.QAction(MainWindow)
         self.menu_settings.setObjectName(_fromUtf8("menu_settings"))
+        self.actionUser = QtGui.QAction(MainWindow)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/user1s.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionUser.setIcon(icon3)
+        self.actionUser.setObjectName(_fromUtf8("actionUser"))
+        self.toolbar_jira = QtGui.QAction(MainWindow)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/jira.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.toolbar_jira.setIcon(icon4)
+        self.toolbar_jira.setObjectName(_fromUtf8("toolbar_jira"))
+        self.toolbar_task = QtGui.QAction(MainWindow)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/task.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.toolbar_task.setIcon(icon5)
+        self.toolbar_task.setObjectName(_fromUtf8("toolbar_task"))
         self.menu_file.addAction(self.menu_login)
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.menu_save)
@@ -86,7 +101,11 @@ class Ui_MainWindow(object):
         self.menu_tools.addAction(self.menu_settings)
         self.menubar.addAction(self.menu_file.menuAction())
         self.menubar.addAction(self.menu_tools.menuAction())
+        self.toolBar.addAction(self.actionUser)
         self.toolBar.addAction(self.toolbar_home)
+        self.toolBar.addSeparator()
+        self.toolBar.addAction(self.toolbar_task)
+        self.toolBar.addAction(self.toolbar_case)
         self.toolBar.addAction(self.toolbar_jira)
 
         self.retranslateUi(MainWindow)
@@ -101,8 +120,11 @@ class Ui_MainWindow(object):
         self.menu_exit.setText(_translate("MainWindow", "退出", None))
         self.menu_login.setText(_translate("MainWindow", "登录到JIRA", None))
         self.toolbar_home.setText(_translate("MainWindow", "Home", None))
-        self.toolbar_jira.setText(_translate("MainWindow", "JIRA", None))
+        self.toolbar_case.setText(_translate("MainWindow", "TestCase", None))
         self.menu_inf.setText(_translate("MainWindow", "接口测试", None))
         self.menu_settings.setText(_translate("MainWindow", "设置", None))
+        self.actionUser.setText(_translate("MainWindow", "user", None))
+        self.toolbar_jira.setText(_translate("MainWindow", "JIRA", None))
+        self.toolbar_task.setText(_translate("MainWindow", "Task", None))
 
 import res_rc

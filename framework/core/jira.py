@@ -9,8 +9,8 @@ import json
 import time
 import threading
 
-JIRA_URL = 'http://192.168.3.11:8080'
-
+JIRA_URL = 'https://hibernate.atlassian.net'#'http://192.168.3.11:8080'
+#http://192.168.3.11:8080/rest/api/2/search?jql=project+%3D+{0}&startAt={1}&maxResults={2}
 
 class JIRA():
     def __init__(self, u_name, u_pwd):

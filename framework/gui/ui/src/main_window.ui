@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -88,7 +88,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionUser"/>
    <addaction name="toolbar_home"/>
+   <addaction name="separator"/>
+   <addaction name="toolbar_task"/>
+   <addaction name="toolbar_case"/>
    <addaction name="toolbar_jira"/>
   </widget>
   <action name="menu_save">
@@ -118,13 +122,13 @@
     <string>Home</string>
    </property>
   </action>
-  <action name="toolbar_jira">
+  <action name="toolbar_case">
    <property name="icon">
     <iconset resource="../res.qrc">
      <normaloff>:/toolbars/res/table.png</normaloff>:/toolbars/res/table.png</iconset>
    </property>
    <property name="text">
-    <string>JIRA</string>
+    <string>TestCase</string>
    </property>
   </action>
   <action name="menu_inf">
@@ -135,6 +139,33 @@
   <action name="menu_settings">
    <property name="text">
     <string>设置</string>
+   </property>
+  </action>
+  <action name="actionUser">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/user1s.png</normaloff>:/toolbars/res/user1s.png</iconset>
+   </property>
+   <property name="text">
+    <string>user</string>
+   </property>
+  </action>
+  <action name="toolbar_jira">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/jira.png</normaloff>:/toolbars/res/jira.png</iconset>
+   </property>
+   <property name="text">
+    <string>JIRA</string>
+   </property>
+  </action>
+  <action name="toolbar_task">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/task.png</normaloff>:/toolbars/res/task.png</iconset>
+   </property>
+   <property name="text">
+    <string>Task</string>
    </property>
   </action>
  </widget>

@@ -64,7 +64,7 @@
     <rect>
      <x>440</x>
      <y>70</y>
-     <width>131</width>
+     <width>141</width>
      <height>28</height>
     </rect>
    </property>
@@ -152,7 +152,7 @@
     <rect>
      <x>441</x>
      <y>110</y>
-     <width>180</width>
+     <width>141</width>
      <height>28</height>
     </rect>
    </property>
@@ -208,36 +208,6 @@
     <string>实际执行时间</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="txt_ExpectedStartDateTime">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>261</y>
-     <width>180</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txt_CreateDateTime">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>220</y>
-     <width>180</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txt_ExpectedEndDateTime">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>261</y>
-     <width>180</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_12">
    <property name="geometry">
     <rect>
@@ -249,16 +219,6 @@
    </property>
    <property name="text">
     <string>结束时间</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txt_ExecuteEndDate">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>220</y>
-     <width>180</width>
-     <height>25</height>
-    </rect>
    </property>
   </widget>
   <widget class="Line" name="line">
@@ -418,29 +378,72 @@
     </property>
    </widget>
   </widget>
+  <widget class="QDateTimeEdit" name="dateTimeEdit">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>220</y>
+     <width>194</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDateTimeEdit" name="dateTimeEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>260</y>
+     <width>194</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QDateTimeEdit" name="dateTimeEdit_4">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>260</y>
+     <width>194</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_createtime">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>220</y>
+     <width>60</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>结束时间</string>
+   </property>
+  </widget>
+  <zorder>label_6</zorder>
+  <zorder>label_4</zorder>
   <zorder>txt_TaskName</zorder>
   <zorder>txt_Creator</zorder>
   <zorder>txt_Requester</zorder>
   <zorder>txt_TaskDescription</zorder>
   <zorder>cmb_TaskType</zorder>
   <zorder>cmb_TaskPriority</zorder>
-  <zorder>label_8</zorder>
   <zorder>btn_Automate</zorder>
   <zorder>cmb_TaskState</zorder>
   <zorder>label_9</zorder>
   <zorder>label_11</zorder>
-  <zorder>txt_ExpectedStartDateTime</zorder>
-  <zorder>txt_CreateDateTime</zorder>
-  <zorder>txt_ExpectedEndDateTime</zorder>
   <zorder>splitter</zorder>
   <zorder>label_12</zorder>
-  <zorder>txt_ExecuteEndDate</zorder>
   <zorder>line_2</zorder>
-  <zorder>label_13</zorder>
   <zorder>txt_TaskNo</zorder>
   <zorder>line</zorder>
   <zorder>pushButton</zorder>
   <zorder>pushButton_2</zorder>
+  <zorder>dateTimeEdit</zorder>
+  <zorder>dateTimeEdit_2</zorder>
+  <zorder>dateTimeEdit_4</zorder>
+  <zorder>lbl_createtime</zorder>
  </widget>
  <resources/>
  <connections>

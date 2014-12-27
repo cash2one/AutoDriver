@@ -14,15 +14,17 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
 class HomeForm(QWidget, home_ui.Ui_Form):
     '''
     首页
     '''
-    def __init__(self,task_data):
+
+    def __init__(self, task_data):
         super(HomeForm, self).__init__()
 
         self.setupUi(self)
-        self.task_data=task_data
+        self.task_data = task_data
         self.table_task.setHorizontalHeaderLabels([u'编号', u'任务名称', u'任务状态', u'任务类型',
                                                    u'优先级', u'执行人', u'创建人', u'创建时间'])
 
@@ -35,7 +37,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
 
         # table_rows = self.table_task.rowCount()
         # table_cols = self.table_task.columnCount()
-        self.table_task.setColumnWidth(1,300)
+        self.table_task.setColumnWidth(1, 300)
 
         for ts in range(0, len(self.task_data)):
             infos = self.task_data[ts]['info']
@@ -48,7 +50,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                 # def signal(self):
                 # # self.connect(self.pushButton, SIGNAL("clicked()"), self.login_dialog)
                 # self.connect(self.pushButton, SIGNAL("clicked()"), self.select_tasks)
-                #     self.table_task.cellDoubleClicked.connect(self.select_tasks)
+                # self.table_task.cellDoubleClicked.connect(self.select_tasks)
                 #
                 # def select_tasks(self):
                 #     t = task.SelectTaskDialog()
@@ -57,7 +59,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
     def show_files(self):
         tablemodel = table_model.MyTableModel(self.task_data, self)
         # tablemodel.setHorizontalHeaderLabels([u'编号', u'任务名称', u'任务状态', u'任务类型',
-        #                                            u'优先级', u'执行人', u'创建人', u'创建时间'])
+        # u'优先级', u'执行人', u'创建人', u'创建时间'])
 
         tablemodel.setHeaderData(0, Qt.Horizontal, QVariant("ID"))
         tablemodel.setHeaderData(1, Qt.Horizontal, QVariant("File Order"))
@@ -79,7 +81,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # self.tv_task.setHorizontalHeader(head)
         #self.tv_task.setColumnHidden(1, True)
         self.tv_task.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.tv_task.setColumnWidth(1,300)
+        self.tv_task.setColumnWidth(1, 300)
         self.tv_task.setAlternatingRowColors(True)
         # self.tv_task.setHorizontalHeaderLabels([u'编号', u'任务名称', u'任务状态', u'任务类型',
         #                                            u'优先级', u'执行人', u'创建人', u'创建时间'])
@@ -100,10 +102,13 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
     '''
     JIRA
     '''
-    def __init__(self):
+    def __init__(self, task_data):
         super(JIRAForm, self).__init__()
-
+        self.task_data = task_data
         self.setupUi(self)
+
+        tablemodel = table_model.MyTableModel(self.task_data, self)
+        self.tv_bugs.setModel(tablemodel)
 
     def getData(self, project_name, start=0, end=10):
         # project = 'IDRIVERC'
