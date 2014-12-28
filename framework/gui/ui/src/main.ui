@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Autotest</string>
+   <string>Woodpecker</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../res.qrc">
@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>23</height>
+     <height>19</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -93,7 +93,10 @@
    <addaction name="separator"/>
    <addaction name="toolbar_task"/>
    <addaction name="toolbar_case"/>
+   <addaction name="toolbar_monitor"/>
+   <addaction name="separator"/>
    <addaction name="toolbar_jira"/>
+   <addaction name="toolbar_knowledge"/>
   </widget>
   <action name="menu_save">
    <property name="text">
@@ -125,7 +128,7 @@
   <action name="toolbar_case">
    <property name="icon">
     <iconset resource="../res.qrc">
-     <normaloff>:/toolbars/res/table.png</normaloff>:/toolbars/res/table.png</iconset>
+     <normaloff>:/toolbars/res/table_sheet.png</normaloff>:/toolbars/res/table_sheet.png</iconset>
    </property>
    <property name="text">
     <string>TestCase</string>
@@ -147,7 +150,7 @@
      <normaloff>:/toolbars/res/user1s.png</normaloff>:/toolbars/res/user1s.png</iconset>
    </property>
    <property name="text">
-    <string>user</string>
+    <string>Guest</string>
    </property>
   </action>
   <action name="toolbar_jira">
@@ -166,6 +169,24 @@
    </property>
    <property name="text">
     <string>Task</string>
+   </property>
+  </action>
+  <action name="toolbar_knowledge">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/inbox.png</normaloff>:/toolbars/res/inbox.png</iconset>
+   </property>
+   <property name="text">
+    <string>Knowledge</string>
+   </property>
+  </action>
+  <action name="toolbar_monitor">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/system_monitor.png</normaloff>:/toolbars/res/system_monitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Monitor</string>
    </property>
   </action>
  </widget>

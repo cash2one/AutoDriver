@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file './src/main_window.ui'
+# Form implementation generated from reading ui file './src/main.ui'
 #
-# Created: Sun Dec 28 00:44:03 2014
+# Created: Sun Dec 28 20:10:43 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 23))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 19))
         self.menubar.setStyleSheet(_fromUtf8(""))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menu_file = QtGui.QMenu(self.menubar)
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         self.toolbar_home.setObjectName(_fromUtf8("toolbar_home"))
         self.toolbar_case = QtGui.QAction(MainWindow)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/table.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/table_sheet.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolbar_case.setIcon(icon2)
         self.toolbar_case.setObjectName(_fromUtf8("toolbar_case"))
         self.menu_inf = QtGui.QAction(MainWindow)
@@ -92,6 +92,16 @@ class Ui_MainWindow(object):
         icon5.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/task.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolbar_task.setIcon(icon5)
         self.toolbar_task.setObjectName(_fromUtf8("toolbar_task"))
+        self.toolbar_knowledge = QtGui.QAction(MainWindow)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/inbox.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.toolbar_knowledge.setIcon(icon6)
+        self.toolbar_knowledge.setObjectName(_fromUtf8("toolbar_knowledge"))
+        self.toolbar_monitor = QtGui.QAction(MainWindow)
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/system_monitor.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.toolbar_monitor.setIcon(icon7)
+        self.toolbar_monitor.setObjectName(_fromUtf8("toolbar_monitor"))
         self.menu_file.addAction(self.menu_login)
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.menu_save)
@@ -106,13 +116,16 @@ class Ui_MainWindow(object):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolbar_task)
         self.toolBar.addAction(self.toolbar_case)
+        self.toolBar.addAction(self.toolbar_monitor)
+        self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolbar_jira)
+        self.toolBar.addAction(self.toolbar_knowledge)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "Autotest", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Woodpecker", None))
         self.menu_file.setTitle(_translate("MainWindow", "文件(&F)", None))
         self.menu_tools.setTitle(_translate("MainWindow", "工具(&T)", None))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
@@ -123,8 +136,10 @@ class Ui_MainWindow(object):
         self.toolbar_case.setText(_translate("MainWindow", "TestCase", None))
         self.menu_inf.setText(_translate("MainWindow", "接口测试", None))
         self.menu_settings.setText(_translate("MainWindow", "设置", None))
-        self.actionUser.setText(_translate("MainWindow", "user", None))
+        self.actionUser.setText(_translate("MainWindow", "Guest", None))
         self.toolbar_jira.setText(_translate("MainWindow", "JIRA", None))
         self.toolbar_task.setText(_translate("MainWindow", "Task", None))
+        self.toolbar_knowledge.setText(_translate("MainWindow", "Knowledge", None))
+        self.toolbar_monitor.setText(_translate("MainWindow", "Monitor", None))
 
 import res_rc

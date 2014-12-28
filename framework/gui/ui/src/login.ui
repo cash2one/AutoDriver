@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Woodpecker</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../res.qrc">
@@ -80,11 +80,14 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>140</y>
-      <width>45</width>
-      <height>16</height>
+      <x>315</x>
+      <y>141</y>
+      <width>35</width>
+      <height>19</height>
      </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
     </property>
     <property name="text">
      <string>密码</string>
@@ -93,10 +96,10 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>315</x>
       <y>100</y>
-      <width>45</width>
-      <height>16</height>
+      <width>35</width>
+      <height>19</height>
      </rect>
     </property>
     <property name="text">
@@ -151,21 +154,6 @@
      </size>
     </property>
    </widget>
-   <zorder>lbl_info</zorder>
-   <zorder>btn_login</zorder>
-   <zorder>btn_cancel</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>txt_pwd</zorder>
-   <zorder>txt_username</zorder>
-   <zorder>lbl_info</zorder>
-   <zorder>btn_login</zorder>
-   <zorder>btn_cancel</zorder>
-   <zorder>label_3</zorder>
-   <zorder>label_2</zorder>
-   <zorder>txt_pwd</zorder>
-   <zorder>txt_username</zorder>
-   <zorder>checkBox</zorder>
   </widget>
  </widget>
  <resources>

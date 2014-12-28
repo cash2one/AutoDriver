@@ -3,12 +3,12 @@
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import main_window_ui
+from framework.gui.ui import main_ui
 from framework.core import the
 import form, dialog
 
 
-class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
+class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
@@ -21,16 +21,18 @@ class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
         self.dlg_new_task = None
         self.dlg_task=None
         self.tasks=None
-        self.menu_login.triggered.connect(self.login_dialog)
+
+        self.connect(self.menu_login,SIGNAL("triggered()"),self.login_dialog)
         #self.connect(self.menu_login, SIGNAL(("triggered()")), self.login_dialog)
         self.connect(self.toolbar_home, SIGNAL(("triggered()")), self.load_index)
         self.connect(self.toolbar_jira, SIGNAL("triggered()"), self.load_jira)
-
+        self.connect(self, SIGNAL("startLogin()"), self.login_dialog)
         #显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
         self.trayIcon.setIcon(QIcon("./ui/res/wp.ico"))
         self.trayIcon.show()
-        self.trayIcon.activated.connect(self.trayClick)       #点击托盘
+        self.connect(self.trayIcon, SIGNAL("activated()"), self.trayClick)
+        #self.trayIcon.activated.connect(self.trayClick) #点击托盘
         self.trayMenu()#右键菜单
 
         self.setFont(QFont("Microsoft YaHei", 10))
@@ -41,7 +43,7 @@ class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
        #右击托盘弹出的菜单
        img_main = QIcon("./ui/res/app.png")
        img_exit = QIcon("./ui/res/exit.png")
-       self.trayIcon.setToolTip(u'Autotest')
+       self.trayIcon.setToolTip(u'Woodpecker')
        self.restoreAction = QAction(img_main,u"打开主窗口", self)
        self.restoreAction.triggered.connect(self.showNormal)
        self.quitAction = QAction(img_exit,u"退出", self)
@@ -53,8 +55,8 @@ class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
        self.trayIcon.setContextMenu(self.trayIconMenu)
 
     def load_index(self):
-        self.tasks = ({'info': (u'001', u'测试用户端', u'未开始', u'自动化', u'高', u'顾国海', u'顾国海', u'2015-02-22'), 'autos': []},
-                 {'info': (u'002', u'测试司机端', u'未开始', u'自动化', u'高', u'顾国海', u'顾国海', u'2015-02-23'), 'autos': []})
+        self.tasks = ({'info': (u'001', u'接口测试', u'未开始', u'自动化', u'高', u'顾国海', u'顾国海', u'2015-02-22'), 'autos': []},
+                 {'info': (u'002', u'app平台测试', u'未开始', u'自动化', u'高', u'顾国海', u'顾国海', u'2015-02-23'), 'autos': []})
         self.frm_home = form.HomeForm(self.tasks)
         self.frm_home.connect(self.frm_home.pushButton, SIGNAL("clicked()"), self.new_task)
         self.frm_home.table_task.cellDoubleClicked.connect(self.show_current_task)
@@ -74,12 +76,6 @@ class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
         else:
             pass
 
-
-    def showMessage(self):
-        icon=QSystemTrayIcon.Information
-
-        self.trayicon.showMessage(u" 提示信息 ",u" 点我干嘛？ ",icon)
-
     def load_jira(self):
         if the.JIRA == None:
             self.msgHandler()
@@ -90,18 +86,16 @@ class MainWindow(QMainWindow, main_window_ui.Ui_MainWindow):
 
             self.frm_jira = form.JIRAForm(ddd)
             self.setCentralWidget(self.frm_jira)
-
-
         else:
             self.msgHandler()
 
 
     def msgHandler(self):
         ret = QMessageBox.warning(self, u'未登录',
-                                  u"\n还没有登录JIRA，点击文件菜单登录  \n",
+                                  u"\n你还没有登录JIRA，点击确定登录  \n",
                                   QMessageBox.Save | QMessageBox.Cancel)
         if ret == QMessageBox.Save:
-            pass
+            self.emit(SIGNAL("startLogin()"))
         elif ret == QMessageBox.Cancel:
             pass
 

@@ -1,13 +1,13 @@
 <RCC>
   <qresource prefix="toolbars">
+    <file>res/table_sheet.png</file>
+    <file>res/system_monitor.png</file>
+    <file>res/inbox.png</file>
     <file>res/task.png</file>
     <file>res/jira.png</file>
-    <file>res/eye.png</file>
     <file>res/user1s.png</file>
-    <file>res/save.png</file>
     <file>res/case.png</file>
     <file>res/home.png</file>
-    <file>res/table.png</file>
   </qresource>
   <qresource prefix="icon16">
     <file>res/add.png</file>

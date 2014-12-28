@@ -81,7 +81,7 @@ class LoginFor405(threading.Thread):
         self.thread_stop = False
         self.startLogin = False
         self.ui = ui
-        self.timeout = 20
+        self.timeout = 15
         # 传递给全局的the.JIRA
         if the.JIRA == None:
             the.JIRA = jira.JIRA(u_name, u_pwd)
@@ -146,15 +146,26 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
         QDialog.__init__(self)
 
         self.setupUi(self)
-        self.btn_Automate.hide()
-        self.connect(self.btn_Automate, SIGNAL("clicked()"), self.select_tasks)
+
+        detailLayout = QGridLayout(self.widget_task)
+        taskv=QTableView()
+        detailLayout.addWidget(taskv,0,1)
+        self.widget_task.hide()
+
+        self.hzLayout.setSizeConstraint(QLayout.SetFixedSize)
+
+        #self.btn_Automate.hide()
+        #self.connect(self.btn_Automate, SIGNAL("clicked()"), self.select_tasks)
+        self.connect(self, SIGNAL("selectTask()"), self.select_tasks)
         self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
 
     def onActivated(self,txt):
         if txt==u'自动化':
-            self.btn_Automate.show()
+            #self.btn_Automate.show()
+            self.widget_task.show()
+            #self.emit(SIGNAL("selectTask()"))
         else:
-            self.btn_Automate.hide()
+            self.widget_task.hide()
 
         # self.label.setText(txt)
         # self.label.adjustSize()
@@ -165,13 +176,3 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
     def select_tasks(self):
         t = SelectScriptsDialog()
         t.exec_()
-
-#
-# def login(self):
-#     dlg_login = LoginDialog()
-#     dlg_login.exec_()
-#
-#
-# def show_msg(self, txt):
-#     msgg = MsgDialog(txt)
-#     msgg.exec_()

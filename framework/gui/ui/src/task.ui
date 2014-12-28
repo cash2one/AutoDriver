@@ -6,276 +6,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>520</height>
+    <width>572</width>
+    <height>361</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>700</width>
-    <height>520</height>
+    <width>1000</width>
+    <height>800</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>任务</string>
   </property>
-  <widget class="QLineEdit" name="txt_TaskName">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>30</y>
-     <width>531</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txt_Creator">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>150</y>
-     <width>180</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txt_Requester">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>152</y>
-     <width>180</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="txt_TaskDescription">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>320</y>
-     <width>541</width>
-     <height>111</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cmb_TaskType">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>70</y>
-     <width>141</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>请选择任务类型</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>自动化</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>车机测试</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>App</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Web平台</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>接口</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>性能测试</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QComboBox" name="cmb_TaskPriority">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>110</y>
-     <width>180</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>请选择优先级</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>普通</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>中级</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>高级</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QPushButton" name="btn_Automate">
-   <property name="geometry">
-    <rect>
-     <x>590</x>
-     <y>70</y>
-     <width>65</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>自动化</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cmb_TaskState">
-   <property name="geometry">
-    <rect>
-     <x>441</x>
-     <y>110</y>
-     <width>141</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>请选择状态</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>未开始</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>已开始</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>已取消</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>已结束</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QLabel" name="label_9">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>115</y>
-     <width>45</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>状态</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>370</x>
-     <y>261</y>
-     <width>101</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>实际执行时间</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_12">
-   <property name="geometry">
-    <rect>
-     <x>404</x>
-     <y>220</y>
-     <width>60</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>结束时间</string>
-   </property>
-  </widget>
-  <widget class="Line" name="line">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>200</y>
-     <width>651</width>
-     <height>2</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="Line" name="line_2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>300</y>
-     <width>651</width>
-     <height>2</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="txt_TaskNo">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>70</y>
-     <width>180</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>460</y>
-     <width>93</width>
-     <height>28</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>确定</string>
-   </property>
-  </widget>
+  <property name="windowIcon">
+   <iconset resource="../res.qrc">
+    <normaloff>:/mainicon/res/wp.ico</normaloff>:/mainicon/res/wp.ico</iconset>
+  </property>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>460</y>
-     <width>93</width>
+     <x>190</x>
+     <y>310</y>
+     <width>90</width>
      <height>28</height>
     </rect>
    </property>
@@ -283,169 +36,314 @@
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_6">
+  <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>80</y>
-     <width>60</width>
-     <height>16</height>
+     <x>10</x>
+     <y>10</y>
+     <width>551</width>
+     <height>320</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="hzLayout">
+    <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <property name="horizontalSpacing">
+       <number>15</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>12</number>
+      </property>
+      <item row="5" column="0" colspan="4">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>任务类型</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="3">
+       <widget class="QDateTimeEdit" name="dateTimeEdit_2"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="txt_TaskNo">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>创建人</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="cmb_TaskPriority">
+        <item>
+         <property name="text">
+          <string>请选择优先级</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>普通</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>中级</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>高级</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="txt_Creator"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>优先级</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QComboBox" name="cmb_TaskState">
+        <item>
+         <property name="text">
+          <string>请选择状态</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>未开始</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>已开始</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>已取消</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>已结束</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="10" column="1" colspan="3">
+       <widget class="QTextEdit" name="txt_TaskDescription"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>状态</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>任务名称</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>执行人</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QDateTimeEdit" name="dateTimeEdit_4"/>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
+         <string>期望执行时间</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QComboBox" name="cmb_TaskType">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <item>
+         <property name="text">
+          <string>请选择任务类型</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>自动化</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>车机测试</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>App</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Web平台</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>接口</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>性能测试</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QDateTimeEdit" name="dateTimeEdit"/>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLineEdit" name="txt_Requester"/>
+      </item>
+      <item row="9" column="0" colspan="4">
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>结束时间</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>实际执行时间</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>创建时间</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>任务描述</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="3">
+       <widget class="QLineEdit" name="txt_TaskName"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>任务编号</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QWidget" name="widget_task" native="true">
+      <zorder>gridLayoutWidget</zorder>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>310</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>任务类型</string>
+    <string>确定</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>380</x>
-     <y>155</y>
-     <width>45</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>执行人</string>
-   </property>
-  </widget>
-  <widget class="QSplitter" name="splitter">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>90</width>
-     <height>321</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-   <widget class="QLabel" name="label_2">
-    <property name="text">
-     <string>任务名称</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_13">
-    <property name="text">
-     <string>任务编号</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="text">
-     <string>优先级</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="text">
-     <string>创建人</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="text">
-     <string>创建时间</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_10">
-    <property name="text">
-     <string>期望执行时间</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="text">
-     <string>任务描述</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QDateTimeEdit" name="dateTimeEdit">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>220</y>
-     <width>194</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDateTimeEdit" name="dateTimeEdit_2">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>260</y>
-     <width>194</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDateTimeEdit" name="dateTimeEdit_4">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>260</y>
-     <width>194</width>
-     <height>25</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lbl_createtime">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>220</y>
-     <width>60</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>结束时间</string>
-   </property>
-  </widget>
-  <zorder>label_6</zorder>
-  <zorder>label_4</zorder>
-  <zorder>txt_TaskName</zorder>
-  <zorder>txt_Creator</zorder>
-  <zorder>txt_Requester</zorder>
-  <zorder>txt_TaskDescription</zorder>
-  <zorder>cmb_TaskType</zorder>
-  <zorder>cmb_TaskPriority</zorder>
-  <zorder>btn_Automate</zorder>
-  <zorder>cmb_TaskState</zorder>
-  <zorder>label_9</zorder>
-  <zorder>label_11</zorder>
   <zorder>splitter</zorder>
-  <zorder>label_12</zorder>
-  <zorder>line_2</zorder>
-  <zorder>txt_TaskNo</zorder>
-  <zorder>line</zorder>
-  <zorder>pushButton</zorder>
   <zorder>pushButton_2</zorder>
-  <zorder>dateTimeEdit</zorder>
-  <zorder>dateTimeEdit_2</zorder>
-  <zorder>dateTimeEdit_4</zorder>
-  <zorder>lbl_createtime</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
+  <zorder>pushButton</zorder>
  </widget>
- <resources/>
+ <resources>
+  <include location="../res.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_2</sender>
