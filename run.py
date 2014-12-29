@@ -4,10 +4,10 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
-import subprocess
-from framework.core import task,the,data
+
+from framework.core import task,the,data, jira
 from framework.util import mail
-import Tkinter
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -102,7 +102,15 @@ def main():
 
 
 if __name__ == "__main__":
-    createDatabase()
+    from framework.util import jira
+
+    ja = jira.JIRA('guguohai', 'guguohai')
+    project = 'IDRIVERC'
+    start = '10'
+    end = '20'
+    print ja.get('/rest/api/2/search?jql=project+%3D+' + project + '&startAt=' + start + '&maxResults=' + end)
+
+
     # import time
     # from framework.core import device
     #

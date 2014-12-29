@@ -16,4 +16,6 @@ devices = fs.parser_to_dict(PATH('../../resource/app.ini'))
 
 products = fs.init_project(PATH('../../resource/app.ini'))
 
-taskConfig = fs.task_container(PATH('../../config.ini'),'task')
+taskConfig = fs.task_container(PATH('../../config.ini'), 'task')
+
+JIRA = None
