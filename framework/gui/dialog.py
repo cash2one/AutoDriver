@@ -96,6 +96,7 @@ class LoginFor405(threading.Thread):
                 # emit 方法用来发射信号
 
                 self.ui.emit(SIGNAL("loginFinish()"))
+                print 'thread finish:',the.JIRA.dislayName
                 self.stop()
             time.sleep(1)
 

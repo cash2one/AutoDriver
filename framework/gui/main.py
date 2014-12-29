@@ -5,7 +5,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.ui import main_ui
 from framework.core import the
-import form, dialog
+import form, dialog,frm_jira
 from framework.gui.models import jira_model
 
 
@@ -28,7 +28,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.connect(self.toolbar_home, SIGNAL(("triggered()")), self.load_index)
         self.connect(self.toolbar_jira, SIGNAL("triggered()"), self.load_jira)
         self.connect(self, SIGNAL("startLogin()"), self.login_dialog)
-        self.connect(self, SIGNAL("loginFinish()"), self.update_user)
+
         #显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
         self.trayIcon.setIcon(QIcon("./ui/res/wp.ico"))
@@ -42,8 +42,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.load_index()
 
     def update_user(self):
-        #self.toolbar_user.setText(self.QApplication.translate("MainWindow", "gwegw", None))
-        pass
+        self.toolbar_user.setText(the.JIRA.dislayName)
+
 
     def trayMenu(self):
         # 右击托盘弹出的菜单
@@ -77,7 +77,6 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def trayClick(self, reason):
         if reason == QSystemTrayIcon.DoubleClick:
-            print 'fff'
             self.showNormal()
         else:
             pass
@@ -88,14 +87,19 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             return
 
         if the.JIRA.isActive:
-            self.frm_jira = form.JIRAForm()
+            self.frm_jira = frm_jira.MainForm()
+
             self.setCentralWidget(self.frm_jira)
             pj=self.frm_jira.cmb_project.currentText()
-            #print pj
+            self.connect(self.frm_jira, SIGNAL("jiraHomeComplete()"), self.setTableModel)
             #self.frm_jira.connect(self.frm_jira.btn_find, SIGNAL("clicked()"), the.JIRA.getJiraHome(pj,'10','20'))
 
         else:
             self.msgHandler()
+
+    def setTableModel(self):
+        tablemodel = jira_model.MyTableModel(the.JIRA.home_data, self)
+        self.frm_jira.tv_bugs.setModel(tablemodel)
 
     def msgHandler(self):
         ret = QMessageBox.warning(self, u'未登录',
@@ -115,7 +119,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         if self.dlg_login == None:
             self.dlg_login = dialog.LoginDialog()
+            self.connect(self.dlg_login, SIGNAL("loginFinish()"), self.update_user())
         self.dlg_login.exec_()
+
 
     def show_msg(self, txt):
         msg = dialog.MsgDialog(txt)

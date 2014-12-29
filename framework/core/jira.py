@@ -57,7 +57,7 @@ class JIRA():
         :return:
         '''
         api_user = self.get('/rest/api/2/user?username=%s' % self.user)
-
+        print api_user
         try:
             aa = api_user['errorMessages']
             self.isActive = False

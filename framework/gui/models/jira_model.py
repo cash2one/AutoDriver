@@ -23,6 +23,5 @@ class MyTableModel(QtCore.QAbstractTableModel):
         elif role != QtCore.Qt.DisplayRole:
             return QtCore.QVariant()
 
-        if index.row()<=len(self.arraydata) and index.column<=len(self.arraydata[0]):
-            return QtCore.QVariant(self.arraydata[index.row()][index.column()])
+        return QtCore.QVariant(self.arraydata[index.row()][index.column()])
 
