@@ -9,7 +9,7 @@ import json
 import time
 import threading
 
-JIRA_URL = 'https://hibernate.atlassian.net'#'http://192.168.3.11:8080'
+JIRA_URL = 'http://192.168.3.11:8080'
 #http://192.168.3.11:8080/rest/api/2/search?jql=project+%3D+{0}&startAt={1}&maxResults={2}
 
 class JIRA():
@@ -29,6 +29,8 @@ class JIRA():
         self.user = u_name
         self.pwd = u_pwd
         self.dislayName= ''
+        self.home_data = None
+        self.project = None
 
     def login(self):
         url = '/rest/gadget/1.0/login?os_username=%s&os_password=%s&os_captcha=' % (self.user, self.pwd)
@@ -66,6 +68,38 @@ class JIRA():
         except TypeError:
             pass
 
+    def getJiraHome(self,project_name,start,end):
+        # project_name='IDRIVERC'
+        # start='10'
+        # end='20'
+        task_data = []
+        issues = self.get(
+            '/rest/api/2/search?jql=project+%3D+' + project_name + '&startAt=' + start + '&maxResults=' + end)
+
+        for issue in issues['issues']:
+
+            key = issue['key']
+            summary = issue['fields']['summary']
+            assignee = issue['fields']['assignee']['displayName']
+            reporter = issue['fields']['reporter']['displayName']
+            priority = issue['fields']['priority']['name']
+            status = issue['fields']['status']['name']
+            #iss_dict['resolution'] = issue['fields']['resolution']['name']
+            created = issue['fields']['created']
+            updated = issue['fields']['updated']
+            iss_tup = (key,summary,assignee,reporter,priority,status,created,updated)
+            task_data.append(iss_tup)
+        return task_data
+
+
+    def getProject(self):
+        # http://192.168.3.11:8080/rest/api/2/project
+        projects = self.get('/rest/api/2/project')
+        keys = []
+        for p in projects:
+            keys.append(p['key'])
+        return keys
+
 
     def get(self, api):
         # url='http://192.168.3.11:8080/rest/api/2/user?username=%s' %self.user
@@ -82,8 +116,5 @@ class JIRA():
             return json.loads(json_str)
         except ValueError:
             return None
-
-    def caller(input, func):
-        func(input)
 
 
