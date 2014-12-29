@@ -164,7 +164,7 @@ class Firefox(WebDriver):
 
             # 等待输入验证码
             while True:
-                print temp_url,self.current_url
+                #print temp_url,self.current_url
                 if cmp(temp_url, self.current_url) == -1:
                     break
                 time.sleep(0.5)

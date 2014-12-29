@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>572</width>
-    <height>361</height>
+    <width>644</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -26,9 +26,9 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>310</y>
-     <width>90</width>
+     <x>330</x>
+     <y>340</y>
+     <width>80</width>
      <height>28</height>
     </rect>
    </property>
@@ -41,7 +41,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>551</width>
+     <width>634</width>
      <height>320</height>
     </rect>
    </property>
@@ -317,29 +317,23 @@
      </layout>
     </item>
     <item>
-     <widget class="QWidget" name="widget_task" native="true">
-      <zorder>gridLayoutWidget</zorder>
-     </widget>
+     <widget class="QWidget" name="widget_task" native="true"/>
     </item>
    </layout>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>310</y>
-     <width>75</width>
-     <height>23</height>
+     <x>240</x>
+     <y>340</y>
+     <width>80</width>
+     <height>28</height>
     </rect>
    </property>
    <property name="text">
     <string>确定</string>
    </property>
   </widget>
-  <zorder>splitter</zorder>
-  <zorder>pushButton_2</zorder>
-  <zorder>horizontalLayoutWidget</zorder>
-  <zorder>pushButton</zorder>
  </widget>
  <resources>
   <include location="../res.qrc"/>

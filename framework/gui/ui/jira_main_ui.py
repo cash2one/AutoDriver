@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/jira_main.ui'
 #
-# Created: Fri Dec 26 20:15:43 2014
+# Created: Mon Dec 29 15:03:22 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -42,6 +42,9 @@ class Ui_Form(object):
         self.cmb_user = QtGui.QComboBox(Form)
         self.cmb_user.setMaximumSize(QtCore.QSize(160, 30))
         self.cmb_user.setObjectName(_fromUtf8("cmb_user"))
+        self.cmb_user.addItem(_fromUtf8(""))
+        self.cmb_user.addItem(_fromUtf8(""))
+        self.cmb_user.addItem(_fromUtf8(""))
         self.horizontalLayout.addWidget(self.cmb_user)
         self.btn_find = QtGui.QPushButton(Form)
         self.btn_find.setMaximumSize(QtCore.QSize(90, 30))
@@ -61,6 +64,9 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
         self.lbl_bug.setText(_translate("Form", "查询条件", None))
+        self.cmb_user.setItemText(0, _translate("Form", "20", None))
+        self.cmb_user.setItemText(1, _translate("Form", "30", None))
+        self.cmb_user.setItemText(2, _translate("Form", "40", None))
         self.btn_find.setText(_translate("Form", "查询", None))
         self.label.setText(_translate("Form", "TextLabel", None))
 
