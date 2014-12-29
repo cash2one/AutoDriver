@@ -45,7 +45,7 @@
 
 from PyQt4 import QtCore, QtGui
 
-from framework.woodpecker.ui import simpletreemodel_rc
+from framework.gui.ui import simpletreemodel_rc
 
 
 class TreeItem(object):

@@ -3,7 +3,7 @@
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.woodpecker.ui import main_ui
+from framework.gui.ui import main_ui
 from framework.core import the
 import form, dialog
 

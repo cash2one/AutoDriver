@@ -7,8 +7,8 @@ import re
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.core import the
-from framework.woodpecker.ui import home_ui, jira_main_ui
-from framework.woodpecker.models import table_model
+from framework.gui.ui import home_ui, jira_main_ui
+from framework.gui.models import table_model
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

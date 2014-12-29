@@ -5,9 +5,9 @@ import time
 import threading
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.woodpecker.ui import login_ui,msg_ui,autos_ui,task_ui
+from framework.gui.ui import login_ui,msg_ui,autos_ui,task_ui
 from framework.core import the, jira
-from framework.woodpecker.models import tree_model
+from framework.gui.models import tree_model
 
 
 class LoginDialog(QDialog, login_ui.Ui_Form):
