@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/login.ui'
 #
-# Created: Sat Dec 27 23:07:18 2014
+# Created: Mon Dec 29 13:16:05 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -47,10 +47,11 @@ class Ui_Form(object):
         self.btn_cancel.setGeometry(QtCore.QRect(450, 210, 80, 30))
         self.btn_cancel.setObjectName(_fromUtf8("btn_cancel"))
         self.label_3 = QtGui.QLabel(self.widget)
-        self.label_3.setGeometry(QtCore.QRect(300, 140, 45, 16))
+        self.label_3.setGeometry(QtCore.QRect(315, 141, 35, 19))
+        self.label_3.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label_3.setObjectName(_fromUtf8("label_3"))
         self.label_2 = QtGui.QLabel(self.widget)
-        self.label_2.setGeometry(QtCore.QRect(300, 100, 45, 16))
+        self.label_2.setGeometry(QtCore.QRect(315, 100, 35, 19))
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.txt_pwd = QtGui.QLineEdit(self.widget)
         self.txt_pwd.setGeometry(QtCore.QRect(358, 141, 180, 19))
@@ -62,7 +63,7 @@ class Ui_Form(object):
         self.txt_username.setFrame(False)
         self.txt_username.setObjectName(_fromUtf8("txt_username"))
         self.checkBox = QtGui.QCheckBox(self.widget)
-        self.checkBox.setGeometry(QtCore.QRect(358, 180, 71, 16))
+        self.checkBox.setGeometry(QtCore.QRect(358, 180, 101, 16))
         self.checkBox.setIconSize(QtCore.QSize(16, 16))
         self.checkBox.setObjectName(_fromUtf8("checkBox"))
 
@@ -70,7 +71,7 @@ class Ui_Form(object):
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(_translate("Form", "Form", None))
+        Form.setWindowTitle(_translate("Form", "Woodpecker", None))
         self.lbl_info.setText(_translate("Form", "使用JIRA账号登录", None))
         self.btn_login.setText(_translate("Form", "登录", None))
         self.btn_cancel.setText(_translate("Form", "取消", None))

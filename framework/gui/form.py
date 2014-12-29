@@ -4,11 +4,13 @@ __author__ = 'Administrator'
 import os
 import sys
 import re
+import time
+import threading
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.core import the
 from framework.gui.ui import home_ui, jira_main_ui
-from framework.gui.models import table_model
+from framework.gui.models import table_model, jira_model
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -53,7 +55,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                 # self.table_task.cellDoubleClicked.connect(self.select_tasks)
                 #
                 # def select_tasks(self):
-                #     t = task.SelectTaskDialog()
+                # t = task.SelectTaskDialog()
                 #     t.exec_()
 
     def show_files(self):
@@ -79,7 +81,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # head.resizeSection(3,70)
 
         # self.tv_task.setHorizontalHeader(head)
-        #self.tv_task.setColumnHidden(1, True)
+        # self.tv_task.setColumnHidden(1, True)
         self.tv_task.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tv_task.setColumnWidth(1, 300)
         self.tv_task.setAlternatingRowColors(True)
@@ -102,20 +104,60 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
     '''
     JIRA
     '''
-    def __init__(self, task_data):
+
+    def __init__(self):
         super(JIRAForm, self).__init__()
-        self.task_data = task_data
+
         self.setupUi(self)
 
-        tablemodel = table_model.MyTableModel(self.task_data, self)
+        self.tv_bugs.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.tv_bugs.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.tv_bugs.setAlternatingRowColors(True)
+
+        self.connect(self, SIGNAL("jiraHomeComplete()"), self.setTableModel)
+
+        the.JIRA.project = the.JIRA.getProject()
+        lnd = LoadNetData(self, the.JIRA)
+        lnd.start()
+
+        if the.JIRA.project != None:
+            for key in the.JIRA.project:
+                self.cmb_project.addItem(key)
+                # tablemodel = jira_model.MyTableModel(self.task_data, self)
+                # self.tv_bugs.setModel(tablemodel)
+                # self.tv_bugs.setColumnWidth(0, 200)
+                # self.tv_bugs.setColumnWidth(1, 400)
+                # self.tv_bugs.setColumnWidth(1, 200)
+                # self.tv_bugs.setColumnWidth(1, 200)
+                # print self.getData('IDRIVERC',10,20)
+
+    def setTableModel(self):
+        tablemodel = jira_model.MyTableModel(the.JIRA.home_data, self)
         self.tv_bugs.setModel(tablemodel)
 
-    def getData(self, project_name, start=0, end=10):
-        # project = 'IDRIVERC'
-        # start = '10'
-        # end = '20'
-        if the.JIRA != None:
-            p = the.JIRA.get(
-                '/rest/api/2/search?jql=project+%3D+' + project_name + '&startAt=' + start + '&maxResults=' + end)
 
-            self.lbl_bug.setText(str(p['maxResults']))
+
+class LoadNetData(threading.Thread):
+    def __init__(self, ui, jira):
+        threading.Thread.__init__(self)
+        self.thread_stop = False
+        self.ui = ui
+        self.jira = jira
+        the.JIRA.home_data = None
+        # self.startLogin = False
+
+    def run(self):
+        while not self.thread_stop:
+            if not self.jira.isActive:
+                print u'未登录!'
+            else:
+                if the.JIRA.home_data != None:
+                    self.ui.emit(SIGNAL("jiraHomeComplete()"))
+                    self.stop()
+                else:
+                    the.JIRA.home_data = the.JIRA.getJiraHome('IDRIVERC', '10', '20')
+                    print 'jjj:',the.JIRA.home_data
+            time.sleep(1)
+
+    def stop(self):
+        self.thread_stop = True
