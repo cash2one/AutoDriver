@@ -88,7 +88,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="toolbar_user"/>
    <addaction name="toolbar_home"/>
    <addaction name="separator"/>
    <addaction name="toolbar_task"/>

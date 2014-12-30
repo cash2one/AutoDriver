@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/home.ui'
 #
-# Created: Fri Dec 26 18:26:03 2014
+# Created: Tue Dec 30 16:35:06 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,15 +39,6 @@ class Ui_Form(object):
         self.label.setObjectName(_fromUtf8("label"))
         self.horizontalLayout.addWidget(self.label)
         self.verticalLayout.addLayout(self.horizontalLayout)
-        self.table_task = QtGui.QTableWidget(Form)
-        self.table_task.setBaseSize(QtCore.QSize(0, 0))
-        self.table_task.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
-        self.table_task.setRowCount(20)
-        self.table_task.setColumnCount(8)
-        self.table_task.setObjectName(_fromUtf8("table_task"))
-        self.table_task.horizontalHeader().setCascadingSectionResizes(True)
-        self.table_task.verticalHeader().setVisible(False)
-        self.verticalLayout.addWidget(self.table_task)
         self.tv_task = QtGui.QTableView(Form)
         self.tv_task.setObjectName(_fromUtf8("tv_task"))
         self.tv_task.horizontalHeader().setCascadingSectionResizes(True)

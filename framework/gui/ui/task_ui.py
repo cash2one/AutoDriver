@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/task.ui'
 #
-# Created: Mon Dec 29 00:21:56 2014
+# Created: Tue Dec 30 16:37:18 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,16 +26,16 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(572, 361)
+        Form.resize(644, 381)
         Form.setMaximumSize(QtCore.QSize(1000, 800))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/mainicon/res/wp.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
         self.pushButton_2 = QtGui.QPushButton(Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(190, 310, 90, 28))
+        self.pushButton_2.setGeometry(QtCore.QRect(330, 340, 80, 28))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
         self.horizontalLayoutWidget = QtGui.QWidget(Form)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 551, 320))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 634, 320))
         self.horizontalLayoutWidget.setObjectName(_fromUtf8("horizontalLayoutWidget"))
         self.hzLayout = QtGui.QHBoxLayout(self.horizontalLayoutWidget)
         self.hzLayout.setMargin(0)
@@ -155,7 +155,7 @@ class Ui_Form(object):
         self.widget_task.setObjectName(_fromUtf8("widget_task"))
         self.hzLayout.addWidget(self.widget_task)
         self.pushButton = QtGui.QPushButton(Form)
-        self.pushButton.setGeometry(QtCore.QRect(100, 310, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(240, 340, 80, 28))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
 
         self.retranslateUi(Form)
