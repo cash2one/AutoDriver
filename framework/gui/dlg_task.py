@@ -14,12 +14,12 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
 
         self.setupUi(self)
 
-        detailLayout = QGridLayout(self.widget_task)
-        taskv = QTableView()
-        detailLayout.addWidget(taskv, 0, 1)
-        self.widget_task.hide()
+        # detailLayout = QGridLayout(self.widget_task)
+        # taskv = QTableView()
+        # detailLayout.addWidget(taskv, 0, 1)
+        # self.widget_task.hide()
 
-        self.hzLayout.setSizeConstraint(QLayout.SetFixedSize)
+        #self.hzLayout.setSizeConstraint(QLayout.SetFixedSize)
 
         # self.btn_Automate.hide()
         # self.connect(self.btn_Automate, SIGNAL("clicked()"), self.select_tasks)
@@ -29,10 +29,12 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
     def onActivated(self, txt):
         if txt == u'自动化':
             # self.btn_Automate.show()
-            self.widget_task.show()
+            #self.widget_task.show()
+            pass
             # self.emit(SIGNAL("selectTask()"))
         else:
-            self.widget_task.hide()
+            pass
+            #self.widget_task.hide()
 
             # self.label.setText(txt)
             # self.label.adjustSize()

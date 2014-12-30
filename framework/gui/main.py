@@ -129,20 +129,19 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
 
     def new_task(self):
-        print self.frm_home.table_task.currentRow()
         if self.dlg_new_task == None:
             self.dlg_new_task = dialog.TaskDialog()
         self.dlg_new_task.exec_()
 
-    def show_current_task(self):
-        current_row = self.frm_home.table_task.currentRow()
-        row_data = self.tasks[current_row]['info']
-        if self.dlg_task == None:
-            self.dlg_task = dialog.TaskDialog()
-
-        self.dlg_task.txt_TaskName.setText(row_data[1])
-        self.dlg_task.txt_Creator.setText(row_data[5])
-        self.dlg_task.exec_()
+    # def show_current_task(self):
+    #     current_row = self.frm_home.table_task.currentRow()
+    #     row_data = self.tasks[current_row]['info']
+    #     if self.dlg_task == None:
+    #         self.dlg_task = dialog.TaskDialog()
+    #
+    #     self.dlg_task.txt_TaskName.setText(row_data[1])
+    #     self.dlg_task.txt_Creator.setText(row_data[5])
+    #     self.dlg_task.exec_()
 
 
 class LoadNetData(threading.Thread):
