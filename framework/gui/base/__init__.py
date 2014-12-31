@@ -1,5 +1,6 @@
 __author__ = 'Administrator'
 
-import data
+import data, jira
 
-t = data.Data()
+meta = data.Data()
+third = jira.JIRA()

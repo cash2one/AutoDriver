@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
-import time
-import threading
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.ui import task_ui, autos_ui
@@ -31,13 +28,13 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
         self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
 
         # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
-        for t in base.t.task_type:
+        for t in base.meta.task_type:
             self.cmb_TaskType.addItem(t)
 
-        for p in base.t.priority:
+        for p in base.meta.priority:
             self.cmb_TaskPriority.addItem(p)
 
-        for ts in base.t.task_state:
+        for ts in base.meta.task_state:
             self.cmb_TaskState.addItem(ts)
 
         if self.data != None:
@@ -60,8 +57,8 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
 
             strBuffer = self.data[10]
             qtime = QDateTime.fromString(strBuffer, "yyyy-MM-dd hh:mm:ss")
-            self.dt_endtime.setDateTime(qtime)  #(QDateTime.currentDateTime())
-            self.txt_desc.setPlainText(self.data[11])#setPlainText
+            self.dt_endtime.setDateTime(qtime)  # (QDateTime.currentDateTime())
+            self.txt_desc.setPlainText(self.data[11])  # setPlainText
 
             if self.data[9].strip() == '':
                 self.lbl_exectime_title.setText('')
@@ -73,7 +70,7 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
             self.setWindowTitle(u'新建任务')
 
             self.lbl_createtime.setText(QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
-            self.dt_endtime.setDateTime(QDateTime.currentDateTime())#(QDateTime.currentDateTime())
+            self.dt_endtime.setDateTime(QDateTime.currentDateTime())  # (QDateTime.currentDateTime())
             self.lbl_exectime_title.setText('')
             self.lbl_exectime.setText('')
 

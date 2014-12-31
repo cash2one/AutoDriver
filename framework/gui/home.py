@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'Administrator'
+__author__ = 'guguohai@outlook.com'
 
 import os
 import time
@@ -17,10 +17,6 @@ PATH = lambda p: os.path.abspath(
 
 
 class HomeForm(QWidget, home_ui.Ui_Form):
-    '''
-    首页
-    '''
-
     def __init__(self, jira_data=None):
         super(HomeForm, self).__init__()
 
@@ -28,7 +24,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         self.dlgTask = None
         self.currentCellIndex = 0
 
-        self.taskModel = home_model.MyTableModel(base.t.task_header, base.t.tasks, self)
+        self.taskModel = home_model.MyTableModel(base.meta.task_header, base.meta.tasks, self)
         self.createContextMenu()
 
         self.tv_task.setModel(self.taskModel)
@@ -40,7 +36,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         self.connect(self.tv_task, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_current_task)
         self.connect(self.pushButton, SIGNAL("clicked()"), self.show_new_task)
         # self.connect.dataChanged.connect(self.update_table)
-        self.user = base.t.not_logged
+        self.user = base.meta.not_logged
         if jira_data != None:
             self.user = jira_data.displayName
 
@@ -74,7 +70,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         idx = self.tv_task.currentIndex()
         if idx.isValid():
             _data = self.taskModel.rowContent(idx.row())
-            row_con = _data[base.t.task_row]
+            row_con = _data[base.meta.task_row]
             print row_con
 
 
@@ -83,7 +79,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         if idx.isValid():
             self.currentCellIndex = idx.row()
             _data = self.taskModel.rowContent(self.currentCellIndex)
-            row_con = _data[base.t.task_row]
+            row_con = _data[base.meta.task_row]
 
             self.dlgTask = dlg_task.TaskDialog(row_con)
 

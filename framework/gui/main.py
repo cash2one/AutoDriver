@@ -7,7 +7,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.ui import main_ui
 from framework.core import the
-import home, dialog, jira,base
+import home, dialog, jiras,base
 
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
@@ -97,7 +97,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             return
 
         if the.JIRA.isActive:
-            self.frm_jira = jira.JIRAForm()
+            self.frm_jira = jiras.JIRAForm()
             self.setCentralWidget(self.frm_jira)
         else:
             self.msgHandler()
@@ -118,7 +118,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
                 return
 
         if self.dlg_login == None:
-            self.dlg_login = jira.LoginDialog()
+            self.dlg_login = jiras.LoginDialog()
             self.connect(self.dlg_login, SIGNAL("loginFinish"), self.update_user)
         self.dlg_login.exec_()
 
