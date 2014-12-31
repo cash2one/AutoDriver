@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/main.ui'
 #
-# Created: Mon Dec 29 09:10:57 2014
+# Created: Tue Dec 30 17:11:49 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -111,7 +111,6 @@ class Ui_MainWindow(object):
         self.menu_tools.addAction(self.menu_settings)
         self.menubar.addAction(self.menu_file.menuAction())
         self.menubar.addAction(self.menu_tools.menuAction())
-        self.toolBar.addAction(self.toolbar_user)
         self.toolBar.addAction(self.toolbar_home)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolbar_task)

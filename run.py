@@ -102,15 +102,16 @@ def main():
 
 
 if __name__ == "__main__":
-    from framework.util import jira
+    for i in range(1, 10):
+        s = ''
+        for j in range(1, i + 1):
+            k = i * j
+            if k % 2 == 0:
+                s += str(k) + '.'
+            else:
+                s += str(k) + ','
 
-    ja = jira.JIRA('guguohai', 'guguohai')
-    project = 'IDRIVERC'
-    start = '10'
-    end = '20'
-    print ja.get('/rest/api/2/search?jql=project+%3D+' + project + '&startAt=' + start + '&maxResults=' + end)
-
-
+        print s
     # import time
     # from framework.core import device
     #
