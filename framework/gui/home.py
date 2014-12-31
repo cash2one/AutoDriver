@@ -2,14 +2,11 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-import time
-import datetime
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.gui.ui import home_ui
 from framework.gui.models import home_model
-import base
-import dlg_task
+import base, dlg_task
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -17,14 +14,14 @@ PATH = lambda p: os.path.abspath(
 
 
 class HomeForm(QWidget, home_ui.Ui_Form):
-    def __init__(self, jira_data=None):
+    def __init__(self):
         super(HomeForm, self).__init__()
 
         self.setupUi(self)
         self.dlgTask = None
         self.currentCellIndex = 0
 
-        self.taskModel = home_model.MyTableModel(base.meta.task_header, base.meta.tasks, self)
+        self.taskModel = home_model.QTableModel(base.meta.task_header, base.meta.tasks, self)
         self.createContextMenu()
 
         self.tv_task.setModel(self.taskModel)
@@ -36,9 +33,6 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         self.connect(self.tv_task, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_current_task)
         self.connect(self.pushButton, SIGNAL("clicked()"), self.show_new_task)
         # self.connect.dataChanged.connect(self.update_table)
-        self.user = base.meta.not_logged
-        if jira_data != None:
-            self.user = jira_data.displayName
 
     def update_table(self):
         self.tv_task.setModel(self.taskModel)
@@ -98,7 +92,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         end_time = self.dlgTask.dt_endtime.dateTime().toString("yyyy-MM-dd hh:mm:ss")
         exec_time = self.dlgTask.lbl_exectime.text()
         update_time = QDateTime.currentDateTime()
-        desc = unicode(self.txt_desc.toPlainText())
+        desc = unicode(self.dlgTask.txt_desc.toPlainText())
         # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
         current_data = self.taskModel.rowContent(self.currentCellIndex)
         task_no = current_data['row'][0]
@@ -117,13 +111,23 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # createTime=time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
         # if self.data!=None:
         # createUser = self.data.displayName
-        self.dlgTask = dlg_task.TaskDialog()
+
         # strBuffer = self.data[10]
         # qtime = QDateTime.fromString(strBuffer, "yyyy-MM-dd hh:mm:ss")
-        self.dlgTask.lbl_creator.setText(self.user)
-        self.dlgTask.btn_ok.clicked.connect(self.insert_data)
+        if base.third.isActive:
+            self.dlgTask = dlg_task.TaskDialog()
+            self.dlgTask.lbl_creator.setText(base.third.userName)
+            self.dlgTask.btn_ok.clicked.connect(self.insert_data)
+            self.dlgTask.exec_()
+        else:
+            ret = QMessageBox.warning(self, u'未登录',
+                                      u"\n你还没有登录JIRA，点击确定登录  \n",
+                                      QMessageBox.Save | QMessageBox.Cancel)
+            if ret == QMessageBox.Save:
+                self.emit(SIGNAL("notLogin"))
+            elif ret == QMessageBox.Cancel:
+                pass
 
-        self.dlgTask.exec_()
 
     def insert_data(self):
         name = unicode(self.dlgTask.txt_TaskName.text())

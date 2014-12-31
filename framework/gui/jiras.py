@@ -31,7 +31,10 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
         self.connect(self.btn_find, SIGNAL("clicked()"), self.findJiraData)
 
         # iss_url = '/rest/api/2/search?jql=project+%3D+' + project_name + '&startAt=' + start + '&maxResults=' + end
-        iss_url = '/rest/api/2/search?jql=project+%%3D+%s&startAt=%s&maxResults=%s' % ('IDRIVERC', '10', '20')
+
+        start_page = 10
+        end_page = start_page + base.meta.page_size
+        iss_url = '/rest/api/2/search?jql=project+%%3D+%s&startAt=%s&maxResults=%s' % ('IDRIVERC', start_page, end_page)
         project_url = '/rest/api/2/project'
 
         thread_issues = LoadNetData(self, 'issuesComplete', iss_url)
@@ -54,8 +57,8 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
             updated = issue['fields']['updated']
             iss_tup = (key, summary, assignee, reporter, priority, status, created, updated)
             issues_data.append(iss_tup)
-        header=(u'编号', u'任务名称', u'任务状态', u'任务类型', u'优先级', u'执行人', u'创建人', u'创建时间')
-        tablemodel = jira_model.MyTableModel(header,issues_data, self)
+        header = (u'编号', u'任务名称', u'任务状态', u'任务类型', u'优先级', u'执行人', u'创建人', u'创建时间')
+        tablemodel = jira_model.MyTableModel(header, issues_data, self)
         self.tv_bugs.setModel(tablemodel)
         self.tv_bugs.setColumnWidth(0, 150)
         self.tv_bugs.setColumnWidth(1, 400)
@@ -139,7 +142,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         self.lbl_info.setText(u'登录超时，账号密码错误.')
 
     def login_action(self):
-        user_name=self.txt_username.text()
+        user_name = self.txt_username.text()
         pwd = self.txt_pwd.text()
         self.btn_login.setText(u'登录中..')
         self.btn_login.setEnabled(False)
@@ -170,7 +173,7 @@ class LoginFor405(threading.Thread):
         while not self.thread_stop:
             if not base.third.isActive:
                 if not self.isStartLogin:
-                    base.third.login(self.u_name,self.u_pwd)
+                    base.third.login(self.u_name, self.u_pwd)
                     self.isStartLogin = True
                 else:
                     base.third.userActive(self.u_name)

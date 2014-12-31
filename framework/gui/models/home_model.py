@@ -1,13 +1,14 @@
 # coding=utf-8
+__author__ = 'guguohai@outlook.com'
 
 import sys
 from PyQt4 import QtGui, QtCore
 
 
-class MyTableModel(QtCore.QAbstractTableModel):
+class QTableModel(QtCore.QAbstractTableModel):
     def __init__(self, header, datain, parent=None, *args):
         # QtCore.QAbstractTableModel.__init__(self, parent, *args)
-        super(MyTableModel, self).__init__(parent, *args)
+        super(QTableModel, self).__init__(parent, *args)
         self.arraydata = datain
         self.header = header
         # self.aa = (u'编号', u'任务名称', u'任务状态', u'任务类型', u'优先级', u'执行人', u'创建人', u'创建时间', '更新时间', u'执行时间', u'结束时间')

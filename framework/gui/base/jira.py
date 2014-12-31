@@ -1,17 +1,14 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
-import time
-import threading
 import cookielib
 import urllib2
 import json
 
-JIRA_URL = 'http://192.168.3.11:8080'
 
 class JIRA():
-    def __init__(self):
-        self.host = JIRA_URL
+    def __init__(self, api_host):
+        self.host = api_host
         cj = cookielib.CookieJar()
         handler = urllib2.HTTPCookieProcessor(cj)
         self.opener = urllib2.build_opener(handler)
@@ -24,7 +21,7 @@ class JIRA():
         self.isActive = False
         self.starLogin = False
         self.displayName = ''
-        self.userName=''
+        self.userName = ''
         self.home_data = None
         self.project = None
 
@@ -47,7 +44,7 @@ class JIRA():
         except urllib2.URLError, e:
             print e.message
 
-    def userActive(self,u_name):
+    def userActive(self, u_name):
         '''
         登录会405，用这个api获取用户是否活动状态
         :return:
@@ -66,7 +63,6 @@ class JIRA():
             pass
 
     def get(self, api):
-        # url='http://192.168.3.11:8080/rest/api/2/user?username=%s' %self.user
         json_str = ''
         try:
             content = self.opener.open(self.host + api)

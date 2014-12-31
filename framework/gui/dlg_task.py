@@ -2,9 +2,9 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import task_ui, autos_ui
+from framework.gui.ui import task_ui, autos_ui, user_ui
 from framework.gui.models import tree_model
-import base
+import base, dialog
 
 
 class TaskDialog(QDialog, task_ui.Ui_Form):
@@ -15,6 +15,7 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
 
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
+        self.current_executor = []
         # detailLayout = QGridLayout(self.widget_task)
         # taskv = QTableView()
         # detailLayout.addWidget(taskv, 0, 1)
@@ -26,6 +27,7 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
         self.connect(self.btn_auto, SIGNAL("clicked()"), self.select_tasks)
         self.connect(self, SIGNAL("selectTask()"), self.select_tasks)
         self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
+        self.btn_requester.clicked.connect(self.select_user)
 
         # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
         for t in base.meta.task_type:
@@ -45,6 +47,11 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
             type_idx = self.cmb_TaskType.findText(self.data[2])
             self.cmb_TaskType.setCurrentIndex(type_idx)
 
+            if self.data[2] == u'自动化':
+                self.btn_auto.show()
+            else:
+                self.btn_auto.hide()
+
             s_idx = self.cmb_TaskState.findText(self.data[3])
             self.cmb_TaskState.setCurrentIndex(s_idx)
 
@@ -60,7 +67,7 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
             self.dt_endtime.setDateTime(qtime)  # (QDateTime.currentDateTime())
             self.txt_desc.setPlainText(self.data[11])  # setPlainText
 
-            if self.data[9].strip() == '':
+            if QString(self.data[9]).isEmpty():
                 self.lbl_exectime_title.setText('')
                 self.lbl_exectime.setText('')
             else:
@@ -71,6 +78,7 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
 
             self.lbl_createtime.setText(QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
             self.dt_endtime.setDateTime(QDateTime.currentDateTime())  # (QDateTime.currentDateTime())
+            self.btn_auto.hide()
             self.lbl_exectime_title.setText('')
             self.lbl_exectime.setText('')
 
@@ -90,6 +98,15 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
     def select_tasks(self):
         t = SelectScriptsDialog()
         t.exec_()
+
+    def select_user(self):
+        self.selectUser = dialog.UserDialog()
+        self.current_executor = self.txt_executor.text().split(';')
+        print self.current_executor
+        # self.selectUser.lbl_creator.setText(self.user)
+        # self.selectUser.btn_ok.clicked.connect(self.insert_data)
+
+        self.selectUser.exec_()
 
 
 class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):

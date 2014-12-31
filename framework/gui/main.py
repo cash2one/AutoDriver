@@ -25,8 +25,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.connect(self.menu_login, SIGNAL("triggered()"), self.login_dialog)
         # self.connect(self.menu_login, SIGNAL(("triggered()")), self.login_dialog)
         self.connect(self.toolbar_home, SIGNAL(("triggered()")), self.load_index)
-        self.connect(self.toolbar_jira, SIGNAL("triggered()"), self.load_jira)
+        self.connect(self.toolbar_jira, SIGNAL("triggered()"), self.load_jira_main)
         self.connect(self, SIGNAL("startLogin()"), self.login_dialog)
+
 
 
         # 显示托盘信息
@@ -42,6 +43,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
 
         self.load_index()
+
+    def not_login(self):
+        print 'not loginsssss'
 
     def save_task(self,arg):
         self.task_data+=arg
@@ -70,15 +74,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.trayIcon.setContextMenu(self.trayIconMenu)
 
     def load_index(self):
-
-        self.frm_home = home.HomeForm(the.JIRA)
-        # self.frm_home.connect(self.frm_home.tv_task, SIGNAL("doubleClicked(const QModelIndex&)"),self.ddd)
-
-        # self.frm_home.tv_task.rowDoubleClicked().connect(self.ddd)
-        # self.connect(self.frm_home.table_task, SIGNAL("itemDoubleClicked(QTableWidgetItem*)"), self.outSelect)
-        # self.self.frm_home.table_task.cellChanged.connect(self.makeDirty)
+        self.frm_home = home.HomeForm()
+        self.frm_home.connect(self.frm_home, SIGNAL("notLogin"), self.login_dialog)
         self.setCentralWidget(self.frm_home)
-
 
     def outSelect(self, Item=None):
         if Item == None:
@@ -91,7 +89,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         else:
             pass
 
-    def load_jira(self):
+    def load_jira_main(self):
         if the.JIRA == None:
             self.msgHandler()
             return

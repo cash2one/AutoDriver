@@ -8,7 +8,6 @@ class Data():
     '''
 
     def __init__(self):
-        self.not_logged='Admin'
         self.task_header = (
             u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间',u'备注')
 
