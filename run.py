@@ -5,7 +5,7 @@ import sys
 import os
 import time
 
-from framework.core import task,the,data, jira
+from framework.core import task,the,data
 from framework.util import mail
 
 

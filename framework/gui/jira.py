@@ -206,11 +206,12 @@ class JIRA():
         self.starLogin = False
         self.user = u_name
         self.pwd = u_pwd
-        self.dislayName = ''
+        self.displayName = ''
         self.userName=''
         self.home_data = None
         self.project = None
-        self.page_size = 20
+
+
 
     def login(self):
         url = '/rest/gadget/1.0/login?os_username=%s&os_password=%s&os_captcha=' % (self.user, self.pwd)
@@ -243,7 +244,7 @@ class JIRA():
             self.isActive = False
         except KeyError:
             self.isActive = True
-            self.dislayName = api_user['displayName']
+            self.displayName = api_user['displayName']
             self.userName = api_user['name']
             return api_user
         except TypeError:

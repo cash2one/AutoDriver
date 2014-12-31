@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import sys
-import time
-import threading
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import login_ui, msg_ui, autos_ui, task_ui
-from framework.core import the
+from framework.gui.ui import msg_ui, autos_ui, task_ui
 from framework.gui.models import tree_model
 
 
@@ -15,9 +11,7 @@ class MsgDialog(QDialog, msg_ui.Ui_Dialog):
         super(MsgDialog, self).__init__()
 
         self.setupUi(self)
-
         self.lbl_msg.setText(msg_txt)
-
 
 class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):
     def __init__(self):
@@ -44,15 +38,6 @@ class TaskDialog(QDialog, task_ui.Ui_Form):
 
         self.setupUi(self)
 
-        detailLayout = QGridLayout(self.widget_task)
-        taskv = QTableView()
-        detailLayout.addWidget(taskv, 0, 1)
-        self.widget_task.hide()
-
-        self.hzLayout.setSizeConstraint(QLayout.SetFixedSize)
-
-        # self.btn_Automate.hide()
-        # self.connect(self.btn_Automate, SIGNAL("clicked()"), self.select_tasks)
         self.connect(self, SIGNAL("selectTask()"), self.select_tasks)
         self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
 

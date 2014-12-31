@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>706</width>
-    <height>343</height>
+    <width>757</width>
+    <height>375</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -23,149 +23,46 @@
    <iconset resource="../res.qrc">
     <normaloff>:/mainicon/res/wp.ico</normaloff>:/mainicon/res/wp.ico</iconset>
   </property>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="btn_cancel">
    <property name="geometry">
     <rect>
-     <x>340</x>
-     <y>280</y>
-     <width>80</width>
-     <height>28</height>
+     <x>360</x>
+     <y>322</y>
+     <width>85</width>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
     <string>取消</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btn_ok">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>280</y>
-     <width>80</width>
-     <height>28</height>
+     <x>260</x>
+     <y>322</y>
+     <width>85</width>
+     <height>32</height>
     </rect>
    </property>
    <property name="text">
     <string>确定</string>
    </property>
   </widget>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>662</width>
-     <height>231</height>
+     <width>741</width>
+     <height>311</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout_2">
     <property name="spacing">
-     <number>15</number>
+     <number>0</number>
     </property>
-    <item row="0" column="1" colspan="3">
-     <widget class="QLineEdit" name="txt_TaskName">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>25</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="QComboBox" name="cmb_TaskType">
-      <property name="minimumSize">
-       <size>
-        <width>130</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>130</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <item>
-       <property name="text">
-        <string>请选择任务类型</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>自动化</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>车机测试</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>App</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Web平台</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>接口</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>性能测试</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="3" column="4">
-     <widget class="QLabel" name="label_8">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>创建时间</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="label_3">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>创建人</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>任务描述</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
+    <item row="1" column="0">
      <widget class="QLabel" name="label_6">
       <property name="minimumSize">
        <size>
@@ -188,8 +85,14 @@
      <widget class="QLabel" name="label_2">
       <property name="minimumSize">
        <size>
-        <width>65</width>
+        <width>70</width>
         <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>70</width>
+        <height>16777215</height>
        </size>
       </property>
       <property name="text">
@@ -200,18 +103,65 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QLabel" name="label_4">
+    <item row="2" column="3">
+     <widget class="QLabel" name="label_3">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="text">
-       <string>执行人</string>
+       <string>创建人</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
+    <item row="2" column="4">
+     <widget class="QLabel" name="lbl_creator">
+      <property name="text">
+       <string>admin</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="5">
+     <widget class="QLabel" name="label_9">
+      <property name="minimumSize">
+       <size>
+        <width>70</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>70</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>状态</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
      <widget class="QLabel" name="label_7">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="text">
        <string>优先级</string>
       </property>
@@ -220,124 +170,17 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="label_9">
-      <property name="minimumSize">
-       <size>
-        <width>65</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>状 态</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="txt_Creator">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>150</width>
-        <height>16777215</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3">
-     <widget class="QLabel" name="label_10">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="cmb_TaskPriority">
-      <property name="minimumSize">
-       <size>
-        <width>130</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>130</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <item>
-       <property name="text">
-        <string>请选择优先级</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>普通</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>中级</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>高级</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="1" column="5">
-     <widget class="QDateTimeEdit" name="dt_endtime">
-      <property name="minimumSize">
-       <size>
-        <width>130</width>
-        <height>25</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>130</width>
-        <height>16777215</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="4">
-     <widget class="QLabel" name="label_12">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>完成时间</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="3">
+    <item row="1" column="6">
      <widget class="QComboBox" name="cmb_TaskState">
       <property name="minimumSize">
        <size>
-        <width>130</width>
+        <width>115</width>
         <height>25</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>130</width>
+        <width>115</width>
         <height>16777215</height>
        </size>
       </property>
@@ -346,67 +189,246 @@
         <string>请选择状态</string>
        </property>
       </item>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QComboBox" name="cmb_TaskPriority">
+      <property name="minimumSize">
+       <size>
+        <width>115</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>115</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <item>
        <property name="text">
-        <string>未开始</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>已开始</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>已取消</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>已结束</string>
+        <string>请选择优先级</string>
        </property>
       </item>
      </widget>
     </item>
-    <item row="3" column="5">
-     <widget class="QLabel" name="lbl_createtime">
+    <item row="1" column="1">
+     <widget class="QComboBox" name="cmb_TaskType">
+      <property name="minimumSize">
+       <size>
+        <width>175</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>175</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <item>
+       <property name="text">
+        <string>请选择任务类型</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="minimumSize">
+       <size>
+        <width>65</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>65</width>
+        <height>85</height>
+       </size>
+      </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>任务描述</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
       </property>
      </widget>
     </item>
-    <item row="7" column="1" colspan="5">
-     <widget class="QTextEdit" name="textEdit">
+    <item row="4" column="1" colspan="6">
+     <widget class="QTextEdit" name="txt_desc">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>85</height>
+        <height>90</height>
        </size>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="6">
+     <widget class="QLabel" name="lbl_createtime">
+      <property name="minimumSize">
+       <size>
+        <width>160</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>2015-01-01</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="5">
+     <widget class="QLabel" name="label_8">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>创建时间</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3">
+     <widget class="QLabel" name="lbl_exectime_title">
+      <property name="text">
+       <string>执行时间</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_12">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>结束时间</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>执行人</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="margin">
+       <number>0</number>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QDateTimeEdit" name="dt_endtime">
+      <property name="minimumSize">
+       <size>
+        <width>175</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>175</width>
+        <height>16777215</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="txt_executor">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>175</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QPushButton" name="btn_auto">
+      <property name="maximumSize">
+       <size>
+        <width>28</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="btn_requester">
+      <property name="maximumSize">
+       <size>
+        <width>28</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="6">
+     <widget class="QLineEdit" name="txt_TaskName">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>25</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="4" colspan="3">
+     <widget class="QLabel" name="lbl_exectime">
+      <property name="text">
+       <string>未执行</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <zorder>pushButton_2</zorder>
-  <zorder>pushButton</zorder>
-  <zorder>layoutWidget</zorder>
-  <zorder>label_6</zorder>
-  <zorder>label_9</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_12</zorder>
-  <zorder>label_5</zorder>
-  <zorder>label_8</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_7</zorder>
-  <zorder>label_13</zorder>
-  <zorder>label_2</zorder>
  </widget>
  <resources>
   <include location="../res.qrc"/>
  </resources>
  <connections>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>btn_cancel</sender>
    <signal>clicked()</signal>
    <receiver>Form</receiver>
    <slot>close()</slot>
