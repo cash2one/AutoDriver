@@ -3,7 +3,7 @@
 import os
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import msg_ui, autos_ui, task_ui, user_ui
+from framework.gui.ui import msg_ui, autos_ui, user_ui
 from framework.gui.models import tree_model, userlist_model
 from PyQt4.QtDeclarative import QDeclarativeView
 
@@ -64,29 +64,29 @@ class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):
         self.reject()  # 关闭窗口
 
 
-class TaskDialog(QDialog, task_ui.Ui_Form):
-    def __init__(self):
-        QDialog.__init__(self)
-
-        self.setupUi(self)
-
-        self.connect(self, SIGNAL("selectTask()"), self.select_tasks)
-        self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
-
-    def onActivated(self, txt):
-        if txt == u'自动化':
-            # self.btn_Automate.show()
-            self.widget_task.show()
-            # self.emit(SIGNAL("selectTask()"))
-        else:
-            self.widget_task.hide()
-
-            # self.label.setText(txt)
-            # self.label.adjustSize()
-
-    def confirm(self):
-        self.reject()  # 关闭窗口
-
-    def select_tasks(self):
-        t = SelectScriptsDialog()
-        t.exec_()
+# class TaskDialog(QDialog, task_ui.Ui_Form):
+#     def __init__(self):
+#         QDialog.__init__(self)
+#
+#         self.setupUi(self)
+#
+#         self.connect(self, SIGNAL("selectTask()"), self.select_tasks)
+#         self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
+#
+#     def onActivated(self, txt):
+#         if txt == u'自动化':
+#             # self.btn_Automate.show()
+#             self.widget_task.show()
+#             # self.emit(SIGNAL("selectTask()"))
+#         else:
+#             self.widget_task.hide()
+#
+#             # self.label.setText(txt)
+#             # self.label.adjustSize()
+#
+#     def confirm(self):
+#         self.reject()  # 关闭窗口
+#
+#     def select_tasks(self):
+#         t = SelectScriptsDialog()
+#         t.exec_()

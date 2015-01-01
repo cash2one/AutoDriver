@@ -5,15 +5,20 @@ import time
 import threading
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from PyQt4 import QtNetwork
 from framework.gui.ui import main_ui
 from framework.core import the
-import home, dialog, jiras,base
+import home, dialog, jiras, testcase,task
+import base
 
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
+
+        self.setFont(QFont("Microsoft YaHei", 9))
+        self.showMaximized()
 
         self.frm_home = None
         self.frm_jira = None
@@ -27,8 +32,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.connect(self.toolbar_home, SIGNAL(("triggered()")), self.load_index)
         self.connect(self.toolbar_jira, SIGNAL("triggered()"), self.load_jira_main)
         self.connect(self, SIGNAL("startLogin()"), self.login_dialog)
-
-
+        self.toolbar_case.triggered.connect(self.load_testcase)
+        self.toolbar_task.triggered.connect(self.load_task)
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
@@ -38,21 +43,20 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         # self.trayIcon.activated.connect(self.trayClick) #点击托盘
         self.trayMenu()  # 右键菜单
 
-        self.setFont(QFont("Microsoft YaHei", 9))
-        self.showMaximized()
-
+        self.msg_btn_ok = QPushButton("OK")
+        self.msg_btn_cancel = QPushButton("Cancel")
 
         self.load_index()
 
     def not_login(self):
         print 'not loginsssss'
 
-    def save_task(self,arg):
-        self.task_data+=arg
+    def save_task(self, arg):
+        self.task_data += arg
         print self.task_data
 
     def update_user(self):
-        usrname = the.JIRA.userName.capitalize()
+        usrname = base.third.userName.capitalize()
         self.toolbar_jira.setText(usrname)
 
     def test(self):
@@ -77,6 +81,17 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.frm_home = home.HomeForm()
         self.frm_home.connect(self.frm_home, SIGNAL("notLogin"), self.login_dialog)
         self.setCentralWidget(self.frm_home)
+
+    def load_testcase(self):
+        self.frm_testcase = testcase.TestCaseForm()
+        # self.frm_testcase.connect(self.frm_testcase, SIGNAL("notLogin"), self.login_dialog)
+        self.setCentralWidget(self.frm_testcase)
+
+
+    def load_task(self):
+        self.frm_task = task.TaskForm()
+        self.frm_task.connect(self.frm_task, SIGNAL("notLogin"), self.login_dialog)
+        self.setCentralWidget(self.frm_task)
 
     def outSelect(self, Item=None):
         if Item == None:
@@ -104,8 +119,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def msgHandler(self):
         ret = QMessageBox.warning(self, u'未登录',
                                   u"\n你还没有登录JIRA，点击确定登录  \n",
-                                  QMessageBox.Save | QMessageBox.Cancel)
-        if ret == QMessageBox.Save:
+                                  QMessageBox.Yes | QMessageBox.Cancel)
+        if ret == QMessageBox.Yes:
             self.emit(SIGNAL("startLogin()"))
         elif ret == QMessageBox.Cancel:
             pass

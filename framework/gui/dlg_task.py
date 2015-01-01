@@ -2,12 +2,12 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import task_ui, autos_ui, user_ui
+from framework.gui.ui import dlg_task_ui, autos_ui, user_ui
 from framework.gui.models import tree_model
 import base, dialog
 
 
-class TaskDialog(QDialog, task_ui.Ui_Form):
+class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
     def __init__(self, data=None):
         QDialog.__init__(self)
 
