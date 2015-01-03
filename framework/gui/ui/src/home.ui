@@ -22,7 +22,7 @@
      <x>10</x>
      <y>80</y>
      <width>511</width>
-     <height>192</height>
+     <height>91</height>
     </rect>
    </property>
    <attribute name="horizontalHeaderCascadingSectionResizes">
@@ -40,6 +40,16 @@
    </property>
    <property name="text">
     <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="txt_a">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>681</width>
+     <height>221</height>
+    </rect>
    </property>
   </widget>
  </widget>

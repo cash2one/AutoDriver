@@ -110,6 +110,9 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 10))
         self.setWindowFlags(Qt.FramelessWindowHint)  # 无边框
+
+        self.txt_pwd.setEchoMode(QLineEdit.Password) # 将其设置为密码框
+
         self.connect(self.btn_login, SIGNAL("clicked()"), self.login_action)
         self.connect(self.btn_cancel, SIGNAL("clicked()"), self.confirm)
         self.connect(self, SIGNAL("loginFinish"), self.confirm)

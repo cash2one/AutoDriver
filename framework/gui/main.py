@@ -17,6 +17,12 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
 
+        #创建网络访问cookie
+        self._cookiejar = QtNetwork.QNetworkCookieJar(parent=self)
+        self.manager = QtNetwork.QNetworkAccessManager(parent=self)
+        self.manager.setCookieJar(self._cookiejar)
+        base.net = self.manager
+
         self.setFont(QFont("Microsoft YaHei", 9))
         self.showMaximized()
 
@@ -47,6 +53,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.msg_btn_cancel = QPushButton("Cancel")
 
         self.load_index()
+
 
     def not_login(self):
         print 'not loginsssss'
@@ -81,6 +88,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.frm_home = home.HomeForm()
         self.frm_home.connect(self.frm_home, SIGNAL("notLogin"), self.login_dialog)
         self.setCentralWidget(self.frm_home)
+
 
     def load_testcase(self):
         self.frm_testcase = testcase.TestCaseForm()

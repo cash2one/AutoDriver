@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/home.ui'
 #
-# Created: Fri Jan 02 00:30:48 2015
+# Created: Sun Jan 04 00:02:32 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -27,15 +27,17 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
         Form.resize(878, 573)
-        Form.setAutoFillBackground(True)
-        Form.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);"))
+        Form.setAutoFillBackground(False)
         self.tv_task = QtGui.QTableView(Form)
-        self.tv_task.setGeometry(QtCore.QRect(10, 80, 256, 192))
+        self.tv_task.setGeometry(QtCore.QRect(10, 80, 511, 91))
         self.tv_task.setObjectName(_fromUtf8("tv_task"))
         self.tv_task.horizontalHeader().setCascadingSectionResizes(True)
         self.lbl_weather = QtGui.QLabel(Form)
         self.lbl_weather.setGeometry(QtCore.QRect(20, 10, 681, 31))
         self.lbl_weather.setObjectName(_fromUtf8("lbl_weather"))
+        self.txt_a = QtGui.QTextEdit(Form)
+        self.txt_a.setGeometry(QtCore.QRect(10, 200, 681, 221))
+        self.txt_a.setObjectName(_fromUtf8("txt_a"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
