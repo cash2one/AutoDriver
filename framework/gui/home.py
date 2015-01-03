@@ -54,7 +54,9 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # print reply, self._cookiejar.allCookies()
         # print reply.rawHeaderList()
         #print reply.readAll()
-        self.txt_a.setPlainText(QString(reply.readAll()))
+        con = QString(reply.readAll())
+        self.txt_a.setPlainText(con)
+        reply.deleteLater() #待处理
 
 
     def on_req_done(self, error):
