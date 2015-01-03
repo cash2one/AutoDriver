@@ -35,28 +35,36 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # self.http.setHost(self.url.host(), self.url.port(80))
         # self.getId = self.http.get(self.url.path())
 
-        # self._cookiejar = QtNetwork.QNetworkCookieJar(parent=self)
-        # self.manager = QtNetwork.QNetworkAccessManager(parent=self)
-        # self.manager.setCookieJar(self._cookiejar)
-        # self.manager.finished.connect(self.on_reply)
-        #
-        # self.req = QtNetwork.QNetworkRequest(
-        #     QUrl("http://www.weather.com.cn/data/sk/101190101.html"))
-        #
-        # self.manager.get(self.req)
+
         if base.net!=None:
             base.net.finished.connect(self.on_reply)
             self.req = QtNetwork.QNetworkRequest(
                 QUrl("http://www.weather.com.cn/data/sk/101190101.html"))
             base.net.get(self.req)
+            # postData = None
+            # base.net.head('application/x-www-form-urlencoded')
+            # base.net.post(self.req, postData)
+
+            # QUrl postData;
+            # postData.addQueryItem("param1", "string");
+            # postData.addQueryItem("param2", "string");
+            # ...
+            # QNetworkRequest request(serviceUrl);
+            # request.setHeader(QNetworkRequest::ContentTypeHeader,
+            #     "application/x-www-form-urlencoded");
+            # networkManager->post(request, postData.encodedQuery());
 
     def on_reply(self, reply):
-        # print reply, self._cookiejar.allCookies()
-        # print reply.rawHeaderList()
-        #print reply.readAll()
-        con = QString(reply.readAll())
-        self.txt_a.setPlainText(con)
-        reply.deleteLater() #待处理
+        if reply.error() == reply.NoError:
+            # request probably failed
+            #print reply.error()
+            #print reply.errorString()
+            # print reply, self._cookiejar.allCookies()
+            # print reply.rawHeaderList()
+            #print reply.readAll()
+            con = QString(reply.readAll())
+            self.txt_a.setPlainText(con)
+            #reply.deleteLater() #网络通信 延时关闭
 
 
     def on_req_done(self, error):
