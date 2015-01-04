@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'Administrator'
+__author__ = 'guguohai@outlook.com'
 
 import os
 import re
@@ -164,7 +164,7 @@ class Firefox(WebDriver):
 
             # 等待输入验证码
             while True:
-                print temp_url,self.current_url
+                #print temp_url,self.current_url
                 if cmp(temp_url, self.current_url) == -1:
                     break
                 time.sleep(0.5)
