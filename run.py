@@ -99,19 +99,14 @@ def main():
     else:
         print u'查看帮助 -h'
 
+def abc(a):
+    return a+10
 
+def ddd(f,abc):
+    print abc(f)
 
 if __name__ == "__main__":
-    for i in range(1, 10):
-        s = ''
-        for j in range(1, i + 1):
-            k = i * j
-            if k % 2 == 0:
-                s += str(k) + '.'
-            else:
-                s += str(k) + ','
-
-        print s
+    ddd(3,abc)
     # import time
     # from framework.core import device
     #
