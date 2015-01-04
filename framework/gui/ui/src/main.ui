@@ -33,7 +33,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>19</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -88,7 +88,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionUser"/>
    <addaction name="toolbar_home"/>
    <addaction name="separator"/>
    <addaction name="toolbar_task"/>
@@ -144,7 +143,7 @@
     <string>设置</string>
    </property>
   </action>
-  <action name="actionUser">
+  <action name="toolbar_user">
    <property name="icon">
     <iconset resource="../res.qrc">
      <normaloff>:/toolbars/res/user1s.png</normaloff>:/toolbars/res/user1s.png</iconset>

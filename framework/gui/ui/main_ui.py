@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/main.ui'
 #
-# Created: Sun Dec 28 20:10:43 2014
+# Created: Tue Dec 30 17:11:49 2014
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 19))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 26))
         self.menubar.setStyleSheet(_fromUtf8(""))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menu_file = QtGui.QMenu(self.menubar)
@@ -77,11 +77,11 @@ class Ui_MainWindow(object):
         self.menu_inf.setObjectName(_fromUtf8("menu_inf"))
         self.menu_settings = QtGui.QAction(MainWindow)
         self.menu_settings.setObjectName(_fromUtf8("menu_settings"))
-        self.actionUser = QtGui.QAction(MainWindow)
+        self.toolbar_user = QtGui.QAction(MainWindow)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/user1s.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionUser.setIcon(icon3)
-        self.actionUser.setObjectName(_fromUtf8("actionUser"))
+        self.toolbar_user.setIcon(icon3)
+        self.toolbar_user.setObjectName(_fromUtf8("toolbar_user"))
         self.toolbar_jira = QtGui.QAction(MainWindow)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/jira.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -111,7 +111,6 @@ class Ui_MainWindow(object):
         self.menu_tools.addAction(self.menu_settings)
         self.menubar.addAction(self.menu_file.menuAction())
         self.menubar.addAction(self.menu_tools.menuAction())
-        self.toolBar.addAction(self.actionUser)
         self.toolBar.addAction(self.toolbar_home)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolbar_task)
@@ -136,7 +135,7 @@ class Ui_MainWindow(object):
         self.toolbar_case.setText(_translate("MainWindow", "TestCase", None))
         self.menu_inf.setText(_translate("MainWindow", "接口测试", None))
         self.menu_settings.setText(_translate("MainWindow", "设置", None))
-        self.actionUser.setText(_translate("MainWindow", "Guest", None))
+        self.toolbar_user.setText(_translate("MainWindow", "Guest", None))
         self.toolbar_jira.setText(_translate("MainWindow", "JIRA", None))
         self.toolbar_task.setText(_translate("MainWindow", "Task", None))
         self.toolbar_knowledge.setText(_translate("MainWindow", "Knowledge", None))
