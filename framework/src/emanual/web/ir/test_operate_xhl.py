@@ -1,5 +1,6 @@
-__author__ = 'xhl'
 # coding=utf-8
+__author__ = 'xhl'
+
 #hr_循环添加司机多选框测试lll
 import unittest
 from selenium import webdriver

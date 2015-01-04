@@ -1,5 +1,6 @@
-__author__ = 'xhl'
 # coding=utf-8
+__author__ = 'xhl'
+
 #hr_循环添加司机多选框测试lll
 import unittest
 from selenium import webdriver
@@ -56,10 +57,11 @@ class TestCase(unittest.TestCase):
                 text=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[i].find_elements_by_tag_name('td')[6].text
                 #判断是不是td里面的状态是不是已禁用
                 self.assertEqual(text,u"已禁用")
+                print text
          else:
             pass
 
-    #查询客服专员和禁用
+
     def test_my_sele(self):
         opts=self.driver.find_element_by_id('role').find_elements_by_tag_name('option')
         for opt in opts:
@@ -90,6 +92,7 @@ class TestCase(unittest.TestCase):
                 text=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[i].find_elements_by_tag_name('td')[6].text
                 #判断是不是td里面的状态是不是已禁用
                 self.assertEqual(text,u"已禁用")
+                print text
         else:
             pass
 
@@ -101,19 +104,27 @@ class TestCase(unittest.TestCase):
             if opt.get_attribute('text')==u'客服专员':  #获取对象属性
                 opt.click()
 
-        time.sleep(4)
+
         #点击重置
+        op=self.driver.find_element_by_id('status').find_elements_by_tag_name('option')
+
+        tes=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[5].text
+        #判断名字是不是客服专员
+        self.assertEqual(tes,u'客服专员')
+        for ops in op:
+         #判断下拉列表里面的是不是禁用
+            if ops.get_attribute('text')==u'禁用':  #获取对象属性
+                ops.click()
+        time.sleep(3)
         self.driver.find_element_by_id('resetValue').click()
 
-
-        #点击启用（编辑）
     def test_my_reset(self):
         #找到td里面的状态
         text=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[6].text
         #找到对应的td
         td=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[7]
         if text==u'正常':
-            #找到td下面的a标签
+            #找到td下面的a标签cc
             td.find_elements_by_link_text(u'禁用')[0].click()
         else:
             #找到td下面的a标签

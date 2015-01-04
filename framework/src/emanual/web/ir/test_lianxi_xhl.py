@@ -56,6 +56,7 @@ class TestCase(unittest.TestCase):
                 text=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[i].find_elements_by_tag_name('td')[6].text
                 #判断是不是td里面的状态是不是已禁用
                 self.assertEqual(text,u"已禁用")
+                print text
          else:
             pass
 
@@ -90,6 +91,7 @@ class TestCase(unittest.TestCase):
                 text=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[i].find_elements_by_tag_name('td')[6].text
                 #判断是不是td里面的状态是不是已禁用
                 self.assertEqual(text,u"已禁用")
+                print text
         else:
             pass
 
@@ -151,6 +153,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_ajax_id("operatorInfo")
         self.driver.find_element_by_id('operatorInfo').send_keys(u'你好啊')
         self.driver.find_element_by_id('resetValues').click()
+        self.driver.switch_to_alert().accept()
         time.sleep(10)
 
 
