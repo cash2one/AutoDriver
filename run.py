@@ -4,21 +4,23 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
-import subprocess
-from framework.core import task
+
+from framework.core import task,the,data
 from framework.util import mail
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+root_dir = os.path.dirname(__file__)
 
 def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    # the.db_path = 'report'+time_str + '.db'
-    #
-    # gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir,the.db_path))
-    # gdata.close()
+    the.db_path = 'report'+time_str + '.db'
+
+    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir,the.db_path))
+    gdata.close()
 
 
 def start():
@@ -100,10 +102,16 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
-    print os.path.join(os.path.dirname(__file__))
+    for i in range(1, 10):
+        s = ''
+        for j in range(1, i + 1):
+            k = i * j
+            if k % 2 == 0:
+                s += str(k) + '.'
+            else:
+                s += str(k) + ','
 
-
+        print s
     # import time
     # from framework.core import device
     #

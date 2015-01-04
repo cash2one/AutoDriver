@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'Administrator'
+__author__ = 'guguohai@outlook.com'
 
 import os
 import re
@@ -16,17 +16,28 @@ PATH = lambda p: os.path.abspath(
 )
 
 
-def firefox(file_):
+def firefox(current_file):
     # 获取项目路径，转换成app.init 的sections
-    init_size = len(os.path.dirname(__file__))
-    tar_path = os.path.dirname(file_)
-    sections = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
+    # init_size = len(os.path.dirname(__file__))
+    # tar_path = os.path.dirname(file_)
+    # sections = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
+    #
+    # st = sections#.replace('autobook', 'idriver')
+    # cfg = the.taskConfig[st]
+    # if cfg[constant.PRODUCT] == None:
+    #     #the.products[st][constant.PRODUCT] = Firefox(info)
+    #     the.taskConfig[st][constant.PRODUCT] = Firefox(cfg[constant.TASK_CONFIG])
+    # #return the.taskConfig[st][constant.PRODUCT]
 
-    st = sections.replace('autobook', 'idriver')
+    init_size = len(PATH('../../testcase'))+1
+    tar_path = os.path.dirname(current_file)
+    sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
+
+    st = sections.lower()#.replace('autobook','idriver')
     cfg = the.taskConfig[st]
     if cfg[constant.PRODUCT] == None:
-        #the.products[st][constant.PRODUCT] = Firefox(info)
         the.taskConfig[st][constant.PRODUCT] = Firefox(cfg[constant.TASK_CONFIG])
+        #the.taskConfig[st][constant.PRODUCT].splash()
     return the.taskConfig[st][constant.PRODUCT]
 
 
@@ -164,7 +175,7 @@ class Firefox(WebDriver):
 
             # 等待输入验证码
             while True:
-                print temp_url,self.current_url
+                #print temp_url,self.current_url
                 if cmp(temp_url, self.current_url) == -1:
                     break
                 time.sleep(0.5)
