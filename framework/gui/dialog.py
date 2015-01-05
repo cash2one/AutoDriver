@@ -13,8 +13,8 @@ class UserDialog(QDialog, user_ui.Ui_Dialog):
 
         self.setupUi(self)
 
-        model = QStandardItemModel()
-
+        self.model = QStandardItemModel()
+        self.model.itemChanged.connect(self.on_item_changed)
         # view = QDeclarativeView()
         # view.setSource(QUrl("./ui/user.qml"))
         # view.show()
@@ -22,8 +22,18 @@ class UserDialog(QDialog, user_ui.Ui_Dialog):
             item = QStandardItem("Item-" + str(a))
             item.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
             item.setData(QVariant(Qt.Checked), Qt.CheckStateRole)
-            model.appendRow(item)
-        self.lv_user.setModel(model)
+            self.model.appendRow(self.item)
+        self.lv_user.setModel(self.model)
+
+        # 连接信号和槽
+        self.buttonBox.accepted.connect(self.accept) # 确定
+        self.buttonBox.rejected.connect(self.reject) # 取消
+
+    def getUser(self):
+        print self.lv_user.item
+        aa=[]
+        for a in self.lv_user.selectedIndexes():
+            aa.append(a)
 
         # self.lv_user.setViewMode(QListView.IconMode)
         # crntDir = "./ui/res"

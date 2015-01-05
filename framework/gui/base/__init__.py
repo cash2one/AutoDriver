@@ -12,7 +12,7 @@ class JIRA():
         self.isActive = False
         self.userName = ''
         self.pagesize = 30
-
+        self.follow = []
 
 jira = JIRA()
 
