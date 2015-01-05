@@ -73,13 +73,14 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 
         self.btn_login.setText(u'登录中..')
         self.btn_login.setEnabled(False)
-        self.replay = None
 
         # login = LoginFor405(self, user_name, pwd)
         # login.start()
 
     def confirm(self):
         # self.ui.lineEditValidateNum.setText("XXXXXX")   #测试给弹出的对话框里的元素赋值
+        self.btn_login.setText(u'登录')
+        self.btn_login.setEnabled(True)
         self.reject()  # 关闭窗口
 
 

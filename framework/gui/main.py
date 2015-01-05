@@ -114,6 +114,13 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         else:
             pass
 
+    def netAccess(self,api,reply_func):
+        m1 = QtNetwork.QNetworkAccessManager(self)
+        m1.setCookieJar(jira.cookie)
+        m1.finished.connect(reply_func)
+        req1 = QtNetwork.QNetworkRequest(QUrl(jira.host + api))
+        m1.get(req1)
+
     def load_jira_main(self):
         # if the.JIRA == None:
         # self.msgHandler()
@@ -121,10 +128,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         #if the.JIRA.isActive:
         if jira.isActive:
-            m1 = QtNetwork.QNetworkAccessManager(self)
-            m2 = QtNetwork.QNetworkAccessManager(self)
-
-            net_list=[m1,m2]
+            net_list=[self.netAccess,self.netAccess]
 
             self.frm_jira = jiras.JIRAForm(net_list)
             self.setCentralWidget(self.frm_jira)
