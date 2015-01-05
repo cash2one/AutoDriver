@@ -3,13 +3,16 @@ __author__ = 'guguohai@pathbook.com.cn23'
 
 import os
 import time
-import the
-import socket,subprocess
+import socket
+import subprocess
+
+from appium.webdriver.webdriver import WebDriver
+from selenium.common.exceptions import NoSuchElementException
+
+from framework.data import the
 from framework.util import idriver_const,constant
 from framework.util import mysql,fs
-from appium.webdriver.webdriver import WebDriver
-import xmlrpclib
-from selenium.common.exceptions import NoSuchElementException
+
 
 TIME_OUT = 100
 DRIVER = 'idriver.android.driver'

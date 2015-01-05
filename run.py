@@ -5,7 +5,8 @@ import sys
 import os
 import time
 
-from framework.core import task,the,data
+from framework.core import task, data
+from framework.data import the
 from framework.util import mail
 
 
@@ -19,7 +20,7 @@ def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
     the.db_path = 'report'+time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir,the.db_path))
+    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, the.db_path))
     gdata.close()
 
 
@@ -99,19 +100,14 @@ def main():
     else:
         print u'查看帮助 -h'
 
+def abc(a):
+    return a+10
 
+def ddd(f,abc):
+    print abc(f)
 
 if __name__ == "__main__":
-    for i in range(1, 10):
-        s = ''
-        for j in range(1, i + 1):
-            k = i * j
-            if k % 2 == 0:
-                s += str(k) + '.'
-            else:
-                s += str(k) + ','
-
-        print s
+    ddd(3,abc)
     # import time
     # from framework.core import device
     #

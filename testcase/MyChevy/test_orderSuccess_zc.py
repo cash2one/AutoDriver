@@ -1,8 +1,11 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device_bak
 from time import sleep
+
+from framework.core import device_bak
+from framework.data import the
+
 #点击详情中的预约保养，选择指定时间，点击确定，预约成功
 class TestCase(unittest.TestCase):
     def setUp(self):
