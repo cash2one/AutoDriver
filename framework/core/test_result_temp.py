@@ -4,10 +4,8 @@ __author__ = 'guguohai@outlook.com'
 import sys
 import unittest
 import StringIO
-import time
 import datetime
 import re
-from framework.core import the
 
 STATUS = {
 0: 'pass',

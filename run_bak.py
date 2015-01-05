@@ -1,16 +1,15 @@
 # coding=utf-8
 __author__ = 'guguohai@pathbook.com.cn'
 
-import os
 import sys
-import shutil
 import time
-import re
-import uuid
 import os
 import webbrowser
-from framework.util import sqlite, mail,fs
-from framework.core import the,data,device,task,report, routine, HTMLTestRunner
+
+from framework.util import mail,fs
+from framework.core import data,device,task,report, routine, HTMLTestRunner
+from framework.data import the
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -27,7 +26,7 @@ def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
     the.db_path = 'report'+time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir,the.db_path))
+    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, the.db_path))
     gdata.close()
 
 

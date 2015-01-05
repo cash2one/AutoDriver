@@ -5,7 +5,8 @@ import sys
 import os
 import time
 
-from framework.core import task,the,data
+from framework.core import task, data
+from framework.data import the
 from framework.util import mail
 
 
@@ -19,7 +20,7 @@ def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
     the.db_path = 'report'+time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir,the.db_path))
+    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, the.db_path))
     gdata.close()
 
 
