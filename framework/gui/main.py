@@ -7,9 +7,8 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 from framework.gui.ui import main_ui
-from framework.core import the
-import home, dialog, jiras, testcase,task
-import base
+import home, dialog, jiras, testcase, task, login
+from framework.gui.base import *
 
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
@@ -17,11 +16,15 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
 
-        #创建网络访问cookie
-        self._cookiejar = QtNetwork.QNetworkCookieJar(parent=self)
-        self.manager = QtNetwork.QNetworkAccessManager(parent=self)
-        self.manager.setCookieJar(self._cookiejar)
-        base.net = self.manager
+        # 创建网络访问cookie
+        # self._cookiejar = QtNetwork.QNetworkCookieJar(parent=self)
+        # self.manager = QtNetwork.QNetworkAccessManager(parent=self)
+        # self.manager.setCookieJar(self._cookiejar)
+        # base.nett = self.manager
+
+        jira.cookie = QtNetwork.QNetworkCookieJar(self)
+
+        print 'main:',jira.cookie
 
         self.setFont(QFont("Microsoft YaHei", 9))
         self.showMaximized()
@@ -54,7 +57,6 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         self.load_index()
 
-
     def not_login(self):
         print 'not loginsssss'
 
@@ -63,8 +65,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         print self.task_data
 
     def update_user(self):
-        usrname = base.third.userName.capitalize()
-        self.toolbar_jira.setText(usrname)
+        #usrname = base.third.userName.capitalize()
+        self.toolbar_jira.setText('guguohai')
 
     def test(self):
         print 'gwegwe'
@@ -112,13 +114,23 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         else:
             pass
 
-    def load_jira_main(self):
-        if the.JIRA == None:
-            self.msgHandler()
-            return
+    def netAccess(self,api,reply_func):
+        m1 = QtNetwork.QNetworkAccessManager(self)
+        m1.setCookieJar(jira.cookie)
+        m1.finished.connect(reply_func)
+        req1 = QtNetwork.QNetworkRequest(QUrl(jira.host + api))
+        m1.get(req1)
 
-        if the.JIRA.isActive:
-            self.frm_jira = jiras.JIRAForm()
+    def load_jira_main(self):
+        # if the.JIRA == None:
+        # self.msgHandler()
+        # return
+
+        #if the.JIRA.isActive:
+        if jira.isActive:
+            net_list=[self.netAccess,self.netAccess]
+
+            self.frm_jira = jiras.JIRAForm(net_list)
             self.setCentralWidget(self.frm_jira)
         else:
             self.msgHandler()
@@ -134,12 +146,14 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             pass
 
     def login_dialog(self):
-        if the.JIRA != None:
-            if the.JIRA.isActive:
-                return
+        # if the.JIRA != None:
+        # if the.JIRA.isActive:
+        # return
+        if jira.isActive:
+            return
 
         if self.dlg_login == None:
-            self.dlg_login = jiras.LoginDialog()
+            self.dlg_login = login.LoginDialog()
             self.connect(self.dlg_login, SIGNAL("loginFinish"), self.update_user)
         self.dlg_login.exec_()
 

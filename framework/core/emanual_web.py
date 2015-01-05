@@ -2,13 +2,15 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-import re
 import time
-import the
-from framework.util import constant, fs
+
 from selenium import webdriver as selen
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.common import exceptions
+
+from framework.data import the
+from framework.util import constant, fs
+
 
 TIME_OUT = 100
 PATH = lambda p: os.path.abspath(

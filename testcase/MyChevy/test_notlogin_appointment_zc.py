@@ -2,7 +2,9 @@ __author__ = 'zhangchun'
 # coding=utf-8
 import unittest
 from time import sleep
-from framework.core import the,device_bak
+
+from framework.core import device_bak
+from framework.data import the
 
 
 class TestCase(unittest.TestCase):
