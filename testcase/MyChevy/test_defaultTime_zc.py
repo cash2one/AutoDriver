@@ -1,9 +1,12 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device_bak
 from time import sleep
-import datetime,time
+import datetime
+
+from framework.core import device_bak
+from framework.data import the
+
 #查看时间控件
 class TestCase(unittest.TestCase):
     def setUp(self):

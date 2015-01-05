@@ -2,11 +2,11 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
-import time
 import subprocess
-
-import the
 import threading
+
+from framework.data import the
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

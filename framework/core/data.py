@@ -5,8 +5,11 @@ import os
 import re
 import json
 import datetime
-from framework.core import the,models
+
+from framework.core import models
+from framework.data import the
 from framework.util import xls,constant,sqlite
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -214,7 +217,7 @@ def getDatabasePath(db_dir):
         else:
             db_path = ''
     else:
-        db_path = os.path.join(db_dir,the.db_path)
+        db_path = os.path.join(db_dir, the.db_path)
     return db_path
 
 
