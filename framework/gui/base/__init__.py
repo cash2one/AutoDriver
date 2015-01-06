@@ -10,8 +10,9 @@ class JIRA():
         self.host = 'http://192.168.3.11:8080'
         self.cookie = None
         self.isActive = False
+        self.displayName=''
         self.userName = ''
-        self.pagesize = 30
+        self.pageSize = 30
         self.follow = []
 
 jira = JIRA()

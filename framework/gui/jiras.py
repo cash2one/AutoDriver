@@ -4,9 +4,10 @@ __author__ = 'guguohai@outlook.com'
 import json
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from framework.gui.ui import jira_main_ui
+from framework.gui.ui import jira_main_ui, issue_detail_ui
 from framework.gui.models import jira_model
 from framework.gui.base import *
+import issue_detail
 
 
 class JIRAForm(QWidget, jira_main_ui.Ui_Form):
@@ -15,37 +16,75 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
 
         self.setupUi(self)
         self.nam = netAccess_method
-        self.table = None
+        self.table_model = None
+
         self.project = None
         self.tv_bugs.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tv_bugs.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tv_bugs.setAlternatingRowColors(True)
-        self.tv_bugs.horizontalHeader().setStretchLastSection(True)
+
+        self.currentRow = None
 
         self.connect(self.btn_find, SIGNAL("clicked()"), self.find_JIRA_Data)
-
-        p_name = 'IDRIVERC'
-
-        self.iss_url = r'/rest/api/2/search?jql=project=' + p_name + '&startAt=1&maxResults=' + str(jira.pagesize)
-        self.project_url = '/rest/api/2/project'
-        self.host = 'http://192.168.3.11:8080'
+        self.connect(self.tv_bugs, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_issue)
+        self.connect(self.cmb_pages, SIGNAL("activated(QString)"), self.onActivated)
+        # AND status=resolved
+        # self.iss_url = r'/rest/api/2/search?jql=project=' + p_name + '&startAt=0&maxResults=' + str(jira.pageSize)
+        # self.project_url = '/rest/api/2/project'
 
         self.btn_find.setText(u'查询中...')
         self.btn_find.setEnabled(False)
         self.lbl_results.setText('')
+        self.cmb_project_current_txt = 'IDRIVER'
+        self.cmb_project_index = ''
+        # self.nam[0](self.iss_url, self.issues_reply)
+        self.get_issues(self.cmb_project_current_txt)
+        self.nam[1](jira.host + '/rest/api/2/project', self.project_reply)
 
-        self.nam[0](self.iss_url, self.issues_reply)
-        self.nam[1](self.project_url, self.project_reply)
 
+    def get_issues(self, project_name, pages=0):
+        self.iss_url = r'/rest/api/2/search?jql=project=' + project_name + '&startAt=' + str(
+            pages) + '&maxResults=' + str(jira.pageSize)
+        self.nam[0](jira.host + self.iss_url, self.issues_reply)
+
+    def show_issue(self):
+        idx = self.tv_bugs.currentIndex()
+        if idx.isValid():
+            self.currentRow = self.table_model.rowContent(idx.row())
+            self.nam[0](self.currentRow['self'], self.load_issue_reply)
+
+    def load_issue_reply(self, reply):
+        if reply.error() == reply.NoError:
+            con = str(QString(reply.readAll()).toLatin1())
+            try:
+                dicts = json.loads(con)
+                self.issueDialog = issue_detail.IssueDialog(dicts)
+                self.issueDialog.exec_()
+            except ValueError:
+                pass
+        else:
+            # self.emit(SIGNAL("loginError"))
+            print 'load error'
+            print reply.error()
+            print reply.errorString()
+            # self.dlgTask.btn_ok.clicked.connect(self.save_current_task)
+
+    def onActivated(self, txt):
+        self.cmb_project_index = txt
+        # type_idx = self.cmb_TaskType.findText(self.data[2])
+        # self.cmb_TaskType.setCurrentIndex(type_idx)
+
+        self.get_issues(self.cmb_project_current_txt, int(txt) * jira.pageSize)
+        # self.label.setText(txt)
+        # self.label.adjustSize()
 
     def find_JIRA_Data(self):
+        self.cmb_project_index = ''
         self.lbl_results.setText('')
         self.btn_find.setText(u'查询中...')
         self.btn_find.setEnabled(False)
-
-        pj = self.cmb_project.currentText()
-        iss_url = r'/rest/api/2/search?jql=project=' + pj + '&startAt=1&maxResults=' + str(jira.pagesize)
-        self.nam[0](iss_url, self.issues_reply)
+        self.cmb_project_current_txt = self.cmb_project.currentText()
+        self.get_issues(self.cmb_project.currentText())
 
     def project_reply(self, reply):
         if reply.error() == reply.NoError:
@@ -66,11 +105,13 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
                 dicts = json.loads(con)
                 issues = dicts['issues']
 
-                p = int(dicts['total'] / jira.pagesize)
+                p = int(dicts['total'] / jira.pageSize)
 
-                self.cmb_pages.clear()
-                for i in range(1, p):
-                    self.cmb_pages.addItem(str(i))
+                # 如果是点击查询或首次加载，则重新载入页数
+                if len(str(self.cmb_project_index).strip()) == 0:
+                    self.cmb_pages.clear()
+                    for i in range(1, p):
+                        self.cmb_pages.addItem(str(i))
 
                 self.btn_find.setText(u'查询')
                 self.btn_find.setEnabled(True)
@@ -88,30 +129,16 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
 
 
     def setJIRAModels(self, issues):
-        issues_data = []
-        for issue in issues:  # dicts['issues']:
-            key = issue['key']
-            summary = issue['fields']['summary']
-            assignee = issue['fields']['assignee']['displayName']
-            reporter = issue['fields']['reporter']['displayName']
-            priority = issue['fields']['priority']['name']
-            status = issue['fields']['status']['name']
-            # iss_dict['resolution'] = issue['fields']['resolution']['name']
-            created = issue['fields']['created']
-            updated = issue['fields']['updated']
-            iss_tup = (key, summary, assignee, reporter, priority, status, created, updated)
-            issues_data.append(iss_tup)
-
-        if len(issues_data) > 0:
+        if len(issues) > 0:
             self.lbl_results.setText('')
-            table_model = jira_model.MyTableModel(meta.task_header, issues_data, self)
-            self.tv_bugs.setModel(table_model)
-            # self.tv_bugs.setColumnWidth(0, 150)
-            self.tv_bugs.setColumnWidth(1, 400)
-            self.tv_bugs.setColumnWidth(2, 85)
-            self.tv_bugs.setColumnWidth(3, 85)
-            self.tv_bugs.setColumnWidth(4, 85)
-            self.tv_bugs.setColumnWidth(5, 85)
+            self.table_model = jira_model.MyTableModel(issues, self)
+            self.tv_bugs.setModel(self.table_model)
+            self.tv_bugs.setColumnWidth(0, 120)
+            self.tv_bugs.horizontalHeader().setResizeMode(1, QHeaderView.Stretch)
+            self.tv_bugs.setColumnWidth(7, 140)
+            self.tv_bugs.setColumnWidth(8, 140)
+            # self.tv_bugs.resizeColumnToContents(7)#自适应内容宽度
+
         else:
             self.lbl_results.setText(u'没有任何数据！')
             self.tv_bugs.setModel(None)
