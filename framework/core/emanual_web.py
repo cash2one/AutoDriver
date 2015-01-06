@@ -1,14 +1,16 @@
 # coding=utf-8
-__author__ = 'Administrator'
+__author__ = 'guguohai@outlook.com'
 
 import os
-import re
 import time
-import the
-from framework.util import constant, fs
+
 from selenium import webdriver as selen
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.common import exceptions
+
+from framework.data import the
+from framework.util import constant, fs
+
 
 TIME_OUT = 100
 PATH = lambda p: os.path.abspath(
@@ -164,7 +166,7 @@ class Firefox(WebDriver):
 
             # 等待输入验证码
             while True:
-                print temp_url,self.current_url
+                #print temp_url,self.current_url
                 if cmp(temp_url, self.current_url) == -1:
                     break
                 time.sleep(0.5)

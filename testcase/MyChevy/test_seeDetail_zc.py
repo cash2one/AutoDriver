@@ -1,12 +1,15 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device_bak
 from time import sleep
+
+from framework.core import device_bak
+from framework.data import the
+
 #点击查看详情，进入对应页面
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver =the.android
+        self.driver = the.android
 
     def tearDown(self):
         #返回首页

@@ -1,4 +1,4 @@
-__author__ = 'Administrator'
+__author__ = 'guguohai@outlook.com'
 
 import os
 import ConfigParser

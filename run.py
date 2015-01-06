@@ -4,10 +4,11 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
-import subprocess
-from framework.core import task,the,data
+
+from framework.core import task, data
+from framework.data import the
 from framework.util import mail
-import Tkinter
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -19,7 +20,7 @@ def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
     the.db_path = 'report'+time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir,the.db_path))
+    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, the.db_path))
     gdata.close()
 
 
@@ -99,10 +100,14 @@ def main():
     else:
         print u'查看帮助 -h'
 
+def abc(a):
+    return a+10
 
+def ddd(f,abc):
+    print abc(f)
 
 if __name__ == "__main__":
-    createDatabase()
+    ddd(3,abc)
     # import time
     # from framework.core import device
     #
