@@ -4,7 +4,8 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.ui import dlg_task_ui, autos_ui, user_ui
 from framework.gui.models import tree_model
-import base, dialog
+from framework.gui.base import *
+import dialog
 
 
 class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
@@ -30,13 +31,13 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         self.btn_requester.clicked.connect(self.select_user)
 
         # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
-        for t in base.meta.task_type:
+        for t in meta.task_type:
             self.cmb_TaskType.addItem(t)
 
-        for p in base.meta.priority:
+        for p in meta.priority:
             self.cmb_TaskPriority.addItem(p)
 
-        for ts in base.meta.task_state:
+        for ts in meta.task_state:
             self.cmb_TaskState.addItem(ts)
 
         if self.data != None:
@@ -106,7 +107,14 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         # self.selectUser.lbl_creator.setText(self.user)
         # self.selectUser.btn_ok.clicked.connect(self.insert_data)
 
-        self.selectUser.exec_()
+        if self.selectUser.exec_():
+            print self.selectUser.getUser()
+            # self.model.appendRow((
+            #     QStandardItem(self.selectUser.name()),
+            #     QStandardItem(str(self.selectUser.age())),
+            # ))
+
+        self.selectUser.destroy()
 
 
 class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):

@@ -10,6 +10,16 @@
     <file>res/home.png</file>
   </qresource>
   <qresource prefix="icon16">
+    <file>res/status_closed.gif</file>
+    <file>res/status_inprogress.gif</file>
+    <file>res/status_open.gif</file>
+    <file>res/status_reopened.gif</file>
+    <file>res/status_resolved.gif</file>
+    <file>res/priority_blocker.gif</file>
+    <file>res/priority_critical.gif</file>
+    <file>res/priority_major.gif</file>
+    <file>res/priority_minor.gif</file>
+    <file>res/priority_trivial.gif</file>
     <file>res/add.png</file>
     <file>res/add_table.png</file>
     <file>res/app.png</file>
