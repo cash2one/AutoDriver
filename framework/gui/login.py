@@ -2,7 +2,7 @@
 __author__ = 'guguohai@outlook.com'
 
 import time
-import threading
+import json
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
@@ -24,14 +24,16 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         self.setFont(QFont("Microsoft YaHei", 10))
         self.setWindowFlags(Qt.FramelessWindowHint)  # 无边框
 
+        self.txt_username.setFocus()
         self.txt_pwd.setEchoMode(QLineEdit.Password)  # 将其设置为密码框
 
         self.connect(self.btn_login, SIGNAL("clicked()"), self.login_action)
         self.connect(self.btn_cancel, SIGNAL("clicked()"), self.confirm)
-        self.connect(self, SIGNAL("loginFinish"), self.confirm)
-        self.connect(self, SIGNAL("loginError"), self.time_out)
+        # self.connect(self, SIGNAL("loginFinish"), self.confirm)
+        # self.connect(self, SIGNAL("loginError"), self.time_out)
         self.setBackgroundImg()
         self.user_name = ''
+        self.net_manager = net.NetManager(jira.cookie, self)
 
 
     def mousePressEvent(self, event):
@@ -63,58 +65,47 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         pwd = self.txt_pwd.text()
         api = '/rest/gadget/1.0/login?os_username=%s&os_password=%s&os_captcha=' % (self.user_name, pwd)
 
-        # manager = QtNetwork.QNetworkAccessManager(self)
-        # manager.setCookieJar(base.cookie_jar)
-        # manager.finished.connect(self.on_reply)
-        # manager.get(self.qurl(api))
-        # self.netAccess(api, self.on_reply)
-        nm = net.NetManager()
-        nm.get(self,jira.cookie, api, self.on_reply)
+        # nm = net.NetManager()
+        # nm.get(self,jira.cookie, api, self.on_reply)
+        self.net_manager.get(api, self.on_reply)
 
         self.btn_login.setText(u'登录中..')
         self.btn_login.setEnabled(False)
-        self.replay = None
-
-        # login = LoginFor405(self, user_name, pwd)
-        # login.start()
 
     def confirm(self):
         # self.ui.lineEditValidateNum.setText("XXXXXX")   #测试给弹出的对话框里的元素赋值
+        self.btn_login.setText(u'登录')
+        self.btn_login.setEnabled(True)
         self.reject()  # 关闭窗口
-
-
-    # def netAccess(self, api, reply_func):
-    # manager = QtNetwork.QNetworkAccessManager(self)
-    #     manager.setCookieJar(base.cookie_jar)
-    #     manager.finished.connect(reply_func)
-    #
-    #     req = QtNetwork.QNetworkRequest(QUrl(jira_host + api))
-    #     manager.get(req)
 
     def on_reply(self, reply):
         if reply.error() != reply.NoError:
             api = '/rest/api/2/user?username=%s' % self.user_name
 
-            # manager = QtNetwork.QNetworkAccessManager(self)
-            # manager.setCookieJar(base.cookie_jar)
-            # manager.finished.connect(self.on_user_reply)
-            # manager.get(self.qurl(api))
-            #self.netAccess(api, self.on_user_reply)
-            nm = net.NetManager()
-            nm.get(self,jira.cookie, api, self.on_user_reply)
+            # nm = net.NetManager()
+            # nm.get(self,jira.cookie, api, self.on_user_reply)
+            self.net_manager.get(api, self.on_user_reply)
 
 
     def on_user_reply(self, reply):
         if reply.error() == reply.NoError:
             # con = QString(reply.readAll())
             # print reply.rawHeaderList()
-            con = unicode(QString(reply.readAll()))
+            # con = unicode(QString(reply.readAll()))
+            con = str(QString(all).toLatin1())
             print 'login:::00000:', con
             jira.isActive = True
             self.emit(SIGNAL("loginFinish"))
+            try:
+                dicts = json.loads(con)
+                jira.userName = dicts['username']
+                self.confirm()
+            except ValueError:
+                pass
         else:
             jira.isActive = False
-            self.emit(SIGNAL("loginError"))
+            self.time_out()
+            # self.emit(SIGNAL("loginError"))
             print reply.error()
             print reply.errorString()
 
@@ -124,7 +115,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 # JIRA405错误的解决方案
 # '''
 #
-#     def __init__(self, ui, u_name, u_pwd):
+# def __init__(self, ui, u_name, u_pwd):
 #         threading.Thread.__init__(self)
 #         self.thread_stop = False
 #         self.isStartLogin = False

@@ -24,10 +24,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         jira.cookie = QtNetwork.QNetworkCookieJar(self)
 
-        print 'main:',jira.cookie
-
         self.setFont(QFont("Microsoft YaHei", 9))
         self.showMaximized()
+        self.statusBar().showMessage(self.tr("Parsing eventlog data..."))
 
         self.frm_home = None
         self.frm_jira = None
@@ -65,8 +64,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         print self.task_data
 
     def update_user(self):
-        #usrname = base.third.userName.capitalize()
-        self.toolbar_jira.setText('guguohai')
+        # usrname = base.third.userName.capitalize()
+        self.toolbar_jira.setText(jira.userName.capitalize())
 
     def test(self):
         print 'gwegwe'
@@ -114,17 +113,21 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         else:
             pass
 
+    def netAccess(self, api, reply_func):
+        m1 = QtNetwork.QNetworkAccessManager(self)
+        m1.setCookieJar(jira.cookie)
+        m1.finished.connect(reply_func)
+        req1 = QtNetwork.QNetworkRequest(QUrl(jira.host + api))
+        m1.get(req1)
+
     def load_jira_main(self):
         # if the.JIRA == None:
         # self.msgHandler()
         # return
 
-        #if the.JIRA.isActive:
+        # if the.JIRA.isActive:
         if jira.isActive:
-            m1 = QtNetwork.QNetworkAccessManager(self)
-            m2 = QtNetwork.QNetworkAccessManager(self)
-
-            net_list=[m1,m2]
+            net_list = [self.netAccess, self.netAccess]
 
             self.frm_jira = jiras.JIRAForm(net_list)
             self.setCentralWidget(self.frm_jira)
