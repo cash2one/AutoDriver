@@ -7,7 +7,8 @@ from PyQt4.QtGui import *
 from framework.gui.ui import issue_detail_ui
 from framework.util import convert
 from framework.gui.base import *
-
+import file_browser
+from PyQt4 import QtNetwork
 
 class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
     def __init__(self, data=None):
@@ -18,7 +19,9 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
         self.lbl_title.setWordWrap(True)
-        self.web_attachment.hide()
+
+        self.atts = []
+        self.atts_index = 0
 
         # self.net_manager = net.NetManager(jira.cookie, self)
         if data != None:
@@ -34,6 +37,7 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
     def load_data_to_ui(self, data):
 
         fields = data['fields']
+        print fields
 
         title = fields['summary']
         path = fields['project']['name'] + ' / ' + data['key']
@@ -43,10 +47,14 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
 
         type_str = u'类型：' + fields['issuetype']['name']
         pri_str = u'优先级：' + fields['priority']['name']
-        status_str = u'状态：' + fields['status']['name']
-        reso_str = u'解决情况：' + fields['resolution']['name']
+        status_str = u'状态：无'
+        if fields['status'] != None:
+            status_str = u'状态：' + fields['status']['name']
+        reso_str = u'解决情况：无'
+        if fields['resolution'] != None:
+            reso_str = u'解决情况：' + fields['resolution']['name']
         version_str = u'修复版本：无'
-        if fields['fixVersions'] != None:
+        if len(fields['fixVersions']) > 0:
             version_str = u'修复版本：' + fields['fixVersions'][0]['name']
 
         components = u'模块：无'
@@ -61,32 +69,75 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
         created = u'创建：' + convert.utc_to_local(fields['created'])
         updated = u'更新：' + convert.utc_to_local(fields['updated'])
 
-        self.lbl_detail1.setText(type_str + '\r\n' + pri_str + '\r\n' + status_str + '\r\n' + reso_str)
-        self.lbl_detail2.setText(components + '\r\n' + version_str + '\r\n' + assignee + '\r\n' + reporter)
-        self.lbl_detail3.setText(created + '\r\n' + updated + '\r\n' + votes + '\r\n' + watches)
-
-        self.txt_desc.setPlainText(fields['description'])
+        self.lbl_detail1.setText(
+            "<p style='line-height:20px'>" + type_str + '<br/>' + pri_str + '<br/>' + status_str + '<br/>' + reso_str + '</p>')
+        self.lbl_detail2.setText(
+            "<p style='line-height:20px'>" + components + '<br/>' + version_str + '<br/>' + assignee + '<br/>' + reporter + '</p>')
+        self.lbl_detail3.setText(
+            "<p style='line-height:20px'>" + created + '<br/>' + updated + '<br/>' + votes + '<br/>' + watches + '</p>')
+        if fields['description'] != None:
+            self.txt_desc.setPlainText(fields['description'])
 
         if len(fields['attachment']) > 0:
-            self.web_attachment.show()
-            # self.web_attachment.load(QUrl('http://192.168.3.11:8080/secure/thumbnail/11556/_thumb_11556.png'))
+            for att in fields['attachment']:
+                self.atts.append(att)
+                btn = QPushButton()
+                btn.setText(att['filename'])
+                btn.setMaximumWidth(260)
+                btn.setMinimumWidth(80)
+                self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(att))
+
+                # btn.clicked.connect(self.open_web(att['content']))
+                self.attachment_layout.addWidget(btn)
+
+            lbl = QLabel()
+            self.attachment_layout.addWidget(lbl)
+            # try:
+            # thum_file = att['thumbnail'].split('/')[-1]
+            # label = QLabel()
+            # png = QPixmap()
+            #     png.load("../../thumbnail/%s" % thum_file)
+            #     label.setPixmap(png)
+            #     self.attachment_layout.addWidget(label)
+            # except KeyError:
+            #     btn = QPushButton()
+            #     btn.setText(att['filename'])
+            #     btn.setMaximumWidth(300)
+            #     f = att['content'].split('/')[-1]
+            #     self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(f))
+            #     # btn.clicked.connect(self.open_web(att['content']))
+            #     self.attachment_layout.addWidget(btn)
 
 
+    def open_file_browser(self, con):
+        print con
+        fileBrowser = file_browser.FileDialog(con,self.net_access)
+        fileBrowser.exec_()
 
-            # self.web_attachment.load(QUrl('http://192.168.3.11:8080/secure/useravatar?avatarId=10122'))
+
+    def net_access(self, api, reply_func):
+        m1 = QtNetwork.QNetworkAccessManager(self)
+        m1.setCookieJar(jira.cookie)
+        m1.finished.connect(reply_func)
+        req1 = QtNetwork.QNetworkRequest(QUrl(api))
+        m1.get(req1)
+        # self.web_attachment.load(QUrl('http://192.168.3.11:8080/secure/thumbnail/11556/_thumb_11556.png'))
 
 
-            # def on_reply(self, reply):
-            # if reply.error() != reply.NoError:
-            # con = str(QString(reply.readAll()).toLatin1())
-            #
-            #         try:
-            #             dicts = json.loads(con)
-            #             self.load_data_to_ui(dicts)
-            #         except ValueError:
-            #             pass
-            #     else:
-            #         # self.emit(SIGNAL("loginError"))
-            #         print 'load error'
-            #         print reply.error()
-            #         print reply.errorString()
+        # self.web_attachment.load(QUrl('http://192.168.3.11:8080/secure/useravatar?avatarId=10122'))
+
+
+        # def on_reply(self, reply):
+        # if reply.error() != reply.NoError:
+        # con = str(QString(reply.readAll()).toLatin1())
+        #
+        # try:
+        # dicts = json.loads(con)
+        # self.load_data_to_ui(dicts)
+        # except ValueError:
+        # pass
+        # else:
+        # # self.emit(SIGNAL("loginError"))
+        # print 'load error'
+        # print reply.error()
+        # print reply.errorString()

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/issue_detail.ui'
 #
-# Created: Tue Jan 06 17:11:18 2015
+# Created: Wed Jan 07 18:16:42 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,8 +26,8 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(780, 580)
-        Dialog.setMaximumSize(QtCore.QSize(780, 580))
+        Dialog.resize(750, 550)
+        Dialog.setMaximumSize(QtCore.QSize(750, 550))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/mainicon/res/wp.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -35,12 +35,13 @@ class Ui_Dialog(object):
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setSpacing(10)
-        self.horizontalLayout_2.setContentsMargins(-1, -1, 10, -1)
+        self.horizontalLayout_2.setContentsMargins(-1, -1, 5, -1)
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.lbl_project_avastar = QtGui.QLabel(Dialog)
         self.lbl_project_avastar.setMinimumSize(QtCore.QSize(48, 48))
         self.lbl_project_avastar.setMaximumSize(QtCore.QSize(48, 48))
         self.lbl_project_avastar.setStyleSheet(_fromUtf8("background-image: url(:/bg/res/projectavatar.png);"))
+        self.lbl_project_avastar.setText(_fromUtf8(""))
         self.lbl_project_avastar.setObjectName(_fromUtf8("lbl_project_avastar"))
         self.horizontalLayout_2.addWidget(self.lbl_project_avastar)
         self.lbl_title = QtGui.QLabel(Dialog)
@@ -55,7 +56,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.lbl_title)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.horizontalLayout = QtGui.QHBoxLayout()
-        self.horizontalLayout.setContentsMargins(-1, 10, -1, 10)
+        self.horizontalLayout.setContentsMargins(2, 6, -1, 6)
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.lbl_detail1 = QtGui.QLabel(Dialog)
         self.lbl_detail1.setObjectName(_fromUtf8("lbl_detail1"))
@@ -70,11 +71,10 @@ class Ui_Dialog(object):
         self.txt_desc = QtGui.QTextEdit(Dialog)
         self.txt_desc.setObjectName(_fromUtf8("txt_desc"))
         self.verticalLayout.addWidget(self.txt_desc)
-        self.web_attachment = QtWebKit.QWebView(Dialog)
-        self.web_attachment.setMaximumSize(QtCore.QSize(16777215, 100))
-        self.web_attachment.setUrl(QtCore.QUrl(_fromUtf8("about:blank")))
-        self.web_attachment.setObjectName(_fromUtf8("web_attachment"))
-        self.verticalLayout.addWidget(self.web_attachment)
+        self.attachment_layout = QtGui.QHBoxLayout()
+        self.attachment_layout.setSizeConstraint(QtGui.QLayout.SetFixedSize)
+        self.attachment_layout.setObjectName(_fromUtf8("attachment_layout"))
+        self.verticalLayout.addLayout(self.attachment_layout)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
@@ -88,11 +88,9 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
-        self.lbl_project_avastar.setText(_translate("Dialog", " ", None))
         self.lbl_title.setText(_translate("Dialog", "TextLabel", None))
         self.lbl_detail1.setText(_translate("Dialog", "TextLabel", None))
         self.lbl_detail2.setText(_translate("Dialog", "TextLabel", None))
         self.lbl_detail3.setText(_translate("Dialog", "TextLabel", None))
 
-from PyQt4 import QtWebKit
 import res_rc

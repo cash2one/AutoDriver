@@ -55,6 +55,16 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.msg_btn_cancel = QPushButton("Cancel")
 
         self.load_index()
+        self.make_thumbnail()
+
+    def make_thumbnail(self):
+        PATH = lambda p: os.path.abspath(
+            os.path.join(os.path.dirname(__file__), p)
+        )
+
+        if not os.path.exists(PATH('../../thumbnail/')):
+            os.mkdir(PATH('../../thumbnail/'))
+
 
     def not_login(self):
         print 'not loginsssss'
@@ -126,9 +136,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         # if the.JIRA.isActive:
         if jira.isActive:
-            net_list = [self.netAccess, self.netAccess]
-
-            self.frm_jira = jiras.JIRAForm(net_list)
+            self.frm_jira = jiras.JIRAForm(self.netAccess)
             self.setCentralWidget(self.frm_jira)
         else:
             self.msgHandler()

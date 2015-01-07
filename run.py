@@ -107,7 +107,10 @@ def ddd(f,abc):
     print abc(f)
 
 if __name__ == "__main__":
-    print convert.utc_to_local('2015-01-05T14:24:59.000+0800')
+    thumbnail="http://192.168.3.11:8080/secure/thumbnail/11215/_thumb_11215.png"
+    aa=thumbnail.split('/')
+    aaaa=['ff']
+    print aaaa[-1]
 
     #
     # dr = device.RunAppium(4725)
