@@ -17,7 +17,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_driverDetails(self):
-        self.driver.wait_find_id('orderInfo_driver_name')
+        self.driver.find_ajax_id('orderInfo_driver_name')
 
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
@@ -30,7 +30,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(u'司机信息明细' in text,'msg')
 
     def test_closeWindow(self):
-        self.driver.wait_find_id('orderInfo_driver_name')
+        self.driver.find_ajax_id('orderInfo_driver_name')
 
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
