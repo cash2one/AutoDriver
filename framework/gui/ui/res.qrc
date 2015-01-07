@@ -29,6 +29,7 @@
     <file>res/add.png</file>
   </qresource>
   <qresource prefix="bg">
+    <file>res/projectavatar.png</file>
     <file>res/login_btn_down.png</file>
     <file>res/login_btn_hover.png</file>
     <file>res/login_btn_normal.png</file>

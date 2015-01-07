@@ -63,9 +63,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.task_data += arg
         print self.task_data
 
-    def update_user(self):
-        # usrname = base.third.userName.capitalize()
-        self.toolbar_jira.setText(jira.userName.capitalize())
+    def update_user(self,arg):
+        self.toolbar_jira.setText(arg.capitalize())
 
     def test(self):
         print 'gwegwe'
@@ -117,7 +116,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         m1 = QtNetwork.QNetworkAccessManager(self)
         m1.setCookieJar(jira.cookie)
         m1.finished.connect(reply_func)
-        req1 = QtNetwork.QNetworkRequest(QUrl(jira.host + api))
+        req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
 
     def load_jira_main(self):

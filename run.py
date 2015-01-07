@@ -7,7 +7,7 @@ import time
 
 from framework.core import task, data
 from framework.data import the
-from framework.util import mail
+from framework.util import mail,convert
 
 
 PATH = lambda p: os.path.abspath(
@@ -107,9 +107,8 @@ def ddd(f,abc):
     print abc(f)
 
 if __name__ == "__main__":
-    ddd(3,abc)
-    # import time
-    # from framework.core import device
+    print convert.utc_to_local('2015-01-05T14:24:59.000+0800')
+
     #
     # dr = device.RunAppium(4725)
     # dr.start()

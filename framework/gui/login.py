@@ -10,9 +10,6 @@ from framework.gui.ui import login_ui
 from framework.gui.base import *
 
 
-jira_host = 'http://192.168.3.11:8080'
-
-
 class LoginDialog(QDialog, login_ui.Ui_Form):
     def __init__(self):
         super(LoginDialog, self).__init__()
@@ -67,7 +64,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 
         # nm = net.NetManager()
         # nm.get(self,jira.cookie, api, self.on_reply)
-        self.net_manager.get(api, self.on_reply)
+        self.net_manager.get(jira.host + api, self.on_reply)
 
         self.btn_login.setText(u'登录中..')
         self.btn_login.setEnabled(False)
@@ -84,7 +81,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 
             # nm = net.NetManager()
             # nm.get(self,jira.cookie, api, self.on_user_reply)
-            self.net_manager.get(api, self.on_user_reply)
+            self.net_manager.get(jira.host + api, self.on_user_reply)
 
 
     def on_user_reply(self, reply):
@@ -92,13 +89,14 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
             # con = QString(reply.readAll())
             # print reply.rawHeaderList()
             # con = unicode(QString(reply.readAll()))
-            con = str(QString(all).toLatin1())
-            print 'login:::00000:', con
-            jira.isActive = True
-            self.emit(SIGNAL("loginFinish"))
+            con = str(QString(reply.readAll()).toLatin1())
+
             try:
                 dicts = json.loads(con)
-                jira.userName = dicts['username']
+                jira.userName = dicts['name']
+                jira.isActive = True
+                self.emit(SIGNAL("loginFinish"), jira.userName)
+
                 self.confirm()
             except ValueError:
                 pass
@@ -116,8 +114,8 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 # '''
 #
 # def __init__(self, ui, u_name, u_pwd):
-#         threading.Thread.__init__(self)
-#         self.thread_stop = False
+# threading.Thread.__init__(self)
+# self.thread_stop = False
 #         self.isStartLogin = False
 #         self.ui = ui
 #         self.timeout = 15
