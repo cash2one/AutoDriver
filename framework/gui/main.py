@@ -7,7 +7,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 from framework.gui.ui import main_ui
-import home, dialog, jiras, testcase, task, login
+import home, dialog, jiras, testcase, task, login,new_issue
 from framework.gui.base import *
 
 
@@ -15,12 +15,6 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
-
-        # 创建网络访问cookie
-        # self._cookiejar = QtNetwork.QNetworkCookieJar(parent=self)
-        # self.manager = QtNetwork.QNetworkAccessManager(parent=self)
-        # self.manager.setCookieJar(self._cookiejar)
-        # base.nett = self.manager
 
         jira.cookie = QtNetwork.QNetworkCookieJar(self)
 
@@ -42,6 +36,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.connect(self, SIGNAL("startLogin()"), self.login_dialog)
         self.toolbar_case.triggered.connect(self.load_testcase)
         self.toolbar_task.triggered.connect(self.load_task)
+        self.toolbar_knowledge.triggered.connect(self.show_knowledge)
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
@@ -66,18 +61,12 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             os.mkdir(PATH('../../thumbnail/'))
 
 
-    def not_login(self):
-        print 'not loginsssss'
-
     def save_task(self, arg):
         self.task_data += arg
         print self.task_data
 
     def update_user(self,arg):
         self.toolbar_jira.setText(arg.capitalize())
-
-    def test(self):
-        print 'gwegwe'
 
     def trayMenu(self):
         # 右击托盘弹出的菜单
@@ -162,6 +151,15 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             self.dlg_login = login.LoginDialog()
             self.connect(self.dlg_login, SIGNAL("loginFinish"), self.update_user)
         self.dlg_login.exec_()
+
+
+    def show_knowledge(self):
+        issueDlg = new_issue.IssueDialog()
+        if issueDlg.exec_()==QDialog.Accepted:
+            print unicode(issueDlg.label.text())
+        else:
+            pass
+            #issueDlg.label.addAction()
 
 
     def show_msg(self, txt):

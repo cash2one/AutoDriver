@@ -110,7 +110,8 @@ if __name__ == "__main__":
     thumbnail="http://192.168.3.11:8080/secure/thumbnail/11215/_thumb_11215.png"
     aa=thumbnail.split('/')
     aaaa=['ff']
-    print aaaa[-1]
+    dicts = {'aa':'bb','ee':'ff'}
+    print dicts.has_key('aa')
 
     #
     # dr = device.RunAppium(4725)

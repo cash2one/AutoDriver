@@ -14,6 +14,8 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+jira_folder = PATH(jira.folder)
+
 
 class JIRAForm(QWidget, jira_main_ui.Ui_Form):
     def __init__(self, netAccess_method):
@@ -94,46 +96,42 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
             try:
                 dicts = json.loads(con)
                 # 下载附件
-                self.show_thumbnail(dicts['fields']['attachment'])
+                #self.show_thumbnail(dicts['fields']['attachment'])
                 self.issueDialog = issue_detail.IssueDialog(dicts)
                 self.issueDialog.exec_()
             except ValueError:
                 pass
         else:
-            # self.emit(SIGNAL("loginError"))
-            print 'load error'
             print reply.error()
-            print reply.errorString()
-            # self.dlgTask.btn_ok.clicked.connect(self.save_current_task)
 
-    def show_thumbnail(self, attachments):
-        self.thumbs = []
-        self.thumbs_index = 0
-        if len(attachments) > 0:
-            for att in attachments:
-                try:
-                    th_url = att['thumbnail']
-                    self.thumbs.append(th_url)
-                    self.nam(th_url, self.issue_thumbnail_reply)
-                except KeyError:
-                    # 没有缩略图，就下载content 的url
-                    th_url = att['content']
-                    self.thumbs.append(th_url)
-                    self.nam(th_url, self.issue_thumbnail_reply)
-
-    def issue_thumbnail_reply(self, reply):
-        if reply.error() == reply.NoError:
-            # 从url中取文件名
-            f_name = self.thumbs[self.thumbs_index].split('/')[-1]
-            self._write_file(f_name, reply.readAll())
-            self.thumbs_index += 1
-        else:
-            print 'thumbnail error!'
+    # def show_thumbnail(self, attachments):
+    #     self.thumbs = []
+    #     self.thumbs_index = 0
+    #     if len(attachments) > 0:
+    #         for att in attachments:
+    #             try:
+    #                 th_url = att['thumbnail']
+    #                 self.thumbs.append(th_url)
+    #                 self.nam(th_url, self.issue_thumbnail_reply)
+    #             except KeyError:
+    #                 # 没有缩略图，就下载content 的url
+    #                 th_url = att['content']
+    #                 self.thumbs.append(th_url)
+    #                 self.nam(th_url, self.issue_thumbnail_reply)
+    #
+    # def issue_thumbnail_reply(self, reply):
+    #     if reply.error() == reply.NoError:
+    #         # 从url中取文件名
+    #         f_name = self.thumbs[self.thumbs_index].split('/')[-1]
+    #         self._write_file(f_name, reply.readAll())
+    #         self.thumbs_index += 1
+    #     else:
+    #         print 'thumbnail error!'
 
     def _write_file(self, filename, data):
-        if os.path.exists(PATH('../../thumbnail/')):
+        if os.path.exists(jira_folder):
             try:
-                output_file = open(os.path.join(PATH('../../thumbnail/'), filename), 'wb')
+                output_file = open(os.path.join(jira_folder, filename), 'wb')
                 output_file.writelines(data)
                 output_file.close()
                 # print '文件 %s 写入完成！' % filename

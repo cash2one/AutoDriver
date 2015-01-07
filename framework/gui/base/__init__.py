@@ -20,6 +20,7 @@ class JIRA():
         self.displayName = ''
         self.userName = ''
         self.pageSize = int(conf.get('page_size'))
+        self.folder = conf.get('folder')
         self.follow = []
 
 

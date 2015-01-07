@@ -1,7 +1,6 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
-import json
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.ui import issue_detail_ui
@@ -9,6 +8,7 @@ from framework.util import convert
 from framework.gui.base import *
 import file_browser
 from PyQt4 import QtNetwork
+
 
 class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
     def __init__(self, data=None):
@@ -35,7 +35,6 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
             # manager.get(req)
 
     def load_data_to_ui(self, data):
-
         fields = data['fields']
         print fields
 
@@ -85,35 +84,21 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
                 btn.setText(att['filename'])
                 btn.setMaximumWidth(260)
                 btn.setMinimumWidth(80)
-                self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(att))
+                #事件绑定时传入参数
+                self.connect(btn, SIGNAL("clicked()"), lambda arg=att: self.open_file_browser(arg))
+                # lambda: self.open_file_browser(att))
 
                 # btn.clicked.connect(self.open_web(att['content']))
                 self.attachment_layout.addWidget(btn)
 
             lbl = QLabel()
             self.attachment_layout.addWidget(lbl)
-            # try:
-            # thum_file = att['thumbnail'].split('/')[-1]
-            # label = QLabel()
-            # png = QPixmap()
-            #     png.load("../../thumbnail/%s" % thum_file)
-            #     label.setPixmap(png)
-            #     self.attachment_layout.addWidget(label)
-            # except KeyError:
-            #     btn = QPushButton()
-            #     btn.setText(att['filename'])
-            #     btn.setMaximumWidth(300)
-            #     f = att['content'].split('/')[-1]
-            #     self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(f))
-            #     # btn.clicked.connect(self.open_web(att['content']))
-            #     self.attachment_layout.addWidget(btn)
-
 
     def open_file_browser(self, con):
         print con
-        fileBrowser = file_browser.FileDialog(con,self.net_access)
+        fileBrowser = file_browser.FileDialog(con, self.net_access)
+        fileBrowser.setFixedSize(600, 500)
         fileBrowser.exec_()
-
 
     def net_access(self, api, reply_func):
         m1 = QtNetwork.QNetworkAccessManager(self)
@@ -121,6 +106,24 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
+        # try:
+        # thum_file = att['thumbnail'].split('/')[-1]
+        # label = QLabel()
+        # png = QPixmap()
+        # png.load("../../thumbnail/%s" % thum_file)
+        # label.setPixmap(png)
+        #     self.attachment_layout.addWidget(label)
+        # except KeyError:
+        #     btn = QPushButton()
+        #     btn.setText(att['filename'])
+        #     btn.setMaximumWidth(300)
+        #     f = att['content'].split('/')[-1]
+        #     self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(f))
+        #     # btn.clicked.connect(self.open_web(att['content']))
+        #     self.attachment_layout.addWidget(btn)
+
+
+
         # self.web_attachment.load(QUrl('http://192.168.3.11:8080/secure/thumbnail/11556/_thumb_11556.png'))
 
 

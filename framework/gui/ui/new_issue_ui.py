@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/new_issue.ui'
 #
-# Created: Wed Jan 07 12:00:44 2015
+# Created: Thu Jan 08 01:31:39 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,21 +26,27 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(528, 252)
+        Dialog.resize(463, 212)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/mainicon/res/wp.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(110, 180, 361, 32))
+        self.buttonBox.setGeometry(QtCore.QRect(60, 160, 361, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
         self.label = QtGui.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(190, 90, 161, 16))
+        self.label.setGeometry(QtCore.QRect(190, 80, 101, 16))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.label.setFont(font)
         self.label.setObjectName(_fromUtf8("label"))
+        self.horizontalLayoutWidget = QtGui.QWidget(Dialog)
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(0, 120, 461, 31))
+        self.horizontalLayoutWidget.setObjectName(_fromUtf8("horizontalLayoutWidget"))
+        self.hz_layout = QtGui.QHBoxLayout(self.horizontalLayoutWidget)
+        self.hz_layout.setMargin(0)
+        self.hz_layout.setObjectName(_fromUtf8("hz_layout"))
 
         self.retranslateUi(Dialog)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
@@ -49,6 +55,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "创建问题", None))
-        self.label.setText(_translate("Dialog", "还没考虑做不做", None))
+        self.label.setText(_translate("Dialog", "施工中...", None))
 
 import res_rc
