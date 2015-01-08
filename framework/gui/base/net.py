@@ -21,9 +21,9 @@ class NetManager():
 
     # def cookie(self, parent):
     # self.cookie_jar = QtNetwork.QNetworkCookieJar(parent)
-    def get(self, api, reply_func):
+    def get(self, url, reply_func):
         self.manager.finished.connect(reply_func)
-        req = QtNetwork.QNetworkRequest(QtCore.QUrl(self.host + api))
+        req = QtNetwork.QNetworkRequest(QtCore.QUrl(url))
         self.manager.get(req)
 
     # def get(self, parent, api, reply_func):

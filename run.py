@@ -7,7 +7,7 @@ import time
 
 from framework.core import task, data
 from framework.data import the
-from framework.util import mail
+from framework.util import mail,convert
 
 
 PATH = lambda p: os.path.abspath(
@@ -107,9 +107,12 @@ def ddd(f,abc):
     print abc(f)
 
 if __name__ == "__main__":
-    ddd(3,abc)
-    # import time
-    # from framework.core import device
+    thumbnail="http://192.168.3.11:8080/secure/thumbnail/11215/_thumb_11215.png"
+    aa=thumbnail.split('/')
+    aaaa=['ff']
+    dicts = {'aa':'bb','ee':'ff'}
+    print dicts.has_key('aa')
+
     #
     # dr = device.RunAppium(4725)
     # dr.start()
