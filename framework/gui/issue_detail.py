@@ -134,7 +134,7 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
     def open_file_browser(self, con, isPic):
         print con, isPic
         fileBrowser = file_browser.FileDialog(con, isPic, self.net_access)
-        fileBrowser.setFixedSize(800, 600)
+        #fileBrowser.setFixedSize(800, 600)
         fileBrowser.exec_()
 
     def net_access(self, api, reply_func):

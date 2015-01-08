@@ -28,7 +28,7 @@ class LabelButton(QLabel):
         pass
 
     def mouseDoubleClickEvent(self, *args, **kwargs):
-        pass
+        self.emit(SIGNAL('doubleClicked()'))
 
     def mouseMoveEvent(self, event):
         # if event.MouseMove == event.type():

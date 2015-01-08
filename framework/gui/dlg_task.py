@@ -2,7 +2,7 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import dlg_task_ui, autos_ui, user_ui
+from framework.gui.ui import dlg_task_ui, autos_ui
 from framework.gui.models import tree_model
 from framework.gui.base import *
 import dialog

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/issue_detail.ui'
 #
-# Created: Thu Jan 08 15:21:40 2015
+# Created: Thu Jan 08 15:57:15 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!

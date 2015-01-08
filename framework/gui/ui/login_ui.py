@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/login.ui'
 #
-# Created: Mon Dec 29 13:16:05 2014
+# Created: Thu Jan 08 16:55:56 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,11 +40,11 @@ class Ui_Form(object):
         self.lbl_info.setGeometry(QtCore.QRect(350, 60, 161, 16))
         self.lbl_info.setObjectName(_fromUtf8("lbl_info"))
         self.btn_login = QtGui.QPushButton(self.widget)
-        self.btn_login.setGeometry(QtCore.QRect(355, 210, 78, 28))
+        self.btn_login.setGeometry(QtCore.QRect(355, 206, 78, 28))
         self.btn_login.setAutoFillBackground(True)
         self.btn_login.setObjectName(_fromUtf8("btn_login"))
         self.btn_cancel = QtGui.QPushButton(self.widget)
-        self.btn_cancel.setGeometry(QtCore.QRect(450, 210, 80, 30))
+        self.btn_cancel.setGeometry(QtCore.QRect(450, 206, 80, 30))
         self.btn_cancel.setObjectName(_fromUtf8("btn_cancel"))
         self.label_3 = QtGui.QLabel(self.widget)
         self.label_3.setGeometry(QtCore.QRect(315, 141, 35, 19))
@@ -63,7 +63,7 @@ class Ui_Form(object):
         self.txt_username.setFrame(False)
         self.txt_username.setObjectName(_fromUtf8("txt_username"))
         self.checkBox = QtGui.QCheckBox(self.widget)
-        self.checkBox.setGeometry(QtCore.QRect(358, 180, 101, 16))
+        self.checkBox.setGeometry(QtCore.QRect(358, 177, 101, 16))
         self.checkBox.setIconSize(QtCore.QSize(16, 16))
         self.checkBox.setObjectName(_fromUtf8("checkBox"))
 

@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import time
-import threading
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 from framework.gui.ui import main_ui
-import home, dialog, jiras, testcase, task, login,new_issue
+import home, dialog, jiras, testcase, task, login, new_issue, interface, monitor
 from framework.gui.base import *
 
 
@@ -37,6 +35,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.toolbar_case.triggered.connect(self.load_testcase)
         self.toolbar_task.triggered.connect(self.load_task)
         self.toolbar_knowledge.triggered.connect(self.show_knowledge)
+        self.toolbar_interface.triggered.connect(self.show_interface)
+        self.toolbar_monitor.triggered.connect(self.show_monitor)
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
@@ -50,12 +50,13 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.msg_btn_cancel = QPushButton("Cancel")
 
         self.load_index()
-    #     self.make_thumbnail()
+
+    # self.make_thumbnail()
     #
     # def make_thumbnail(self):
-    #     PATH = lambda p: os.path.abspath(
-    #         os.path.join(os.path.dirname(__file__), p)
-    #     )
+    # PATH = lambda p: os.path.abspath(
+    # os.path.join(os.path.dirname(__file__), p)
+    # )
     #
     #     if not os.path.exists(PATH('../../thumbnail/')):
     #         os.mkdir(PATH('../../thumbnail/'))
@@ -65,7 +66,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.task_data += arg
         print self.task_data
 
-    def update_user(self,arg):
+    def update_user(self, arg):
         self.toolbar_jira.setText(arg.capitalize())
 
     def trayMenu(self):
@@ -152,14 +153,22 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             self.connect(self.dlg_login, SIGNAL("loginFinish"), self.update_user)
         self.dlg_login.exec_()
 
+    def show_monitor(self):
+        monitorDlg = monitor.MonitorDialog()
+        monitorDlg.exec_()
+
 
     def show_knowledge(self):
         issueDlg = new_issue.IssueDialog()
-        if issueDlg.exec_()==QDialog.Accepted:
+        if issueDlg.exec_() == QDialog.Accepted:
             print unicode(issueDlg.label.text())
         else:
             pass
             #issueDlg.label.addAction()
+
+    def show_interface(self):
+        interfaceDlg = interface.InterfaceForm()
+        self.setCentralWidget(interfaceDlg)
 
 
     def show_msg(self, txt):

@@ -5,6 +5,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.gui.ui import file_browser_ui
 from framework.gui.base import *
+import label_btn
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -19,11 +20,22 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
 
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
+
+        flags = Qt.Dialog
+        #flags |= Qt.WindowMinimizeButtonHint
+        flags |= Qt.WindowMaximizeButtonHint
+        self.setWindowFlags(flags)
+        #self.setWindowFlags(Qt.Widget)
+        self.setSizeGripEnabled (True)
+
         self.file_url = file_url
         self.file_name = file_url.split('/')[-1]
         self.isPic = isPic
 
         self.setWindowTitle(u'文件浏览：' + self.file_name)
+        self.img_label = None
+        self.png = None
+        self.origin_png = None
 
         self.show_file(net_acc)
 
@@ -43,30 +55,35 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         else:
             print reply.error()
 
+    def restore_image(self, png):
+        p_img = png
+        if png.width() > self.width():
+            picSize = QSize(self.width(), self.width())
+            # //将pixmap缩放成picSize大小然后保存在scaledPixmap中
+            # 按比例缩放:
+            p_img = png.scaled(picSize, Qt.KeepAspectRatio)
+            # 不按照比例缩放
+            # scaledPixmap = png.scaled(picSize)
+            # self.img_label.setPixmap(scaledPixmap)
+        # else:
+        # self.img_label.setPixmap(png)
+        return p_img
 
     def load_file(self, file_name):
         file_path = os.path.join(jira_folder, file_name)
 
         if self.isPic:
-            label = QLabel()
-            label.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
+            self.img_label = label_btn.LabelButton()
+            self.img_label.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
+            self.connect(self.img_label, SIGNAL("doubleClicked()"), self.restore_image_event)
+            self.origin_png = QPixmap()
 
-            png = QPixmap()
-            print file_name, 'browser:::'
-            png.load(jira.folder + file_name)
+            self.origin_png.load(jira.folder + file_name)
             # self.label.setScaledContents(True)
 
-            if png.width() > self.width():
-                picSize = QSize(self.width(), self.width())
-                # //将pixmap缩放成picSize大小然后保存在scaledPixmap中
-                # 按比例缩放:
-                scaledPixmap = png.scaled(picSize, Qt.KeepAspectRatio)
-                # 不按照比例缩放
-                # scaledPixmap = png.scaled(picSize)
-                label.setPixmap(scaledPixmap)
-            else:
-                label.setPixmap(png)
-            self.v_layout.addWidget(label)
+            self.png = self.restore_image(self.origin_png)
+            self.img_label.setPixmap(self.png)
+            self.v_layout.addWidget(self.img_label)
         else:
             txtEdit = QTextEdit()
             f = open(file_path)
@@ -87,6 +104,18 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             output_file.close()
         except IOError:
             print "写文件失败！"
+
+
+    def restore_image_event(self):
+        print 'res_immgg'
+        if self.png.width() <= self.width():
+            self.img_label.setPixmap(self.origin_png)
+            self.png = self.origin_png
+        else:
+            picSize = QSize(self.width(), self.width())
+            self.png = self.png.scaled(picSize, Qt.KeepAspectRatio)
+            self.img_label.setPixmap(self.png)
+
 
             # try:
             # thum_file = att['thumbnail'].split('/')[-1]
