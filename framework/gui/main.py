@@ -7,7 +7,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 from framework.gui.ui import main_ui
-import home, dialog, jiras, testcase, task, login
+import home, dialog, jiras, testcase, task, login,new_issue
 from framework.gui.base import *
 
 
@@ -15,12 +15,6 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
-
-        # 创建网络访问cookie
-        # self._cookiejar = QtNetwork.QNetworkCookieJar(parent=self)
-        # self.manager = QtNetwork.QNetworkAccessManager(parent=self)
-        # self.manager.setCookieJar(self._cookiejar)
-        # base.nett = self.manager
 
         jira.cookie = QtNetwork.QNetworkCookieJar(self)
 
@@ -42,6 +36,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.connect(self, SIGNAL("startLogin()"), self.login_dialog)
         self.toolbar_case.triggered.connect(self.load_testcase)
         self.toolbar_task.triggered.connect(self.load_task)
+        self.toolbar_knowledge.triggered.connect(self.show_knowledge)
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
@@ -55,20 +50,23 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.msg_btn_cancel = QPushButton("Cancel")
 
         self.load_index()
+        self.make_thumbnail()
 
-    def not_login(self):
-        print 'not loginsssss'
+    def make_thumbnail(self):
+        PATH = lambda p: os.path.abspath(
+            os.path.join(os.path.dirname(__file__), p)
+        )
+
+        if not os.path.exists(PATH('../../thumbnail/')):
+            os.mkdir(PATH('../../thumbnail/'))
+
 
     def save_task(self, arg):
         self.task_data += arg
         print self.task_data
 
-    def update_user(self):
-        # usrname = base.third.userName.capitalize()
-        self.toolbar_jira.setText(jira.userName.capitalize())
-
-    def test(self):
-        print 'gwegwe'
+    def update_user(self,arg):
+        self.toolbar_jira.setText(arg.capitalize())
 
     def trayMenu(self):
         # 右击托盘弹出的菜单
@@ -117,7 +115,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         m1 = QtNetwork.QNetworkAccessManager(self)
         m1.setCookieJar(jira.cookie)
         m1.finished.connect(reply_func)
-        req1 = QtNetwork.QNetworkRequest(QUrl(jira.host + api))
+        req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
 
     def load_jira_main(self):
@@ -127,9 +125,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         # if the.JIRA.isActive:
         if jira.isActive:
-            net_list = [self.netAccess, self.netAccess]
-
-            self.frm_jira = jiras.JIRAForm(net_list)
+            self.frm_jira = jiras.JIRAForm(self.netAccess)
             self.setCentralWidget(self.frm_jira)
         else:
             self.msgHandler()
@@ -155,6 +151,15 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             self.dlg_login = login.LoginDialog()
             self.connect(self.dlg_login, SIGNAL("loginFinish"), self.update_user)
         self.dlg_login.exec_()
+
+
+    def show_knowledge(self):
+        issueDlg = new_issue.IssueDialog()
+        if issueDlg.exec_()==QDialog.Accepted:
+            print unicode(issueDlg.label.text())
+        else:
+            pass
+            #issueDlg.label.addAction()
 
 
     def show_msg(self, txt):
