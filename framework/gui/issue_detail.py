@@ -4,9 +4,10 @@ __author__ = 'guguohai@outlook.com'
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.ui import issue_detail_ui
+from framework.gui.models import attach_model
 from framework.util import convert
 from framework.gui.base import *
-import file_browser
+import file_browser, label_btn
 from PyQt4 import QtNetwork
 
 
@@ -18,10 +19,9 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
 
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
-        self.lbl_title.setWordWrap(True)
 
-        self.atts = []
-        self.atts_index = 0
+        self.txt_desc.setFrameShape(QFrame.NoFrame)
+        self.lbl_att_title.hide()
 
         # self.net_manager = net.NetManager(jira.cookie, self)
         if data != None:
@@ -78,26 +78,63 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
             self.txt_desc.setPlainText(fields['description'])
 
         if len(fields['attachment']) > 0:
+            self.lbl_att_title.show()
+            self.lbl_att_title.setContentsMargins(5,0,0,3)
+            # scroll = QScrollArea()
+            # scroll.setFrameShape(QFrame.NoFrame)
+            # scroll.setMaximumWidth(16777215)
+            # scroll.setContentsMargins(0, 0, 0, 0)
+            # qvb_layout = QVBoxLayout()
+            # qvb_layout.setMargin(0)
+            # qvb_layout.setAlignment(Qt.AlignLeft)
+
+            # scroll.setMaximumWidth(160)
+            # scroll.setBackgroundRole(QPalette.BrightText)
+
             for att in fields['attachment']:
-                self.atts.append(att)
-                btn = QPushButton()
-                btn.setText(att['filename'])
-                btn.setMaximumWidth(260)
-                btn.setMinimumWidth(80)
-                #事件绑定时传入参数
-                self.connect(btn, SIGNAL("clicked()"), lambda arg=att: self.open_file_browser(arg))
-                # lambda: self.open_file_browser(att))
+                # list_data.append(os.path.join(jira.folder, att['filename']))
+                # self.atts.append(att)
+                # btn = QPushButton()
+                # btn.setMinimumHeight(25)
+                #
+                # btn.setStyleSheet(
+                # "background-color:#ffffff;border:0;background-image:url(./ui/res/add.png);background-repeat:no-repeat;padding:30px 0 0 0")
+                # btn.setText(att['filename'])
+                #
+                # btn.setMaximumWidth(150)
 
-                # btn.clicked.connect(self.open_web(att['content']))
-                self.attachment_layout.addWidget(btn)
+                new_lbl = label_btn.LabelButton(self.desc_layout)
+                new_lbl.setText("<a href='#'>" + att['filename'] + "</a>")
+                new_lbl.setContentsMargins(5,0,0,3)
+                new_lbl.setStyleSheet("background-color:#ffffff")
+                # new_lbl.setStyleSheet("color:blue")
+                new_lbl.setCursor(QCursor(Qt.PointingHandCursor))
+                new_lbl.setFont(QFont("Microsoft YaHei", 9))
+                #new_lbl.setWordWrap(True)
 
-            lbl = QLabel()
-            self.attachment_layout.addWidget(lbl)
 
-    def open_file_browser(self, con):
-        print con
-        fileBrowser = file_browser.FileDialog(con, self.net_access)
-        fileBrowser.setFixedSize(600, 500)
+                # 事件绑定时传入参数
+                if att.has_key('thumbnail'):
+                    self.connect(new_lbl, SIGNAL("clicked()"),
+                                 lambda con=att['content'], isPic=True: self.open_file_browser(con, isPic))
+                else:
+                    self.connect(new_lbl, SIGNAL("clicked()"),
+                                 lambda con=att['content'], isPic=False: self.open_file_browser(con, isPic))
+                #qvb_layout.addWidget(new_lbl)
+                self.desc_layout.addWidget(new_lbl)
+
+
+            # scroll.setWidget(qvb_layout)
+            # widget = QWidget()
+            # widget.setLayout(qvb_layout)
+            # widget.setContentsMargins(0, 0, 0, 0)
+            # scroll.setWidget(widget)
+
+
+    def open_file_browser(self, con, isPic):
+        print con, isPic
+        fileBrowser = file_browser.FileDialog(con, isPic, self.net_access)
+        #fileBrowser.setFixedSize(800, 600)
         fileBrowser.exec_()
 
     def net_access(self, api, reply_func):
@@ -112,15 +149,15 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
         # png = QPixmap()
         # png.load("../../thumbnail/%s" % thum_file)
         # label.setPixmap(png)
-        #     self.attachment_layout.addWidget(label)
+        # self.attachment_layout.addWidget(label)
         # except KeyError:
-        #     btn = QPushButton()
-        #     btn.setText(att['filename'])
-        #     btn.setMaximumWidth(300)
-        #     f = att['content'].split('/')[-1]
-        #     self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(f))
-        #     # btn.clicked.connect(self.open_web(att['content']))
-        #     self.attachment_layout.addWidget(btn)
+        # btn = QPushButton()
+        # btn.setText(att['filename'])
+        # btn.setMaximumWidth(300)
+        # f = att['content'].split('/')[-1]
+        # self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(f))
+        # # btn.clicked.connect(self.open_web(att['content']))
+        # self.attachment_layout.addWidget(btn)
 
 
 

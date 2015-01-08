@@ -92,10 +92,12 @@
    <addaction name="separator"/>
    <addaction name="toolbar_task"/>
    <addaction name="toolbar_case"/>
-   <addaction name="toolbar_monitor"/>
    <addaction name="separator"/>
    <addaction name="toolbar_jira"/>
    <addaction name="toolbar_knowledge"/>
+   <addaction name="separator"/>
+   <addaction name="toolbar_monitor"/>
+   <addaction name="toolbar_interface"/>
   </widget>
   <action name="menu_save">
    <property name="text">
@@ -121,7 +123,7 @@
      <normaloff>:/toolbars/res/home.png</normaloff>:/toolbars/res/home.png</iconset>
    </property>
    <property name="text">
-    <string>Home</string>
+    <string>首页</string>
    </property>
   </action>
   <action name="toolbar_case">
@@ -130,10 +132,14 @@
      <normaloff>:/toolbars/res/table_sheet.png</normaloff>:/toolbars/res/table_sheet.png</iconset>
    </property>
    <property name="text">
-    <string>TestCase</string>
+    <string>用例</string>
    </property>
   </action>
   <action name="menu_inf">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/interface.png</normaloff>:/toolbars/res/interface.png</iconset>
+   </property>
    <property name="text">
     <string>接口测试</string>
    </property>
@@ -167,7 +173,7 @@
      <normaloff>:/toolbars/res/task.png</normaloff>:/toolbars/res/task.png</iconset>
    </property>
    <property name="text">
-    <string>Task</string>
+    <string>任务</string>
    </property>
   </action>
   <action name="toolbar_knowledge">
@@ -176,7 +182,7 @@
      <normaloff>:/toolbars/res/inbox.png</normaloff>:/toolbars/res/inbox.png</iconset>
    </property>
    <property name="text">
-    <string>Knowledge</string>
+    <string>知识库</string>
    </property>
   </action>
   <action name="toolbar_monitor">
@@ -185,7 +191,16 @@
      <normaloff>:/toolbars/res/system_monitor.png</normaloff>:/toolbars/res/system_monitor.png</iconset>
    </property>
    <property name="text">
-    <string>Monitor</string>
+    <string>性能监控</string>
+   </property>
+  </action>
+  <action name="toolbar_interface">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/interface.png</normaloff>:/toolbars/res/interface.png</iconset>
+   </property>
+   <property name="text">
+    <string>接口测试</string>
    </property>
   </action>
  </widget>

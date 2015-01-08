@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="toolbars">
     <file>res/table_sheet.png</file>
+    <file>res/interface.png</file>
     <file>res/system_monitor.png</file>
     <file>res/inbox.png</file>
     <file>res/task.png</file>

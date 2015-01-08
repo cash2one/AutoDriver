@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/issue_detail.ui'
 #
-# Created: Wed Jan 07 18:16:42 2015
+# Created: Thu Jan 08 15:57:15 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -68,14 +68,21 @@ class Ui_Dialog(object):
         self.lbl_detail3.setObjectName(_fromUtf8("lbl_detail3"))
         self.horizontalLayout.addWidget(self.lbl_detail3)
         self.verticalLayout.addLayout(self.horizontalLayout)
+        self.desc_layout = QtGui.QVBoxLayout()
+        self.desc_layout.setSpacing(0)
+        self.desc_layout.setObjectName(_fromUtf8("desc_layout"))
         self.txt_desc = QtGui.QTextEdit(Dialog)
         self.txt_desc.setObjectName(_fromUtf8("txt_desc"))
-        self.verticalLayout.addWidget(self.txt_desc)
-        self.attachment_layout = QtGui.QHBoxLayout()
-        self.attachment_layout.setSizeConstraint(QtGui.QLayout.SetFixedSize)
-        self.attachment_layout.setObjectName(_fromUtf8("attachment_layout"))
-        self.verticalLayout.addLayout(self.attachment_layout)
+        self.desc_layout.addWidget(self.txt_desc)
+        self.lbl_att_title = QtGui.QLabel(Dialog)
+        self.lbl_att_title.setAutoFillBackground(False)
+        self.lbl_att_title.setStyleSheet(_fromUtf8("background-color: rgb(255, 255, 255);"))
+        self.lbl_att_title.setObjectName(_fromUtf8("lbl_att_title"))
+        self.desc_layout.addWidget(self.lbl_att_title)
+        self.verticalLayout.addLayout(self.desc_layout)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
+        self.buttonBox.setMinimumSize(QtCore.QSize(0, 40))
+        self.buttonBox.setMaximumSize(QtCore.QSize(16777215, 40))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
@@ -92,5 +99,6 @@ class Ui_Dialog(object):
         self.lbl_detail1.setText(_translate("Dialog", "TextLabel", None))
         self.lbl_detail2.setText(_translate("Dialog", "TextLabel", None))
         self.lbl_detail3.setText(_translate("Dialog", "TextLabel", None))
+        self.lbl_att_title.setText(_translate("Dialog", "【附件】", None))
 
 import res_rc
