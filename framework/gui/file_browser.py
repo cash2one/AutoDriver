@@ -107,7 +107,6 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
 
 
     def restore_image_event(self):
-        print 'res_immgg'
         if self.png.width() <= self.width():
             self.img_label.setPixmap(self.origin_png)
             self.png = self.origin_png
