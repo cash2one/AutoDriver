@@ -14,13 +14,16 @@ jira_folder = PATH(jira.folder)
 
 
 class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
-    def __init__(self, data=None, net_acc=None):
+    def __init__(self, file_url='', isPic=False, net_acc=None):
         QDialog.__init__(self)
 
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
-        self.data = data
-        self.file_name = data['content'].split('/')[-1]
+        self.file_url = file_url
+        self.file_name = file_url.split('/')[-1]
+        self.isPic = isPic
+
+        self.setWindowTitle(u'文件浏览：' + self.file_name)
 
         self.show_file(net_acc)
 
@@ -28,7 +31,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         p_a = os.path.join(jira_folder, self.file_name)
         # 临时文件夹里没有图片则下载，否则直接读取
         if not os.path.exists(p_a):
-            acc_method(self.data['content'], self.issue_detail_reply)
+            acc_method(self.file_url, self.issue_detail_reply)
         else:
             self.load_file(self.file_name)
 
@@ -44,27 +47,35 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
     def load_file(self, file_name):
         file_path = os.path.join(jira_folder, file_name)
 
-        if self.data.has_key('thumbnail'):
+        if self.isPic:
+            label = QLabel()
+            label.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
+
             png = QPixmap()
+            print file_name, 'browser:::'
             png.load(jira.folder + file_name)
             # self.label.setScaledContents(True)
-            if png.width() > 600:
-                picSize = QSize(600, 600)
-                #//将pixmap缩放成picSize大小然后保存在scaledPixmap中
-                #按比例缩放:
+
+            if png.width() > self.width():
+                picSize = QSize(self.width(), self.width())
+                # //将pixmap缩放成picSize大小然后保存在scaledPixmap中
+                # 按比例缩放:
                 scaledPixmap = png.scaled(picSize, Qt.KeepAspectRatio)
-                #不按照比例缩放
-                #QPixmap scaledPixmap = png.scaled(picSize)
-                self.label.setPixmap(scaledPixmap)
+                # 不按照比例缩放
+                # scaledPixmap = png.scaled(picSize)
+                label.setPixmap(scaledPixmap)
             else:
-                self.label.setPixmap(png)
+                label.setPixmap(png)
+            self.v_layout.addWidget(label)
         else:
+            txtEdit = QTextEdit()
             f = open(file_path)
             try:
                 content = f.read()
-                self.label.setText(content)
+                txtEdit.setPlainText(content)
             finally:
                 f.close()
+            self.v_layout.addWidget(txtEdit)
 
     def write_file(self, filename, data_reply):
         if not os.path.exists(jira_folder):
@@ -90,5 +101,5 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             # btn.setMaximumWidth(300)
             # f = att['content'].split('/')[-1]
             # self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(f))
-            #     # btn.clicked.connect(self.open_web(att['content']))
-            #     self.attachment_layout.addWidget(btn)
+            # # btn.clicked.connect(self.open_web(att['content']))
+            # self.attachment_layout.addWidget(btn)

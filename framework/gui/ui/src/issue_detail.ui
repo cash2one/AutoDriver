@@ -118,17 +118,42 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="txt_desc"/>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="attachment_layout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetFixedSize</enum>
+    <layout class="QVBoxLayout" name="desc_layout">
+     <property name="spacing">
+      <number>0</number>
      </property>
+     <item>
+      <widget class="QTextEdit" name="txt_desc"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="lbl_att_title">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>【附件】</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

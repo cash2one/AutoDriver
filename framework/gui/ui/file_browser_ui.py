@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/file_browser.ui'
 #
-# Created: Wed Jan 07 19:42:30 2015
+# Created: Thu Jan 08 10:05:44 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -42,11 +42,14 @@ class Ui_Dialog(object):
         self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 640, 480))
         self.scrollAreaWidgetContents.setObjectName(_fromUtf8("scrollAreaWidgetContents"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.setSpacing(0)
+        self.verticalLayout_2.setMargin(0)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.label = QtGui.QLabel(self.scrollAreaWidgetContents)
-        self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label.setObjectName(_fromUtf8("label"))
-        self.verticalLayout_2.addWidget(self.label)
+        self.v_layout = QtGui.QVBoxLayout()
+        self.v_layout.setSpacing(0)
+        self.v_layout.setSizeConstraint(QtGui.QLayout.SetDefaultConstraint)
+        self.v_layout.setObjectName(_fromUtf8("v_layout"))
+        self.verticalLayout_2.addLayout(self.v_layout)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.verticalLayout.addWidget(self.scrollArea)
 
@@ -55,6 +58,5 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "文件浏览", None))
-        self.label.setText(_translate("Dialog", "Loading...", None))
 
 import res_rc

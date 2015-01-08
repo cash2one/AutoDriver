@@ -50,15 +50,15 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.msg_btn_cancel = QPushButton("Cancel")
 
         self.load_index()
-        self.make_thumbnail()
-
-    def make_thumbnail(self):
-        PATH = lambda p: os.path.abspath(
-            os.path.join(os.path.dirname(__file__), p)
-        )
-
-        if not os.path.exists(PATH('../../thumbnail/')):
-            os.mkdir(PATH('../../thumbnail/'))
+    #     self.make_thumbnail()
+    #
+    # def make_thumbnail(self):
+    #     PATH = lambda p: os.path.abspath(
+    #         os.path.join(os.path.dirname(__file__), p)
+    #     )
+    #
+    #     if not os.path.exists(PATH('../../thumbnail/')):
+    #         os.mkdir(PATH('../../thumbnail/'))
 
 
     def save_task(self, arg):

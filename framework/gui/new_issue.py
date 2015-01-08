@@ -7,6 +7,7 @@ from PyQt4.QtGui import *
 from framework.gui.ui import new_issue_ui
 from framework.util import convert
 from framework.gui.base import *
+import label_btn
 
 
 class IssueDialog(QDialog, new_issue_ui.Ui_Dialog):
@@ -18,12 +19,23 @@ class IssueDialog(QDialog, new_issue_ui.Ui_Dialog):
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
 
+        lbl = label_btn.LabelButton()
+        lbl.setText('gwege')
+        self.hz_layout.addWidget(lbl)
+
+        self.connect(lbl, SIGNAL("clicked()"), self.print_dd)
+
+
+
         lists = [{'k1': 'aaaa', 'k2': 'bbbb'}, {'k1': 'cccc', 'k2': 'ggggg'}]
 
         for att in lists:
             btn = QPushButton(att['k1'])
             self.connect(btn, SIGNAL("clicked()"), lambda arg=att['k2']: self.open_file_browser(arg))
             self.hz_layout.addWidget(btn)
+
+    def print_dd(self):
+        print 'new_issue...'
 
     def open_file_browser(self, con):
         print con
