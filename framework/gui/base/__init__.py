@@ -1,7 +1,7 @@
 __author__ = 'Administrator'
 
 import os
-import data, net
+import data
 from framework.util import fs
 
 PATH = lambda p: os.path.abspath(
