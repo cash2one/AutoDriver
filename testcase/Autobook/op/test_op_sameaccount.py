@@ -24,7 +24,7 @@ class TestCase(unittest.TestCase):
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[2]/a').click()
+        self.driver.find_element_by_link_text(u'账号管理').click()
         self.driver.find_id('create').click()
         self.driver.find_id('operator_name').send_keys(u'lishan')
         self.driver.find_id('operator_realName').send_keys(u'李三')
