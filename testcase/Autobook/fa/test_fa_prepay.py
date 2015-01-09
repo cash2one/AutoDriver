@@ -16,7 +16,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
          #返回首页
         self.driver.switch_to_home()
-    #预付款充值,手动方式充值，并查看充值付款界面是否有此记录，查看对应司机账户及公司押金账户是否有记录
+    #预付款充值,手动方式充值。并查看充值付款界面是否有此记录，查看对应司机账户及公司押金账户是否有记录
     def test_trade_prepay(self):
 
         self.driver.find_element_by_id('trade_prepay').click()
