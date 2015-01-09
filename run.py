@@ -118,7 +118,9 @@ def ddd(f,abc):
     print abc(f)
 
 if __name__ == "__main__":
-    main()
+    #main()
+    from framework.core import the
+    print the.settings
 
     #
     # dr = device.RunAppium(4725)
