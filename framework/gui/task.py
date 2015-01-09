@@ -4,7 +4,7 @@ __author__ = 'guguohai@outlook.com'
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-from framework.gui.ui import task_ui
+from framework.gui.views import task_ui
 from framework.gui.models import home_model
 from framework.gui.base import *
 from framework.gui.dialog import dlg_task
