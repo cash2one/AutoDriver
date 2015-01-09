@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/monitor.ui'
 #
-# Created: Thu Jan 08 21:28:03 2015
+# Created: Fri Jan 09 11:37:16 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,8 +26,8 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(600, 400)
-        Dialog.setMaximumSize(QtCore.QSize(680, 460))
+        Dialog.resize(620, 400)
+        Dialog.setMaximumSize(QtCore.QSize(620, 400))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/mainicon/res/wp.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -44,15 +44,15 @@ class Ui_Dialog(object):
         self.txt_host.setObjectName(_fromUtf8("txt_host"))
         self.gridLayout.addWidget(self.txt_host, 0, 1, 1, 1)
         self.btn_start = QtGui.QPushButton(Dialog)
-        self.btn_start.setMinimumSize(QtCore.QSize(100, 0))
-        self.btn_start.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.btn_start.setMinimumSize(QtCore.QSize(70, 25))
+        self.btn_start.setMaximumSize(QtCore.QSize(70, 25))
         self.btn_start.setObjectName(_fromUtf8("btn_start"))
-        self.gridLayout.addWidget(self.btn_start, 0, 4, 1, 1)
+        self.gridLayout.addWidget(self.btn_start, 0, 5, 1, 1)
         self.btn_end = QtGui.QPushButton(Dialog)
-        self.btn_end.setMinimumSize(QtCore.QSize(100, 0))
-        self.btn_end.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.btn_end.setMinimumSize(QtCore.QSize(70, 25))
+        self.btn_end.setMaximumSize(QtCore.QSize(70, 25))
         self.btn_end.setObjectName(_fromUtf8("btn_end"))
-        self.gridLayout.addWidget(self.btn_end, 0, 5, 1, 1)
+        self.gridLayout.addWidget(self.btn_end, 0, 6, 1, 1)
         self.txt_port = QtGui.QLineEdit(Dialog)
         self.txt_port.setMinimumSize(QtCore.QSize(0, 25))
         self.txt_port.setMaximumSize(QtCore.QSize(80, 16777215))
@@ -64,6 +64,9 @@ class Ui_Dialog(object):
         self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.gridLayout.addWidget(self.label_2, 0, 2, 1, 1)
+        self.chk_server = QtGui.QCheckBox(Dialog)
+        self.chk_server.setObjectName(_fromUtf8("chk_server"))
+        self.gridLayout.addWidget(self.chk_server, 0, 4, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout)
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setContentsMargins(-1, 5, -1, -1)
@@ -82,9 +85,10 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "服务器性能监控", None))
         self.label.setText(_translate("Dialog", "服务器地址", None))
-        self.btn_start.setText(_translate("Dialog", "开始监控", None))
-        self.btn_end.setText(_translate("Dialog", "结束/收集结果", None))
+        self.btn_start.setText(_translate("Dialog", "开始", None))
+        self.btn_end.setText(_translate("Dialog", "结束", None))
         self.label_2.setText(_translate("Dialog", "端口", None))
-        self.label_3.setText(_translate("Dialog", "服务器响应信息", None))
+        self.chk_server.setText(_translate("Dialog", "我是服务器", None))
+        self.label_3.setText(_translate("Dialog", "响应信息", None))
 
 import res_rc

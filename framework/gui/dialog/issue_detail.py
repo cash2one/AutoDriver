@@ -3,7 +3,7 @@ __author__ = 'guguohai@outlook.com'
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import issue_detail_ui,label_btn
+from framework.gui.views import issue_detail_ui,label_btn
 from framework.util import convert
 from framework.gui.base import *
 import file_browser
@@ -97,7 +97,7 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
                 # btn.setMinimumHeight(25)
                 #
                 # btn.setStyleSheet(
-                # "background-color:#ffffff;border:0;background-image:url(./ui/res/add.png);background-repeat:no-repeat;padding:30px 0 0 0")
+                # "background-color:#ffffff;border:0;background-image:url(./views/res/add.png);background-repeat:no-repeat;padding:30px 0 0 0")
                 # btn.setText(att['filename'])
                 #
                 # btn.setMaximumWidth(150)

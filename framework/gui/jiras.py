@@ -6,7 +6,7 @@ import json
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-from framework.gui.ui import jira_main_ui
+from framework.gui.views import jira_main_ui
 from framework.gui.models import jira_model
 from framework.gui.base import *
 from framework.gui.dialog import issue_detail, new_issue
