@@ -9,8 +9,7 @@ from appium import webdriver as am
 from selenium import webdriver as sm
 
 from framework.util import fs
-from framework.core import HTMLTestRunner
-from framework.data import the
+from framework.core import HTMLTestRunner, the
 
 
 PATH = lambda p: os.path.abspath(

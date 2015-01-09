@@ -3,14 +3,14 @@ __author__ = 'guguohai@pathbook.com.cn23'
 
 import os
 import time
-import sockets
 import subprocess
 
 from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
 
-from framework.data import the
-from framework.util import idriver_const,constant
+import socket
+from framework.core import the
+from framework.util import idriver_const,const
 from framework.util import mysql,fs
 
 
@@ -40,42 +40,42 @@ def app(current_file):
 
     st = sections.lower()#.replace('autobook','idriver')
     cfg = the.taskConfig[st]
-    if cfg[constant.PRODUCT] == None:
-        the.taskConfig[st][constant.PRODUCT] = Android(cfg[constant.TASK_CONFIG])
-        the.taskConfig[st][constant.PRODUCT].splash()
-    return the.taskConfig[st][constant.PRODUCT]
+    if cfg[const.PRODUCT] == None:
+        the.taskConfig[st][const.PRODUCT] = Android(cfg[const.TASK_CONFIG])
+        the.taskConfig[st][const.PRODUCT].splash()
+    return the.taskConfig[st][const.PRODUCT]
 
 
-def driver():
-    _configs = the.app_configs[DRIVER]
-    if the.devices[DRIVER] == None:
-        the.devices[DRIVER] = Android(_configs)
-        the.devices[DRIVER].wait_switch(_configs['app_activity'])
-    return the.devices[DRIVER]
-
-
-def customer():
-    _configs = the.app_configs[CUSTOMER]
-    if the.devices[CUSTOMER] == None:
-        the.devices[CUSTOMER] = Android(_configs)
-        the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
-    return the.devices[CUSTOMER]
-
-
-def driver_robot():
-    _configs = the.app_configs[DRIVER_ROBOT]
-    if the.devices[DRIVER_ROBOT] == None:
-        the.devices[DRIVER_ROBOT] = Android(_configs)
-        the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
-    return the.devices[DRIVER_ROBOT]
-
-
-def customer_robot():
-    _configs = the.app_configs[CUSTOMER_ROBOT]
-    if the.devices[CUSTOMER_ROBOT] == None:
-        the.devices[CUSTOMER_ROBOT] = Android(_configs)
-        the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
-    return the.devices[CUSTOMER_ROBOT]
+# def driver():
+#     _configs = the.app_configs[DRIVER]
+#     if the.devices[DRIVER] == None:
+#         the.devices[DRIVER] = Android(_configs)
+#         the.devices[DRIVER].wait_switch(_configs['app_activity'])
+#     return the.devices[DRIVER]
+#
+#
+# def customer():
+#     _configs = the.app_configs[CUSTOMER]
+#     if the.devices[CUSTOMER] == None:
+#         the.devices[CUSTOMER] = Android(_configs)
+#         the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
+#     return the.devices[CUSTOMER]
+#
+#
+# def driver_robot():
+#     _configs = the.app_configs[DRIVER_ROBOT]
+#     if the.devices[DRIVER_ROBOT] == None:
+#         the.devices[DRIVER_ROBOT] = Android(_configs)
+#         the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
+#     return the.devices[DRIVER_ROBOT]
+#
+#
+# def customer_robot():
+#     _configs = the.app_configs[CUSTOMER_ROBOT]
+#     if the.devices[CUSTOMER_ROBOT] == None:
+#         the.devices[CUSTOMER_ROBOT] = Android(_configs)
+#         the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
+#     return the.devices[CUSTOMER_ROBOT]
 
 
 class Android(WebDriver):
@@ -319,7 +319,7 @@ class Android(WebDriver):
         :param cmd:
         :return:
         """
-        sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(('localhost', 7556))
 
         time.sleep(2)
@@ -588,7 +588,7 @@ socket_sign = '1'
 socket_addr = 'localhost'
 
 def customer_server():
-    sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((socket_addr, 7556))
     sock.listen(5)
     while True:
@@ -605,7 +605,7 @@ def customer_server():
                 #cmd = PATH('../src/autobook/android/customer/%s' % py_file)
                 p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
                 connection.send(p.stdout.read())
-        except sockets.timeout:
+        except socket.timeout:
             print 'time out'
         connection.close()
 
@@ -615,7 +615,7 @@ def order_client(cmd):
     :param cmd:
     :return:
     """
-    sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect(('localhost', 7556))
 
     time.sleep(2)
