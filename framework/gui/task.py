@@ -1,13 +1,14 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
-import os
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
+
 from framework.gui.ui import task_ui
 from framework.gui.models import home_model
 from framework.gui.base import *
-import dlg_task
+from framework.gui.dialog import dlg_task
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

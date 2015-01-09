@@ -3,11 +3,10 @@ __author__ = 'guguohai@outlook.com'
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import issue_detail_ui
-from framework.gui.models import attach_model
+from framework.gui.ui import issue_detail_ui,label_btn
 from framework.util import convert
 from framework.gui.base import *
-import file_browser, label_btn
+import file_browser
 from PyQt4 import QtNetwork
 
 
