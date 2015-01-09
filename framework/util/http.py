@@ -7,7 +7,7 @@ import time
 import datetime
 # import pycurl
 import StringIO
-import socket
+import sockets
 import cookielib
 import urllib
 import urllib2

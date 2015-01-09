@@ -2,7 +2,7 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import dlg_task_ui
+from framework.gui.views import dlg_task_ui
 from framework.gui.base import *
 from framework.gui.dialog import check_user, script_list
 

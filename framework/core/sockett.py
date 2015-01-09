@@ -1,10 +1,10 @@
 # coding=utf-8
 __author__ = 'Administrator'
 
-import socket,sys
+import sockets,sys
 
 def server():
-    sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    sock=sockets.sockets(sockets.AF_INET,sockets.SOCK_STREAM)
     sock.bind(('localhost',7556))
     sock.listen(5)
     while True:
@@ -18,12 +18,12 @@ def server():
                 connection.send('welcome to python server!')
             #else:
                 #connection.send('please go out!')
-        except socket.timeout:
+        except sockets.timeout:
             print 'time out'
         connection.close()
 
 def client():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
     sock.connect(('localhost',7556))
     import time
     time.sleep(2)
