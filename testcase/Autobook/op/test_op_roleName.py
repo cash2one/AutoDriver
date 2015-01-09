@@ -22,7 +22,7 @@ class TestCase(unittest.TestCase):
 
     def test_roleName1(self):
 
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
@@ -37,11 +37,11 @@ class TestCase(unittest.TestCase):
 
     def test_roleName2(self):
 
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[1]/a').click()
+        self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
         #进入角色添加页面
         self.driver.find_id('role_name').send_keys('<td>')
@@ -52,11 +52,11 @@ class TestCase(unittest.TestCase):
         self.assertEqual(text,u'角色名称含非法字符')
 
     def test_roleName3(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[1]/a').click()
+        self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
         #进入角色添加页面
         self.driver.find_id('role_name').send_keys(u'财务超级管理')

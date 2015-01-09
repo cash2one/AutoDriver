@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
 
 
     def test_stateQuery(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
@@ -43,11 +43,11 @@ class TestCase(unittest.TestCase):
             self.assertTrue(u'没有符合条件的数据'in text)
 
     def test_nameQuery(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[2]/a').click()
+        self.driver.find_element_by_link_text(u'账号管理').click()
         name='lishan'
         self.driver.find_id('operatorInfo').send_keys(name)
 
@@ -64,11 +64,11 @@ class TestCase(unittest.TestCase):
 
 
     def test_realNameQuery(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[2]/a').click()
+        self.driver.find_element_by_link_text(u'账号管理').click()
         realName=u'李三'
         self.driver.find_id('operatorInfo').send_keys(realName)
 
@@ -85,11 +85,11 @@ class TestCase(unittest.TestCase):
 
 
     def test_Query(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[2]/a').click()
+        self.driver.find_element_by_link_text(u'账号管理').click()
         opts=self.driver.find_id('state').find_elements_by_tag_name('option')
 
         for opt in opts:

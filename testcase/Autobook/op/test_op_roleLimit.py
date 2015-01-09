@@ -30,7 +30,7 @@ class TestCase(unittest.TestCase):
 
 
     def test_roleName1(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
