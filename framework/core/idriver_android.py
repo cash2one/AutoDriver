@@ -3,7 +3,7 @@ __author__ = 'guguohai@pathbook.com.cn23'
 
 import os
 import time
-import socket
+import sockets
 import subprocess
 
 from appium.webdriver.webdriver import WebDriver
@@ -319,7 +319,7 @@ class Android(WebDriver):
         :param cmd:
         :return:
         """
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
         sock.connect(('localhost', 7556))
 
         time.sleep(2)
@@ -588,7 +588,7 @@ socket_sign = '1'
 socket_addr = 'localhost'
 
 def customer_server():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
     sock.bind((socket_addr, 7556))
     sock.listen(5)
     while True:
@@ -605,7 +605,7 @@ def customer_server():
                 #cmd = PATH('../src/autobook/android/customer/%s' % py_file)
                 p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
                 connection.send(p.stdout.read())
-        except socket.timeout:
+        except sockets.timeout:
             print 'time out'
         connection.close()
 
@@ -615,7 +615,7 @@ def order_client(cmd):
     :param cmd:
     :return:
     """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
     sock.connect(('localhost', 7556))
 
     time.sleep(2)

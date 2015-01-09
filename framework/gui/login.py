@@ -5,7 +5,7 @@ import json
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
-from framework.gui.ui import login_ui
+from framework.gui.views import login_ui
 from framework.gui.base import *
 
 
@@ -21,9 +21,9 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         self.txt_username.setFocus()
         self.txt_pwd.setEchoMode(QLineEdit.Password)  # 将其设置为密码框
         self.btn_login.setStyleSheet(
-            "border:0;background-image:url(./ui/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
+            "border:0;background-image:url(./views/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
         self.btn_cancel.setStyleSheet(
-            "border:0;background-image:url(./ui/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
+            "border:0;background-image:url(./views/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
 
         self.connect(self.btn_login, SIGNAL("clicked()"), self.login_action)
         self.connect(self.btn_cancel, SIGNAL("clicked()"), self.confirm)
@@ -50,7 +50,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 
     def setBackgroundImg(self):
         png = QPixmap(self)
-        png.load("./ui/res/login.png")
+        png.load("./views/res/login.png")
         palette1 = QPalette(self)
         palette1.setBrush(self.backgroundRole(), QBrush(png))
         self.widget.setPalette(palette1)

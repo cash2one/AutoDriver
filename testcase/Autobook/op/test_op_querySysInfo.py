@@ -20,13 +20,11 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
 
-    def test_createAccount(self):
-        above=self.driver.find_element_by_link_text(u'系统管理')
+    def test_email1(self):
+        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_link_text(u'账号管理').click()
-        self.driver.find_id('create').click()
-        self.assertEqual(self.driver.title,u'添加账号')
-        self.driver.find_id('return_btn').click()
-        self.assertEqual(self.driver.title,u'账号管理')
+        self.driver.find_element_by_link_text(u'系统参数').click()
+
+

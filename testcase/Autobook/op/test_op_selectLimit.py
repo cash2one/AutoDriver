@@ -20,11 +20,11 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     def test_selectLimit(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[1]/a').click()
+        self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
         #进入角色添加页面
         els=self.driver.find_id('lv1Menu20').find_elements_by_tag_name('input')[0]

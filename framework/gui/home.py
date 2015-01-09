@@ -7,7 +7,7 @@ import urllib
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
-from framework.gui.ui import home_ui
+from framework.gui.views import home_ui
 import base
 
 PATH = lambda p: os.path.abspath(
