@@ -35,9 +35,9 @@ def readConfig(selections,opt):
     return conf.get(selections,opt)
 
 def register():
-    import socket
-    host_name = socket.getfqdn(socket.gethostname())
-    host_addr = socket.gethostbyname(host_name)
+    import sockets
+    host_name = sockets.getfqdn(sockets.gethostname())
+    host_addr = sockets.gethostbyname(host_name)
     port = readConfig('server','port')
 
     server = SimpleXMLRPCServer((host_addr, int(port)))
