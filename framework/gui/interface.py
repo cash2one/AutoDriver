@@ -3,7 +3,7 @@ __author__ = 'guguohai@outlook.com'
 
 import os
 from PyQt4.QtGui import *
-from framework.gui.ui import interface_ui
+from framework.gui.views import interface_ui
 
 
 class InterfaceForm(QWidget, interface_ui.Ui_Form):

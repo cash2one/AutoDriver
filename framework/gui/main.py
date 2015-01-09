@@ -6,7 +6,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 
-from framework.gui.ui import main_ui
+from framework.gui.views import main_ui
 import home
 import dialog
 import jiras
@@ -49,7 +49,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
-        self.trayIcon.setIcon(QIcon("./ui/res/wp.ico"))
+        self.trayIcon.setIcon(QIcon("./views/res/wp.ico"))
         self.trayIcon.show()
         self.connect(self.trayIcon, SIGNAL("activated()"), self.trayClick)
         # self.trayIcon.activated.connect(self.trayClick) #点击托盘
@@ -80,8 +80,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def trayMenu(self):
         # 右击托盘弹出的菜单
-        img_main = QIcon("./ui/res/app.png")
-        img_exit = QIcon("./ui/res/exit.png")
+        img_main = QIcon("./views/res/app.png")
+        img_exit = QIcon("./views/res/exit.png")
         self.trayIcon.setToolTip(u'Woodpecker')
         self.restoreAction = QAction(img_main, u"打开主窗口", self)
         self.restoreAction.triggered.connect(self.showNormal)
