@@ -64,10 +64,44 @@ class TestCase(unittest.TestCase):
         #
         # except exceptions.NoSuchElementException:
         #     pass
+        self.driver.find_element_by_id('query').click()
+        time.sleep(2)
 
+    def test_query4(self):
+        #查询全部任务（订单来源默认）
+        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        print opts
+        for opt in opts:
+            if opt.get_attribute('text')==u'全部任务':
+                opt.click()
 
         self.driver.find_element_by_id('query').click()
         time.sleep(2)
+
+    def test_query5(self):
+        #查询默认待分配任务（订单来源默认）
+        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        print opts
+        for opt in opts:
+            if opt.get_attribute('text')==u'待分配任务':
+                opt.click()
+
+        self.driver.find_element_by_id('query').click()
+        time.sleep(2)
+
+
+    def test_query6(self):
+        #查询我的任务（订单来源默认）
+        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        print opts
+        for opt in opts:
+            if opt.get_attribute('text')==u'我的任务':
+                opt.click()
+
+        self.driver.find_element_by_id('query').click()
+        time.sleep(2)
+
+
 
 
 

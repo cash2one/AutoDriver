@@ -22,6 +22,11 @@ COMMON_SERVICE = 'service/commonService'
 
 CORE_PATH_CONFIG = '../../config.ini'
 
+MSG_STOP = 'stop'
+MSG_START = 'start'
+TASK_SERVER = 0
+TASK_LOCAL = 1
+
 EXCEL_HEADER = {
 'no':u'用例编号',
 'cat':u'分类',
