@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>780</width>
-    <height>580</height>
+    <width>750</width>
+    <height>550</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>780</width>
-    <height>580</height>
+    <width>750</width>
+    <height>550</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
       <number>10</number>
      </property>
      <property name="rightMargin">
-      <number>10</number>
+      <number>5</number>
      </property>
      <item>
       <widget class="QLabel" name="lbl_project_avastar">
@@ -50,7 +50,7 @@
         <string notr="true">background-image: url(:/bg/res/projectavatar.png);</string>
        </property>
        <property name="text">
-        <string> </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -85,11 +85,14 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="leftMargin">
+      <number>2</number>
+     </property>
      <property name="topMargin">
-      <number>10</number>
+      <number>6</number>
      </property>
      <property name="bottomMargin">
-      <number>10</number>
+      <number>6</number>
      </property>
      <item>
       <widget class="QLabel" name="lbl_detail1">
@@ -115,25 +118,42 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextEdit" name="txt_desc"/>
-   </item>
-   <item>
-    <widget class="QWebView" name="web_attachment">
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>100</height>
-      </size>
+    <layout class="QVBoxLayout" name="desc_layout">
+     <property name="spacing">
+      <number>0</number>
      </property>
-     <property name="url">
-      <url>
-       <string>about:blank</string>
-      </url>
-     </property>
-    </widget>
+     <item>
+      <widget class="QTextEdit" name="txt_desc"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="lbl_att_title">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>【附件】</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -144,13 +164,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKit/QWebView</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../res.qrc"/>
  </resources>

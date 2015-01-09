@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import time
-import threading
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
+
 from framework.gui.ui import main_ui
-import home, dialog, jiras, testcase, task, login
+import home
+import dialog
+import jiras
+import testcase
+import task
+import login
+import interface
+from framework.gui.dialog import monitor, new_issue
 from framework.gui.base import *
 
 
@@ -15,12 +22,6 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
-
-        # 创建网络访问cookie
-        # self._cookiejar = QtNetwork.QNetworkCookieJar(parent=self)
-        # self.manager = QtNetwork.QNetworkAccessManager(parent=self)
-        # self.manager.setCookieJar(self._cookiejar)
-        # base.nett = self.manager
 
         jira.cookie = QtNetwork.QNetworkCookieJar(self)
 
@@ -42,6 +43,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.connect(self, SIGNAL("startLogin()"), self.login_dialog)
         self.toolbar_case.triggered.connect(self.load_testcase)
         self.toolbar_task.triggered.connect(self.load_task)
+        self.toolbar_knowledge.triggered.connect(self.show_knowledge)
+        self.toolbar_interface.triggered.connect(self.show_interface)
+        self.toolbar_monitor.triggered.connect(self.show_monitor)
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
@@ -56,18 +60,23 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         self.load_index()
 
-    def not_login(self):
-        print 'not loginsssss'
+    # self.make_thumbnail()
+    #
+    # def make_thumbnail(self):
+    # PATH = lambda p: os.path.abspath(
+    # os.path.join(os.path.dirname(__file__), p)
+    # )
+    #
+    #     if not os.path.exists(PATH('../../thumbnail/')):
+    #         os.mkdir(PATH('../../thumbnail/'))
+
 
     def save_task(self, arg):
         self.task_data += arg
         print self.task_data
 
-    def update_user(self,arg):
+    def update_user(self, arg):
         self.toolbar_jira.setText(arg.capitalize())
-
-    def test(self):
-        print 'gwegwe'
 
     def trayMenu(self):
         # 右击托盘弹出的菜单
@@ -126,9 +135,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         # if the.JIRA.isActive:
         if jira.isActive:
-            net_list = [self.netAccess, self.netAccess]
-
-            self.frm_jira = jiras.JIRAForm(net_list)
+            self.frm_jira = jiras.JIRAForm(self.netAccess)
             self.setCentralWidget(self.frm_jira)
         else:
             self.msgHandler()
@@ -136,7 +143,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def msgHandler(self):
         ret = QMessageBox.warning(self, u'未登录',
-                                  u"\n你还没有登录JIRA，点击确定登录  \n",
+                                  u"\n你还没有登录JIRA，点击确定登录",
                                   QMessageBox.Yes | QMessageBox.Cancel)
         if ret == QMessageBox.Yes:
             self.emit(SIGNAL("startLogin()"))
@@ -154,6 +161,23 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             self.dlg_login = login.LoginDialog()
             self.connect(self.dlg_login, SIGNAL("loginFinish"), self.update_user)
         self.dlg_login.exec_()
+
+    def show_monitor(self):
+        monitorDlg = monitor.MonitorDialog()
+        monitorDlg.exec_()
+
+
+    def show_knowledge(self):
+        issueDlg = new_issue.IssueDialog()
+        if issueDlg.exec_() == QDialog.Accepted:
+            print unicode(issueDlg.label.text())
+        else:
+            pass
+            #issueDlg.label.addAction()
+
+    def show_interface(self):
+        interfaceDlg = interface.InterfaceForm()
+        self.setCentralWidget(interfaceDlg)
 
 
     def show_msg(self, txt):

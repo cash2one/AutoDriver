@@ -2,10 +2,9 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import dlg_task_ui, autos_ui, user_ui
-from framework.gui.models import tree_model
+from framework.gui.ui import dlg_task_ui
 from framework.gui.base import *
-import dialog
+from framework.gui.dialog import check_user, script_list
 
 
 class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
@@ -97,11 +96,11 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         self.reject()  # 关闭窗口
 
     def select_tasks(self):
-        t = SelectScriptsDialog()
+        t = script_list.ScriptsDialog()
         t.exec_()
 
     def select_user(self):
-        self.selectUser = dialog.UserDialog()
+        self.selectUser = check_user.UserDialog()
         self.current_executor = self.txt_executor.text().split(';')
         print self.current_executor
         # self.selectUser.lbl_creator.setText(self.user)
@@ -110,27 +109,27 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         if self.selectUser.exec_():
             print self.selectUser.getUser()
             # self.model.appendRow((
-            #     QStandardItem(self.selectUser.name()),
+            # QStandardItem(self.selectUser.name()),
             #     QStandardItem(str(self.selectUser.age())),
             # ))
 
         self.selectUser.destroy()
 
 
-class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):
-    def __init__(self):
-        QDialog.__init__(self)
-
-        # self.ui = select_task.Ui_Form()
-        # self.ui.setupUi(self)
-        self.setupUi(self)
-
-        f = QFile(':/default.txt')
-        f.open(QIODevice.ReadOnly)
-        model = tree_model.TreeModel(f.readAll())
-        f.close()
-        self.treeView.setModel(model)
-
-
-    def confirm(self):
-        self.reject()  # 关闭窗口
+        # class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):
+        # def __init__(self):
+        #         QDialog.__init__(self)
+        #
+        #         # self.ui = select_task.Ui_Form()
+        #         # self.ui.setupUi(self)
+        #         self.setupUi(self)
+        #
+        #         f = QFile(':/default.txt')
+        #         f.open(QIODevice.ReadOnly)
+        #         model = tree_model.TreeModel(f.readAll())
+        #         f.close()
+        #         self.treeView.setModel(model)
+        #
+        #
+        #     def confirm(self):
+        #         self.reject()  # 关闭窗口

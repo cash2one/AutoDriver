@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/jira_main.ui'
 #
-# Created: Tue Jan 06 14:38:53 2015
+# Created: Wed Jan 07 11:56:49 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -30,7 +30,7 @@ class Ui_Form(object):
         self.verticalLayout = QtGui.QVBoxLayout(Form)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.searchLayout = QtGui.QHBoxLayout()
-        self.searchLayout.setContentsMargins(-1, 2, -1, 5)
+        self.searchLayout.setContentsMargins(-1, 2, -1, 2)
         self.searchLayout.setObjectName(_fromUtf8("searchLayout"))
         self.lbl_bug = QtGui.QLabel(Form)
         self.lbl_bug.setMaximumSize(QtCore.QSize(60, 16777215))
@@ -107,19 +107,34 @@ class Ui_Form(object):
         self.searchLayout.addWidget(self.lbl_results)
         self.pageLayout = QtGui.QHBoxLayout()
         self.pageLayout.setObjectName(_fromUtf8("pageLayout"))
+        self.label = QtGui.QLabel(Form)
+        self.label.setMinimumSize(QtCore.QSize(30, 0))
+        self.label.setMaximumSize(QtCore.QSize(30, 30))
+        self.label.setObjectName(_fromUtf8("label"))
+        self.pageLayout.addWidget(self.label)
         self.btn_prev = QtGui.QPushButton(Form)
-        self.btn_prev.setMaximumSize(QtCore.QSize(40, 30))
+        self.btn_prev.setMaximumSize(QtCore.QSize(30, 30))
         self.btn_prev.setObjectName(_fromUtf8("btn_prev"))
         self.pageLayout.addWidget(self.btn_prev)
+        self.cmb_pages = QtGui.QComboBox(Form)
+        self.cmb_pages.setMinimumSize(QtCore.QSize(60, 0))
+        self.cmb_pages.setMaximumSize(QtCore.QSize(60, 30))
+        self.cmb_pages.setObjectName(_fromUtf8("cmb_pages"))
+        self.pageLayout.addWidget(self.cmb_pages)
         self.btn_next = QtGui.QPushButton(Form)
-        self.btn_next.setMaximumSize(QtCore.QSize(40, 30))
+        self.btn_next.setMaximumSize(QtCore.QSize(30, 30))
         self.btn_next.setObjectName(_fromUtf8("btn_next"))
         self.pageLayout.addWidget(self.btn_next)
-        self.cmb_pages = QtGui.QComboBox(Form)
-        self.cmb_pages.setMaximumSize(QtCore.QSize(100, 30))
-        self.cmb_pages.setObjectName(_fromUtf8("cmb_pages"))
-        self.cmb_pages.addItem(_fromUtf8(""))
-        self.pageLayout.addWidget(self.cmb_pages)
+        self.line = QtGui.QFrame(Form)
+        self.line.setFrameShape(QtGui.QFrame.VLine)
+        self.line.setFrameShadow(QtGui.QFrame.Sunken)
+        self.line.setObjectName(_fromUtf8("line"))
+        self.pageLayout.addWidget(self.line)
+        self.btn_new = QtGui.QPushButton(Form)
+        self.btn_new.setMinimumSize(QtCore.QSize(0, 0))
+        self.btn_new.setMaximumSize(QtCore.QSize(85, 30))
+        self.btn_new.setObjectName(_fromUtf8("btn_new"))
+        self.pageLayout.addWidget(self.btn_new)
         self.searchLayout.addLayout(self.pageLayout)
         self.verticalLayout.addLayout(self.searchLayout)
         self.tv_bugs = QtGui.QTableView(Form)
@@ -158,8 +173,9 @@ class Ui_Form(object):
         self.comboBox.setItemText(0, _translate("Form", "任何报告人", None))
         self.btn_find.setText(_translate("Form", "查询", None))
         self.lbl_results.setText(_translate("Form", "TextLabel", None))
+        self.label.setText(_translate("Form", "翻页", None))
         self.btn_prev.setText(_translate("Form", "<", None))
         self.btn_next.setText(_translate("Form", ">", None))
-        self.cmb_pages.setItemText(0, _translate("Form", "选择页数", None))
+        self.btn_new.setText(_translate("Form", "创建问题", None))
 
 import res_rc

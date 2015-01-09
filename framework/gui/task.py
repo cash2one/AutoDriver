@@ -1,12 +1,14 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
-import os
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
+
 from framework.gui.ui import task_ui
 from framework.gui.models import home_model
-import base, dlg_task
+from framework.gui.base import *
+from framework.gui.dialog import dlg_task
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -21,7 +23,7 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.dlgTask = None
         self.currentCellIndex = 0
 
-        self.taskModel = home_model.QTableModel(base.meta.task_header, base.meta.tasks, self)
+        self.taskModel = home_model.QTableModel(meta.task_header, meta.tasks, self)
         self.createContextMenu()
 
         self.tv_task.setModel(self.taskModel)
@@ -64,7 +66,7 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         idx = self.tv_task.currentIndex()
         if idx.isValid():
             _data = self.taskModel.rowContent(idx.row())
-            row_con = _data[base.meta.task_row]
+            row_con = _data[meta.task_row]
             print row_con
 
 
@@ -73,10 +75,10 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         if idx.isValid():
             self.currentCellIndex = idx.row()
             _data = self.taskModel.rowContent(self.currentCellIndex)
-            row_con = _data[base.meta.task_row]
+            row_con = _data[meta.task_row]
 
             self.dlgTask = dlg_task.TaskDialog(row_con)
-
+            #if self.dlgTask.exec_()==QDialog.Accepted:
             self.dlgTask.btn_ok.clicked.connect(self.save_current_task)
             self.dlgTask.exec_()
 
@@ -114,9 +116,9 @@ class TaskForm(QWidget, task_ui.Ui_Form):
 
         # strBuffer = self.data[10]
         # qtime = QDateTime.fromString(strBuffer, "yyyy-MM-dd hh:mm:ss")
-        if base.third.isActive:
+        if jira.isActive:
             self.dlgTask = dlg_task.TaskDialog()
-            self.dlgTask.lbl_creator.setText(base.third.userName)
+            self.dlgTask.lbl_creator.setText(jira.userName)
             self.dlgTask.btn_ok.clicked.connect(self.insert_data)
             self.dlgTask.exec_()
         else:
