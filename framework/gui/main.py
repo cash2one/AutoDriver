@@ -1,11 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import sys
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
+
 from framework.gui.ui import main_ui
-import home, dialog, jiras, testcase, task, login, new_issue, interface, monitor
+import home
+import dialog
+import jiras
+import testcase
+import task
+import login
+import interface
+from framework.gui.dialog import monitor, new_issue
 from framework.gui.base import *
 
 
@@ -134,7 +143,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def msgHandler(self):
         ret = QMessageBox.warning(self, u'未登录',
-                                  u"\n你还没有登录JIRA，点击确定登录  \n",
+                                  u"\n你还没有登录JIRA，点击确定登录",
                                   QMessageBox.Yes | QMessageBox.Cancel)
         if ret == QMessageBox.Yes:
             self.emit(SIGNAL("startLogin()"))

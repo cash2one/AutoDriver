@@ -4,10 +4,11 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
-
+from PyQt4 import QtGui
 from framework.core import task, data
 from framework.data import the
-from framework.util import mail,convert
+from framework.util import mail
+from framework.gui import main as ui
 
 
 PATH = lambda p: os.path.abspath(
@@ -68,6 +69,12 @@ def order_robot():
     from framework.core import idriver_android
     idriver_android.customer_server()
 
+def gui():
+    app = QtGui.QApplication(sys.argv)
+    mainWin = ui.MainWindow()
+    mainWin.show()
+    sys.exit(app.exec_())
+
 def help():
     print u'''
         自动化脚本帮助列表：\n
@@ -86,6 +93,8 @@ def main():
             start()
         elif args[1]=="-report":
             startReport()
+        elif args[1]=="-gui":
+            gui()
         elif args[1]=="-robot":
             order_robot()
         elif args[1]=="-help":
@@ -107,11 +116,7 @@ def ddd(f,abc):
     print abc(f)
 
 if __name__ == "__main__":
-    thumbnail="http://192.168.3.11:8080/secure/thumbnail/11215/_thumb_11215.png"
-    aa=thumbnail.split('/')
-    aaaa=['ff']
-    dicts = {'aa':'bb','ee':'ff'}
-    print dicts.has_key('aa')
+    main()
 
     #
     # dr = device.RunAppium(4725)
