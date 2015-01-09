@@ -3,9 +3,8 @@ __author__ = 'guguohai@outlook.com'
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from framework.gui.ui import file_browser_ui
+from framework.gui.ui import file_browser_ui,label_btn
 from framework.gui.base import *
-import label_btn
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -55,7 +54,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         else:
             print reply.error()
 
-    def restore_image(self, png):
+    def resize_image(self, png):
         p_img = png
         if png.width() > self.width():
             picSize = QSize(self.width(), self.width())
@@ -81,7 +80,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             self.origin_png.load(jira.folder + file_name)
             # self.label.setScaledContents(True)
 
-            self.png = self.restore_image(self.origin_png)
+            self.png = self.resize_image(self.origin_png)
             self.img_label.setPixmap(self.png)
             self.v_layout.addWidget(self.img_label)
         else:

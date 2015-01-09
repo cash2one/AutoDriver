@@ -3,13 +3,13 @@ __author__ = 'guguohai@outlook.com'
 
 import os
 from PyQt4.QtGui import *
+from PyQt4 import QtCore
 from framework.gui.ui import monitor_ui
 
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
-
 
 class MonitorDialog(QDialog, monitor_ui.Ui_Dialog):
     def __init__(self):
@@ -27,7 +27,13 @@ class MonitorDialog(QDialog, monitor_ui.Ui_Dialog):
         self.btn_end.show()
 
     def end_monitor(self):
-        self.file_dialog()
+        ret = QMessageBox.warning(self, u'停止监控',
+                                  u"\n是否停止监控并收集测试结果？",
+                                  QMessageBox.Yes | QMessageBox.Cancel)
+        if ret == QMessageBox.Yes:
+            self.file_dialog()
+        elif ret == QMessageBox.Cancel:
+            pass
 
     def file_dialog(self):
         fd = QFileDialog(self)
