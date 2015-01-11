@@ -3,6 +3,7 @@ __author__ = 'guguohai@outlook.com'
 
 import os
 from PyQt4.QtGui import *
+from PyQt4 import QtCore
 from framework.gui.views import interface_ui
 from framework.gui.models import listview_model
 from framework.gui.helpers import param_infr
@@ -21,4 +22,10 @@ class InterfaceForm(QWidget, interface_ui.Ui_Form):
         tree_model = listview_model.TreeModel(param_infr.inf, self)
         self.tree_infs.setModel(tree_model)
 
+        self.tree_infs.clicked.connect(self.on_treeView_clicked)
+
+
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def on_treeView_clicked(self, index):
+        print 'selected item index found at %s with data: %s' % (index.row(), index.data().toString())
 
