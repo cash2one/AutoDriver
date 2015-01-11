@@ -19,13 +19,13 @@ class InterfaceForm(QWidget, interface_ui.Ui_Form):
         self.lbl_desc.setFont(QFont("Microsoft YaHei", 9))
         self.txt_result.setFont(QFont("Microsoft YaHei", 9))
 
-        tree_model = listview_model.TreeModel(param_infr.inf, self)
+        tree_model = listview_model.StampTreeModel()#param_infr.inf, self
         self.tree_infs.setModel(tree_model)
 
-        self.tree_infs.clicked.connect(self.on_treeView_clicked)
+        #self.tree_infs.clicked.connect(self.on_treeView_clicked)
 
 
-    @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def on_treeView_clicked(self, index):
-        print 'selected item index found at %s with data: %s' % (index.row(), index.data().toString())
+    # @QtCore.pyqtSlot(QtCore.QModelIndex)
+    # def on_treeView_clicked(self, index):
+    #     print 'selected item index found at %s with data: %s' % (index.row(), index.data().toString())
 

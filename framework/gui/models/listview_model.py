@@ -1,185 +1,184 @@
-# coding=utf-8
-__author__ = 'guguohai@outlook.com'
-
 from PyQt4 import QtCore
+from base_classes import Stamp, Stencil, Collider
+from item_classes import RootTreeItem, StampTreeItem, StencilTreeItem, ColliderTreeItem
 
 
-class TreeItem(object):
-    def __init__(self, data, parent=None):
-        self.parentItem = parent
-        self.itemData = data
-        self.childItems = []
+class StampTreeModel(QtCore.QAbstractItemModel):
+    """
+    This model is used to display stamp information in a tree view
+    """
 
-    def appendChild(self, item):
-        self.childItems.append(item)
+    def __init__(self, inParent=None):
 
-    def child(self, row):
-        return self.childItems[row]
+        # initialize base class
+        super(StampTreeModel, self).__init__(inParent)
 
-    def childCount(self):
-        return len(self.childItems)
-
-    def columnCount(self):
-        return len(self.itemData)
-
-    def data(self, column):
-        try:
-            return self.itemData[column]
-        except IndexError:
-            return None
-
-    def parent(self):
-        return self.parentItem
-
-    def row(self):
-        if self.parentItem:
-            return self.parentItem.childItems.index(self)
-        return 0
+        # create some data members, these will be set from the outside and trigger a model change
+        self.stamps = self.CreateStamps()
+        # set the root item to add other items to
+        self.rootItem = RootTreeItem()
+        # setup the test
+        self.SetupModelData()
 
 
-class TreeModel(QtCore.QAbstractListModel):
-    def __init__(self, datain, parent=None):
-        super(TreeModel, self).__init__(parent)
-        self.listdata = datain
-        self.rootItem = TreeItem((u'接口列表', u'描述'))
+    def CreateStamps(self):
+        """
+        @return: A list of stamps, this is just for testing purposes to create a list of items of
+        """
+
+        stamps = [Stamp("Colorado"), Stamp("Nirvana"), Stamp("Arkansas"), Stamp("California")]
+        for stamp in stamps:
+            for si in range(3):
+                stencil_name = "%s_stencil_%d" % (stamp.name, si)
+                stencil = Stencil(stencil_name)
+                for ci in range(2):
+                    collider_name = "collider_%d" % ci
+                    stencil.AddCollider(Collider(collider_name))
+
+                stamp.AddStencil(stencil)
+        return stamps
 
 
-    # def data(self, index, role):
-        # if index.isValid() and role == Qt.DisplayRole:
-        # return QVariant(self.listdata[index.row()]['name'])
-        # else:
-        #     return QVariant()
+    def SetupModelData(self):
+        """
+        Creates items for the model the view can work with
+        These are created out of the stamps held within the model
+        """
+        print self.stamps
+        for stamp in self.stamps:
 
-    def columnCount(self, parent):
-        if parent.isValid():
-            return parent.internalPointer().columnCount()
-        else:
-            return self.rootItem.columnCount()
+            # Create a stamp tree item
+            stamp_item = StampTreeItem(self.rootItem, stamp)
 
-    def data(self, index, role):
-        if not index.isValid():
-            return None
+            # for all the stencils attached to the stamp create a stencil
+            for stencil in stamp.stencils:
 
-        item = index.internalPointer()
+                stencil_item = StencilTreeItem(stamp_item, stencil)
 
-        if role == QtCore.Qt.CheckStateRole:          #被选中项是checkbox
-            if item.parent() == self.rootItem:        #如果是根的话，直接返回
-                return None
-            if item.childCount()>0:                   #如果是有子项的话，直接返回，这个可以根据需要调整。当需要成组选择的时候，必须保留
-                return None
-            if index.column()==0:
-                for x in self.checkLisk:              #检查该项是否在checkList中，如果在将其设为选中状态
-                    if x == index:
-                        return QtCore.Qt.Checked
-                else:
-                    return QtCore.Qt.Unchecked
+                for collider in stencil.colliders:
+                    # create the collider item
+                    collider_item = ColliderTreeItem(stencil_item, collider)
 
-        if role != QtCore.Qt.DisplayRole:
-            return None
+                    # add the collider item to the stencil
+                    stencil_item.AddChild(collider_item)
 
-        return item.data(index.column())
+                # add the stencil item to the stamp
+                stamp_item.AddChild(stencil_item)
 
-    def setData(self, index, value, role=QtCore.Qt.EditRole):
-        if role == QtCore.Qt.CheckStateRole and index.column()==0:
-            if value == QtCore.Qt.Unchecked:
-                self.checkLisk.remove(index)
-                self.emit(QtCore.SIGNAL("dataChanged(QModelIndex,QModelIndex)"),
-                          index, index)
-            else:
-                self.checkLisk.append(index)
-                self.emit(QtCore.SIGNAL("dataChanged(QModelIndex,QModelIndex)"),
-                          index, index)
-            return True
-
-    def flags(self, index):
-        if not index.isValid() :
-            return QtCore.Qt.NoItemFlags
-        result = QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
-        if index.column()==0:                          #只让第一列显示checkbox
-            result |= QtCore.Qt.ItemIsUserCheckable
-        return result
+            # add the stamp to the root
+            self.rootItem.AddChild(stamp_item)
 
 
-    def headerData(self, section, orientation, role):
-        if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
-            return self.rootItem.data(section)
+    def index(self, row, column, parentindex):
+        """
+        The index is used to access data by the view
+        This method overrides the base implementation, needs to be overridden
+        @param row: The row to create the index for
+        @param column: Not really relevant, the tree item handles this
+        @param parent: The parent this index should be created under 
+        """
 
-        return None
-
-    def index(self, row, column, parent):
-        if not self.hasIndex(row, column, parent):
+        # if the index does not exist, return a default index
+        if not self.hasIndex(row, column, parentindex):
             return QtCore.QModelIndex()
 
-        if not parent.isValid():
-            parentItem = self.rootItem
+        # make sure the parent exists, if not assume it's the root
+        parent_item = None
+        if not parentindex.isValid():
+            parent_item = self.rootItem
         else:
-            parentItem = parent.internalPointer()
+            parent_item = parentindex.internalPointer()
 
-        childItem = parentItem.child(row)
-        if childItem:
-            return self.createIndex(row, column, childItem)
+        # get the child from that parent and create an index for it
+        child_item = parent_item.GetChild(row)
+        if child_item:
+            return self.createIndex(row, column, child_item)
         else:
             return QtCore.QModelIndex()
 
-    def parent(self, index):
-        if not index.isValid():
+
+    def parent(self, childindex):
+        """
+        creates an index for a parent based on a child index, and binds the data
+        used by the view to get a parent (from a child)
+        @param childindex: the index of the child to get the parent from
+        """
+
+        if not childindex.isValid():
             return QtCore.QModelIndex()
 
-        childItem = index.internalPointer()
-        parentItem = childItem.parent()
-
-        if parentItem == self.rootItem:
+        child_item = childindex.internalPointer()
+        if not child_item:
             return QtCore.QModelIndex()
 
-        return self.createIndex(parentItem.row(), 0, parentItem)
+        parent_item = child_item.GetParent()
 
-    def rowCount(self, parent):
-        if parent.column() > 0:
+        if parent_item == self.rootItem:
+            return QtCore.QModelIndex()
+
+        return self.createIndex(parent_item.Row(), 0, parent_item)
+
+
+    def rowCount(self, parentindex):
+        """
+        Returns the amount of rows a parent has
+        This comes down to the amount of children associated with the parent
+        @param parentindex: the index of the parent
+        """
+
+        if parentindex.column() > 0:
             return 0
 
-        if not parent.isValid():
-            parentItem = self.rootItem
+        item = None
+        if not parentindex.isValid():
+            item = self.rootItem
         else:
-            parentItem = parent.internalPointer()
+            item = parentindex.internalPointer()
 
-        return parentItem.childCount()
+        return item.GetChildCount()
 
 
-    def setupModelData1(self, lines, parent):
-        pass
+    def columnCount(self, parentindex):
+        """
+        Amount of columns associated with the parent index
+        @param parentindex: the parent index object
+        """
 
-    def setupModelData(self, lines, parent):
-        parents = [parent]
-        indentations = [0]
+        if not parentindex.isValid():
+            return self.rootItem.ColumnCount()
 
-        number = 0
-        while number < len(lines):
-            position = 0
-            while position < len(lines[number]):
-                if lines[number][position] != ' ':
-                    break
-                position += 1
+        return parentindex.internalPointer().ColumnCount()
 
-            lineData = lines[number][position:].trimmed()
 
-            if lineData:
-                # Read the column data from the rest of the line.
-                columnData = [s for s in lineData.split('\t') if s]
+    def data(self, index, role):
+        """
+        The view calls this to extract data for the row and column associated with the parent object
+        @param parentindex: the parentindex to extract the data from
+        @param role: the data accessing role the view requests from the model
+        """
 
-                if position > indentations[-1]:
-                    # The last child of the current parent is now the new
-                    # parent unless the current parent has no children.
+        if not index.isValid():
+            return QtCore.QVariant()
 
-                    if parents[-1].childCount() > 0:
-                        parents.append(parents[-1].child(parents[-1].childCount() - 1))
-                        indentations.append(position)
+        # get the item out of the index
+        parent_item = index.internalPointer()
 
-                else:
-                    while position < indentations[-1] and len(parents) > 0:
-                        parents.pop()
-                        indentations.pop()
+        # Return the data associated with the column
+        if role == QtCore.Qt.DisplayRole:
+            return parent_item.Data(index.column())
+        if role == QtCore.Qt.SizeHintRole:
+            return QtCore.QSize(24, 24)
 
-                # Append a new item to the current parent's list of children.
-                parents[-1].appendChild(TreeItem(columnData, parents[-1]))
+        # Otherwise return default
+        return QtCore.QVariant()
 
-            number += 1
+
+    def headerData(self, column, orientation, role):
+        if (orientation == QtCore.Qt.Horizontal and
+                    role == QtCore.Qt.DisplayRole):
+            try:
+                return self.rootItem.Data(column)
+            except IndexError:
+                pass
+
+        return QtCore.QVariant()
