@@ -1,18 +1,22 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
+import os
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
 from framework.gui.views import task_ui
 from framework.gui.models import home_model
-from framework.gui.base import *
+from framework.core import the
 from framework.gui.dialog import dlg_task
 
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
+
+TASK_ROW = 'row'
 
 
 class TaskForm(QWidget, task_ui.Ui_Form):
@@ -23,7 +27,18 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.dlgTask = None
         self.currentCellIndex = 0
 
-        self.taskModel = home_model.QTableModel(meta.task_header, meta.tasks, self)
+        task_datas = (
+            {'row': (
+                u'001', u'接口测试', u'自动化', u'未开始', u'普通', u'顾国海', u'顾国海', u'2014-07-02 17:35:00', u'2014-07-02 17:35:00',
+                u'2014-07-02 17:35:00',
+                u'2014-07-02 17:35:00', 'desc'), 'script': []},
+            {'row': (
+                u'002', u'app平台测试', u'自动化', u'未开始', u'高级', u'顾国海', u'顾国海', u'2014-08-02 17:35:00',
+                u'2014-08-02 17:35:00', u'2014-08-02 17:35:00',
+                u'2014-08-02 17:35:00', 'desc'),
+             'script': []})
+
+        self.taskModel = home_model.QTableModel(task_datas, self)
         self.createContextMenu()
 
         self.tv_task.setModel(self.taskModel)
@@ -66,7 +81,7 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         idx = self.tv_task.currentIndex()
         if idx.isValid():
             _data = self.taskModel.rowContent(idx.row())
-            row_con = _data[meta.task_row]
+            row_con = _data[TASK_ROW]
             print row_con
 
 
@@ -75,10 +90,10 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         if idx.isValid():
             self.currentCellIndex = idx.row()
             _data = self.taskModel.rowContent(self.currentCellIndex)
-            row_con = _data[meta.task_row]
+            row_con = _data[TASK_ROW]
 
             self.dlgTask = dlg_task.TaskDialog(row_con)
-            #if self.dlgTask.exec_()==QDialog.Accepted:
+            # if self.dlgTask.exec_()==QDialog.Accepted:
             self.dlgTask.btn_ok.clicked.connect(self.save_current_task)
             self.dlgTask.exec_()
 
@@ -116,9 +131,9 @@ class TaskForm(QWidget, task_ui.Ui_Form):
 
         # strBuffer = self.data[10]
         # qtime = QDateTime.fromString(strBuffer, "yyyy-MM-dd hh:mm:ss")
-        if jira.isActive:
+        if the.jira.isActive:
             self.dlgTask = dlg_task.TaskDialog()
-            self.dlgTask.lbl_creator.setText(jira.userName)
+            self.dlgTask.lbl_creator.setText(the.jira.userName)
             self.dlgTask.btn_ok.clicked.connect(self.insert_data)
             self.dlgTask.exec_()
         else:

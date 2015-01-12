@@ -1,10 +1,14 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
+import os
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
+
 from framework.gui.views import file_browser_ui, label_btn
-from framework.gui.base import *
+from framework.core import the
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -33,7 +37,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         self.img_label = None
         self.png = None
         self.origin_png = None
-        self.file_path = os.path.join(PATH(jira.folder), self.file_name)
+        self.file_path = os.path.join(PATH(the.jira.folder), self.file_name)
 
         self.show_file(net_acc)
 
@@ -93,7 +97,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             self.v_layout.addWidget(txtEdit)
 
     def write_file(self, data_reply):
-        folder = PATH(jira.folder)
+        folder = PATH(the.jira.folder)
         if not os.path.exists(folder):
             os.mkdir(PATH(folder))
 

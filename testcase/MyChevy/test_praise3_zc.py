@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #点击点赞按钮，上下滑动列表查看点赞数是否恢复原值
 class TestCase(unittest.TestCase):

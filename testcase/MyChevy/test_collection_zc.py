@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #点击收藏按钮，在收藏的服务站中显示此服务站
 class TestCase(unittest.TestCase):

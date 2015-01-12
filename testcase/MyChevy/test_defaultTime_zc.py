@@ -4,8 +4,8 @@ import unittest
 from time import sleep
 import datetime
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #查看时间控件
 class TestCase(unittest.TestCase):

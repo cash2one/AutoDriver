@@ -4,9 +4,11 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
+
 from PyQt4 import QtGui
-from framework.core import task, data
-from framework.data import the
+
+from framework.core import task, data, the
+from framework.core import the
 from framework.util import mail
 from framework.gui import main as ui
 
@@ -116,7 +118,9 @@ def ddd(f,abc):
     print abc(f)
 
 if __name__ == "__main__":
-    main()
+    #main()
+    from framework.core import the
+    print the.settings
 
     #
     # dr = device.RunAppium(4725)

@@ -27,11 +27,11 @@ class TestCase(unittest.TestCase):
         personal_names[1].click()
         self.driver.wait_loading()
 
-        order_Eval = self.driver.find_ids('order_Eval')[1].text
+        order_Eval = self.driver.find_ids('order_Eval')[0].text
         print order_Eval
 
         #点击第2条评价
-        self.driver.find_ids('order_finish_item')[1].click()
+        self.driver.find_ids('order_finish_item')[0].click()
         self.driver.wait_loading()
 
         #选择星级            待完成

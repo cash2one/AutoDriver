@@ -7,7 +7,7 @@ import socket
 import datetime
 import threading
 import httplib2
-from framework.util import constant, sinfo, sqlite
+from framework.util import const, sinfo, sqlite
 
 
 PATH = lambda p: os.path.abspath(
@@ -24,12 +24,12 @@ def create_db(task_type):
     dbm = sqlite.DBManager(db)
 
     sql_str = ''
-    if task_type == constant.TASK_SERVER:
+    if task_type == const.TASK_SERVER:
         sql_str = 'create table if not exists info (' \
                   'id integer primary key,cpu varchar(50) NULL,memory varchar(50) NULL,' \
                   'lo_sent varchar(50) NULL,lo_recv varchar(50) NULL,eth0_sent varchar(50) NULL,eth0_recv varchar(50) NULL,' \
                   'update_time datetime NULL)'
-    elif task_type == constant.TASK_LOCAL:
+    elif task_type == const.TASK_LOCAL:
         sql_str = 'create table if not exists info (' \
                   'id integer primary key,resp_time integer NULL,status integer NULL,' \
                   'update_time datetime NULL)'
@@ -99,9 +99,9 @@ class TaskThread(threading.Thread):
                     # 根据任务类型创建数据库
                     self.dbm = create_db(self.task_type)
 
-                if self.task_type == constant.TASK_LOCAL:
+                if self.task_type == const.TASK_LOCAL:
                     writeHttpInfo(100, self.url, self.dbm)
-                elif self.task_type == constant.TASK_SERVER:
+                elif self.task_type == const.TASK_SERVER:
                     try:
                         args = sinfo.poll(1)
                         sinfo.refresh_window(self.dbm, *args)
@@ -141,10 +141,10 @@ class Socketer():
             try:
                 connection.settimeout(5)
                 buff = connection.recv(1024)
-                if constant.MSG_START in buff:
+                if const.MSG_START in buff:
                     task_thread.start_exec()
                     connection.send('monitor start...')
-                elif constant.MSG_STOP in buff:
+                elif const.MSG_STOP in buff:
                     task_thread.pause_exec()
                     connection.send('monitor stop...')
             except socket.timeout:

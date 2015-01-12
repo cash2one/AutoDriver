@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #点击取消预约按钮，成功取消
 class TestCase(unittest.TestCase):

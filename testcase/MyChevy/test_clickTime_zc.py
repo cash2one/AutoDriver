@@ -5,8 +5,8 @@ from time import sleep
 import datetime
 import time
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #再次点击时间控件，之前所选时间显示在时间控件中
 class TestCase(unittest.TestCase):

@@ -8,7 +8,7 @@ import psutil
 import socket
 import datetime
 import httplib2
-import constant
+import const
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

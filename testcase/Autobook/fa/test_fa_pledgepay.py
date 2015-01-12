@@ -1,5 +1,5 @@
-__author__ = 'xuguanghua@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'xuguanghua@pathbook.com.cn'
 #查询成功
 
 import time
@@ -16,7 +16,7 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
          #返回首页
         self.driver.switch_to_home()
-    #押金充值。并查看充值付款界面是否有此记录
+    #押金充值。并查看充值付款界面是否有此记录，查看对应司机账户及公司押金账户是否有记录
     def test_trade_pledgepay(self):
 
         self.driver.find_element_by_id('trade_pledgepay').click()
@@ -46,11 +46,55 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于列表中
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
-        for i in range(0,len(trs)-1):
-            tds = trs[i].find_elements_by_tag_name('td')
-            if  tds[1].text == tradeNo_text:
-                break
-        time.sleep(3)
+        for i in range(1,len(trs)-1):
+            tds = trs[i].find_elements_by_tag_name('td')[2]
+            if  tds.get_attribute('title') == tradeNo_text:
+                print 'Ture',tds.get_attribute('title')
+            else:
+                print 'False',tds.get_attribute('title')
+
+        #成功充值后，查询对应司机账户明细是否有记录
+        self.driver.find_element_by_link_text('账户管理').click()
+        time.sleep(1)
+        self.driver.find_element_by_link_text('司机账户').click()
+        time.sleep(2)
+        self.driver.find_element_by_id('driverInfo').click()#输入查询条件140017
+        self.driver.find_element_by_id('driverInfo').send_keys('140221')
+        self.driver.find_element_by_id('query').click()#点击查询
+        time.sleep(2)
+        self.driver.find_element_by_id('view_driverAccount').click()#点击明细
+        time.sleep(2)
+        #查询此条交易记录的交易号tradeNo_text是否存在于司机明细列表中
+        table1 = self.driver.find_element_by_id('list')
+        trs1 = table1.find_elements_by_tag_name('tr')
+        for i in range(1,len(trs1)-1):
+            tds1 = trs1[i].find_elements_by_tag_name('td')[1]
+            if  tds1.get_attribute('title') == tradeNo_text:
+                print 'Ture',tds1.get_attribute('title')
+            else:
+                print 'False',tds1.get_attribute('title')
+        time.sleep(2)
+
+        #成功充值后，查询公司预付款账户明细是否有记录
+        self.driver.find_element_by_link_text('账户管理').click()
+        time.sleep(2)
+        self.driver.find_element_by_link_text('公司账户').click()
+        time.sleep(2)
+        table2 = self.driver.find_element_by_id('list')
+        trs2 = table2.find_elements_by_tag_name('tr')
+        trs2[16].find_element_by_id('detail').click()
+        time.sleep(2)
+
+        #查询此条交易记录的交易号tradeNo_text是否存在于公司预付款账户明细列表中
+        table3 = self.driver.find_element_by_id('list')
+        trs3 = table3.find_elements_by_tag_name('tr')
+        for i in range(1,len(trs1)-1):
+            tds3 = trs3[i].find_elements_by_tag_name('td')[1]
+            if  tds3.get_attribute('title') == tradeNo_text:
+                print 'Ture',tds3.get_attribute('title')
+            else:
+                print 'False',tds3.get_attribute('title')
+        time.sleep(2)
 
 
 

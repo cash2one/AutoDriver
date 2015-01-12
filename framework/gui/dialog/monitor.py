@@ -4,7 +4,7 @@ __author__ = 'guguohai@outlook.com'
 import os
 from PyQt4.QtGui import *
 from PyQt4 import QtCore
-from framework.util import constant
+from framework.util import const
 from framework.gui.views import monitor_ui
 from framework.gui.helpers import monitor_ext
 
@@ -44,11 +44,11 @@ class MonitorDialog(QDialog, monitor_ui.Ui_Dialog):
             self.sock = monitor_ext.Socketer(self.host, self.port)
             if self.chk_server.isChecked():
                 if self.task_thread == None:
-                    self.task_thread = monitor_ext.TaskThread(self.host, constant.TASK_SERVER)
+                    self.task_thread = monitor_ext.TaskThread(self.host, const.TASK_SERVER)
                     self.task_thread.start()
                 self.sock.server(self.mtThread)
             else:
-                self.sock.client(constant.MSG_START)
+                self.sock.client(const.MSG_START)
         else:
             QMessageBox.warning(self, u'地址错误',
                                 u"\n服务器地址格式错误，请重新填写？",
@@ -59,7 +59,7 @@ class MonitorDialog(QDialog, monitor_ui.Ui_Dialog):
                                   u"\n是否停止监控并收集测试结果？",
                                   QMessageBox.Yes | QMessageBox.Cancel)
         if ret == QMessageBox.Yes:
-            self.sock.client(constant.MSG_STOP)
+            self.sock.client(const.MSG_STOP)
             # self.file_dialog()接收到数据后，打开保存对话框
         elif ret == QMessageBox.Cancel:
             pass
