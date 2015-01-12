@@ -4,11 +4,8 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
-
 from PyQt4 import QtGui
-
 from framework.core import task, data, the
-from framework.core import the
 from framework.util import mail
 from framework.gui import main as ui
 
@@ -59,7 +56,7 @@ def sendMail(mail_to):
     if os.path.isdir(path):
         if os.path.exists(os.path.join(path, 'report.zip')):
             # mail_list = ['19319752@qq.com','gghsean@163.com']
-            #mail_to = ','.join(mail_list)
+            # mail_to = ','.join(mail_list)
             m = mail.Mail(PATH('./report/'))
             mail_title = 'testss'
             mail_content = '一封邮件的内容'
@@ -119,24 +116,9 @@ def main():
         print u'查看帮助 -h'
 
 
-def abc(a):
-    return a + 10
-
-
-def ddd(f, abc):
-    print abc(f)
-
-
 if __name__ == "__main__":
-    # main()
-    import urllib2
-    from framework.util import strs
+    main()
 
-    aa={'res':'0','msg':{'tokenNo':'gwegeegwwge'}}
-
-
-    print aa.has_key()
-    #
     # dr = device.RunAppium(4725)
     # dr.start()
     # #
@@ -149,7 +131,7 @@ if __name__ == "__main__":
     #
     # while 1:
     # print 'gegwwwwww'
-    #     time.sleep(2)
+    # time.sleep(2)
 
     # p1 = subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
     # p1.stdout.read()

@@ -71,8 +71,8 @@ def app(current_file):
 # _configs = the.app_configs[DRIVER_ROBOT]
 # if the.devices[DRIVER_ROBOT] == None:
 # the.devices[DRIVER_ROBOT] = Android(_configs)
-#         the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
-#     return the.devices[DRIVER_ROBOT]
+# the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
+# return the.devices[DRIVER_ROBOT]
 #
 #
 # def customer_robot():
@@ -326,7 +326,9 @@ class Android(WebDriver):
         :param arg_dict:字典格式的参数，例{'tokenNo':'','driverNo':''}
         :return:
         '''
-        res_str = ['-2030', '-2031']
+        LOGIN_NUM = 0
+
+        status_code = self.api['status_code'].strip().split(',')
 
         args = arg_dict
         for arg in args:
@@ -344,13 +346,17 @@ class Android(WebDriver):
             try:
                 res = json.loads(read_result)
                 #返回值res不包含在错误码中
-                if not res['res'] in res_str:
+                if not res['res'] in status_code:
                     #self.save_token(res)  #保存token
                     return res
                 else:
-                    #令牌号超时失效等返回, 递归调用
-                    self.get_token(api, arg_dict)
-                    #exec_api(api, arg_dict)
+                    #令牌号超时失效等返回, 递归调用,调用次数不允许超过3次
+                    if LOGIN_NUM <= 3:
+                        self.get_token(api, arg_dict)
+                        LOGIN_NUM += 1
+                        #exec_api(api, arg_dict)
+                    else:
+                        return None
 
             except ValueError, e:
                 #json解析错误
