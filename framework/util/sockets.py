@@ -3,7 +3,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 import socket
 import time
-import constant
+import const
 
 
 def socket_server(host, port, myThread):
@@ -16,10 +16,10 @@ def socket_server(host, port, myThread):
         try:
             connection.settimeout(5)
             buff = connection.recv(1024)
-            if constant.MSG_START in buff:
+            if const.MSG_START in buff:
                 myThread.start_exec()
                 connection.send('monitor start...')
-            elif constant.MSG_STOP in buff:
+            elif const.MSG_STOP in buff:
                 myThread.pause_exec()
                 connection.send('monitor stop...')
         except socket.timeout:

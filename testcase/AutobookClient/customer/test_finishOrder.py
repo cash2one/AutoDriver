@@ -4,7 +4,7 @@ __author__ = 'guanghua_2011@126.com'
 import time
 import unittest
 from framework.core import idriver_android
-from framework.util import str
+from framework.util import strs
 
 
 class TestCase(unittest.TestCase):
@@ -39,7 +39,7 @@ class TestCase(unittest.TestCase):
         dates_text = order_dates[0].text
 
         #将列表取出的金额和日期转换成与数据库取出的数据格式相同
-        list_info = (str.to_long(amounts_text)*100,str.to_datetime(dates_text))
+        list_info = (strs.to_long(amounts_text)*100,strs.to_datetime(dates_text))
         print list_info
 
         #拿列表最近一个订单号从数据库中取出该订单的金额和完成时间

@@ -3,7 +3,7 @@ __author__ = 'zhangchun@pathbook.com.cn'
 
 import datetime
 from framework.core import idriver_android
-from framework.util import str
+from framework.util import strs
 import unittest
 
 
@@ -33,12 +33,12 @@ class TestCase(unittest.TestCase):
         recharge_info1=()
         for i in range(0,len(ids)):
             time=self.driver.find_ids('recharge_time')[i].text
-            recharge_time=str.to_datetime(time)
+            recharge_time=strs.to_datetime(time)
             type=self.driver.find_ids('text')[i].text
             text_out=self.driver.find_ids('recharge_in')[i].text[1:]
             text_out1=text_out.split('.')[0]
             text_out2=text_out.split('.')[1]
-            recharge_out=str.to_long(text_out1+text_out2)
+            recharge_out=strs.to_long(text_out1+text_out2)
             recharge_info1+=((recharge_time,type,recharge_out,),)
         #获取一个屏幕的支出记录的信息（时间，类别，支出数目）
 

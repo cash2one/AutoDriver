@@ -13,17 +13,18 @@ import jiras
 import testcase
 import task
 import login
-import interface
+import api_test
 from framework.gui.dialog import monitor, new_issue
-from framework.gui.base import *
+from framework.core import the
 
+ja = the.jira
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
 
-        jira.cookie = QtNetwork.QNetworkCookieJar(self)
+        ja.cookie = QtNetwork.QNetworkCookieJar(self)
 
         self.setFont(QFont("Microsoft YaHei", 9))
         self.showMaximized()
@@ -123,7 +124,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def netAccess(self, api, reply_func):
         m1 = QtNetwork.QNetworkAccessManager(self)
-        m1.setCookieJar(jira.cookie)
+        m1.setCookieJar(ja.cookie)
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
@@ -133,8 +134,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         # self.msgHandler()
         # return
 
-        # if the.JIRA.isActive:
-        if jira.isActive:
+        # if ja.isActive:
+        if ja.isActive:
             self.frm_jira = jiras.JIRAForm(self.netAccess)
             self.setCentralWidget(self.frm_jira)
         else:
@@ -152,9 +153,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def login_dialog(self):
         # if the.JIRA != None:
-        # if the.JIRA.isActive:
+        # if ja.isActive:
         # return
-        if jira.isActive:
+        if ja.isActive:
             return
 
         if self.dlg_login == None:
@@ -176,7 +177,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             #issueDlg.label.addAction()
 
     def show_interface(self):
-        interfaceDlg = interface.InterfaceForm()
+        interfaceDlg = api_test.InterfaceForm()
         self.setCentralWidget(interfaceDlg)
 
 

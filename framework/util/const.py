@@ -27,6 +27,10 @@ MSG_START = 'start'
 TASK_SERVER = 0
 TASK_LOCAL = 1
 
+GUI_TASK_TYPE = (u'自动化', u'车机测试', u'App', u'Web平台', u'接口', u'性能测试')
+GUI_TASK_PRIORITY = (u'普通', u'中级', u'高级')
+GUI_TASK_STATE = (u'未开始', u'已开始', u'已取消', u'已结束')
+
 EXCEL_HEADER = {
 'no':u'用例编号',
 'cat':u'分类',
