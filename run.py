@@ -132,23 +132,10 @@ if __name__ == "__main__":
     import urllib2
     from framework.util import strs
 
-    def exec_api(api, arg_dict=None):
-        #ccc={'tokenNo':'aaaaddd','driverNo':'fefe'}
-        #api = '/service/customerService/createOrderByDriver?ab=cd'
-        uri = strs.combine_url('http://idriver.pathbook.com.cn/apptestaa',api, arg_dict)
-        print uri
-        request = urllib2.Request(uri)
-        request.add_header('User-Agent', 'Mozilla/5.0')
-        request.add_header('Content-type', 'text/html;charset=UTF-8')
-
-        try:
-            response = urllib2.urlopen(request, timeout=15)
-            return response.read()
-        except urllib2.HTTPError, e:
-            print e.code,'hthttht'
+    aa={'res':'0','msg':{'tokenNo':'gwegeegwwge'}}
 
 
-    print exec_api('service/commonService/getHelpInfoList')
+    print aa.has_key()
     #
     # dr = device.RunAppium(4725)
     # dr.start()

@@ -85,7 +85,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         img_exit = QIcon("./views/res/exit.png")
         self.trayIcon.setToolTip(u'Woodpecker')
         self.restoreAction = QAction(img_main, u"打开主窗口", self)
-        self.restoreAction.triggered.connect(self.showNormal)
+        self.restoreAction.triggered.connect(self.showMaximized)
         self.quitAction = QAction(img_exit, u"退出", self)
         self.quitAction.triggered.connect(qApp.quit)
         self.trayIconMenu = QMenu(self)
