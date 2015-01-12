@@ -20,7 +20,7 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
 
-    def test_email1(self):
+    def test_querySysInfo1(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
@@ -42,3 +42,56 @@ class TestCase(unittest.TestCase):
             text=self.driver.find_element_by_class_name('norecords').text
             self.assertTrue(u'没有符合条件的数据'in text)
 
+
+    def test_querySysInfo2(self):
+        above=self.driver.find_element_by_link_text(u'系统管理')
+
+        ActionChains(self.driver).move_to_element(above).perform()
+        #鼠标悬停在系统管理上
+        self.driver.find_element_by_link_text(u'系统参数').click()
+        opts=self.driver.find_id('paramType').find_elements_by_tag_name('option')
+
+        for opt in opts:
+            if opt.get_attribute('text')==u'后台配置':
+                opt.click()
+
+        self.driver.find_id('sysInfo').send_keys(u'CORE')
+        self.driver.find_id('query').click()
+        trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
+        #查询条件状态选择接口配置
+        if len(trs)>1:
+            for i in range(1,len(trs)-1):
+                text1=trs[i].find_elements_by_tag_name('td')[1].text
+                text2=trs[i].find_elements_by_tag_name('td')[2].text
+                self.assertEqual(text1,u"后台配置")
+                self.assertTrue(u"CORE" in text2)
+        else:
+            text=self.driver.find_element_by_class_name('norecords').text
+            self.assertTrue(u'没有符合条件的数据'in text)
+
+
+    def test_querySysInfo3(self):
+        above=self.driver.find_element_by_link_text(u'系统管理')
+
+        ActionChains(self.driver).move_to_element(above).perform()
+        #鼠标悬停在系统管理上
+        self.driver.find_element_by_link_text(u'系统参数').click()
+        opts=self.driver.find_id('paramType').find_elements_by_tag_name('option')
+
+        for opt in opts:
+            if opt.get_attribute('text')==u'后台配置':
+                opt.click()
+
+        self.driver.find_id('sysInfo').send_keys(u'http://192.168.3.31')
+        self.driver.find_id('query').click()
+        trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
+        #查询条件状态选择接口配置
+        if len(trs)>1:
+            for i in range(1,len(trs)-1):
+                text1=trs[i].find_elements_by_tag_name('td')[1].text
+                text2=trs[i].find_elements_by_tag_name('td')[2].text
+                self.assertEqual(text1,u"后台配置")
+                self.assertTrue(u"http://192.168.3.31" in text2)
+        else:
+            text=self.driver.find_element_by_class_name('norecords').text
+            self.assertTrue(u'没有符合条件的数据'in text)
