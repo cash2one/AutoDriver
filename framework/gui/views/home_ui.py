@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/home.ui'
 #
-# Created: Thu Jan 08 00:30:47 2015
+# Created: Tue Jan 13 02:30:55 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,22 +26,23 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(878, 573)
+        Form.resize(933, 573)
         Form.setAutoFillBackground(False)
-        self.verticalLayout = QtGui.QVBoxLayout(Form)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.lbl_weather = QtGui.QLabel(Form)
-        self.lbl_weather.setObjectName(_fromUtf8("lbl_weather"))
-        self.verticalLayout.addWidget(self.lbl_weather)
-        self.txt_a = QtGui.QTextEdit(Form)
-        self.txt_a.setObjectName(_fromUtf8("txt_a"))
-        self.verticalLayout.addWidget(self.txt_a)
+        self.horizontalLayout = QtGui.QHBoxLayout(Form)
+        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
+        spacerItem = QtGui.QSpacerItem(448, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.hz_layout = QtGui.QHBoxLayout()
+        self.hz_layout.setSpacing(10)
+        self.hz_layout.setObjectName(_fromUtf8("hz_layout"))
+        self.horizontalLayout.addLayout(self.hz_layout)
+        spacerItem1 = QtGui.QSpacerItem(447, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
-        self.lbl_weather.setText(_translate("Form", "TextLabel", None))
 
 import res_rc
