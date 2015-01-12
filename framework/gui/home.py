@@ -8,7 +8,6 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
 from framework.gui.views import home_ui
-import base
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

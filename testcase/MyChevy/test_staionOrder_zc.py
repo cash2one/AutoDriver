@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #预约保养成功后，在服务站详情中显示取消预约按钮
 class TestCase(unittest.TestCase):
