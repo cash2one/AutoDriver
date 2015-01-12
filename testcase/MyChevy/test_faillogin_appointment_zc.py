@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #登录失败，点击保养预约维修，弹出登录用户不正确
 class TestCase(unittest.TestCase):

@@ -2,8 +2,8 @@
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import dlg_task_ui
-from framework.gui.base import *
+from framework.util import const
+from framework.gui.views import dlg_task_ui
 from framework.gui.dialog import check_user, script_list
 
 
@@ -30,13 +30,14 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         self.btn_requester.clicked.connect(self.select_user)
 
         # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
-        for t in meta.task_type:
+
+        for t in const.GUI_TASK_TYPE:
             self.cmb_TaskType.addItem(t)
 
-        for p in meta.priority:
+        for p in const.GUI_TASK_PRIORITY:
             self.cmb_TaskPriority.addItem(p)
 
-        for ts in meta.task_state:
+        for ts in const.GUI_TASK_STATE:
             self.cmb_TaskState.addItem(ts)
 
         if self.data != None:

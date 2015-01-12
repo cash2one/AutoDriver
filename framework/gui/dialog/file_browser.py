@@ -1,16 +1,18 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
+import os
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from framework.gui.ui import file_browser_ui,label_btn
-from framework.gui.base import *
+
+from framework.gui.views import file_browser_ui, label_btn
+from framework.core import the
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
-
-jira_folder = PATH(jira.folder)
 
 
 class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
@@ -21,11 +23,11 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         self.setFont(QFont("Microsoft YaHei", 9))
 
         flags = Qt.Dialog
-        #flags |= Qt.WindowMinimizeButtonHint
+        # flags |= Qt.WindowMinimizeButtonHint
         flags |= Qt.WindowMaximizeButtonHint
         self.setWindowFlags(flags)
-        #self.setWindowFlags(Qt.Widget)
-        self.setSizeGripEnabled (True)
+        # self.setWindowFlags(Qt.Widget)
+        self.setSizeGripEnabled(True)
 
         self.file_url = file_url
         self.file_name = file_url.split('/')[-1]
@@ -35,22 +37,22 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         self.img_label = None
         self.png = None
         self.origin_png = None
+        self.file_path = os.path.join(PATH(the.jira.folder), self.file_name)
 
         self.show_file(net_acc)
 
     def show_file(self, acc_method):
-        p_a = os.path.join(jira_folder, self.file_name)
         # 临时文件夹里没有图片则下载，否则直接读取
-        if not os.path.exists(p_a):
+        if not os.path.exists(self.file_path):
             acc_method(self.file_url, self.issue_detail_reply)
         else:
-            self.load_file(self.file_name)
+            self.load_file()
 
 
     def issue_detail_reply(self, reply):
         if reply.error() == reply.NoError:
-            self.write_file(self.file_name, reply.readAll())
-            self.load_file(self.file_name)
+            self.write_file(reply.readAll())
+            self.load_file()
         else:
             print reply.error()
 
@@ -68,8 +70,8 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         # self.img_label.setPixmap(png)
         return p_img
 
-    def load_file(self, file_name):
-        file_path = os.path.join(jira_folder, file_name)
+    def load_file(self):
+
 
         if self.isPic:
             self.img_label = label_btn.LabelButton()
@@ -77,7 +79,8 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             self.connect(self.img_label, SIGNAL("doubleClicked()"), self.restore_image_event)
             self.origin_png = QPixmap()
 
-            self.origin_png.load(jira.folder + file_name)
+            self.origin_png.load(self.file_path)
+
             # self.label.setScaledContents(True)
 
             self.png = self.resize_image(self.origin_png)
@@ -85,7 +88,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             self.v_layout.addWidget(self.img_label)
         else:
             txtEdit = QTextEdit()
-            f = open(file_path)
+            f = open(self.file_path)
             try:
                 content = f.read()
                 txtEdit.setPlainText(content)
@@ -93,12 +96,13 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
                 f.close()
             self.v_layout.addWidget(txtEdit)
 
-    def write_file(self, filename, data_reply):
-        if not os.path.exists(jira_folder):
-            os.mkdir(jira_folder)
+    def write_file(self, data_reply):
+        folder = PATH(the.jira.folder)
+        if not os.path.exists(folder):
+            os.mkdir(PATH(folder))
 
         try:
-            output_file = open(os.path.join(jira_folder, filename), 'wb')
+            output_file = open(self.file_path, 'wb')
             output_file.writelines(data_reply)
             output_file.close()
         except IOError:
@@ -107,9 +111,12 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
 
     def restore_image_event(self):
         if self.png.width() <= self.width():
+            # 还原到原来的尺寸
+            self.showMaximized()
             self.img_label.setPixmap(self.origin_png)
             self.png = self.origin_png
         else:
+            # 缩放到屏幕匹配的尺寸
             picSize = QSize(self.width(), self.width())
             self.png = self.png.scaled(picSize, Qt.KeepAspectRatio)
             self.img_label.setPixmap(self.png)

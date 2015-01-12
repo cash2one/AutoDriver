@@ -2,12 +2,16 @@
 __author__ = 'guguohai@outlook.com'
 
 import json
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
-from framework.gui.ui import login_ui
-from framework.gui.base import *
 
+from framework.gui.views import login_ui
+from framework.core import the
+
+
+ja = the.jira
 
 class LoginDialog(QDialog, login_ui.Ui_Form):
     def __init__(self):
@@ -21,9 +25,9 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         self.txt_username.setFocus()
         self.txt_pwd.setEchoMode(QLineEdit.Password)  # 将其设置为密码框
         self.btn_login.setStyleSheet(
-            "border:0;background-image:url(./ui/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
+            "border:0;background-image:url(./views/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
         self.btn_cancel.setStyleSheet(
-            "border:0;background-image:url(./ui/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
+            "border:0;background-image:url(./views/res/login_btn_normal.png);background-repeat:no-repeat;padding:0;margin:0")
 
         self.connect(self.btn_login, SIGNAL("clicked()"), self.login_action)
         self.connect(self.btn_cancel, SIGNAL("clicked()"), self.confirm)
@@ -50,7 +54,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 
     def setBackgroundImg(self):
         png = QPixmap(self)
-        png.load("./ui/res/login.png")
+        png.load("./views/res/login.png")
         palette1 = QPalette(self)
         palette1.setBrush(self.backgroundRole(), QBrush(png))
         self.widget.setPalette(palette1)
@@ -62,7 +66,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 
     def net_access(self, api, reply_func):
         m1 = QtNetwork.QNetworkAccessManager(self)
-        m1.setCookieJar(jira.cookie)
+        m1.setCookieJar(ja.cookie)
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
@@ -81,7 +85,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
         # nm = net.NetManager()
         # nm.get(self,jira.cookie, api, self.on_reply)
         # self.net_manager.get(jira.host + api, self.on_reply)
-        self.net_access(jira.host + api, self.on_reply)
+        self.net_access(ja.host + api, self.on_reply)
 
         self.btn_login.setText(u'登录中..')
         self.btn_login.setEnabled(False)
@@ -97,7 +101,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
             api = '/rest/api/2/user?username=%s' % self.user_name
 
             # self.net_manager.get(jira.host + api, self.on_user_reply)
-            self.net_access(jira.host + api, self.on_user_reply)
+            self.net_access(ja.host + api, self.on_user_reply)
             print reply.error()
 
 
@@ -110,15 +114,15 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 
             try:
                 dicts = json.loads(con)
-                jira.userName = dicts['name']
-                jira.isActive = True
-                self.emit(SIGNAL("loginFinish"), jira.userName)
+                ja.userName = dicts['name']
+                ja.isActive = True
+                self.emit(SIGNAL("loginFinish"), ja.userName)
 
                 self.confirm()
             except ValueError:
                 pass
         else:
-            jira.isActive = False
+            ja.isActive = False
             self.time_out()
             # self.emit(SIGNAL("loginError"))
             print reply.error()
@@ -137,7 +141,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 # self.thread_stop = False
 # self.isStartLogin = False
 # self.ui = ui
-#         self.timeout = 15
+# self.timeout = 15
 #         self.u_name = u_name
 #         self.u_pwd = u_pwd
 #

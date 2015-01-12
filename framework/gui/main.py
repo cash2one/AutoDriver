@@ -6,24 +6,25 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 
-from framework.gui.ui import main_ui
+from framework.gui.views import main_ui
 import home
 import dialog
 import jiras
 import testcase
 import task
 import login
-import interface
+import api_test
 from framework.gui.dialog import monitor, new_issue
-from framework.gui.base import *
+from framework.core import the
 
+ja = the.jira
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
 
-        jira.cookie = QtNetwork.QNetworkCookieJar(self)
+        ja.cookie = QtNetwork.QNetworkCookieJar(self)
 
         self.setFont(QFont("Microsoft YaHei", 9))
         self.showMaximized()
@@ -49,7 +50,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
-        self.trayIcon.setIcon(QIcon("./ui/res/wp.ico"))
+        self.trayIcon.setIcon(QIcon("./views/res/wp.ico"))
         self.trayIcon.show()
         self.connect(self.trayIcon, SIGNAL("activated()"), self.trayClick)
         # self.trayIcon.activated.connect(self.trayClick) #点击托盘
@@ -80,8 +81,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def trayMenu(self):
         # 右击托盘弹出的菜单
-        img_main = QIcon("./ui/res/app.png")
-        img_exit = QIcon("./ui/res/exit.png")
+        img_main = QIcon("./views/res/app.png")
+        img_exit = QIcon("./views/res/exit.png")
         self.trayIcon.setToolTip(u'Woodpecker')
         self.restoreAction = QAction(img_main, u"打开主窗口", self)
         self.restoreAction.triggered.connect(self.showNormal)
@@ -123,7 +124,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def netAccess(self, api, reply_func):
         m1 = QtNetwork.QNetworkAccessManager(self)
-        m1.setCookieJar(jira.cookie)
+        m1.setCookieJar(ja.cookie)
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
@@ -133,8 +134,8 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         # self.msgHandler()
         # return
 
-        # if the.JIRA.isActive:
-        if jira.isActive:
+        # if ja.isActive:
+        if ja.isActive:
             self.frm_jira = jiras.JIRAForm(self.netAccess)
             self.setCentralWidget(self.frm_jira)
         else:
@@ -152,9 +153,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def login_dialog(self):
         # if the.JIRA != None:
-        # if the.JIRA.isActive:
+        # if ja.isActive:
         # return
-        if jira.isActive:
+        if ja.isActive:
             return
 
         if self.dlg_login == None:
@@ -176,7 +177,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             #issueDlg.label.addAction()
 
     def show_interface(self):
-        interfaceDlg = interface.InterfaceForm()
+        interfaceDlg = api_test.InterfaceForm()
         self.setCentralWidget(interfaceDlg)
 
 

@@ -6,9 +6,9 @@ import re
 import json
 import datetime
 
-from framework.core import models
-from framework.data import the
-from framework.util import xls,constant,sqlite
+from framework.core import models, the
+from framework.core import the
+from framework.util import xls,const,sqlite
 
 
 PATH = lambda p: os.path.abspath(
@@ -50,9 +50,9 @@ def getExcelData(excel):
                     #begin开始行，作为字典
                     temp = app
                 if app['desc']!='':
-                    temp['desc'] += app['desc'] + constant.SEP
+                    temp['desc'] += app['desc'] + const.SEP
                 if app['exp']!='':
-                    temp['exp'] += app['exp'] + constant.SEP
+                    temp['exp'] += app['exp'] + const.SEP
                 if temp['script'] == '':
                     temp['script'] = app['script']
             else:
@@ -83,7 +83,7 @@ def getExcelsData(xls_dir,skip_cat):
         try:
             val = products[p].strip()#.split(',')[1]
             if int(val) == 1:
-                excel = xls.Excel(xls_path,constant.EXCEL_HEADER,skip_cat)
+                excel = xls.Excel(xls_path,const.EXCEL_HEADER,skip_cat)
                 if excel.openExcel() != None:
                     list.extend(getExcelData(excel))
                 # else:
@@ -115,7 +115,7 @@ def getExcelsData(xls_dir,skip_cat):
 
 
 def sortTestCase(xls_path):
-    excel = xls.Excel(xls_path,constant.EXCEL_HEADER,False)
+    excel = xls.Excel(xls_path,const.EXCEL_HEADER,False)
     data = excel.openExcel()
     sheets = data.sheets()
     titles = sheets[0].row_values(0)#excel表头

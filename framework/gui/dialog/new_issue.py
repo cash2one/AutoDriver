@@ -3,7 +3,7 @@ __author__ = 'guguohai@outlook.com'
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import new_issue_ui,label_btn
+from framework.gui.views import new_issue_ui,label_btn
 
 
 class IssueDialog(QDialog, new_issue_ui.Ui_Dialog):

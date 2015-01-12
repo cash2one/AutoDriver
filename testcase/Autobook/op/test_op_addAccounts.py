@@ -21,11 +21,11 @@ class TestCase(unittest.TestCase):
 
 
     def test_createAccount(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[2]/a').click()
+        self.driver.find_element_by_link_text(u'账号管理').click()
         self.driver.find_id('create').click()
         n='lishan2'
         r=u'李三2'

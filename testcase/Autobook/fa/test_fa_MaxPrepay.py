@@ -1,5 +1,5 @@
-__author__ = 'xuguanghua@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'xuguanghua@pathbook.com.cn'
 #查询成功
 
 import time
@@ -53,10 +53,12 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于列表中
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
-        for i in range(0,len(trs)-1):
-            tds = trs[i].find_elements_by_tag_name('td')
-            if  tds[1].text == tradeNo_text:
-                break
+        for i in range(1,len(trs)-1):
+            tds = trs[i].find_elements_by_tag_name('td')[2]
+            if  tds.get_attribute('title') == tradeNo_text:
+                print 'Ture',tds.get_attribute('title')
+            else:
+                print 'False',tds.get_attribute('title')
         time.sleep(3)
 
 

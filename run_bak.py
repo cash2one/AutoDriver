@@ -7,8 +7,8 @@ import os
 import webbrowser
 
 from framework.util import mail,fs
-from framework.core import data,device,task,report, routine, HTMLTestRunner
-from framework.data import the
+from framework.core import data,device,task,report, routine, HTMLTestRunner, the
+from framework.core import the
 
 
 PATH = lambda p: os.path.abspath(

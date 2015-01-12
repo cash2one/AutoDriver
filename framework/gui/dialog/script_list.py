@@ -5,7 +5,7 @@ import os
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.gui.models import tree_model
-from framework.gui.ui import autos_ui
+from framework.gui.views import autos_ui
 
 
 class ScriptsDialog(QDialog, autos_ui.Ui_Form):
@@ -18,6 +18,8 @@ class ScriptsDialog(QDialog, autos_ui.Ui_Form):
 
         f = QFile(':/default.txt')
         f.open(QIODevice.ReadOnly)
+
+        print f.readAll()
         model = tree_model.TreeModel(f.readAll())
         f.close()
         self.treeView.setModel(model)

@@ -3,11 +3,12 @@ __author__ = 'guguohai@outlook.com'
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import issue_detail_ui,label_btn
-from framework.util import convert
-from framework.gui.base import *
-import file_browser
 from PyQt4 import QtNetwork
+
+from framework.gui.views import issue_detail_ui,label_btn
+from framework.util import convert
+from framework.core import the
+import file_browser
 
 
 class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
@@ -97,7 +98,7 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
                 # btn.setMinimumHeight(25)
                 #
                 # btn.setStyleSheet(
-                # "background-color:#ffffff;border:0;background-image:url(./ui/res/add.png);background-repeat:no-repeat;padding:30px 0 0 0")
+                # "background-color:#ffffff;border:0;background-image:url(./views/res/add.png);background-repeat:no-repeat;padding:30px 0 0 0")
                 # btn.setText(att['filename'])
                 #
                 # btn.setMaximumWidth(150)
@@ -138,7 +139,7 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
 
     def net_access(self, api, reply_func):
         m1 = QtNetwork.QNetworkAccessManager(self)
-        m1.setCookieJar(jira.cookie)
+        m1.setCookieJar(the.jira.cookie)
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)

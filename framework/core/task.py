@@ -5,7 +5,7 @@ import os, sys, re
 import unittest
 import threading
 import time
-from framework.util import constant, sqlite
+from framework.util import const, sqlite
 import test_runner
 import threading
 import time

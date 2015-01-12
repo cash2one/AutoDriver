@@ -3,7 +3,7 @@ __author__ = 'guguohai@outlook.com'
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.gui.ui import user_ui
+from framework.gui.views import user_ui
 
 
 class UserDialog(QDialog, user_ui.Ui_Dialog):
@@ -15,7 +15,7 @@ class UserDialog(QDialog, user_ui.Ui_Dialog):
         self.model = QStandardItemModel()
         self.model.itemChanged.connect(self.on_item_changed)
         # view = QDeclarativeView()
-        # view.setSource(QUrl("./ui/user.qml"))
+        # view.setSource(QUrl("./views/user.qml"))
         # view.show()
         for a in range(0, 5):
             item = QStandardItem("Item-" + str(a))

@@ -1,5 +1,5 @@
-__author__ = 'xuguanghua@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'xuguanghua@pathbook.com.cn'
 #查询成功
 
 import time
@@ -28,7 +28,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('memo').click()
         self.driver.find_element_by_id('memo').send_keys(u'自动化测试充值最大9999999')
         self.driver.find_element_by_id('btn_pay').click()#点击充值
-        time.sleep(4)
+        time.sleep(2)
         #对比信息:充值司机和充值金额
         driver_text = self.driver.find_element_by_id('pay_confirm_driver').text
         amount_text = self.driver.find_element_by_id('pay_confirm_amount').get_attribute('title')
@@ -37,7 +37,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(u'宁芳芳(140202)' in driver_text,'msg')
         self.assertTrue(u'9,999,999.00(玖佰玖拾玖万玖仟玖佰玖拾玖元整)' in amount_text,'msg')
         self.driver.find_element_by_id('btn_confirm').click()#点击确定，跳转至打印凭证界面
-        time.sleep(3)
+        time.sleep(2)
 
         tradeNo_text = self.driver.find_element_by_id('tradeNo').text#取出此次充值记录的交易号
         big_amount = self.driver.find_element_by_id('amountBig').text#取出此次充值凭证上的大写金额
@@ -49,15 +49,17 @@ class TestCase(unittest.TestCase):
 
 
         self.driver.find_element_by_id('print_back').click()#返回至充值付款界面
-        time.sleep(3)
+        time.sleep(2)
         #查询此条交易记录的交易号tradeNo_text是否存在于列表中
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
-        for i in range(0,len(trs)-1):
-            tds = trs[i].find_elements_by_tag_name('td')
-            if  tds[1].text == tradeNo_text:
-                break
-        time.sleep(3)
+        for i in range(1,len(trs)-1):
+            tds = trs[i].find_elements_by_tag_name('td')[2]
+            if  tds.get_attribute('title') == tradeNo_text:
+                print 'ture',tds.get_attribute('title')
+            else:
+                print 'False',tds.get_attribute('title')
+        time.sleep(1)
 
 
 
