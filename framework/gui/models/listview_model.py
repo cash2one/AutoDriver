@@ -3,39 +3,90 @@ from base_classes import Stamp, Stencil, Collider
 from item_classes import RootTreeItem, StampTreeItem, StencilTreeItem, ColliderTreeItem
 
 
+class TreeItem(object):
+    def __init__(self, data, parent=None):
+        self.parentItem = parent
+        self.itemData = data
+        self.childItems = []
+
+    def appendChild(self, item):
+        self.childItems.append(item)
+
+    def child(self, row):
+        return self.childItems[row]
+
+    def childCount(self):
+        return len(self.childItems)
+
+    def columnCount(self):
+        return len(self.itemData)
+
+    def data(self, column):
+        try:
+            return self.itemData[column]
+        except IndexError:
+            return None
+
+    def parent(self):
+        return self.parentItem
+
+    def row(self):
+        if self.parentItem:
+            return self.parentItem.childItems.index(self)
+        return 0
+
+
 class StampTreeModel(QtCore.QAbstractItemModel):
     """
     This model is used to display stamp information in a tree view
     """
 
-    def __init__(self, inParent=None):
+    def __init__(self, data, inParent=None):
 
         # initialize base class
         super(StampTreeModel, self).__init__(inParent)
 
         # create some data members, these will be set from the outside and trigger a model change
-        self.stamps = self.CreateStamps()
+        self.stamps = self.CreateStamps(data)
         # set the root item to add other items to
         self.rootItem = RootTreeItem()
         # setup the test
         self.SetupModelData()
 
 
-    def CreateStamps(self):
+    def CreateStamps(self, data):
         """
         @return: A list of stamps, this is just for testing purposes to create a list of items of
         """
 
-        stamps = [Stamp("Colorado"), Stamp("Nirvana"), Stamp("Arkansas"), Stamp("California")]
-        for stamp in stamps:
-            for si in range(3):
-                stencil_name = "%s_stencil_%d" % (stamp.name, si)
-                stencil = Stencil(stencil_name)
-                for ci in range(2):
-                    collider_name = "collider_%d" % ci
-                    stencil.AddCollider(Collider(collider_name))
+        stamps = []
+        # for api in apis:
+        # stamps.append(Stamp(api['name']))
+
+        for cat in data:
+            stamp = Stamp(cat['name'])
+
+            apis = cat['api']
+            for api in apis:
+                stencil = Stencil(api['displayName'])
 
                 stamp.AddStencil(stencil)
+
+
+            # for si in range(3):
+            # stencil_name = "%s_stencil_%d" % (stamp.name, si)
+            # stencil = Stencil(stencil_name)
+            #     for ci in range(2):
+            #         collider_name = "collider_%d" % ci
+            #         stencil.AddCollider(Collider(collider_name))
+            #
+            #     stamp.AddStencil(stencil)
+
+            stamps.append(stamp)
+        #
+        # for api in apis:
+        # print api['api']
+
         return stamps
 
 
@@ -44,7 +95,6 @@ class StampTreeModel(QtCore.QAbstractItemModel):
         Creates items for the model the view can work with
         These are created out of the stamps held within the model
         """
-        print self.stamps
         for stamp in self.stamps:
 
             # Create a stamp tree item
@@ -167,7 +217,7 @@ class StampTreeModel(QtCore.QAbstractItemModel):
         if role == QtCore.Qt.DisplayRole:
             return parent_item.Data(index.column())
         if role == QtCore.Qt.SizeHintRole:
-            return QtCore.QSize(24, 24)
+            return QtCore.QSize(22, 22)
 
         # Otherwise return default
         return QtCore.QVariant()
