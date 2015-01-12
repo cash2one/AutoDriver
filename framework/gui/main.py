@@ -13,7 +13,7 @@ import jiras
 import testcase
 import task
 import login
-import interface
+import api_test
 from framework.gui.dialog import monitor, new_issue
 from framework.core import the
 
@@ -177,7 +177,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             #issueDlg.label.addAction()
 
     def show_interface(self):
-        interfaceDlg = interface.InterfaceForm()
+        interfaceDlg = api_test.InterfaceForm()
         self.setCentralWidget(interfaceDlg)
 
 
