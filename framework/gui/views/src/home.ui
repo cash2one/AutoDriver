@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>878</width>
+    <width>933</width>
     <height>573</height>
    </rect>
   </property>
@@ -16,16 +16,39 @@
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QLabel" name="lbl_weather">
-     <property name="text">
-      <string>TextLabel</string>
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>448</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
-    <widget class="QTextEdit" name="txt_a"/>
+    <layout class="QHBoxLayout" name="hz_layout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+    </layout>
+   </item>
+   <item>
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>447</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

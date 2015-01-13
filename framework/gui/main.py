@@ -85,7 +85,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         img_exit = QIcon("./views/res/exit.png")
         self.trayIcon.setToolTip(u'Woodpecker')
         self.restoreAction = QAction(img_main, u"打开主窗口", self)
-        self.restoreAction.triggered.connect(self.showNormal)
+        self.restoreAction.triggered.connect(self.showMaximized)
         self.quitAction = QAction(img_exit, u"退出", self)
         self.quitAction.triggered.connect(qApp.quit)
         self.trayIconMenu = QMenu(self)
@@ -95,7 +95,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.trayIcon.setContextMenu(self.trayIconMenu)
 
     def load_index(self):
-        self.frm_home = home.HomeForm()
+        self.frm_home = home.HomeForm(self.netAccessNoCookie)
         self.frm_home.connect(self.frm_home, SIGNAL("notLogin"), self.login_dialog)
         self.setCentralWidget(self.frm_home)
 
@@ -128,6 +128,13 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
+
+    def netAccessNoCookie(self, api, reply_func):
+        m = QtNetwork.QNetworkAccessManager(self)
+        #m1.setCookieJar(ja.cookie)
+        m.finished.connect(reply_func)
+        req1 = QtNetwork.QNetworkRequest(QUrl(api))
+        m.get(req1)
 
     def load_jira_main(self):
         # if the.JIRA == None:
