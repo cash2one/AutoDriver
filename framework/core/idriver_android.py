@@ -17,16 +17,19 @@ from framework.util import idriver_const, const, strs, mysql, fs
 
 
 TIME_OUT = 100
-DRIVER = 'idriver.android.driver'
-DRIVER_ROBOT = 'idriver.android.driver_robot'
-CUSTOMER = 'idriver.android.customer'
-CUSTOMER_ROBOT = 'idriver.android.customer_robot'
-# 订单加载loading
+# DRIVER = 'idriver.android.driver'
+# DRIVER_ROBOT = 'idriver.android.driver_robot'
+# CUSTOMER = 'idriver.android.customer'
+# CUSTOMER_ROBOT = 'idriver.android.customer_robot'
+# # 订单加载loading
 ORDER_LOAD = 'order_load'
-HISTORY_ORDER_FINISH = 'history_order_finish'
-HISTORY_ORDER_CANCLE = 'history_order_cancle'
+# HISTORY_ORDER_FINISH = 'history_order_finish'
+# HISTORY_ORDER_CANCLE = 'history_order_cancle'
 WORK_STATE = 'tb_work_state'
 NET_WAIT = 'progressbar_net_wait'
+APP_CUSTOMER = 'service/customerService'
+APP_DRIVER = 'service/driverService'
+APP_COMMON = 'service/commonService'
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -57,19 +60,19 @@ def app(current_file):
 #
 #
 # def customer():
-#     _configs = the.app_configs[CUSTOMER]
-#     if the.devices[CUSTOMER] == None:
-#         the.devices[CUSTOMER] = Android(_configs)
-#         the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
-#     return the.devices[CUSTOMER]
+# _configs = the.app_configs[CUSTOMER]
+# if the.devices[CUSTOMER] == None:
+# the.devices[CUSTOMER] = Android(_configs)
+# the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
+# return the.devices[CUSTOMER]
 #
 #
 # def driver_robot():
-#     _configs = the.app_configs[DRIVER_ROBOT]
-#     if the.devices[DRIVER_ROBOT] == None:
-#         the.devices[DRIVER_ROBOT] = Android(_configs)
-#         the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
-#     return the.devices[DRIVER_ROBOT]
+# _configs = the.app_configs[DRIVER_ROBOT]
+# if the.devices[DRIVER_ROBOT] == None:
+# the.devices[DRIVER_ROBOT] = Android(_configs)
+# the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
+# return the.devices[DRIVER_ROBOT]
 #
 #
 # def customer_robot():
@@ -85,8 +88,10 @@ class Android(WebDriver):
         cfs = config.strip().split('|')
         self.config = fs.parserConfig(PATH('../../resource/app/%s' % cfs[0]))
         self.settings = self.config['settings']
+        self.api = self.config['api']
         #self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.config['layout']))
-        self.api_host = self.settings['api_host']
+        #self.api_host = self.settings['api_host']
+        self.api_token = ''
 
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.settings['platform_name']
@@ -275,8 +280,8 @@ class Android(WebDriver):
     def location(self, current_location):
         '''
         通过百度地图api获取经纬度
-        :param current_location:用户端一键下单内获取所在位置
-        :return:
+        :param current_location:当前所在的详细中文地址
+        :return:lng经度 lat纬度
         '''
         import urllib2, json
 
@@ -321,20 +326,85 @@ class Android(WebDriver):
         :param arg_dict:字典格式的参数，例{'tokenNo':'','driverNo':''}
         :return:
         '''
-        uri = strs.combine_url(self.api_host, api, arg_dict)
+        LOGIN_NUM = 0
+
+        status_code = self.api['status_code'].strip().split(',')
+
+        args = arg_dict
+        for arg in args:
+            if 'tokenNo' in arg:
+                args[arg] = self.api_token
+
+        uri = strs.combine_url(self.api['host'], api, args)
 
         request = urllib2.Request(uri)
         request.add_header('User-Agent', 'Mozilla/5.0')
         request.add_header('Content-type', 'text/html;charset=UTF-8')
         try:
             response = urllib2.urlopen(request, timeout=15)
-            res = response.read()
+            read_result = response.read()
             try:
-                return json.loads(res)
+                res = json.loads(read_result)
+                #返回值res不包含在错误码中
+                if not res['res'] in status_code:
+                    #self.save_token(res)  #保存token
+                    return res
+                else:
+                    #令牌号超时失效等返回, 递归调用,调用次数不允许超过3次
+                    if LOGIN_NUM <= 3:
+                        self.get_token(api, arg_dict)
+                        LOGIN_NUM += 1
+                        #exec_api(api, arg_dict)
+                    else:
+                        return None
+
             except ValueError, e:
-                raise NameError, e.message
+                #json解析错误
+                #raise NameError, e.message
+                return None
         except urllib2.HTTPError, e:
-            raise NameError, e.code
+            #http错误
+            #raise NameError, e.code
+            return None
+
+
+    def get_token(self, api, arg_dict):
+        '''
+        调用接口后，返回res为'-2030', '-2031'，则重新登录后，继续调用接口
+        :param api:登录接口
+        :return:无
+        '''
+        login_api = self.api['login']
+        params = {}
+
+        if APP_CUSTOMER in login_api:
+            phone = self.location(self.api['phone'])
+            code = self.location(self.api['code'])
+            versionNo = self.location(self.api['version_no'])
+            params = {'phone': phone, 'code': code, 'versionNo': versionNo}
+
+        if APP_DRIVER in login_api:
+            loc = self.location(self.api['location'])
+            imsi = self.location(self.api['imsi'])
+            versionNo = self.location(self.api['version_no'])
+            driverNo = self.location(self.api['driver_no'])
+            password = self.location(self.api['password'])
+            pmid = self.location(self.api['pmid'])
+            params = {'imsi': imsi, 'versionNo': versionNo, 'driverNo': driverNo, 'password': password, 'pmId': pmid,
+                      'loginMode': 1, 'lng': loc[0], 'lat': loc[1]}
+            self.exec_api(login_api, params)
+
+        if APP_COMMON in login_api:
+            pass
+
+        res = self.exec_api(login_api, params)
+        if res != None:
+            try:
+                self.api_token = res['msg']['tokenNo']
+                #重新调用接口
+                self.exec_api(api, arg_dict)
+            except KeyError:
+                pass
 
 
     # def post(url, data):

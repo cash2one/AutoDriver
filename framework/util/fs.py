@@ -10,6 +10,7 @@ import re
 import shutil
 import ConfigParser
 import const
+from xml.etree import cElementTree
 
 base_dir = os.path.dirname(os.path.dirname(__file__))
 
@@ -130,6 +131,21 @@ def writeConfig(path_str, selections, opt, val):
     f = open(path_str, 'w')
     conf.write(f)
     f.close()
+
+
+
+def read_xml(xml_path):
+    per = cElementTree.parse(xml_path)
+    p = per.findall('interface')
+    infs = []
+    for x in p:
+        inf = x.attrib
+        inf['parameter'] = []
+        for c in x.getchildren():
+            inf['parameter'].append(c.attrib)
+        infs.append(inf)
+
+    return infs
 
 
 def newFile(origin_file, new_file, xs):

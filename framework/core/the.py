@@ -30,6 +30,7 @@ class JIRA():
         self.pageSize = int(_gui['page_size'])
         self.folder = _gui['folder']
         self.follow = []
+        self.home = []
 
 
 class Woodpecker():

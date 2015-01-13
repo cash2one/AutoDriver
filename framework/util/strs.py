@@ -44,6 +44,13 @@ def to_long(str_number):
 
 
 def combine_url(host, api='', params=None):
+    '''
+    接口地址拼接
+    :param host:
+    :param api:
+    :param params:
+    :return:
+    '''
     param_str = ''
     if params != None:
         for p in params:
@@ -55,6 +62,7 @@ def combine_url(host, api='', params=None):
 
     uri = ''
     if host[-1] == '/':
+        #服务器地址是否末尾带斜杠/
         if api.find('/') == 0:
             uri = host + api[1:len(api)] + param_str
         else:
