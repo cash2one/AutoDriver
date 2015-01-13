@@ -170,27 +170,20 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
 
 
     def browser_web(self, webview, content):
-        if '51testing.com' in self.file_url:
-            # codec = QTextCodec.codecForName("GBK")
-            # webview.setHtml(unicode(codec.toUnicode(content)))
-            webview.load(QUrl(self.file_url))
+        codec = QTextCodec.codecForName("utf-8")
+        con = unicode(codec.toUnicode(content))
+        start_str = ''
+        end_str = ''
+        if 'ltesting.net' in self.file_url:
+            start_str = '<div class="lt_panel_body lt_sec_dec">'
+            end_str = '<div class="lt_sec_fenxiang">'
         elif 'zaodula.com' in self.file_url:
-            codec = QTextCodec.codecForName("utf-8")
-            con = unicode(codec.toUnicode(content))
-
-            start_str = '<!-- Article begin -->'
-            end_str = '<!-- Article end -->'
-            start_idx = con.find(start_str) + len(start_str)
-            end_idx = con.find(end_str)
-            get_con = con[start_idx:end_idx]
-            webview.setHtml(get_con)
+            start_str = '<div class="entry">'
+            end_str = '<div class="wumii-hook">'
         elif 'testerhome.com' in self.file_url:
-            codec = QTextCodec.codecForName("utf-8")
-            con = unicode(codec.toUnicode(content))
-
             start_str = '<div class="body entry-content">'
             end_str = '<div class="excellent">'
-            start_idx = con.find(start_str) + len(start_str)
-            end_idx = con.find(end_str)
-            get_con = con[start_idx:end_idx]
-            webview.setHtml(get_con)
+        start_idx = con.find(start_str) + len(start_str)
+        end_idx = con.find(end_str)
+        styles = 'font-family:Microsoft YaHei;font-size:13px;'
+        webview.setHtml("<div style='%s'>%s</div>" % (styles, con[start_idx:end_idx]))
