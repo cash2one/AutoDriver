@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/home.ui'
 #
-# Created: Tue Jan 13 10:24:46 2015
+# Created: Tue Jan 13 14:00:17 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,12 +40,18 @@ class Ui_Form(object):
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
         self.hz_layout = QtGui.QHBoxLayout()
-        self.hz_layout.setSpacing(10)
+        self.hz_layout.setSpacing(12)
         self.hz_layout.setObjectName(_fromUtf8("hz_layout"))
         self.horizontalLayout_3.addLayout(self.hz_layout)
         spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.label = QtGui.QLabel(Form)
+        self.label.setMaximumSize(QtCore.QSize(16777215, 80))
+        self.label.setText(_fromUtf8(""))
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.verticalLayout.addWidget(self.label)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

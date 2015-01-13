@@ -2,6 +2,8 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
+import time
+import re
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
@@ -27,29 +29,33 @@ class HomeForm(QWidget, home_ui.Ui_Form):
 
     def on_ltesting_reply(self, reply):
         if reply.error() == reply.NoError:
-            self.load_to_ul(reply.readAll())
+            self.load_to_ul(reply.readAll(), u'领测软件测试网')
             self.nam('http://testerhome.com/topics/feedgood', self.on_testerhome_reply)
 
     def on_testerhome_reply(self, reply):
         if reply.error() == reply.NoError:
-            self.load_to_ul(reply.readAll())
+            self.load_to_ul(reply.readAll(), u'TesterHome社区精华帖')
             self.nam('http://zaodula.com/feed', self.on_zaodula_reply)
 
     def on_zaodula_reply(self, reply):
         if reply.error() == reply.NoError:
-            self.load_to_ul(reply.readAll())
-            self.lbl_status.setText('')
+            self.load_to_ul(reply.readAll(), u'互联网早读课')
+            time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            self.lbl_status.setText(u'测试网站动态更新内容 %s' % time_str)
+
 
     def open_file_browser(self, txt):
         fileBrowser = browser.FileDialog(txt, 2, self.netAccessNoCookie)
         fileBrowser.exec_()
 
-    def load_to_ul(self, reply_con):
+    def load_to_ul(self, reply_con, title):
         result = self.read_xml_feed(reply_con)
         lbl = QLabel()
+        lbl.setStyleSheet("background-color:#ffffff;padding:0 15px;font-family:Microsoft YaHei")
         lbl.setMinimumWidth(350)
+        lbl.setMaximumHeight(500)
         # lbl.setOpenExternalLinks(True)
-        lbl.setText(u"<h3>TesterHome社区精华帖</h3><ul>%s</ul>" % result)
+        lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
         self.hz_layout.addWidget(lbl)
         self.connect(lbl, SIGNAL('linkActivated (const QString&)'), self.open_file_browser)
 
@@ -63,11 +69,22 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # for child in root:
         items = root[0].findall('item')
         item_num = 0
+
+        aStyle = 'text-decoration:none'
+        liStyle = 'line-height:23px;'
         for item in items:
             txt = item.find('title').text
             link = item.find('link').text
-            if not u'招聘' in txt:
-                li = "<li style='line-height:22px;'><a href='%s'>%s</a></li>" % (link, txt)
+            if not u'招聘' in txt and not u'薪' in txt:
+                if 'zaodula.com' in link:
+                    # 屏蔽早读列表带的日期
+                    pattern = re.compile(r'-\d+')
+                    match = pattern.search(txt)
+                    if match:
+                        zd_index = txt.find(match.group())
+                        txt = txt[0:zd_index]
+
+                li = "<li style=%s><a href=%s style=%s>%s</a></li>" % (liStyle, link, aStyle, txt)
                 lis += li
                 item_num += 1
             if item_num >= 15:
