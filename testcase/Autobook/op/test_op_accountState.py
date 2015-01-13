@@ -22,11 +22,11 @@ class TestCase(unittest.TestCase):
 
 
     def test_stateQuery(self):
-        above=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/a')
+        above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()
         #鼠标悬停在系统管理上
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[4]/ul/li[2]/a').click()
+        self.driver.find_element_by_link_text(u'账号管理').click()
         opts=self.driver.find_id('state').find_elements_by_tag_name('option')
 
         for opt in opts:

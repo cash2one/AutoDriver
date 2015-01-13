@@ -3,79 +3,84 @@ __author__ = 'guguohai@pathbook.com.cn23'
 
 import os
 import time
-import sockets
 import subprocess
+import urllib
+import json
+import urllib2
 
 from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
 
-from framework.data import the
-from framework.util import idriver_const,constant
-from framework.util import mysql,fs
+import socket
+from framework.core import the
+from framework.util import idriver_const, const, strs, mysql, fs
 
 
 TIME_OUT = 100
-DRIVER = 'idriver.android.driver'
-DRIVER_ROBOT = 'idriver.android.driver_robot'
-CUSTOMER = 'idriver.android.customer'
-CUSTOMER_ROBOT = 'idriver.android.customer_robot'
-# 订单加载loading
+# DRIVER = 'idriver.android.driver'
+# DRIVER_ROBOT = 'idriver.android.driver_robot'
+# CUSTOMER = 'idriver.android.customer'
+# CUSTOMER_ROBOT = 'idriver.android.customer_robot'
+# # 订单加载loading
 ORDER_LOAD = 'order_load'
-HISTORY_ORDER_FINISH = 'history_order_finish'
-HISTORY_ORDER_CANCLE = 'history_order_cancle'
+# HISTORY_ORDER_FINISH = 'history_order_finish'
+# HISTORY_ORDER_CANCLE = 'history_order_cancle'
 WORK_STATE = 'tb_work_state'
 NET_WAIT = 'progressbar_net_wait'
+APP_CUSTOMER = 'service/customerService'
+APP_DRIVER = 'service/driverService'
+APP_COMMON = 'service/commonService'
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-#调用示例self.driver = idriver_android.app(__file__)
+# 调用示例self.driver = idriver_android.app(__file__)
 def app(current_file):
-    #获取项目路径，转换成app.init 的sections
-    #init_size = len(os.path.dirname(__file__))
-    init_size = len(PATH('../../testcase'))+1
+    # 获取项目路径，转换成app.init 的sections
+    # init_size = len(os.path.dirname(__file__))
+    init_size = len(PATH('../../testcase')) + 1
     tar_path = os.path.dirname(current_file)
-    sections = tar_path[init_size:len(tar_path)].replace(os.sep,'.')
+    sections = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
 
-    st = sections.lower()#.replace('autobook','idriver')
+    st = sections.lower()  # .replace('autobook','idriver')
     cfg = the.taskConfig[st]
-    if cfg[constant.PRODUCT] == None:
-        the.taskConfig[st][constant.PRODUCT] = Android(cfg[constant.TASK_CONFIG])
-        the.taskConfig[st][constant.PRODUCT].splash()
-    return the.taskConfig[st][constant.PRODUCT]
+    if cfg[const.PRODUCT] == None:
+        the.taskConfig[st][const.PRODUCT] = Android(cfg[const.TASK_CONFIG])
+        the.taskConfig[st][const.PRODUCT].splash()
+    return the.taskConfig[st][const.PRODUCT]
 
 
-def driver():
-    _configs = the.app_configs[DRIVER]
-    if the.devices[DRIVER] == None:
-        the.devices[DRIVER] = Android(_configs)
-        the.devices[DRIVER].wait_switch(_configs['app_activity'])
-    return the.devices[DRIVER]
-
-
-def customer():
-    _configs = the.app_configs[CUSTOMER]
-    if the.devices[CUSTOMER] == None:
-        the.devices[CUSTOMER] = Android(_configs)
-        the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
-    return the.devices[CUSTOMER]
-
-
-def driver_robot():
-    _configs = the.app_configs[DRIVER_ROBOT]
-    if the.devices[DRIVER_ROBOT] == None:
-        the.devices[DRIVER_ROBOT] = Android(_configs)
-        the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
-    return the.devices[DRIVER_ROBOT]
-
-
-def customer_robot():
-    _configs = the.app_configs[CUSTOMER_ROBOT]
-    if the.devices[CUSTOMER_ROBOT] == None:
-        the.devices[CUSTOMER_ROBOT] = Android(_configs)
-        the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
-    return the.devices[CUSTOMER_ROBOT]
+# def driver():
+# _configs = the.app_configs[DRIVER]
+# if the.devices[DRIVER] == None:
+# the.devices[DRIVER] = Android(_configs)
+# the.devices[DRIVER].wait_switch(_configs['app_activity'])
+# return the.devices[DRIVER]
+#
+#
+# def customer():
+# _configs = the.app_configs[CUSTOMER]
+# if the.devices[CUSTOMER] == None:
+# the.devices[CUSTOMER] = Android(_configs)
+# the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
+# return the.devices[CUSTOMER]
+#
+#
+# def driver_robot():
+# _configs = the.app_configs[DRIVER_ROBOT]
+# if the.devices[DRIVER_ROBOT] == None:
+# the.devices[DRIVER_ROBOT] = Android(_configs)
+# the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
+# return the.devices[DRIVER_ROBOT]
+#
+#
+# def customer_robot():
+#     _configs = the.app_configs[CUSTOMER_ROBOT]
+#     if the.devices[CUSTOMER_ROBOT] == None:
+#         the.devices[CUSTOMER_ROBOT] = Android(_configs)
+#         the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
+#     return the.devices[CUSTOMER_ROBOT]
 
 
 class Android(WebDriver):
@@ -83,7 +88,10 @@ class Android(WebDriver):
         cfs = config.strip().split('|')
         self.config = fs.parserConfig(PATH('../../resource/app/%s' % cfs[0]))
         self.settings = self.config['settings']
+        self.api = self.config['api']
         #self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.config['layout']))
+        #self.api_host = self.settings['api_host']
+        self.api_token = ''
 
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.settings['platform_name']
@@ -100,16 +108,15 @@ class Android(WebDriver):
         self.pkg = self.settings['app_package'] + ':id/'
 
 
-
     def layouts(self):
         #layout_ids = None
         try:
-           #layout_ids = self.app_layouts[self.current_activity]
+            #layout_ids = self.app_layouts[self.current_activity]
             return self.config[self.current_activity]
         except KeyError:
             raise NameError, 'current_activity error'
 
-    def layout(self,id_):
+    def layout(self, id_):
         try:
             return self.layouts()[id_.lower()]
         except KeyError:
@@ -273,8 +280,8 @@ class Android(WebDriver):
     def location(self, current_location):
         '''
         通过百度地图api获取经纬度
-        :param current_location:用户端一键下单内获取所在位置
-        :return:
+        :param current_location:当前所在的详细中文地址
+        :return:lng经度 lat纬度
         '''
         import urllib2, json
 
@@ -312,24 +319,120 @@ class Android(WebDriver):
     #     except xmlrpclib.Fault:
     #         pass
 
+    def exec_api(self, api, arg_dict):
+        '''
+        执行app子平台的接口
+        :param api:例：/service/customerService/createOrderByDrive
+        :param arg_dict:字典格式的参数，例{'tokenNo':'','driverNo':''}
+        :return:
+        '''
+        LOGIN_NUM = 0
 
-    def auto_order(self,cmd):
+        status_code = self.api['status_code'].strip().split(',')
+
+        args = arg_dict
+        for arg in args:
+            if 'tokenNo' in arg:
+                args[arg] = self.api_token
+
+        uri = strs.combine_url(self.api['host'], api, args)
+
+        request = urllib2.Request(uri)
+        request.add_header('User-Agent', 'Mozilla/5.0')
+        request.add_header('Content-type', 'text/html;charset=UTF-8')
+        try:
+            response = urllib2.urlopen(request, timeout=15)
+            read_result = response.read()
+            try:
+                res = json.loads(read_result)
+                #返回值res不包含在错误码中
+                if not res['res'] in status_code:
+                    #self.save_token(res)  #保存token
+                    return res
+                else:
+                    #令牌号超时失效等返回, 递归调用,调用次数不允许超过3次
+                    if LOGIN_NUM <= 3:
+                        self.get_token(api, arg_dict)
+                        LOGIN_NUM += 1
+                        #exec_api(api, arg_dict)
+                    else:
+                        return None
+
+            except ValueError, e:
+                #json解析错误
+                #raise NameError, e.message
+                return None
+        except urllib2.HTTPError, e:
+            #http错误
+            #raise NameError, e.code
+            return None
+
+
+    def get_token(self, api, arg_dict):
+        '''
+        调用接口后，返回res为'-2030', '-2031'，则重新登录后，继续调用接口
+        :param api:登录接口
+        :return:无
+        '''
+        login_api = self.api['login']
+        params = {}
+
+        if APP_CUSTOMER in login_api:
+            phone = self.location(self.api['phone'])
+            code = self.location(self.api['code'])
+            versionNo = self.location(self.api['version_no'])
+            params = {'phone': phone, 'code': code, 'versionNo': versionNo}
+
+        if APP_DRIVER in login_api:
+            loc = self.location(self.api['location'])
+            imsi = self.location(self.api['imsi'])
+            versionNo = self.location(self.api['version_no'])
+            driverNo = self.location(self.api['driver_no'])
+            password = self.location(self.api['password'])
+            pmid = self.location(self.api['pmid'])
+            params = {'imsi': imsi, 'versionNo': versionNo, 'driverNo': driverNo, 'password': password, 'pmId': pmid,
+                      'loginMode': 1, 'lng': loc[0], 'lat': loc[1]}
+            self.exec_api(login_api, params)
+
+        if APP_COMMON in login_api:
+            pass
+
+        res = self.exec_api(login_api, params)
+        if res != None:
+            try:
+                self.api_token = res['msg']['tokenNo']
+                #重新调用接口
+                self.exec_api(api, arg_dict)
+            except KeyError:
+                pass
+
+
+    # def post(url, data):
+    #     req = urllib2.Request(url)
+    #     data = urllib.urlencode(data)
+    #     #enable cookie
+    #     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+    #     response = opener.open(req, data)
+    #     return response.read()
+
+
+    def auto_order(self, cmd):
         """
         与其他端通信，发送或者接收订单
         :param cmd:
         :return:
         """
-        sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect(('localhost', 7556))
 
         time.sleep(2)
-        sock.send('request_order:%s' %cmd)
+        sock.send('request_order:%s' % cmd)
         recv_str = sock.recv(1024)
         sock.close()
         return recv_str
 
     def enum(self, key, val):
-        return idriver_const.idriver_enum[key]['key_' + str(val)]
+        return idriver_const.idriver_enum[key]['key_' + strs(val)]
 
     @property
     def no(self):
@@ -577,18 +680,20 @@ def login_driver(self_driver):
             self_driver.find_element_by_id(self_driver.package + 'et_username').send_keys(usr_name)
             self_driver.find_element_by_id(self_driver.package + 'et_password').send_keys(usr_pwd)
             self_driver.find_element_by_id(self_driver.package + 'bt_login').click()
-        except  :
+        except:
             pass
 
     time.sleep(1)
 
     self_driver.wait_switch(login)
 
+
 socket_sign = '1'
 socket_addr = 'localhost'
 
+
 def customer_server():
-    sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((socket_addr, 7556))
     sock.listen(5)
     while True:
@@ -597,17 +702,18 @@ def customer_server():
             connection.settimeout(5)
             buf = connection.recv(1024)
             if 'request_order:' in buf:
-                ss=buf.split('request_order:')[1]
-            #if buf == socket_sign:
+                ss = buf.split('request_order:')[1]
+                #if buf == socket_sign:
                 #connection.send('welcome to python server!')
                 #执行一个下订单的脚本
                 #subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
                 #cmd = PATH('../src/autobook/android/customer/%s' % py_file)
                 p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
                 connection.send(p.stdout.read())
-        except sockets.timeout:
+        except socket.timeout:
             print 'time out'
         connection.close()
+
 
 def order_client(cmd):
     """
@@ -615,15 +721,14 @@ def order_client(cmd):
     :param cmd:
     :return:
     """
-    sock = sockets.sockets(sockets.AF_INET, sockets.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect(('localhost', 7556))
 
     time.sleep(2)
-    sock.send('request_order:%s' %cmd)
+    sock.send('request_order:%s' % cmd)
     recv_str = sock.recv(1024)
     sock.close()
     return recv_str
-
 
 
 # def get_driver_no():

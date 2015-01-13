@@ -9,7 +9,8 @@ import os
 import re
 import shutil
 import ConfigParser
-import constant
+import const
+from xml.etree import cElementTree
 
 base_dir = os.path.dirname(os.path.dirname(__file__))
 
@@ -27,8 +28,8 @@ def task_container(path_str, selections):
     for opt in options:  # 取出sections内的所有options
         str_val = conf.get(selections, opt)
         dictCase = {}
-        dictCase[constant.TASK_CONFIG] = str_val
-        dictCase[constant.PRODUCT] = None
+        dictCase[const.TASK_CONFIG] = str_val
+        dictCase[const.PRODUCT] = None
         all[opt.lower()] = dictCase
     return all
 
@@ -46,7 +47,7 @@ def init_project(path_str):
             str_val = conf.get(sect, opt)
             dictCase[opt] = str_val.decode('utf-8')
 
-        dictCase[constant.PRODUCT] = None
+        dictCase[const.PRODUCT] = None
         section_list[sect] = dictCase
 
     return section_list
@@ -132,6 +133,21 @@ def writeConfig(path_str, selections, opt, val):
     f.close()
 
 
+
+def read_xml(xml_path):
+    per = cElementTree.parse(xml_path)
+    p = per.findall('interface')
+    infs = []
+    for x in p:
+        inf = x.attrib
+        inf['parameter'] = []
+        for c in x.getchildren():
+            inf['parameter'].append(c.attrib)
+        infs.append(inf)
+
+    return infs
+
+
 def newFile(origin_file, new_file, xs):
     '''
     读取文件，并替换其中的值，生成一个新的文件存放到指定目录。
@@ -192,12 +208,12 @@ def newFileFromTemplates(new_file, xs):
         exp=xs['exp'].encode('utf-8'),
     )
 
-    if constant.FLOW_NAME in xs['cat']:
-        flow_str = constant.INTERFACE_FLOW % dict_val
+    if const.FLOW_NAME in xs['cat']:
+        flow_str = const.INTERFACE_FLOW % dict_val
     else:
-        flow_str = constant.INTERFACE_NON_FLOW % dict_val
+        flow_str = const.INTERFACE_NON_FLOW % dict_val
 
-    fo.write(constant.INTERFACE_HEADER + flow_str)
+    fo.write(const.INTERFACE_HEADER + flow_str)
 
     fo.close()
 
@@ -214,8 +230,8 @@ def prepareFile(data, src, tar):
         else:
             script = xs['script']
 
-        if constant.FLOW_NAME in xs['cat']:
-            cat = xs['cat'].replace('_' + constant.FLOW_NAME, '')
+        if const.FLOW_NAME in xs['cat']:
+            cat = xs['cat'].replace('_' + const.FLOW_NAME, '')
         else:
             cat = xs['cat']
 
@@ -234,7 +250,7 @@ def prepareFile(data, src, tar):
 
         #接口的参数都是读取自xls,文件需要替换参数
 
-        if constant.INTERFACE_FOLDER in cat:
+        if const.INTERFACE_FOLDER in cat:
             if xs['script'] == '':  #script为空，则自动读取预置文件
                 newFileFromTemplates(case_str, xs)
             else:

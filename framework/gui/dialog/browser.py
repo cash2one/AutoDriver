@@ -1,22 +1,30 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
+import os
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
+from PyQt4.QtWebKit import *
+
 from framework.gui.views import file_browser_ui, label_btn
-from framework.gui.base import *
+from framework.core import the
+
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+TXT = 0
+PIC = 1
+HTML = 2
+
 
 class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
-    def __init__(self, file_url='', isPic=False, net_acc=None):
+    def __init__(self, file_url='', file_type=0, net_acc=None):
         QDialog.__init__(self)
 
         self.setupUi(self)
-        self.setFont(QFont("Microsoft YaHei", 9))
 
         flags = Qt.Dialog
         # flags |= Qt.WindowMinimizeButtonHint
@@ -26,14 +34,25 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         self.setSizeGripEnabled(True)
 
         self.file_url = file_url
-        self.file_name = file_url.split('/')[-1]
-        self.isPic = isPic
+        self.file_type = file_type
 
-        self.setWindowTitle(u'文件浏览：' + self.file_name)
         self.img_label = None
         self.png = None
         self.origin_png = None
-        self.file_path = os.path.join(PATH(jira.folder), self.file_name)
+
+        self.lbl_status = QLabel('Loading...')
+        self.lbl_status.setFont(QFont("Microsoft YaHei", 11))
+        self.lbl_status.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
+        self.v_layout.addWidget(self.lbl_status)
+
+        if file_type != HTML:
+            self.file_name = file_url.split('/')[-1]
+            self.file_path = os.path.join(PATH(the.jira.folder), self.file_name)
+            self.setWindowTitle(u'文件浏览：' + self.file_name)
+        else:
+            self.file_name = ''
+            self.file_path = ''
+            self.setWindowTitle(u'测试相关内容浏览')
 
         self.show_file(net_acc)
 
@@ -47,8 +66,13 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
 
     def issue_detail_reply(self, reply):
         if reply.error() == reply.NoError:
-            self.write_file(reply.readAll())
-            self.load_file()
+            if self.file_type == HTML:
+                # codec = QTextCodec.codecForName("GBK")
+                self.load_file(reply.readAll())
+
+            else:
+                self.write_file(reply.readAll())
+                self.load_file()
         else:
             print reply.error()
 
@@ -66,10 +90,8 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
         # self.img_label.setPixmap(png)
         return p_img
 
-    def load_file(self):
-
-
-        if self.isPic:
+    def load_file(self, content=''):
+        if self.file_type == PIC:
             self.img_label = label_btn.LabelButton()
             self.img_label.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
             self.connect(self.img_label, SIGNAL("doubleClicked()"), self.restore_image_event)
@@ -81,8 +103,9 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
 
             self.png = self.resize_image(self.origin_png)
             self.img_label.setPixmap(self.png)
+            self.finish_load()
             self.v_layout.addWidget(self.img_label)
-        else:
+        elif self.file_type == TXT:
             txtEdit = QTextEdit()
             f = open(self.file_path)
             try:
@@ -90,10 +113,16 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
                 txtEdit.setPlainText(content)
             finally:
                 f.close()
+            self.finish_load()
             self.v_layout.addWidget(txtEdit)
+        elif self.file_type == HTML:
+            webview = QWebView()
+            self.browser_web(webview, content)
+            self.finish_load()
+            self.v_layout.addWidget(webview)
 
     def write_file(self, data_reply):
-        folder = PATH(jira.folder)
+        folder = PATH(the.jira.folder)
         if not os.path.exists(folder):
             os.mkdir(PATH(folder))
 
@@ -133,3 +162,28 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             # self.connect(btn, SIGNAL("clicked()"), lambda: self.open_file_browser(f))
             # # btn.clicked.connect(self.open_web(att['content']))
             # self.attachment_layout.addWidget(btn)
+
+    def finish_load(self):
+        self.v_layout.removeWidget(self.lbl_status)
+        self.lbl_status.deleteLater()
+        self.lbl_status = None
+
+
+    def browser_web(self, webview, content):
+        codec = QTextCodec.codecForName("utf-8")
+        con = unicode(codec.toUnicode(content))
+        start_str = ''
+        end_str = ''
+        if 'ltesting.net' in self.file_url:
+            start_str = '<div class="lt_panel_body lt_sec_dec">'
+            end_str = '<div class="lt_sec_fenxiang">'
+        elif 'zaodula.com' in self.file_url:
+            start_str = '<div class="entry">'
+            end_str = '<div class="wumii-hook">'
+        elif 'testerhome.com' in self.file_url:
+            start_str = '<div class="body entry-content">'
+            end_str = '<div class="excellent">'
+        start_idx = con.find(start_str) + len(start_str)
+        end_idx = con.find(end_str)
+        styles = 'font-family:Microsoft YaHei;font-size:13px;'
+        webview.setHtml("<div style='%s'>%s</div>" % (styles, con[start_idx:end_idx]))

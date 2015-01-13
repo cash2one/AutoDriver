@@ -8,8 +8,8 @@ from selenium import webdriver as selen
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.common import exceptions
 
-from framework.data import the
-from framework.util import constant, fs
+from framework.core import the
+from framework.util import const, fs
 
 
 TIME_OUT = 100
@@ -26,10 +26,10 @@ def firefox(file_):
 
     st = sections.replace('autobook', 'idriver')
     cfg = the.taskConfig[st]
-    if cfg[constant.PRODUCT] == None:
+    if cfg[const.PRODUCT] == None:
         #the.products[st][constant.PRODUCT] = Firefox(info)
-        the.taskConfig[st][constant.PRODUCT] = Firefox(cfg[constant.TASK_CONFIG])
-    return the.taskConfig[st][constant.PRODUCT]
+        the.taskConfig[st][const.PRODUCT] = Firefox(cfg[const.TASK_CONFIG])
+    return the.taskConfig[st][const.PRODUCT]
 
 
 class Firefox(WebDriver):

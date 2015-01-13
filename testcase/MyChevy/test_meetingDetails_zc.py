@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #进入活动详情后查看信息内容 是否准确
 class TestCase(unittest.TestCase):

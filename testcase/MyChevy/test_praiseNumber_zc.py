@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #点赞后点赞数加1，在次进入服务站页面，点赞数不恢复原值
 class TestCase(unittest.TestCase):
