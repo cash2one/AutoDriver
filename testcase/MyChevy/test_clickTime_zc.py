@@ -1,9 +1,13 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device_bak
 from time import sleep
-import datetime,time
+import datetime
+import time
+
+from framework.core import device_bak, the
+
+
 #再次点击时间控件，之前所选时间显示在时间控件中
 class TestCase(unittest.TestCase):
     def setUp(self):

@@ -1,0 +1,75 @@
+# coding=utf-8
+__author__ = 'guguohai@pathbook.com.cn'
+
+#初始化项目时的字典统一key
+PRODUCT='pathbook_product'
+TASK_CONFIG='app_config'
+
+driver = 'idriver.android.driver'
+driver_robot = 'idriver.android.driver_robot'
+customer = 'idriver.android.customer'
+customer_robot = 'idriver.android.customer_robot'
+ir='emanual.web.ir'
+
+SEP = '|'
+FLOW_NAME = 'flow'
+INTERFACE_FOLDER = 'autobook_interface'
+CUSTOMER_LOGIN = '/service/customerService/login'
+DRIVER_LOGIN = '/service/driverService/login'
+DRIVER_SERVICE = 'service/driverService'
+CUSTOMER_SERVICE = 'service/customerService'
+COMMON_SERVICE = 'service/commonService'
+
+CORE_PATH_CONFIG = '../../config.ini'
+
+MSG_STOP = 'stop'
+MSG_START = 'start'
+TASK_SERVER = 0
+TASK_LOCAL = 1
+
+GUI_TASK_TYPE = (u'自动化', u'车机测试', u'App', u'Web平台', u'接口', u'性能测试')
+GUI_TASK_PRIORITY = (u'普通', u'中级', u'高级')
+GUI_TASK_STATE = (u'未开始', u'已开始', u'已取消', u'已结束')
+
+EXCEL_HEADER = {
+'no':u'用例编号',
+'cat':u'分类',
+'desc':u'用例描述',
+'exp':u'期望结果',
+'script':u'用例脚本',
+'loop':u'执行次数'
+}
+
+TOKEN_NO = '{{tokenNo}}'
+PHONE = '{{phone}}'
+PMID = '{{pmId}}'
+
+
+INTERFACE_HEADER = r'''# coding=utf-8
+
+import unittest
+from framework.core import interface
+
+class TestCase(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+'''
+
+INTERFACE_FLOW = r'''
+    def test_interface_%(no)s(self):
+        desc = interface.toList(u'%(desc)s')
+        exp = interface.toList(u'%(exp)s')
+        for i in range(0,len(desc)):
+            interface.assertResult(self,desc[i],exp[i])
+'''
+
+INTERFACE_NON_FLOW = r'''
+    def test_interface_%(no)s(self):
+        desc = u'%(desc)s'
+        exp = u'%(exp)s'
+        interface.assertResult(self,desc,exp)
+'''

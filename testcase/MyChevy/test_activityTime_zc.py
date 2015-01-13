@@ -1,10 +1,12 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device_bak
 from time import sleep
-import datetime,time
-from datetime import datetime
+import time
+
+from framework.core import device_bak, the
+
+
 #查看距离活动开始时间是否正确
 class TestCase(unittest.TestCase):
     def setUp(self):

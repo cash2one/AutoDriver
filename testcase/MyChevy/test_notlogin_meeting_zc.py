@@ -2,12 +2,15 @@ __author__ = 'zhangchun'
 # coding=utf-8
 import unittest
 from time import sleep
-from framework.core import the,device_bak
+
+from framework.core import device_bak, the
+
+
 
 #未登录时点击活动报名弹出登录页面
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver =the.android
+        self.driver = the.android
 
     def tearDown(self):
         #返回首页

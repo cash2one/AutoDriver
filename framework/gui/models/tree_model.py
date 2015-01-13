@@ -45,7 +45,7 @@
 
 from PyQt4 import QtCore, QtGui
 
-from framework.gui.ui import simpletreemodel_rc
+from framework.gui.views import simpletreemodel_rc
 
 
 class TreeItem(object):
@@ -78,7 +78,6 @@ class TreeItem(object):
     def row(self):
         if self.parentItem:
             return self.parentItem.childItems.index(self)
-
         return 0
 
 

@@ -1,8 +1,11 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device_bak
 from time import sleep
+
+from framework.core import device_bak, the
+
+
 #点击24小时服务站进入服务站查询页面
 class TestCase(unittest.TestCase):
     def setUp(self):

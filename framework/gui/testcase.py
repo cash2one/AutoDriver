@@ -5,7 +5,7 @@ import os
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
-from framework.gui.ui import testcase_ui
+from framework.gui.views import testcase_ui
 
 
 PATH = lambda p: os.path.abspath(

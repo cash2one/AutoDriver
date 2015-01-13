@@ -4,10 +4,12 @@ __author__ = 'guguohai@outlook.com'
 import os
 import time
 import threading
+
 from appium import webdriver as am
 from selenium import webdriver as sm
+
 from framework.util import fs
-from framework.core import the,HTMLTestRunner
+from framework.core import HTMLTestRunner, the
 
 
 PATH = lambda p: os.path.abspath(

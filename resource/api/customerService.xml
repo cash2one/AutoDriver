@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <interface url="service/customerService/verifySms" displayName="获取验证码短信" desc="调用成功后，服务端将发送验证码短信，并根据手机号判断客户是否存在。如果客户已存在，将更新客户验证码信息，否则新增客户，并保存验证码。最小调用时间间隔见系统参数4.1.1。">
+        <parameter name="phone" type="String" required="true" desc="手机号。" />
+    </interface>
+    <interface url="service/customerService/login" displayName="客户登录" desc="登录客户，成功时返回个人信息、令牌号、未完成的订单列表。">
+        <parameter name="phone" type="String" required="true" desc="手机号。" />
+        <parameter name="code" type="String" required="true" desc="验证码，需MD5加密。" />
+        <parameter name="versionNo" type="String" required="true" desc="APP版本号。" />
+    </interface>
+    <interface url="service/customerService/logout" displayName="客户登出" desc="注销客户，令牌号失效。另一种失效情况，是客户一定时间没有访问接口，参见4.1.2。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/customerService/getFreeDrivers" displayName="查询附近空闲司机" desc="提供一个坐标，返回坐标附近的空闲司机，最大返回数量参见系统参数4.1.3。">
+        <parameter name="lng" type="double" required="true" desc="经度。" />
+        <parameter name="lat" type="double" required="true" desc="纬度。" />
+    </interface>
+    <interface url="service/customerService/getDriverInfo" displayName="查询司机详细信息" desc="根据司机工号，查询司机的详细信息。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="driverNo" type="String" required="true" desc="司机工号。" />
+    </interface>
+    <interface url="service/customerService/getDriverEvaluations" displayName="查询司机近期评分" desc="根据司机工号获取司机的评分。">
+        <parameter name="driverNo" type="String" required="true" desc="司机工号。" />
+        <parameter name="beginNum" type="int" required="false" desc="起始序号，默认0。" />
+        <parameter name="size" type="int" required="false" desc="获取条数，默认3。" />
+    </interface>
+    <interface url="service/customerService/createOrderByDriver" displayName="指定司机下单" desc="指定司机下单，成功时返回订单号。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="driverNo" type="String" required="true" desc="司机工号。" />
+        <parameter name="contactPhone" type="String" required="false" desc="联系电话，默认取客户手机。" />
+        <parameter name="pmId" type="String" required="false" desc="消息推送的客户端ID。当不携带、携带为空、携带为手机号、以IM和下划线开头时(例如IM_xxx)，将通过IM服务器推送消息。其他情况将通过个推服务器推送消息。" />
+        <parameter name="startLng" type="double" required="true" desc="出发位置—经度。" />
+        <parameter name="startLat" type="double" required="true" desc="出发位置—纬度。" />
+        <parameter name="startAddress" type="String" required="true" desc="出发位置—位置描述。" />
+    </interface>
+    <interface url="service/customerService/createOrderByPlace" displayName="一键周边下单" desc="根据地址信息下单，可一次下多单。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderNum" type="int" required="false" desc="下单数量，默认为1。" />
+        <parameter name="contactPhone" type="String" required="false" desc="联系电话，默认取客户手机。" />
+        <parameter name="pmId" type="String" required="false" desc="消息推送的客户端ID。当不携带、携带为空、携带为手机号、以IM和下划线开头时(例如IM_xxx)，将通过IM服务器推送消息。其他情况将通过个推服务器推送消息。" />
+        <parameter name="startLng" type="double" required="true" desc="出发位置—经度。" />
+        <parameter name="startLat" type="double" required="true" desc="出发位置—纬度。" />
+        <parameter name="startAddress" type="String" required="true" desc="出发位置—位置描述。" />
+    </interface>
+    <interface url="service/customerService/getCreateOrderResult" displayName="查询下单结果" desc="根据订单号，查询创建订单的结果。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderNo" type="String" required="true" desc="订单编号。" />
+    </interface>
+    <interface url="service/customerService/cancelOrder" displayName="取消已接订单" desc="取消订单。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderNos" type="String" required="true" desc="订单编号，支持多个，多个以英文逗号分隔。" />
+    </interface>
+    <interface url="service/customerService/getOrderHistory" displayName="查询历史订单" desc="查询客户下的历史订单，可携带基本条件。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderResult" type="int" required="false" desc="订单结果，0-全部，1-成功，2-失败，默认为0。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/customerService/evaluateOrder" displayName="评价历史订单" desc="只能评价历史中成功的订单。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderNo" type="String" required="true" desc="订单编号。" />
+        <parameter name="evalLevel" type="int" required="true" desc="评分，1-5整数。" />
+        <parameter name="evalContent" type="String" required="false" desc="评语，可空。" />
+    </interface>
+    <interface url="service/customerService/evaluateOrder" displayName="查询个人信息" desc="查询个人信息，车辆信息将会一并返回。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/customerService/setCustomerInfo" displayName="设置个人信息" desc="设置个人信息，每次请求操作一个字段。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="fieldName" type="String" required="true" desc="字段名，参照2.3.12的返回值。" />
+        <parameter name="fieldValue" type="String" required="true" desc="字段值，非String的值转为String。" />
+    </interface>
+    <interface url="service/customerService/updateCustomerInfo" displayName="修改个人信息" desc="修改个人信息，一次可修改多个字段，指定参数未填时不修改对应字段。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="name" type="String" required="false" desc="姓名。" />
+        <parameter name="sex" type="int" required="false" desc="性别，0-男，1-女。" />
+        <parameter name="phone" type="String" required="false" desc="手机号。" />
+        <parameter name="uPhone" type="String" required="false" desc="紧急联系电话。" />
+    </interface>
+</root>

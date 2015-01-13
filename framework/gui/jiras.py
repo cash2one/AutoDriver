@@ -1,197 +1,220 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
-import time
-import threading
-import cookielib
-import urllib2
 import json
+import os
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from framework.gui.ui import jira_main_ui, login_ui
-from framework.gui.models import jira_model
-import base
 
-JIRA_URL = 'http://192.168.3.11:8080'
+from framework.gui.views import jira_main_ui
+from framework.gui.models import jira_model
+from framework.core import the
+from framework.gui.dialog import issue_detail, new_issue
+
+
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
+ja = the.jira
+
+jira_folder = PATH(ja.folder)
 
 
 class JIRAForm(QWidget, jira_main_ui.Ui_Form):
-    def __init__(self):
+    def __init__(self, netAccess_method):
         super(JIRAForm, self).__init__()
 
         self.setupUi(self)
-        self.table = None
+        self.nam = netAccess_method
+        self.table_model = None
+
         self.project = None
         self.tv_bugs.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tv_bugs.setEditTriggers(QTableWidget.NoEditTriggers)
         self.tv_bugs.setAlternatingRowColors(True)
 
-        self.connect(self, SIGNAL("issuesComplete"), self.setTableModel)
-        self.connect(self, SIGNAL("projectComplete"), self.setCmbProject)
-        self.connect(self.btn_find, SIGNAL("clicked()"), self.findJiraData)
+        self.currentRow = None
 
-        # iss_url = '/rest/api/2/search?jql=project+%3D+' + project_name + '&startAt=' + start + '&maxResults=' + end
+        self.connect(self.btn_find, SIGNAL("clicked()"), self.find_JIRA_Data)
+        self.connect(self.tv_bugs, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_issue_detail)
+        self.connect(self.cmb_pages, SIGNAL("activated(QString)"), self.onActivated)
+        self.btn_prev.clicked.connect(self.prev_page)
+        self.btn_next.clicked.connect(self.next_page)
+        self.btn_new.clicked.connect(self.new_issue)
+        # AND status=resolved
+        # self.iss_url = r'/rest/api/2/search?jql=project=' + p_name + '&startAt=0&maxResults=' + str(jira.pageSize)
+        # self.project_url = '/rest/api/2/project'
 
-        start_page = 10
-        end_page = start_page + base.meta.page_size
-        iss_url = '/rest/api/2/search?jql=project+%%3D+%s&startAt=%s&maxResults=%s' % ('IDRIVERC', start_page, end_page)
-        project_url = '/rest/api/2/project'
+        self.btn_find.setText(u'查询中...')
+        self.btn_find.setEnabled(False)
+        self.lbl_results.setText('')
+        self.cmb_project_current_txt = ja.default_project.upper()
+        self.current_page = 0
 
-        thread_issues = LoadNetData(self, 'issuesComplete', iss_url)
-        thread_issues.start()
+        self.thumbs = []
+        self.thumbs_index = 0
+        # self.nam[0](self.iss_url, self.issues_reply)
 
-        thread_project = LoadNetData(self, 'projectComplete', project_url)
-        thread_project.start()
-
-    def setTableModel(self, arg):
-        issues_data = []
-        for issue in arg['issues']:
-            key = issue['key']
-            summary = issue['fields']['summary']
-            assignee = issue['fields']['assignee']['displayName']
-            reporter = issue['fields']['reporter']['displayName']
-            priority = issue['fields']['priority']['name']
-            status = issue['fields']['status']['name']
-            # iss_dict['resolution'] = issue['fields']['resolution']['name']
-            created = issue['fields']['created']
-            updated = issue['fields']['updated']
-            iss_tup = (key, summary, assignee, reporter, priority, status, created, updated)
-            issues_data.append(iss_tup)
-        header = (u'编号', u'任务名称', u'任务状态', u'任务类型', u'优先级', u'执行人', u'创建人', u'创建时间')
-        tablemodel = jira_model.MyTableModel(header, issues_data, self)
-        self.tv_bugs.setModel(tablemodel)
-        self.tv_bugs.setColumnWidth(0, 150)
-        self.tv_bugs.setColumnWidth(1, 400)
-
-    def setCmbProject(self, arg):
-        for p in arg:
-            self.cmb_project.addItem(p['key'])
-
-    def findJiraData(self):
-        pj = self.cmb_project.currentText()
-        iss_url = '/rest/api/2/search?jql=project%%3D%s&startAt=%s&maxResults=%s' % (pj, '10', '20')
-        jira_data = LoadNetData(self, 'issuesComplete', iss_url)
-        jira_data.start()
+        self.nam(ja.host + '/rest/api/2/project', self.project_reply)
 
 
-class LoadNetData(threading.Thread):
-    def __init__(self, ui, sign_value, url):
-        threading.Thread.__init__(self)
-        self.thread_stop = False
-        self.ui = ui
-        self.url = url
-        self.sign_value = sign_value
-        self.result = None
-        self.isStart = False
+    def get_issues(self, project_name, pages=0):
+        self.iss_url = r'/rest/api/2/search?jql=project=' + project_name + '&startAt=' + str(
+            pages) + '&maxResults=' + str(ja.pageSize)
+        self.nam(ja.host + self.iss_url, self.issues_reply)
 
-    def run(self):
-        while not self.thread_stop:
-            print 'thread:::', self.url
-            if not self.isStart:
-                self.result = base.third.get(self.url)
-                self.isStart = True
+    def prev_page(self):
+        pages = self.current_page - 1
+        if pages >= 0:
+            p = pages * ja.pageSize
+            self.get_issues(self.cmb_project_current_txt, p)
 
-            # 如果全部装载完成，则发信号
-            if self.result != None:
-                if len(self.result) > 0:
-                    print 'finish~~~~'
-                    self.ui.emit(SIGNAL(self.sign_value), self.result)
-                    self.thread_stop = True
-            time.sleep(1)
+            self.current_page = pages
+            p_idx = self.cmb_pages.findText(str(pages + 1))
+            self.cmb_pages.setCurrentIndex(p_idx)
+
+    def next_page(self):
+        pages = self.current_page + 1
+        if self.cmb_pages.count() - 1 - pages >= 0:
+            p = pages * ja.pageSize
+            self.get_issues(self.cmb_project_current_txt, p)
+
+            self.current_page = pages
+            p_idx = self.cmb_pages.findText(str(pages + 1))
+            self.cmb_pages.setCurrentIndex(p_idx)
+
+    def new_issue(self):
+        new_issue_dlg = new_issue.IssueDialog()
+        new_issue_dlg.exec_()
+
+    def show_issue_detail(self):
+        idx = self.tv_bugs.currentIndex()
+        if idx.isValid():
+            self.currentRow = self.table_model.rowContent(idx.row())
+            self.nam(self.currentRow['self'], self.issue_detail_reply)
+
+    def issue_detail_reply(self, reply):
+        if reply.error() == reply.NoError:
+            con = str(QString(reply.readAll()).toLatin1())
+            try:
+                dicts = json.loads(con)
+                # 下载附件
+                # self.show_thumbnail(dicts['fields']['attachment'])
+                self.issueDialog = issue_detail.IssueDialog(dicts)
+                self.issueDialog.exec_()
+            except ValueError:
+                pass
+        else:
+            print reply.error()
+
+    # def show_thumbnail(self, attachments):
+    # self.thumbs = []
+    #     self.thumbs_index = 0
+    #     if len(attachments) > 0:
+    #         for att in attachments:
+    #             try:
+    #                 th_url = att['thumbnail']
+    #                 self.thumbs.append(th_url)
+    #                 self.nam(th_url, self.issue_thumbnail_reply)
+    #             except KeyError:
+    #                 # 没有缩略图，就下载content 的url
+    #                 th_url = att['content']
+    #                 self.thumbs.append(th_url)
+    #                 self.nam(th_url, self.issue_thumbnail_reply)
+    #
+    # def issue_thumbnail_reply(self, reply):
+    #     if reply.error() == reply.NoError:
+    #         # 从url中取文件名
+    #         f_name = self.thumbs[self.thumbs_index].split('/')[-1]
+    #         self._write_file(f_name, reply.readAll())
+    #         self.thumbs_index += 1
+    #     else:
+    #         print 'thumbnail error!'
+
+    def _write_file(self, filename, data):
+        if os.path.exists(jira_folder):
+            try:
+                output_file = open(os.path.join(jira_folder, filename), 'wb')
+                output_file.writelines(data)
+                output_file.close()
+                # print '文件 %s 写入完成！' % filename
+            except IOError:
+                print "写文件失败！"
+
+    def onActivated(self, txt):
+        self.current_page = int(txt) - 1
+        self.get_issues(self.cmb_project_current_txt, self.current_page * ja.pageSize)
+
+    def find_JIRA_Data(self):
+        self.current_page = 0
+        self.lbl_results.setText('')
+        self.btn_find.setText(u'查询中...')
+        self.btn_find.setEnabled(False)
+        self.cmb_project_current_txt = self.cmb_project.currentText()
+        self.get_issues(self.cmb_project.currentText())
+
+    def project_reply(self, reply):
+        if reply.error() == reply.NoError:
+            con = str(QString(reply.readAll()))
+            print 'project_reply::', con
+            dicts = json.loads(con)
+            for p in dicts:
+                self.cmb_project.addItem(p['key'])
+
+            p_idx = self.cmb_project.findText(ja.default_project)
+            self.cmb_project.setCurrentIndex(p_idx)
+            # 等项目combobox加载完成后，再加载TableView
+            self.get_issues(self.cmb_project_current_txt)
 
 
-class LoginDialog(QDialog, login_ui.Ui_Form):
-    def __init__(self):
-        super(LoginDialog, self).__init__()
-        # QDialog.__init__(self)
+    def issues_reply(self, reply):
+        if reply.error() == reply.NoError:
+            all = reply.readAll()
+            con = str(QString(all).toLatin1())
+            print 'issues_reply::', con
+            try:
+                dicts = json.loads(con)
+                issues = dicts['issues']
 
-        # self.ui = login_ja.Ui_Form()
-        # self.ui.setupUi(self)
-        self.setupUi(self)
-        self.setFont(QFont("Microsoft YaHei", 10))
-        self.setWindowFlags(Qt.FramelessWindowHint)  # 无边框
+                # 索引为0，页数不能为0，所以余数+1的基础上再+1
+                p = int(dicts['total'] / ja.pageSize) + 2
 
-        self.txt_pwd.setEchoMode(QLineEdit.Password) # 将其设置为密码框
+                # 如果是点击查询或首次加载，则重新载入页数
+                if self.current_page == 0:
+                    self.cmb_pages.clear()
+                    for i in range(1, p):
+                        self.cmb_pages.addItem(str(i))
 
-        self.connect(self.btn_login, SIGNAL("clicked()"), self.login_action)
-        self.connect(self.btn_cancel, SIGNAL("clicked()"), self.confirm)
-        self.connect(self, SIGNAL("loginFinish"), self.confirm)
-        self.connect(self, SIGNAL("loginError"), self.time_out)
-        self.setBackgroundImg()
+                self.btn_find.setText(u'查询')
+                self.btn_find.setEnabled(True)
+                self.setJIRAModels(issues)
+            except ValueError:
+                self.btn_find.setText(u'查询')
+                self.btn_find.setEnabled(True)
+                self.lbl_results.setText(u'解析查询结果失败！')
 
-
-    def mousePressEvent(self, event):
-        # 定义鼠标点击事件
-        if event.button() == Qt.LeftButton:
-            self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
-            event.accept()
-
-
-    def mouseMoveEvent(self, event):
-        # 定义鼠标移动事件
-        if event.buttons() == Qt.LeftButton:
-            self.move(event.globalPos() - self.dragPosition)
-            event.accept()
-
-
-    def setBackgroundImg(self):
-        png = QPixmap(self)
-        png.load("./ui/res/login.png")
-        palette1 = QPalette(self)
-        palette1.setBrush(self.backgroundRole(), QBrush(png))
-        self.widget.setPalette(palette1)
-
-    def time_out(self):
-        self.lbl_info.setText(u'登录超时，账号密码错误.')
-
-    def login_action(self):
-        user_name = self.txt_username.text()
-        pwd = self.txt_pwd.text()
-        self.btn_login.setText(u'登录中..')
-        self.btn_login.setEnabled(False)
-
-        login = LoginFor405(self, user_name, pwd)
-        login.start()
-
-    def confirm(self):
-        # self.ui.lineEditValidateNum.setText("XXXXXX")   #测试给弹出的对话框里的元素赋值
-        self.reject()  # 关闭窗口
+        else:
+            self.btn_find.setText(u'查询')
+            self.btn_find.setEnabled(True)
+            self.lbl_results.setText(u'查询失败！')
+            print reply.errorString()
 
 
-class LoginFor405(threading.Thread):
-    '''
-    JIRA405错误的解决方案
-    '''
+    def setJIRAModels(self, issues):
+        if len(issues) > 0:
+            self.lbl_results.setText('')
+            self.table_model = jira_model.MyTableModel(issues, self)
+            self.tv_bugs.setModel(self.table_model)
+            self.tv_bugs.setColumnWidth(0, 120)
+            self.tv_bugs.horizontalHeader().setResizeMode(1, QHeaderView.Stretch)
+            self.tv_bugs.setColumnWidth(7, 140)
+            self.tv_bugs.setColumnWidth(8, 140)
+            # self.tv_bugs.resizeColumnToContents(7)#自适应内容宽度
 
-    def __init__(self, ui, u_name, u_pwd):
-        threading.Thread.__init__(self)
-        self.thread_stop = False
-        self.isStartLogin = False
-        self.ui = ui
-        self.timeout = 15
-        self.u_name = u_name
-        self.u_pwd = u_pwd
+        else:
+            self.lbl_results.setText(u'没有任何数据！')
+            self.tv_bugs.setModel(None)
 
-    def run(self):
-        while not self.thread_stop:
-            if not base.third.isActive:
-                if not self.isStartLogin:
-                    base.third.login(self.u_name, self.u_pwd)
-                    self.isStartLogin = True
-                else:
-                    base.third.userActive(self.u_name)
-                    self.timeout -= 1
-            else:
-                print 'login success!'
-                # emit 方法用来发射信号
-                self.ui.emit(SIGNAL("loginFinish"))
-                self.stop()
-            time.sleep(1)
-
-            if self.timeout <= 0:
-                self.ui.emit(SIGNAL("loginError"))
-                self.stop()
-
-    def stop(self):
-        self.thread_stop = True
 
