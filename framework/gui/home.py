@@ -25,6 +25,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         self.nam = netAccess_method
         self.lbl_status.setText('Loading...')
         self.lbl_status.setFont(QFont("Microsoft YaHei", 11))
+        self.connect(self.lbl_status, SIGNAL('linkActivated (const QString&)'), self.refresh_content)
 
         if len(the.jira.home) >= 3:
             time_str = ''
@@ -34,7 +35,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                 time_str = dic['time']
                 self.load_to_ul(result, title, time_str, False)
             self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
-            self.connect(self.lbl_status, SIGNAL('linkActivated (const QString&)'), self.refresh_content)
+
         else:
             self.nam('http://www.ltesting.net/rss.xml', self.on_ltesting_reply)
 
@@ -56,16 +57,16 @@ class HomeForm(QWidget, home_ui.Ui_Form):
             self.load_to_ul(reply.readAll(), u'互联网早读课', time_str, True)
 
             self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
-            self.connect(self.lbl_status, SIGNAL('linkActivated (const QString&)'), self.refresh_content)
-            print the.jira.home
 
 
     def refresh_content(self, txt):
         self.lbl_status.setText(u"Loading...")
         the.jira.home = []
-
-        for i in reversed(range(0,self.hz_layout.count())):
+        # self.clearLayout(self.hz_layout)
+        for i in reversed(range(0, self.hz_layout.count())):
             self.hz_layout.itemAt(i).widget().deleteLater()
+            self.hz_layout.itemAt(i).widget().setParent(None)
+
         #self.hz_layout.setContentsMargins(0,0,0,0)
         # for lbl in self.lbls:
         #     #lbl.setParent(None)
@@ -74,6 +75,15 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         #     lbl.deleteLater()
         #     #lbl = None
         self.nam('http://www.ltesting.net/rss.xml', self.on_ltesting_reply)
+
+    def clearLayout(self, layout):
+        if layout is not None:
+            old_layout = layout
+            for i in reversed(range(old_layout.count())):
+                old_layout.itemAt(i).widget().setParent(None)
+            import sip
+
+            sip.delete(old_layout)
 
 
     def open_file_browser(self, txt):
