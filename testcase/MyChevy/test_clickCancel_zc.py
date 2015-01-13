@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #点击详情中的预约保养，选择指定时间，点击确定，预约成功
 class TestCase(unittest.TestCase):

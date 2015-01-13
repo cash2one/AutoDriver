@@ -4,7 +4,7 @@ __author__ = 'guanghua_2011@126.com'
 import time
 import unittest
 from framework.core import idriver_android
-from framework.util import str
+from framework.util import strs
 
 
 class TestCase(unittest.TestCase):

@@ -2,8 +2,7 @@
 __author__ = 'zhangchun'
 import unittest
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
 
 #查看未登录时是否有感叹号
 class TestCase(unittest.TestCase):

@@ -3,8 +3,8 @@ __author__ = 'zhangchun'
 import unittest
 from time import sleep
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #切换没有最新活动的城市，页面显示暂时无最新活动
 class TestCase(unittest.TestCase):

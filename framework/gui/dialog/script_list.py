@@ -18,6 +18,8 @@ class ScriptsDialog(QDialog, autos_ui.Ui_Form):
 
         f = QFile(':/default.txt')
         f.open(QIODevice.ReadOnly)
+
+        print f.readAll()
         model = tree_model.TreeModel(f.readAll())
         f.close()
         self.treeView.setModel(model)

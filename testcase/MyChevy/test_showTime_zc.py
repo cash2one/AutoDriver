@@ -5,8 +5,8 @@ from time import sleep
 import datetime
 import time
 
-from framework.core import device_bak
-from framework.data import the
+from framework.core import device_bak, the
+
 
 #查看时间控件,点击确定后，选择的时间回显在文本框中
 class TestCase(unittest.TestCase):

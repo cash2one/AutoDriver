@@ -4,7 +4,7 @@ __author__ = 'zhangchun@pathbook.com.cn'
 import datetime
 from framework.core import idriver_android
 import unittest
-from framework.util import str
+from framework.util import strs
 
 
 class TestCase(unittest.TestCase):
@@ -36,10 +36,10 @@ class TestCase(unittest.TestCase):
 
         for i in range(0,len(ids)):
             income=self.driver.find_ids('incomelist_in')[i].text[1:]
-            order_income=str.to_long(income.split('.')[0]+income.split('.')[1])
+            order_income=strs.to_long(income.split('.')[0]+income.split('.')[1])
             #获取屏幕上各记录的收益
             time=self.driver.find_ids('incomelist_time')[i].text
-            order_time=str.to_datetime(time)
+            order_time=strs.to_datetime(time)
             #获取屏幕上各记录的时间
             order_order=self.driver.find_ids('incomelist_orderno')[i].text
             #获取屏幕上各记录的订单号

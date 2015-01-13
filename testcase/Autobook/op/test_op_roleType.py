@@ -19,7 +19,7 @@ class TestCase(unittest.TestCase):
         #返回首页
         self.driver.switch_to_home()
 
-    def test_roleTypr(self):
+    def test_roleType(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         ActionChains(self.driver).move_to_element(above).perform()

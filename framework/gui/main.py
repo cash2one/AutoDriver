@@ -5,6 +5,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
+from PyQt4.QtNetwork import QNetworkRequest
 
 from framework.gui.views import main_ui
 import home
@@ -13,17 +14,18 @@ import jiras
 import testcase
 import task
 import login
-import interface
+import api_test
 from framework.gui.dialog import monitor, new_issue
-from framework.gui.base import *
+from framework.core import the
 
+ja = the.jira
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         self.setupUi(self)
 
-        jira.cookie = QtNetwork.QNetworkCookieJar(self)
+        ja.cookie = QtNetwork.QNetworkCookieJar(self)
 
         self.setFont(QFont("Microsoft YaHei", 9))
         self.showMaximized()
@@ -84,7 +86,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         img_exit = QIcon("./views/res/exit.png")
         self.trayIcon.setToolTip(u'Woodpecker')
         self.restoreAction = QAction(img_main, u"打开主窗口", self)
-        self.restoreAction.triggered.connect(self.showNormal)
+        self.restoreAction.triggered.connect(self.showMaximized)
         self.quitAction = QAction(img_exit, u"退出", self)
         self.quitAction.triggered.connect(qApp.quit)
         self.trayIconMenu = QMenu(self)
@@ -94,7 +96,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.trayIcon.setContextMenu(self.trayIconMenu)
 
     def load_index(self):
-        self.frm_home = home.HomeForm()
+        self.frm_home = home.HomeForm(self.netAccessNoCookie)
         self.frm_home.connect(self.frm_home, SIGNAL("notLogin"), self.login_dialog)
         self.setCentralWidget(self.frm_home)
 
@@ -123,18 +125,34 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def netAccess(self, api, reply_func):
         m1 = QtNetwork.QNetworkAccessManager(self)
-        m1.setCookieJar(jira.cookie)
+        m1.setCookieJar(ja.cookie)
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
+
+    def netAccessNoCookie(self, api, reply_func):
+        m = QtNetwork.QNetworkAccessManager(self)
+        #m1.setCookieJar(ja.cookie)
+        m.finished.connect(reply_func)
+        req = QtNetwork.QNetworkRequest(QUrl(api))
+        #req.setRawHeader("Host", "www.nuihq.com")
+        req.setRawHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
+        req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+        # req.setRawHeader("Accept-Language", "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
+        # req.setRawHeader("Accept-Encoding", "deflate")
+        # req.setRawHeader("Accept-Charset", "utf-8;q=0.7,*;q=0.7")
+        # req.setRawHeader("Connection", "keep-alive")
+        # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
+
+        m.get(req)
 
     def load_jira_main(self):
         # if the.JIRA == None:
         # self.msgHandler()
         # return
 
-        # if the.JIRA.isActive:
-        if jira.isActive:
+        # if ja.isActive:
+        if ja.isActive:
             self.frm_jira = jiras.JIRAForm(self.netAccess)
             self.setCentralWidget(self.frm_jira)
         else:
@@ -152,9 +170,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
     def login_dialog(self):
         # if the.JIRA != None:
-        # if the.JIRA.isActive:
+        # if ja.isActive:
         # return
-        if jira.isActive:
+        if ja.isActive:
             return
 
         if self.dlg_login == None:
@@ -176,7 +194,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             #issueDlg.label.addAction()
 
     def show_interface(self):
-        interfaceDlg = interface.InterfaceForm()
+        interfaceDlg = api_test.InterfaceForm()
         self.setCentralWidget(interfaceDlg)
 
 

@@ -2,13 +2,14 @@
 __author__ = 'guguohai@outlook.com'
 
 import json
+import os
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
 from framework.gui.views import jira_main_ui
 from framework.gui.models import jira_model
-from framework.gui.base import *
+from framework.core import the
 from framework.gui.dialog import issue_detail, new_issue
 
 
@@ -16,7 +17,9 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-jira_folder = PATH(jira.folder)
+ja = the.jira
+
+jira_folder = PATH(ja.folder)
 
 
 class JIRAForm(QWidget, jira_main_ui.Ui_Form):
@@ -47,25 +50,25 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
         self.btn_find.setText(u'查询中...')
         self.btn_find.setEnabled(False)
         self.lbl_results.setText('')
-        self.cmb_project_current_txt = jira.default_project.upper()
+        self.cmb_project_current_txt = ja.default_project.upper()
         self.current_page = 0
 
         self.thumbs = []
         self.thumbs_index = 0
         # self.nam[0](self.iss_url, self.issues_reply)
 
-        self.nam(jira.host + '/rest/api/2/project', self.project_reply)
+        self.nam(ja.host + '/rest/api/2/project', self.project_reply)
 
 
     def get_issues(self, project_name, pages=0):
         self.iss_url = r'/rest/api/2/search?jql=project=' + project_name + '&startAt=' + str(
-            pages) + '&maxResults=' + str(jira.pageSize)
-        self.nam(jira.host + self.iss_url, self.issues_reply)
+            pages) + '&maxResults=' + str(ja.pageSize)
+        self.nam(ja.host + self.iss_url, self.issues_reply)
 
     def prev_page(self):
         pages = self.current_page - 1
         if pages >= 0:
-            p = pages * jira.pageSize
+            p = pages * ja.pageSize
             self.get_issues(self.cmb_project_current_txt, p)
 
             self.current_page = pages
@@ -75,7 +78,7 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
     def next_page(self):
         pages = self.current_page + 1
         if self.cmb_pages.count() - 1 - pages >= 0:
-            p = pages * jira.pageSize
+            p = pages * ja.pageSize
             self.get_issues(self.cmb_project_current_txt, p)
 
             self.current_page = pages
@@ -98,7 +101,7 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
             try:
                 dicts = json.loads(con)
                 # 下载附件
-                #self.show_thumbnail(dicts['fields']['attachment'])
+                # self.show_thumbnail(dicts['fields']['attachment'])
                 self.issueDialog = issue_detail.IssueDialog(dicts)
                 self.issueDialog.exec_()
             except ValueError:
@@ -107,7 +110,7 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
             print reply.error()
 
     # def show_thumbnail(self, attachments):
-    #     self.thumbs = []
+    # self.thumbs = []
     #     self.thumbs_index = 0
     #     if len(attachments) > 0:
     #         for att in attachments:
@@ -142,7 +145,7 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
 
     def onActivated(self, txt):
         self.current_page = int(txt) - 1
-        self.get_issues(self.cmb_project_current_txt, self.current_page * jira.pageSize)
+        self.get_issues(self.cmb_project_current_txt, self.current_page * ja.pageSize)
 
     def find_JIRA_Data(self):
         self.current_page = 0
@@ -160,7 +163,7 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
             for p in dicts:
                 self.cmb_project.addItem(p['key'])
 
-            p_idx = self.cmb_project.findText(jira.default_project)
+            p_idx = self.cmb_project.findText(ja.default_project)
             self.cmb_project.setCurrentIndex(p_idx)
             # 等项目combobox加载完成后，再加载TableView
             self.get_issues(self.cmb_project_current_txt)
@@ -176,7 +179,7 @@ class JIRAForm(QWidget, jira_main_ui.Ui_Form):
                 issues = dicts['issues']
 
                 # 索引为0，页数不能为0，所以余数+1的基础上再+1
-                p = int(dicts['total'] / jira.pageSize) + 2
+                p = int(dicts['total'] / ja.pageSize) + 2
 
                 # 如果是点击查询或首次加载，则重新载入页数
                 if self.current_page == 0:
