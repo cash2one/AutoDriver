@@ -8,8 +8,11 @@ from PyQt4 import QtNetwork
 from framework.gui.views import issue_detail_ui,label_btn
 from framework.util import convert
 from framework.core import the
-import file_browser
+import browser
 
+TXT = 0
+PIC = 1
+HTML = 2
 
 class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
     def __init__(self, data=None):
@@ -116,10 +119,10 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
                 # 事件绑定时传入参数
                 if att.has_key('thumbnail'):
                     self.connect(new_lbl, SIGNAL("clicked()"),
-                                 lambda con=att['content'], isPic=True: self.open_file_browser(con, isPic))
+                                 lambda con=att['content'], isPic=True: self.open_file_browser(con, PIC))
                 else:
                     self.connect(new_lbl, SIGNAL("clicked()"),
-                                 lambda con=att['content'], isPic=False: self.open_file_browser(con, isPic))
+                                 lambda con=att['content'], isPic=False: self.open_file_browser(con, TXT))
                 #qvb_layout.addWidget(new_lbl)
                 self.desc_layout.addWidget(new_lbl)
 
@@ -131,9 +134,9 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
             # scroll.setWidget(widget)
 
 
-    def open_file_browser(self, con, isPic):
-        print con, isPic
-        fileBrowser = file_browser.FileDialog(con, isPic, self.net_access)
+    def open_file_browser(self, con, file_type):
+        #print con, isPic
+        fileBrowser = browser.FileDialog(con, file_type, self.net_access)
         #fileBrowser.setFixedSize(800, 600)
         fileBrowser.exec_()
 

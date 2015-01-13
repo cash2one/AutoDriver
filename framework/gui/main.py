@@ -5,6 +5,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
+from PyQt4.QtNetwork import QNetworkRequest
 
 from framework.gui.views import main_ui
 import home
@@ -133,8 +134,17 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         m = QtNetwork.QNetworkAccessManager(self)
         #m1.setCookieJar(ja.cookie)
         m.finished.connect(reply_func)
-        req1 = QtNetwork.QNetworkRequest(QUrl(api))
-        m.get(req1)
+        req = QtNetwork.QNetworkRequest(QUrl(api))
+        #req.setRawHeader("Host", "www.nuihq.com")
+        req.setRawHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
+        req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+        # req.setRawHeader("Accept-Language", "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
+        # req.setRawHeader("Accept-Encoding", "deflate")
+        # req.setRawHeader("Accept-Charset", "utf-8;q=0.7,*;q=0.7")
+        # req.setRawHeader("Connection", "keep-alive")
+        # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
+
+        m.get(req)
 
     def load_jira_main(self):
         # if the.JIRA == None:
