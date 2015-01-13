@@ -5,6 +5,7 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
+from PyQt4.QtNetwork import QNetworkRequest
 
 from framework.gui.views import main_ui
 import home
@@ -133,8 +134,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         m = QtNetwork.QNetworkAccessManager(self)
         #m1.setCookieJar(ja.cookie)
         m.finished.connect(reply_func)
-        req1 = QtNetwork.QNetworkRequest(QUrl(api))
-        m.get(req1)
+        req = QtNetwork.QNetworkRequest(QUrl(api))
+        req.setHeader(QNetworkRequest.ContentTypeHeader, QVariant("text/html; charset=utf-8"))
+        m.get(req)
 
     def load_jira_main(self):
         # if the.JIRA == None:
