@@ -1,18 +1,18 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
 
-#待处理订单页面：中止、取消中止
-
-
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
+    '''
+    待处理订单页面：中止、取消中止
+    '''
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 
@@ -21,8 +21,8 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_home()
 
     #中止订单
-    def test_deal(self):
-        self.driver.find_ajax_id('deal')
+    def test_closeOrder(self):
+        self.driver.find_ajax_id('closeOrder')
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
         #取第一行第一列的订单号
@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
 
     #取消中止订单
     def test_cancel(self):
-        self.driver.find_ajax_id('deal')
+        self.driver.find_ajax_id('closeOrder')
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
         #取第一行第一列的订单号

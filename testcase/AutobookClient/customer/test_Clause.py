@@ -1,15 +1,16 @@
 # coding=utf-8
-
 __author__ = 'wangshanshan@pathbook.com.cn'
-#用户未登录，1,查看条款 2,不勾选条款。
 
 import time
 import unittest
-from framework.core import idriver_android
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
+    '''
+    用户未登录，1,查看条款 2,不勾选条款。
+    '''
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         #self.driver.login()
 
     def tearDown(self):
