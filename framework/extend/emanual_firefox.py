@@ -18,28 +18,13 @@ PATH = lambda p: os.path.abspath(
 )
 
 
-def firefox(file_):
-    # 获取项目路径，转换成app.init 的sections
-    init_size = len(os.path.dirname(__file__))
-    tar_path = os.path.dirname(file_)
-    sections = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
-
-    st = sections.replace('autobook', 'idriver')
-    cfg = the.taskConfig[st]
-    if cfg[const.PRODUCT] == None:
-        #the.products[st][constant.PRODUCT] = Firefox(info)
-        the.taskConfig[st][const.PRODUCT] = Firefox(cfg[const.TASK_CONFIG])
-        the.taskConfig[st][const.PRODUCT].splash()
-    return the.taskConfig[st][const.PRODUCT]
-
-
-class Firefox(WebDriver):
+class Application(WebDriver):
     def __init__(self, config, timeout=30):
         self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))
 
         self.settings = self.config['settings']
         self.timeout = timeout
-        #self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.configs['layout']))
+        # self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.configs['layout']))
         #self.cfg=fs.readConfigs()
 
 
@@ -59,11 +44,12 @@ class Firefox(WebDriver):
         firefox_binary = None
         capabilities = None
         proxy = None
-        super(Firefox, self).__init__(firefox_profile, firefox_binary, timeout,
+        super(Application, self).__init__(firefox_profile, firefox_binary, timeout,
                                       capabilities, proxy)
+
     def _get_sections_url(self):
         server_url = self.settings['url']
-        return self.current_url.replace(server_url,'')
+        return self.current_url.replace(server_url, '')
 
     def layouts(self):
         # 截取current_url作为ini的selections
@@ -162,23 +148,16 @@ class Firefox(WebDriver):
             self.implicitly_wait(30)
 
             sections_url = self._get_sections_url()
-            cf=self.config[sections_url]
+            cf = self.config[sections_url]
 
             self.find_element_by_id(cf['username']).send_keys(usrname)
             self.find_element_by_id(cf['password']).send_keys(pwd)
 
             # 等待输入验证码
             while True:
-                #print temp_url,self.current_url
+                # print temp_url,self.current_url
                 if cmp(temp_url, self.current_url) == -1:
                     break
                 time.sleep(0.5)
 
             self._index_url(self.current_url)
-
-
-class Chrome(selen.Chrome):
-    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
-                 capabilities=None, proxy=None):
-        super(Chrome, self).__init__(firefox_profile, firefox_binary, timeout,
-                                     capabilities, proxy)
