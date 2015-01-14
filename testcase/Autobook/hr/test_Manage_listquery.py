@@ -25,7 +25,7 @@ class TestCase(unittest.TestCase):
 
     #默认的条件查询
     def test_defaul(self):
-        #司机管理
+         #司机管理
          self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
         #点击查询按钮
          self.driver.find_element_by_id('query').click()

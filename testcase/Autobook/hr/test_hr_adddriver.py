@@ -1,5 +1,6 @@
-__author__ = 'lfy'
 # coding=utf-8
+__author__ = 'lvfangying@pathbook.com.cn'
+
 #hr_循环验证用户名错误登录测试
 
 import unittest
@@ -31,9 +32,9 @@ class TestCase(unittest.TestCase):
         self.ff.find_element_by_id('password').send_keys("1138051554")
         time.sleep(5)
 
-    def test_driver_name(self,driver_name):
-        self.testValue()
-        self.ff.find_element_by_id('driverVo_name').send_keys(driver_name)
+    # def test_driver_name(self,driver_name):
+    #     self.testValue()
+    #     self.ff.find_element_by_id('driverVo_name').send_keys(driver_name)
 
 
     def test_name0(self):
@@ -48,7 +49,7 @@ class TestCase(unittest.TestCase):
     def test_name1(self,driver_name):
         self.testValue()
         self.ff.find_element_by_id('driverVo_name').send_keys(driver_name)
-        self.ff.find_element_by_id('btn_add').click()
+        # self.ff.find_element_by_id('btn_add').click()
 
     def test_name_null(self):
         self.test_name1('')
@@ -106,6 +107,10 @@ class TestCase(unittest.TestCase):
         for marriage in marriages:
             if marriage.get_attribute('value')=='1':
                 marriage.click()
+
+
+
+
 
 
 
