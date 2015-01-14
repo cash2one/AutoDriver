@@ -4,13 +4,13 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 #上下滑动已完成订单列表，提示“无数据可加载”(还未完成)
 import time
 import unittest
-from framework.core import idriver_android
+from framework.core import testcase
 
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
     def tearDown(self):
