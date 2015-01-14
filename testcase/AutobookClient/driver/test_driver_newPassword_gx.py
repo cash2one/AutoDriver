@@ -2,14 +2,14 @@
 __author__ = 'gaoxu@pathbook.com.cn'
 
 import datetime
-from framework.core import idriver_android
+from framework.core import testcase
 import unittest
 import time
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         # self.driver.login()
 
     def tearDown(self):
