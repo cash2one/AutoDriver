@@ -16,7 +16,7 @@ TIME_OUT = 100
 
 class IOS(WebDriver):
     def __init__(self, config):
-        self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))
+        self.config = config  # fs.parserConfig(PATH('../../resource/app/%s' % config))
         self.settings = self.config['settings']
 
         desired_caps = {

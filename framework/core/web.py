@@ -6,8 +6,6 @@ import time
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.common import exceptions
 
-from framework.util import const, fs
-
 TIME_OUT = 100
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -16,7 +14,7 @@ PATH = lambda p: os.path.abspath(
 
 class Firefox(WebDriver):
     def __init__(self, config, timeout=30):
-        self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))
+        self.config = config
 
         self.settings = self.config['settings']
         self.timeout = timeout

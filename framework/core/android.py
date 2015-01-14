@@ -16,7 +16,7 @@ TIME_OUT = 100
 
 class Android(WebDriver):
     def __init__(self, config):
-        self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))
+        self.config = config  # fs.parserConfig(PATH('../../resource/app/%s' % config))
         self.settings = self.config['settings']
         self.api = self.config['api']
         self.api_token = ''

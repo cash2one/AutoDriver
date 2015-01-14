@@ -34,14 +34,14 @@ def app(test_case_file):
     cfg = the.taskConfig[sect]
 
     if cfg[const.PRODUCT] == None:
-        app_config = cfg[const.TASK_CONFIG]
-        settings = fs.readConfigs(PATH('../../resource/app/%s' % app_config), 'settings')
+        configs = fs.parserConfig(PATH('../../resource/app/%s' % cfg[const.TASK_CONFIG]))
+        settings = configs['settings']
 
         project = settings['project'].lower()
         platform = settings['platform_name'].lower()
         module_file = project + '_' + platform
         m = my_import('drivers.%s' % module_file)
-        the.taskConfig[sect][const.PRODUCT] = m.Application(app_config)
+        the.taskConfig[sect][const.PRODUCT] = m.Application(configs)
 
         the.taskConfig[sect][const.PRODUCT].splash()
     return the.taskConfig[sect][const.PRODUCT]
