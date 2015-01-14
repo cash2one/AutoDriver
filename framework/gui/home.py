@@ -8,7 +8,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
 from framework.gui.views import home_ui
-from framework.gui.dialog import browser
+from framework.gui.dialog import browser,loading
 from framework.core import the
 
 
@@ -26,6 +26,11 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         self.lbl_status.setText('Loading...')
         self.lbl_status.setFont(QFont("Microsoft YaHei", 11))
         self.connect(self.lbl_status, SIGNAL('linkActivated (const QString&)'), self.refresh_content)
+        # self.connect(self, SIGNAL("loading_start()"), self.show_loading)
+        # self.connect(self, SIGNAL("loading_finish()"), self.loading_finish)
+        # self.lbl_colors = ['00a1f1', '7cbb00', 'ffbb00']
+        # self.load_num = 0
+        #self.loading_dlg=None
 
         if len(the.jira.home) >= 3:
             time_str = ''
@@ -38,12 +43,14 @@ class HomeForm(QWidget, home_ui.Ui_Form):
 
         else:
             self.nam('http://www.ltesting.net/rss.xml', self.on_ltesting_reply)
+            self.emit(SIGNAL("loading_start()"))
 
     def on_ltesting_reply(self, reply):
         if reply.error() == reply.NoError:
             time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
             self.load_to_ul(reply.readAll(), u'领测软件测试网', time_str, True)
             self.nam('http://testerhome.com/topics/feedgood', self.on_testerhome_reply)
+
 
     def on_testerhome_reply(self, reply):
         if reply.error() == reply.NoError:
@@ -57,9 +64,11 @@ class HomeForm(QWidget, home_ui.Ui_Form):
             self.load_to_ul(reply.readAll(), u'互联网早读课', time_str, True)
 
             self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
+            self.emit(SIGNAL("loading_finish()"))
 
 
     def refresh_content(self, txt):
+        # self.load_num = 0
         self.lbl_status.setText(u"Loading...")
         the.jira.home = []
         # self.clearLayout(self.hz_layout)
@@ -67,10 +76,10 @@ class HomeForm(QWidget, home_ui.Ui_Form):
             self.hz_layout.itemAt(i).widget().deleteLater()
             self.hz_layout.itemAt(i).widget().setParent(None)
 
-        #self.hz_layout.setContentsMargins(0,0,0,0)
+        # self.hz_layout.setContentsMargins(0,0,0,0)
         # for lbl in self.lbls:
-        #     #lbl.setParent(None)
-        #     self.hz_layout.removeWidget(lbl)
+        # #lbl.setParent(None)
+        # self.hz_layout.removeWidget(lbl)
         #     self.hz_layout.setContentsMargins(0,0,0,0)
         #     lbl.deleteLater()
         #     #lbl = None
@@ -92,18 +101,21 @@ class HomeForm(QWidget, home_ui.Ui_Form):
 
     def load_to_ul(self, content, title, time_str, isDownload):
         lbl = QLabel()
-        lbl.setStyleSheet("background-color:#ffffff;padding:0 15px;font-family:Microsoft YaHei")
+        lbl.setAlignment(Qt.AlignTop)
+        lbl.setStyleSheet("background-color:#ffffff;padding:20px 15px 0 15px;font-family:Microsoft YaHei")
         lbl.setMinimumWidth(350)
-        lbl.setMaximumHeight(500)
+        lbl.setMaximumHeight(430)
         # lbl.setOpenExternalLinks(True)
         result = content
         if isDownload:
             result = self.read_xml_feed(content)
             self.save_home_data(title, result, time_str)
 
+        # bg_color = self.lbl_colors[self.load_num]
         lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
         self.hz_layout.addWidget(lbl)
         self.connect(lbl, SIGNAL('linkActivated (const QString&)'), self.open_file_browser)
+        #self.load_num += 1
 
     def save_home_data(self, title, result, time_str):
         res_dict = {}
@@ -144,6 +156,12 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                 break
         return lis
 
+    # def show_loading(self):
+    #     self.loading_dlg = loading.LoadingDialog()
+    #     self.loading_dlg.exec_()
+    #
+    # def loading_finish(self):
+    #     self.loading_dlg.destroy()
 
     def netAccessNoCookie(self, api, reply_func):
         m = QtNetwork.QNetworkAccessManager(self)

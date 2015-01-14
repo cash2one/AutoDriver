@@ -5,7 +5,6 @@ import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
-from PyQt4.QtNetwork import QNetworkRequest
 
 from framework.gui.views import main_ui
 import home
