@@ -82,7 +82,7 @@ def app(current_file):
 #     return the.devices[CUSTOMER_ROBOT]
 
 
-class Android(WebDriver):
+class Application(WebDriver):
     def __init__(self, config, browser_profile=None, proxy=None, keep_alive=False):
         #cfs = config.strip().split('|')
         self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))#cfs[0]))
@@ -101,7 +101,7 @@ class Android(WebDriver):
         desired_capabilities['app-activity'] = self.settings['app_activity']
         command_executor = 'http://localhost:%s/wd/hub' % self.settings['remote_port']
 
-        super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
+        super(Application, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
 
         self.package = self.settings['app_package'] + ':id/'
         self.pkg = self.settings['app_package'] + ':id/'

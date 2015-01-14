@@ -1,17 +1,18 @@
-__author__ = 'wangshanshan@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'wangshanshan@pathbook.com.cn'
+
 #待处理订单页面：查看流程、关闭流程
 
 
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 
