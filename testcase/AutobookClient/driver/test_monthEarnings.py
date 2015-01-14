@@ -2,7 +2,7 @@
 __author__ = 'zhangchun@pathbook.com.cn'
 
 import datetime
-from framework.core import idriver_android
+from framework.core import testcase
 import unittest
 from framework.util import strs
 
@@ -10,7 +10,7 @@ from framework.util import strs
 class TestCase(unittest.TestCase):
     #获取登录司机的工号
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
     #返回首页
