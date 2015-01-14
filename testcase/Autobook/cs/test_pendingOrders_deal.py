@@ -1,5 +1,6 @@
-__author__ = 'wangshanshan@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'wangshanshan@pathbook.com.cn'
+
 #待处理订单页面：我要处理（确定）、取消
 
 

@@ -1,5 +1,6 @@
-__author__ = 'wangshanshan@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'wangshanshan@pathbook.com.cn'
+
 #模糊搜索
 
 import time
