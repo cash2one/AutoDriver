@@ -41,7 +41,6 @@ def app(test_case_file):
         platform = settings['platform_name'].lower()
         module_file = project + '_' + platform
         m = my_import('drivers.%s' % module_file)
-        print m
         the.taskConfig[sect][const.PRODUCT] = m.Application(app_config)
 
         the.taskConfig[sect][const.PRODUCT].splash()
