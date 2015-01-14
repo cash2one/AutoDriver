@@ -7,12 +7,12 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 
 import time
 import unittest
-from framework.core import testcase
+from framework.core import idriver_web
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = idriver_web.firefox(__file__)
         self.driver.login()
 
 

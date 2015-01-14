@@ -160,10 +160,3 @@ class Application(WebDriver):
                 time.sleep(0.5)
 
             self._index_url(self.current_url)
-
-
-class Chrome(selen.Chrome):
-    def __init__(self, firefox_profile=None, firefox_binary=None, timeout=30,
-                 capabilities=None, proxy=None):
-        super(Chrome, self).__init__(firefox_profile, firefox_binary, timeout,
-                                     capabilities, proxy)

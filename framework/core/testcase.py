@@ -20,6 +20,11 @@ def my_import(name):
 
 
 def app(test_case_file):
+    '''
+    初始化用例，装载容器
+    :param test_case_file:
+    :return:
+    '''
     # 获取项目路径，转换成app.init 的sections
     init_size = len(PATH('../../testcase')) + 1
     tar_path = os.path.dirname(test_case_file)

@@ -85,13 +85,14 @@ def app(current_file):
 class Android(WebDriver):
     def __init__(self, config, browser_profile=None, proxy=None, keep_alive=False):
         #cfs = config.strip().split('|')
+
         self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))#cfs[0]))
         self.settings = self.config['settings']
         self.api = self.config['api']
         #self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.config['layout']))
         #self.api_host = self.settings['api_host']
         self.api_token = ''
-
+        print self.settings['app']
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.settings['platform_name']
         desired_capabilities['platformVersion'] = self.settings['platform_version']
@@ -575,7 +576,7 @@ def register_user(self_driver, user_name):
     # user_name = self_driver.configs['user_name']
     code = self_driver.settings['code']
 
-    self_driver.find_element_by_id(pkg + 'btn_personal_center').click()
+    self_driver.find_element_by_id(pkg + 'btn_personalcenter').click()
     self_driver.wait_switch(main_activity)
 
     self_driver.find_elements_by_id(pkg + 'personal_name')[0].click()

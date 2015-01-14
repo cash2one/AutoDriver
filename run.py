@@ -117,20 +117,7 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
-    # mod=__import__("framework.extend",{},{},["extend"])
-    # print mod
-    def my_import(name):
-        mod = __import__(name)
-        components = name.split('.')
-        for comp in components[1:]:
-            mod = getattr(mod, comp)
-        return mod
-
-    aa= my_import('framework.extend.idriver_web')
-    cc=aa.Firefox('cs.ini')
-    cc.login()
-
+    main()
 
     # dr = device.RunAppium(4725)
     # dr.start()
