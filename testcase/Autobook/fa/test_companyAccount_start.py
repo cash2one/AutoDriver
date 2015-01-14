@@ -43,6 +43,8 @@ class TestCase(unittest.TestCase):
         print station_text1
         self.assertTrue(u'正常' in station_text1,'msg')
 
+
+
         #点击设为默认
         trs2[1].find_element_by_id('setDefault').click()
 
