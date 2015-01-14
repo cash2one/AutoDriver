@@ -5,7 +5,6 @@ import os
 import time
 from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
-from framework.util import fs
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

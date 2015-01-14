@@ -135,3 +135,18 @@ class Firefox(WebDriver):
                 time.sleep(0.5)
 
             self._index_url(self.current_url)
+
+
+class Chrome(WebDriver):
+    def __init__(self, config, timeout=30):
+        self.config = config
+
+        self.settings = self.config['settings']
+        self.timeout = timeout
+
+        firefox_profile = None
+        firefox_binary = None
+        capabilities = None
+        proxy = None
+        super(Chrome, self).__init__(firefox_profile, firefox_binary, timeout,
+                                     capabilities, proxy)
