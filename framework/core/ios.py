@@ -5,7 +5,7 @@ import os
 import time
 from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
-from framework.util import idriver_const, strs, mysql, fs
+from framework.util import strs, mysql, fs
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)

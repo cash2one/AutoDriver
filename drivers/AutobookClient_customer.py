@@ -11,7 +11,7 @@ from selenium.common.exceptions import NoSuchElementException
 
 import socket
 from framework.core import the
-from framework.util import idriver_const, strs, mysql
+from framework.util import strs, mysql
 from framework.core import android
 
 TIME_OUT = 100
@@ -204,7 +204,7 @@ class Application(android.Android):
     # 查看是不是XX女士，如果不是就改名，并下个1人的周边订单
     # '''
     # xmlrpc_s = the.settings['xmlrpc']
-    #     s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
+    # s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
     #     try:
     #         s.set_customer(True, user_name)
     #     except xmlrpclib.Fault:
@@ -297,16 +297,6 @@ class Application(android.Android):
             except KeyError:
                 pass
 
-
-    # def post(url, data):
-    #     req = urllib2.Request(url)
-    #     data = urllib.urlencode(data)
-    #     #enable cookie
-    #     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
-    #     response = opener.open(req, data)
-    #     return response.read()
-
-
     def auto_order(self, cmd):
         """
         与其他端通信，发送或者接收订单
@@ -323,7 +313,27 @@ class Application(android.Android):
         return recv_str
 
     def enum(self, key, val):
-        return idriver_const.idriver_enum[key]['key_' + str(val)]
+        idriver_enum = {
+            'province': {
+                'key_0': u'全国', 'key_1': u'北京', 'key_2': u'天津', 'key_3': u'上海', 'key_4': u'重庆',
+                'key_5': u'河北', 'key_6': u'山西', 'key_7': u'辽宁', 'key_8': u'吉林', 'key_9': u'黑龙江',
+                'key_10': u'江苏', 'key_11': u'浙江', 'key_12': u'安徽', 'key_13': u'福建', 'key_14': u'江西',
+                'key_15': u'山东', 'key_16': u'河南', 'key_17': u'湖北', 'key_18': u'湖南', 'key_19': u'广东',
+                'key_20': u'海南', 'key_21': u'四川', 'key_22': u'贵州', 'key_23': u'云南', 'key_24': u'陕西',
+                'key_25': u'甘肃', 'key_26': u'青海', 'key_27': u'台湾', 'key_28': u'西藏', 'key_29': u'广西',
+                'key_30': u'内蒙古', 'key_31': u'宁夏', 'key_32': u'新疆', 'key_33': u'香港', 'key_34': u'澳门'
+            },
+            'sex': {
+                'key_0': u'先生', 'key_1': u'女士'
+            },
+            'license_type': {
+                'key_1': u'A1', 'key_2': u'A2', 'key_3': u'A3', 'key_4': u'B1',
+                'key_5': u'B2', 'key_6': u'C1', 'key_7': u'C2', 'key_8': u'C3',
+                'key_9': u'C4', 'key_10': u'D', 'key_11': u'E', 'key_12': u'F',
+                'key_13': u'OT'
+            }
+        }
+        return idriver_enum[key]['key_' + str(val)]
 
     @property
     def no(self):
@@ -343,11 +353,6 @@ class Application(android.Android):
         '''
         mysql数据查询，size大于0时为查询多条数据
         '''
-        # db_conf = 'database'
-        # if len(db_config.strip()) > 0:
-        # db_conf += ('_'+db_config)
-
-        # url,usr,pwd,db_name,port
         db_array = self.settings['database'].split('|')[db_no]
         dbs = db_array.split(',')
 
@@ -603,7 +608,7 @@ def customer_server():
                 # connection.send('welcome to python server!')
                 # 执行一个下订单的脚本
                 # subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
-                #cmd = PATH('../src/autobook/android/customer/%s' % py_file)
+                # cmd = PATH('../src/autobook/android/customer/%s' % py_file)
                 p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
                 connection.send(p.stdout.read())
         except socket.timeout:
@@ -626,37 +631,3 @@ def order_client(cmd):
     sock.close()
     return recv_str
 
-
-# def get_driver_no():
-# return the.project_settings['idriver.android.driver']['user_name']
-#
-#
-# def get_contact_phone():
-# return the.project_settings['idriver.android.customer']['contact_phone']
-
-
-# def request_order(bol):
-# '''
-# 司机端用来通知用户端 发送订单的请求
-# :param host:
-#     :param bol:
-#     :return:
-#     '''
-#     host = xmlrpc_host() + ':' + xmlrpc_port()
-#     pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
-#     match = pattern.match(host)
-#     if match:
-#         s = xmlrpclib.ServerProxy('http://' + host)
-#         try:
-#             s.set_customer_action(bol)
-#         except xmlrpclib.Fault:
-#             pass
-
-
-# def isHostAddr(value):
-#     pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
-#     match = pattern.match(value)
-#     if match:
-#         return True  # match.group()
-#     else:
-#         return False
