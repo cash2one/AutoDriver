@@ -53,7 +53,6 @@ class TreeItem(object):
         self.parentItem = parent
         self.itemData = data
         self.childItems = []
-        print data
 
     def appendChild(self, item):
         self.childItems.append(item)

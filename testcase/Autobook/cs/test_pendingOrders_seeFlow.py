@@ -1,5 +1,6 @@
-__author__ = 'wangshanshan@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'wangshanshan@pathbook.com.cn'
+
 #待处理订单页面：查看流程、关闭流程
 
 

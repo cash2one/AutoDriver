@@ -29,6 +29,7 @@ def firefox(file_):
     if cfg[const.PRODUCT] == None:
         #the.products[st][constant.PRODUCT] = Firefox(info)
         the.taskConfig[st][const.PRODUCT] = Firefox(cfg[const.TASK_CONFIG])
+        the.taskConfig[st][const.PRODUCT].splash()
     return the.taskConfig[st][const.PRODUCT]
 
 
@@ -125,6 +126,8 @@ class Firefox(WebDriver):
         else:
             raise NameError, 'find_element timeout'
 
+    def splash(self):
+        pass
 
     def switch_to_home(self):
         url = self.settings['index_url']
