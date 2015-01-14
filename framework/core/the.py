@@ -1,7 +1,6 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
-import uuid
 from framework.util import fs
 
 __tpc = ['60eb69a7532a']
@@ -17,6 +16,8 @@ settings = fs.parserConfig(PATH('../../config.ini'))
 # app_configs = fs.parserConfig(PATH('../../resource/app.ini'))
 devices = fs.parser_to_dict(PATH('../../resource/app.ini'))
 # products = fs.init_project(PATH('../../resource/app.ini'))
+taskConfig = fs.task_container(PATH('../../config.ini'), 'task')
+
 
 class JIRA():
     def __init__(self):
@@ -37,8 +38,9 @@ class Woodpecker():
     def __init__(self):
         self.host = settings['gui']['woodpecker']
 
+
 wp = Woodpecker()
 jira = JIRA()
 
-taskConfig = fs.task_container(PATH('../../config.ini'), 'task')
+
 

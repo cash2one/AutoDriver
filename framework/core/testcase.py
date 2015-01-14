@@ -34,10 +34,11 @@ def app(test_case_file):
     cfg = the.taskConfig[sect]
 
     if cfg[const.PRODUCT] == None:
-        configs = fs.parserConfig(PATH('../../resource/app/%s' % cfg[const.TASK_CONFIG]))
+        # configs = fs.parserConfig(PATH('../../resource/app/%s' % cfg[const.TASK_CONFIG]))
+        manifest = fs.parserConfig(PATH('../../manifest/%s' % cfg[const.TASK_CONFIG]))
 
         m = my_import('drivers.%s' % section)
-        the.taskConfig[sect][const.PRODUCT] = m.Application(configs)
+        the.taskConfig[sect][const.PRODUCT] = m.Application(manifest)
 
         the.taskConfig[sect][const.PRODUCT].splash()
     return the.taskConfig[sect][const.PRODUCT]
