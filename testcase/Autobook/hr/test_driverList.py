@@ -71,11 +71,12 @@ class TestCase(unittest.TestCase):
         #驾驶档案编号
         self.driver.find_element_by_id('detailVo_licenseNo').send_keys('10000101')
         #驾照申领日期
-        # daytime=(time.strftime("%Y/%m/%d"))
-        # print daytime
-        # clitim=self.driver.find_element_by_id('detailVo_licencetime').send_keys(daytime)
-        # print clitim
-
+        js = '$(\'input[id=detailVo_licencetime]\').removeAttr(\'readonly\')'
+        self.driver.execute_script(js)
+        #清除已有数据
+        self.driver.find_element_by_id('detailVo_licencetime').clear()
+        #输入内容
+        self.driver.find_element_by_id('detailVo_licencetime').send_keys('2015-01-06')
         #本人电话
         self.driver.find_element_by_id('driverVo_phone').send_keys('13122223333')
         #imsi
