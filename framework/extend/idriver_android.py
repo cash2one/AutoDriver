@@ -4,7 +4,6 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 import subprocess
-import urllib
 import json
 import urllib2
 
@@ -13,18 +12,11 @@ from selenium.common.exceptions import NoSuchElementException
 
 import socket
 from framework.core import the
-from framework.util import idriver_const, const, strs, mysql, fs
+from framework.util import idriver_const, strs, mysql, fs
 
 
 TIME_OUT = 100
-# DRIVER = 'idriver.android.driver'
-# DRIVER_ROBOT = 'idriver.android.driver_robot'
-# CUSTOMER = 'idriver.android.customer'
-# CUSTOMER_ROBOT = 'idriver.android.customer_robot'
-# # 订单加载loading
 ORDER_LOAD = 'order_load'
-# HISTORY_ORDER_FINISH = 'history_order_finish'
-# HISTORY_ORDER_CANCLE = 'history_order_cancle'
 WORK_STATE = 'tb_work_state'
 NET_WAIT = 'progressbar_net_wait'
 APP_CUSTOMER = 'service/customerService'
@@ -35,64 +27,17 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-# 调用示例self.driver = idriver_android.app(__file__)
-def app(current_file):
-    # 获取项目路径，转换成app.init 的sections
-    init_size = len(PATH('../../testcase')) + 1
-    tar_path = os.path.dirname(current_file)
-    section = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
 
-    sect = section.lower()
-    cfg = the.taskConfig[sect]
-    if cfg[const.PRODUCT] == None:
-        the.taskConfig[sect][const.PRODUCT] = Android(cfg[const.TASK_CONFIG])
-        the.taskConfig[sect][const.PRODUCT].splash()
-    return the.taskConfig[sect][const.PRODUCT]
-
-
-# def driver():
-# _configs = the.app_configs[DRIVER]
-# if the.devices[DRIVER] == None:
-# the.devices[DRIVER] = Android(_configs)
-# the.devices[DRIVER].wait_switch(_configs['app_activity'])
-# return the.devices[DRIVER]
-#
-#
-# def customer():
-# _configs = the.app_configs[CUSTOMER]
-# if the.devices[CUSTOMER] == None:
-# the.devices[CUSTOMER] = Android(_configs)
-# the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
-# return the.devices[CUSTOMER]
-#
-#
-# def driver_robot():
-# _configs = the.app_configs[DRIVER_ROBOT]
-# if the.devices[DRIVER_ROBOT] == None:
-# the.devices[DRIVER_ROBOT] = Android(_configs)
-# the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
-# return the.devices[DRIVER_ROBOT]
-#
-#
-# def customer_robot():
-#     _configs = the.app_configs[CUSTOMER_ROBOT]
-#     if the.devices[CUSTOMER_ROBOT] == None:
-#         the.devices[CUSTOMER_ROBOT] = Android(_configs)
-#         the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
-#     return the.devices[CUSTOMER_ROBOT]
-
-
-class Android(WebDriver):
+class Application(WebDriver):
     def __init__(self, config, browser_profile=None, proxy=None, keep_alive=False):
-        #cfs = config.strip().split('|')
-
-        self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))#cfs[0]))
+        # cfs = config.strip().split('|')
+        self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))  #cfs[0]))
         self.settings = self.config['settings']
         self.api = self.config['api']
         #self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.config['layout']))
         #self.api_host = self.settings['api_host']
         self.api_token = ''
-        print self.settings['app']
+
         desired_capabilities = {}
         desired_capabilities['platformName'] = self.settings['platform_name']
         desired_capabilities['platformVersion'] = self.settings['platform_version']
@@ -102,14 +47,14 @@ class Android(WebDriver):
         desired_capabilities['app-activity'] = self.settings['app_activity']
         command_executor = 'http://localhost:%s/wd/hub' % self.settings['remote_port']
 
-        super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
+        super(Application, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
 
         self.package = self.settings['app_package'] + ':id/'
         self.pkg = self.settings['app_package'] + ':id/'
 
 
     def layouts(self):
-        #layout_ids = None
+        # layout_ids = None
         try:
             #layout_ids = self.app_layouts[self.current_activity]
             return self.config[self.current_activity]
@@ -171,7 +116,7 @@ class Android(WebDriver):
 
     def swipe_up(self, id_):
         # {'y': 274, 'x': 0}
-        #{'width': 720, 'height': 894}
+        # {'width': 720, 'height': 894}
         loc = self.find_element_by_id(self.package + id_).location
         sz = self.find_element_by_id(self.package + id_).size
 
@@ -309,7 +254,7 @@ class Android(WebDriver):
         return loc
 
     # def request_order(self, user_name):
-    #     '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
+    # '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
     #     查看是不是XX女士，如果不是就改名，并下个1人的周边订单
     #     '''
     #     xmlrpc_s = the.settings['xmlrpc']
@@ -597,7 +542,7 @@ def register_user(self_driver, user_name):
     # 验证码完成后，会返回到PersonActivity
     self_driver.wait_switch('.MyInfoActivity')
 
-    #方便调试先注释
+    # 方便调试先注释
     # #点击我的信息
     # self_driver.find_ids('personal_name')[0].click()
     # self_driver.wait_switch('.PersonActivity')
@@ -703,7 +648,7 @@ def customer_server():
             buf = connection.recv(1024)
             if 'request_order:' in buf:
                 ss = buf.split('request_order:')[1]
-                #if buf == socket_sign:
+                # if buf == socket_sign:
                 #connection.send('welcome to python server!')
                 #执行一个下订单的脚本
                 #subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
@@ -736,7 +681,7 @@ def order_client(cmd):
 #
 #
 # def get_contact_phone():
-#     return the.project_settings['idriver.android.customer']['contact_phone']
+# return the.project_settings['idriver.android.customer']['contact_phone']
 
 
 # def request_order(bol):
