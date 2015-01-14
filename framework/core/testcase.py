@@ -40,7 +40,7 @@ def app(test_case_file):
         project = settings['project'].lower()
         platform = settings['platform_name'].lower()
         module_file = project + '_' + platform
-        m = my_import('framework.extend.%s' % module_file)
+        m = my_import('drivers.%s' % module_file)
         the.taskConfig[sect][const.PRODUCT] = m.Application(app_config)
 
         the.taskConfig[sect][const.PRODUCT].splash()
