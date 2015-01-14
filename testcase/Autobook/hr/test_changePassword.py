@@ -1,6 +1,5 @@
-__author__ = 'gaoxu@pathbook.com.cn'
 # coding=utf-8
-
+__author__ = 'gaoxu@pathbook.com.cn'
 import time
 import unittest
 from framework.core import idriver_web
