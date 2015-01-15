@@ -29,7 +29,7 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('driverInfo').send_keys(u'140017')
         self.driver.find_element_by_id('query').click()#点击查询
         time.sleep(2)
-        #取出工号列文本，对比信息
+        #取出工号列文本，对比信息是否正确
         #定位到当前列表
         table1 = self.driver.find_element_by_id('list')
         trs1 = table1.find_elements_by_tag_name('tr')
