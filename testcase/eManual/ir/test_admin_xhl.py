@@ -52,7 +52,7 @@ class TestCase(unittest.TestCase):
         #判断长度是不是小于1
          if len(trs)>1:
             #循环行
-            for i in (1,len(trs)-1):
+            for i in range(1,len(trs)-1):
                 #找到td
                 text=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[i].find_elements_by_tag_name('td')[6].text
                 #判断是不是td里面的状态是不是已禁用
