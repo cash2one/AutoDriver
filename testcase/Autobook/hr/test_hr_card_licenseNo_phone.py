@@ -1,5 +1,7 @@
-__author__ = 'lvfangying@pathbook.com.cn'
+
 # coding=utf-8
+__author__ = 'lvfangying@pathbook.com.cn'
+
 #hr_循环验证用户名错误登录测试
 
 import unittest
@@ -9,37 +11,23 @@ from selenium.webdriver.common.keys import Keys
 import time
 # from util.fileUtil import *
 import os
-
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.ff = webdriver.Firefox()#打开火狐浏览器
-       #浏览器最大化
-        self.ff.maximize_window()
+        self.driver = testcase.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
+        self.driver.login()
 
-    def testValue(self):
-        #打开网址路径
-        self.ff.get("http://192.168.3.31/hr/")
-        time.sleep(3)
-        #清除文本框中已有的数据
-        self.ff.find_element_by_id('username').clear()
-        #在文本框中输入值
-        self.ff.find_element_by_id('username').send_keys("rs1202")
-
-        self.ff.find_element_by_id('password').clear()
-        #在文本框中输入值
-        self.ff.find_element_by_id('password').send_keys("1138051554")
-        time.sleep(5)
 
     def test_card(self):
-        self.testValue()
-        self.ff.find_element_by_id('btn_add').click()
-        driverVo_card_tx=self.ff.find_element_by_id('driverVo_card_tip').text
+        self.driver.find_element_by_id('btn_add').click()
+        driverVo_card_tx=self.driver.find_element_by_id('driverVo_card_tip').text
         self.assertTrue(u'身份证号不能为空.'in driverVo_card_tx)
 
     def test_card1(self,driver_card):
-        self.testValue()
-        self.ff.find_element_by_id('driverVo_card').send_keys(driver_card)
+        self.driver.find_element_by_id('driverVo_card').send_keys(driver_card)
 
 
     def test_card_long(self):
@@ -60,15 +48,13 @@ class TestCase(unittest.TestCase):
 
 
     def test_licenseNo(self):
-        self.testValue()
-        self.ff.find_element_by_id("btn_add").click()
-        test_licenseNo_tx=self.ff.find_element_by_id('detailVo_licenseNo_tip').text
+        self.driver.find_element_by_id("btn_add").click()
+        test_licenseNo_tx=self.driver.find_element_by_id('detailVo_licenseNo_tip').text
         self.assertTrue(u'驾照档案编号不能为空.'in test_licenseNo_tx)
 
 
     def test_detailVo_licenseNo(self,detailVo_licenseNo):
-        self.testValue()
-        self.ff.find_element_by_id('detailVo_licenseNo').send_keys(detailVo_licenseNo)
+        self.driver.find_element_by_id('detailVo_licenseNo').send_keys(detailVo_licenseNo)
 
     def test__licenseNo_null(self):
         self.test_detailVo_licenseNo('')
@@ -89,15 +75,13 @@ class TestCase(unittest.TestCase):
 
 
     def test_phone(self):
-        self.testValue()
-        self.ff.find_element_by_id('btn_add').click()
-        test_phone_tx=self.ff.find_element_by_id('driverVo_phone_tip').text
+        self.driver.find_element_by_id('btn_add').click()
+        test_phone_tx=self.driver.find_element_by_id('driverVo_phone_tip').text
         self.assertTrue(u'本人联系电话不能为空.'in test_phone_tx)
 
 
     def test_driverVo_phone(self,driverVo_phone):
-        self.testValue()
-        self.ff.find_element_by_id('driverVo_phone').send_keys(driverVo_phone)
+        self.driver.find_element_by_id('driverVo_phone').send_keys(driverVo_phone)
 
     def test__phone_null(self):
         self.test_driverVo_phone('')
