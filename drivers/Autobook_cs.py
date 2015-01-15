@@ -14,14 +14,14 @@ def Application(config):
 
 class MyDriver(object):
     '''
-    firefox chrome 都通用此类
+    firefox chrome 继承此类
     '''
 
     def __init__(self):
         pass
 
-    def method1(self):
-        return 'a'
+    def example(self):
+        return 'test'
 
 
 class Firefox(web.Firefox, MyDriver):
