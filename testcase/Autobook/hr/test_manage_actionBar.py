@@ -30,7 +30,7 @@ class TestCase(unittest.TestCase):
         time.sleep(1)
         #查询全部状态信息
         for opt in opts:
-            if opt.get_attribute('text') == u'待付款':
+            if opt.get_attribute('text') == u'全部状态':
                 opt.click()
         self.driver.find_element_by_id('query').click()
     def test_stste_normal(self):
