@@ -35,7 +35,7 @@ def task_container(path_str, selections):
 
 
 # def init_project(path_str):
-#     conf = ConfigParser.ConfigParser()
+# conf = ConfigParser.ConfigParser()
 #     conf.read(path_str)
 #
 #     sections = conf.sections()
@@ -131,7 +131,6 @@ def writeConfig(path_str, selections, opt, val):
     f = open(path_str, 'w')
     conf.write(f)
     f.close()
-
 
 
 def read_xml(xml_path):
@@ -267,6 +266,11 @@ def prepareFile(data, src, tar):
         else:  #覆盖testcase已经存在的文件，所以注释and not os.path.exists(case_file):
             if os.path.exists(src_str):
                 shutil.copy(src_str, case_str)
+
+
+def filter_files(dirs, start_str, end_str):
+    test = re.compile("^%s.*?.%s$" % (start_str, end_str), re.IGNORECASE)
+    return filter(test.search, os.listdir(dirs))
 
 
 #执行操作系统命令
