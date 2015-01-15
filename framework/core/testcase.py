@@ -28,20 +28,17 @@ def app(test_case_file):
     # 获取项目路径，转换成app.init 的sections
     init_size = len(PATH('../../testcase')) + 1
     tar_path = os.path.dirname(test_case_file)
-    section = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
+    section = tar_path[init_size:len(tar_path)].replace(os.sep, '_')
 
     sect = section.lower()
     cfg = the.taskConfig[sect]
 
     if cfg[const.PRODUCT] == None:
-        app_config = cfg[const.TASK_CONFIG]
-        settings = fs.readConfigs(PATH('../../resource/app/%s' % app_config), 'settings')
+        # configs = fs.parserConfig(PATH('../../resource/app/%s' % cfg[const.TASK_CONFIG]))
+        manifest = fs.parserConfig(PATH('../../manifest/%s' % cfg[const.TASK_CONFIG]))
 
-        project = settings['project'].lower()
-        platform = settings['platform_name'].lower()
-        module_file = project + '_' + platform
-        m = my_import('drivers.%s' % module_file)
-        the.taskConfig[sect][const.PRODUCT] = m.Application(app_config)
+        m = my_import('drivers.%s' % section)
+        the.taskConfig[sect][const.PRODUCT] = m.Application(manifest)
 
         the.taskConfig[sect][const.PRODUCT].splash()
     return the.taskConfig[sect][const.PRODUCT]

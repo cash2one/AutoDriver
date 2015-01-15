@@ -5,7 +5,6 @@ import os
 import time
 from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
-from framework.util import fs
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -16,7 +15,7 @@ TIME_OUT = 100
 
 class Android(WebDriver):
     def __init__(self, config):
-        self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))
+        self.config = config  # fs.parserConfig(PATH('../../resource/app/%s' % config))
         self.settings = self.config['settings']
         self.api = self.config['api']
         self.api_token = ''

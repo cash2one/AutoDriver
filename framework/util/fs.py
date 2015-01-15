@@ -34,23 +34,23 @@ def task_container(path_str, selections):
     return all
 
 
-def init_project(path_str):
-    conf = ConfigParser.ConfigParser()
-    conf.read(path_str)
-
-    sections = conf.sections()
-    section_list = {}
-    for sect in sections:
-        dictCase = {}
-        options = conf.options(sect)
-        for opt in options:  # 取出sections内的所有options
-            str_val = conf.get(sect, opt)
-            dictCase[opt] = str_val.decode('utf-8')
-
-        dictCase[const.PRODUCT] = None
-        section_list[sect] = dictCase
-
-    return section_list
+# def init_project(path_str):
+#     conf = ConfigParser.ConfigParser()
+#     conf.read(path_str)
+#
+#     sections = conf.sections()
+#     section_list = {}
+#     for sect in sections:
+#         dictCase = {}
+#         options = conf.options(sect)
+#         for opt in options:  # 取出sections内的所有options
+#             str_val = conf.get(sect, opt)
+#             dictCase[opt] = str_val.decode('utf-8')
+#
+#         dictCase[const.PRODUCT] = None
+#         section_list[sect] = dictCase
+#
+#     return section_list
 
 
 def parser_to_dict(path_str):
