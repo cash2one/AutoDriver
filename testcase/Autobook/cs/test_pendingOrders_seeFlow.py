@@ -27,6 +27,9 @@ class TestCase(unittest.TestCase):
         #点击第一行的“订单流程”
         trs[1].find_element_by_id('orderFlow').click()
         time.sleep(2)
+        text=self.driver.find_element_by_id('gview_list2').find_element_by_class_name('ui-jqgrid-titlebar').text
+        print text
+        self.assertTrue(u'订单流程' in text,'msg' )
 
 
     #关闭订单流程
@@ -36,5 +39,6 @@ class TestCase(unittest.TestCase):
         trs=table.find_elements_by_tag_name('tr')
         #点击第一行的“订单流程”
         trs[1].find_element_by_id('orderFlow').click()
-        # time.sleep(2)
-        self.driver.find_element_by_class_name('xubox_setwin').click()
+        time.sleep(2)
+        self.driver.find_element_by_class_name('xubox_close').click()
+        time.sleep(2)
