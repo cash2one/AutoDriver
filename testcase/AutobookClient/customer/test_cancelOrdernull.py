@@ -1,16 +1,16 @@
 # coding=utf-8
-
 __author__ = 'wangshanshan@pathbook.com.cn'
-#用户登录，历史订单已取消订单为空（暂无已取消历史订单）
 
 import time
-
 import unittest
-from framework.core import idriver_android
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
+    '''
+    用户登录，历史订单已取消订单为空（暂无已取消历史订单）
+    '''
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 

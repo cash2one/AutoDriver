@@ -6,13 +6,13 @@ __author__ = 'wangsahnshan@126.com'
 
 import time
 import unittest
-from framework.core import idriver_android
+from framework.core import testcase
 from selenium.common.exceptions import NoSuchElementException
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 
