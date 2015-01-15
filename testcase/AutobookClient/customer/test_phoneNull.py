@@ -4,11 +4,11 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 #用户未登录，填写手机号码界面，手机号为空
 import time
 import unittest
-from framework.core import idriver_android
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         #self.driver.login()
 
     def tearDown(self):

@@ -1,17 +1,17 @@
-__author__ = 'wangshanshan@pathbook.com.cn'
 # coding=utf-8
-#查询失败
-
-
+__author__ = 'wangshanshan@pathbook.com.cn'
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
+    '''
+    查询失败
+    '''
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 
