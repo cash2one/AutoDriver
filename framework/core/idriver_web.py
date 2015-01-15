@@ -2,13 +2,15 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-import re
 import time
-import the
-from framework.util import constant, fs
+
 from selenium import webdriver as selen
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.common import exceptions
+
+from framework.core import the
+from framework.util import const, fs
+
 
 TIME_OUT = 100
 PATH = lambda p: os.path.abspath(
@@ -35,10 +37,10 @@ def firefox(current_file):
 
     st = sections.lower()#.replace('autobook','idriver')
     cfg = the.taskConfig[st]
-    if cfg[constant.PRODUCT] == None:
-        the.taskConfig[st][constant.PRODUCT] = Firefox(cfg[constant.TASK_CONFIG])
+    if cfg[const.PRODUCT] == None:
+        the.taskConfig[st][const.PRODUCT] = Firefox(cfg[const.TASK_CONFIG])
         #the.taskConfig[st][constant.PRODUCT].splash()
-    return the.taskConfig[st][constant.PRODUCT]
+    return the.taskConfig[st][const.PRODUCT]
 
 
 class Firefox(WebDriver):

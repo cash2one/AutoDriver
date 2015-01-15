@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <interface url="service/driverService/login" displayName="司机登录" desc="登录司机，成功时返回令牌号，令牌号有效期见系统参数4.1.2。">
+        <parameter name="imsi" type="String" required="true" desc="SIM卡唯一标识号。" />
+        <parameter name="versionNo" type="String" required="true" desc="APP版本号。" />
+        <parameter name="driverNo" type="String" required="true" desc="司机工号。" />
+        <parameter name="password" type="String" required="true" desc="密码，MD5密文形式。" />
+        <parameter name="pmId" type="String" required="true" desc="消息推送的客户端ID。" />
+        <parameter name="loginMode" type="int" required="false" desc="登录方式，0工作，1休息，2服务中，默认为0。" />
+        <parameter name="unDoneOrderNo" type="String" required="false" desc="未完成订单号，loginMode为2时必填，其他非必填。" />
+        <parameter name="lng" type="double" required="true" desc="司机当前位置—经度。" />
+        <parameter name="lat" type="double" required="true" desc="司机当前位置—纬度。" />
+    </interface>
+    <interface url="service/driverService/logout" displayName="司机登出" desc="注销司机，令牌失效。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/resetPassword" displayName="重置密码" desc="服务端将校验手机号是否正确，通过后密码将被重置为6位随机数字，并以短信形式发送到手机，最小调用时间间隔见系统参数4.1.1。">
+        <parameter name="imsi" type="String" required="true" desc="SIM卡唯一标识号。" />
+        <parameter name="driverNo" type="String" required="true" desc="司机工号。" />
+        <parameter name="phone" type="String" required="true" desc="接收手机号。" />
+    </interface>
+    <interface url="service/driverService/changeStatus" displayName="切换工作状态" desc="司机有四种工作状态，这里只可在工作和休息间互转，工作状态参见4.2.2。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="destStatus" type="int" required="true" desc="目标状态，0工作，1休息。" />
+    </interface>
+    <interface url="service/driverService/dealOrder" displayName="推进订单流程" desc="订单业务流程的核心接口。不同订单事件要求不同参数，各事件及要求参数如下(默认必填)：\r\n
+		接受订单：event、orderNo或masterNo。  确认就位：event、orderNo、lng、lat。  开始服务：event、orderNo、lng、lat。\r\n
+		结束服务：event、orderNo、lng、lat。  上报订单：event、orderNo、lng、lat、address、dist、distCharge、waitTime、waitCharge、amount。\r\n
+		取消订单：event、orderNo、cancelType、memo。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="event" type="int" required="true" desc="订单事件，参见常量定义4.2.3，这里可以出现的事件限于以下几种：接受订单、确认就位、开始服务、结束服务、上报订单、取消订单(包含拒绝订单)。" />
+        <parameter name="orderNo" type="String" required="true" desc="订单号。" />
+        <parameter name="masterNo" type="String" required="false" desc="主单号。（接受订单时，与订单号，二者必填其一）" />
+        <parameter name="lng" type="double" required="false" desc="经度，默认表示司机位置，报单时表示订单结束位置。" />
+        <parameter name="lat" type="double" required="false" desc="纬度，默认表示司机位置，报单时表示订单结束位置。" />
+        <parameter name="address" type="String" required="false" desc="订单结束位置描述。" />
+        <parameter name="dist" type="int" required="false" desc="里程数(米)。" />
+        <parameter name="distCharge" type="int" required="false" desc="里程费用(分)。" />
+        <parameter name="waitTime" type="int" required="false" desc="等候时间(秒)。" />
+        <parameter name="waitCharge" type="int" required="false" desc="等候费用(分)。" />
+        <parameter name="amount" type="int" required="false" desc="结算金额(分)。" />
+        <parameter name="cancelType" type="int" required="false" desc="取消原因，参见参量定义4.2.4，这里只可出现司机拒绝和司机取消两种原因。" />
+        <parameter name="memo" type="int" required="false" desc="取消订单时表示附加信息。" />
+    </interface>
+    <interface url="service/driverService/getOrderForRepair" displayName="获取待补订单" desc="返回待补订单。有两种补单情况：存在服务中或已结束状态订单，司机非服务中；存在服务中或已结束状态订单，状态持续时间超过了最大允许时间，时间阀值参见4.1.4。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/repairOrder" displayName="司机补单" desc="主要补全结算费用，结束时间，结束位置信息。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderNo" type="String" required="true" desc="订单号。" />
+        <parameter name="eTime" type="long" required="true" desc="服务结束时间，long类型格式。" />
+        <parameter name="eAddress" type="String" required="true" desc="服务结束位置。" />
+        <parameter name="amount" type="int" required="true" desc="结算金额(分)。" />
+    </interface>
+    <interface url="service/driverService/getIncomeInfo" displayName="查询收益概况" desc="查询基本的收益信息。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/getMonthIncome" displayName="查询每月收益" desc="查询每月收益，可携带分页信息。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getIncomeList" displayName="查询收益详单" desc="指定月份，查询该司机的收益详单，可分页。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="month" type="String" required="true" desc="月份，格式yyyyMM。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getBalance" displayName="查询账户余额" desc="查询司机账户余额信息。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/getAccountFlow" displayName="查询账户详单" desc="查询司机账户流水记录，可指定多个条件。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="digest" type="String" required="false" desc="交易摘要，默认为空，取全部交易。" />
+        <parameter name="inOutType" type="int" required="false" desc="收支类别，0全部，1收入，2支出，默认为0。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getDriverInfo" displayName="查询个人信息" desc="查询司机个人信息。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/updatePassword" displayName="修改登录密码" desc="各密码参数均需要MD5加密。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="currPassword" type="String" required="true" desc="当前密码，MD5密文。" />
+        <parameter name="newPassword" type="String" required="true" desc="新密码，MD5密文。" />
+    </interface>
+    <interface url="service/driverService/getOrderHistory" displayName="查询历史订单" desc="查询司机下的历史订单，可携带基本条件。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="orderResult" type="int" required="false" desc="订单结果，0-全部，1-成功，2-失败，默认为0。" />
+        <parameter name="firstResult" type="int" required="false" desc="起始记录，从0记起，默认为0。" />
+        <parameter name="maxResults" type="int" required="false" desc="查询数量，默认为10。" />
+    </interface>
+    <interface url="service/driverService/getUnreadNotice" displayName="获取公告列表" desc="获取当前司机所有未推送状态的公告，并置为已推送状态。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+    <interface url="service/driverService/getNoticeDetail" displayName="获取公告详情" desc="获取公告的详细内容，调用该接口将会把对应公告置为已读。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="noticeId" type="int" required="true" desc="公告ID。" />
+    </interface>
+    <interface url="service/driverService/submitFeedback" displayName="反馈使用意见" desc="司机根据APP 的使用情况，提交问题和建议。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="content" type="String" required="true" desc="意见内容。" />
+    </interface>
+    <interface url="service/driverService/refreshLocation" displayName="更新司机位置" desc="更新司机位置。司机APP须定时调用该接口以同步司机位置，如果一段时间未更新，对应司机将会离线。时间阀值参见系统参数4.1.5。">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+        <parameter name="lng" type="double" required="true" desc="司机当前位置—经度。" />
+        <parameter name="lat" type="double" required="true" desc="司机当前位置—纬度。" />
+    </interface>
+    <interface url="service/driverService/getWorkingStatus" displayName="查询工作状态" desc="查询司机当前的工作状态， 工作状态值详见4.2.2定义">
+        <parameter name="tokenNo" type="String" required="true" desc="令牌号。" />
+    </interface>
+</root>

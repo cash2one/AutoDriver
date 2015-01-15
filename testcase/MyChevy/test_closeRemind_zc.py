@@ -1,12 +1,13 @@
 # coding=utf-8
 __author__ = 'zhangchun'
 import unittest
-from framework.core import the,device_bak
-from time import sleep
+
+from framework.core import device_bak, the
+
 #输入不存在的用户登录后，弹出提示框
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver =the.android
+        self.driver = the.android
 
     def tearDown(self):
         #返回首页
