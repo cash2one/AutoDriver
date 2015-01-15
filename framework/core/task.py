@@ -10,7 +10,7 @@ import test_runner
 import threading
 import time
 from framework.util import sqlite
-import test_runner_temp,test_result_temp
+import test_runner_temp, test_result_temp
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -50,15 +50,15 @@ class Task():
         left_cases = []
         for a in self.datas[self.CASES]:
             if self.datas[self.CASES][a] > 0:
-                left_cases.append(a)
+                left_cases.append(a.replace('.py', ''))
         return left_cases
 
 
     def getTestSuite(self):
-        #获取用例套件
-        path_cases = PATH('../../%s' % self.path)
+        # 获取用例套件
+        #path_cases = PATH('../../%s' % self.path)
         test = re.compile("^test.*?.py$", re.IGNORECASE)
-        files = filter(test.search, os.listdir(path_cases))
+        files = filter(test.search, os.listdir(self.path))
 
         filenameToModuleName = lambda f: os.path.splitext(f)[0]
         moduleNames = map(filenameToModuleName, files)
@@ -74,7 +74,14 @@ class Task():
         return unittest.TestSuite(map(load, modules))
 
     def start(self):
-        sys.path.append(self.path.replace('/', os.sep))
+        new_path = ''
+        if r'\\' in self.path:
+            new_path = self.path.replace(r'\\', os.sep)
+        else:
+            new_path = self.path.replace(r'/', os.sep)
+
+        sys.path.append(new_path)
+        print sys.path
         self.datas[self.STATUS] = RUNNING
 
     def finish(self):
@@ -84,7 +91,7 @@ class Task():
             if num > 0:
                 num -= 1
                 self.datas[self.CASES][ca] = num
-                if num > 0:#递减后的数量仍大于零
+                if num > 0:  # 递减后的数量仍大于零
                     left_cases += 1
 
         if left_cases > 0:
@@ -93,9 +100,8 @@ class Task():
             self.datas[self.STATUS] = OVER_ALL
 
         sys.path.remove(self.path.replace('/', os.sep))
-        print '----------------------'
+        print '----------finish task------------'
         # print self.datas[self.CASES].values()
-
 
 
 class TestRunner(threading.Thread):
@@ -131,7 +137,7 @@ class TestRunner(threading.Thread):
                 self.task = self.getTask()
 
             # runner = test_runner_temp.TestRunner(
-            #     # db=dbm,
+            # # db=dbm,
             #     task=self.task
             # )
             #
