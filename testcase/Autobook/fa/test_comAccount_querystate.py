@@ -3,6 +3,7 @@ __author__ = 'xuguanghua@pathbook.com.cn'
 import time
 import unittest
 from framework.core import testcase
+from drivers import *
 
 class TestCase(unittest.TestCase):
 
@@ -38,8 +39,9 @@ class TestCase(unittest.TestCase):
         for i in range(1,len(trs2)-1):
             tds2 = trs2[i].find_elements_by_tag_name('td')[5]
             balanceOut_text = tds2.get_attribute('title')
-            print balanceOut_text
-            self.assertTrue(balanceOut_text == '0.00','msg')
+            print balanceOut_text,len(trs2),'222'
+            #self.assertTrue(balanceOut_text == '0.00','msg')
+            self.assertTrue(self.driver.to_int(balanceOut_text) == 0,'msg')#将字符串转换成int型对比
 
         time.sleep(2)
 
@@ -53,8 +55,11 @@ class TestCase(unittest.TestCase):
         for i in range(1,len(trs3)-1):
             tds3 = trs3[i].find_elements_by_tag_name('td')[4]
             balanceIn_text = tds3.get_attribute('title')
-            print balanceIn_text
-            self.assertTrue(balanceIn_text == '0.00','msg')
+            print balanceIn_text,len(trs3)
+            #self.assertTrue(balanceIn_text == '0.00','msg')
+            self.assertTrue(self.driver.to_int(balanceIn_text) == 0,'msg')#将字符串转换成int型对比
+
         time.sleep(2)
 
-
+if __name__ =='__main__':
+    unittest.main()
