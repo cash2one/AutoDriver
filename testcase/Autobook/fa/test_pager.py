@@ -4,12 +4,12 @@ __author__ = 'xuguanghua@pathbook.com.cn'
 import time
 import unittest
 from selenium.webdriver.common.keys import Keys
-from framework.core import idriver_web
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 

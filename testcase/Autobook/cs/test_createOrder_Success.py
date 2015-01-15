@@ -1,18 +1,21 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
-#创建订单成功
+
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
 class TestCase(unittest.TestCase):
+    '''
+    创建订单成功
+    '''
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 

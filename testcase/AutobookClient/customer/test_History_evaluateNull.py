@@ -5,13 +5,13 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 
 import time
 import unittest
-from framework.core import idriver_android
+from framework.core import testcase
 from framework.util import strs
 
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
     def tearDown(self):

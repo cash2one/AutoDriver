@@ -3,11 +3,11 @@ __author__ = 'guanghua_2011@126.com'
 
 import time
 import unittest
-from framework.core import idriver_android
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = idriver_android.customer_robot()
+        self.driver = testcase.customer_robot()
         pass
 
     def tearDown(self):
