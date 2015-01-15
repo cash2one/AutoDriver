@@ -14,7 +14,7 @@ def Application(config):
 
 class MyDriver(object):
     '''
-    firefox chrome 都通用此类
+    firefox chrome 继承此类
     '''
 
     def __init__(self):
