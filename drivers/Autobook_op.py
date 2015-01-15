@@ -20,8 +20,8 @@ class MyDriver(object):
     def __init__(self):
         pass
 
-    def method1(self):
-        return 'a'
+    def example(self):
+        return 'test'
 
 
 class Firefox(web.Firefox, MyDriver):
