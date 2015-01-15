@@ -109,7 +109,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    from framework.util import strs
+    f=0.00
+    print strs.to_int(str(f))
 
     # dr = device.RunAppium(4725)
     # dr.start()
