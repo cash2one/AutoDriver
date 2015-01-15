@@ -223,7 +223,7 @@ class TestCase(unittest.TestCase):
         numtx=self.driver.find_element_by_id('detailVo_licenseNum').text
         self.assertTrue(numtx=='')
         #判断档案编号
-        notx=self.driver.find_element_by_id('ddetailVo_licenseNo').text
+        notx=self.driver.find_element_by_id('detailVo_licenseNo').text
         self.assertTrue(notx=='')
         #判断申领时间
         timetx=self.driver.find_element_by_id('detailVo_licencetime').text
@@ -296,6 +296,39 @@ class TestCase(unittest.TestCase):
         for opt in Typetx:
             if opt.get_attribute('text')==u'请选择':
                  print u'重置成功....'
+        #判断驾龄
+        Agetx=self.driver.find_element_by_id('driverVo_drivingAge').text
+        self.assertTrue(Agetx=='')
+        #判断熟练驾车型
+        cartx=self.driver.find_element_by_id('container_carType').find_elements_by_tag_name('input')
+        time.sleep(1)
+        for opt in cartx:
+            if opt.get_attribute('value')=='':
+               print u'重置成功....'
+        #判断设备领用
+        equipmenttx=self.driver.find_element_by_id('container_equipment').find_elements_by_tag_name('input')
+        time.sleep(1)
+        for opt in equipmenttx:
+            if opt.get_attribute('value')=='':
+               print u'重置成功....'
+        #判断紧急联系人
+        urgencyNametx=self.driver.find_element_by_id('detailVo_urgencyName').text
+        self.assertTrue(urgencyNametx=='')
+        #判断电话
+        urgencyTeltx=self.driver.find_element_by_id('detailVo_urgencyTel').text
+        self.assertTrue(urgencyTeltx=='')
+        #判断关系
+        Relationtx=self.driver.find_element_by_id('detailVo_urgencyRelation').find_elements_by_tag_name('option')
+        time.sleep(1)
+        for opt in Relationtx:
+            if opt.get_attribute('text')==u'请选择':
+               print u'重置成功....'
+
+        #判断电话
+        Experiencetx=self.driver.find_element_by_id('detailVo_drivingExperience').text
+        self.assertTrue(Experiencetx=='')
+
+
 
         # #添加
         # self.driver.find_element_by_id('btn_add').click()
