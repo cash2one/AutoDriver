@@ -60,6 +60,9 @@ class TestCase(unittest.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
 
+        js = '$(\'input[id=startTime_amount]\').removeAttr(\'readonly\')'
+        self.driver.execute_script(js)
+
         startTime=self.driver.find_element_by_id('startTime_amount').text
         startTime1=filter(str.isdigit,str(startTime))
         endTime=self.driver.find_element_by_id('endTime_amount').text
