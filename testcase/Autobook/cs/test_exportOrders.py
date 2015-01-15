@@ -2,13 +2,16 @@
 __author__ = 'wangshanshan@pathbook.com.cn'
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 from selenium.common import exceptions
 
 class TestCase(unittest.TestCase):
+    '''
+    导出文件
+    '''
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 

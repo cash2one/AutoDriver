@@ -4,27 +4,18 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 import subprocess
-import urllib
 import json
 import urllib2
 
-from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
 
 import socket
 from framework.core import the
-from framework.util import idriver_const, const, strs, mysql, fs
-
+from framework.util import strs, mysql
+from framework.core import android
 
 TIME_OUT = 100
-# DRIVER = 'idriver.android.driver'
-# DRIVER_ROBOT = 'idriver.android.driver_robot'
-# CUSTOMER = 'idriver.android.customer'
-# CUSTOMER_ROBOT = 'idriver.android.customer_robot'
-# # 订单加载loading
 ORDER_LOAD = 'order_load'
-# HISTORY_ORDER_FINISH = 'history_order_finish'
-# HISTORY_ORDER_CANCLE = 'history_order_cancle'
 WORK_STATE = 'tb_work_state'
 NET_WAIT = 'progressbar_net_wait'
 APP_CUSTOMER = 'service/customerService'
@@ -35,110 +26,10 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-# 调用示例self.driver = idriver_android.app(__file__)
-def app(current_file):
-    # 获取项目路径，转换成app.init 的sections
-    init_size = len(PATH('../../testcase')) + 1
-    tar_path = os.path.dirname(current_file)
-    section = tar_path[init_size:len(tar_path)].replace(os.sep, '.')
 
-    sect = section.lower()
-    cfg = the.taskConfig[sect]
-    if cfg[const.PRODUCT] == None:
-        the.taskConfig[sect][const.PRODUCT] = Android(cfg[const.TASK_CONFIG])
-        the.taskConfig[sect][const.PRODUCT].splash()
-    return the.taskConfig[sect][const.PRODUCT]
-
-
-# def driver():
-# _configs = the.app_configs[DRIVER]
-# if the.devices[DRIVER] == None:
-# the.devices[DRIVER] = Android(_configs)
-# the.devices[DRIVER].wait_switch(_configs['app_activity'])
-# return the.devices[DRIVER]
-#
-#
-# def customer():
-# _configs = the.app_configs[CUSTOMER]
-# if the.devices[CUSTOMER] == None:
-# the.devices[CUSTOMER] = Android(_configs)
-# the.devices[CUSTOMER].wait_switch(_configs['app_activity'])
-# return the.devices[CUSTOMER]
-#
-#
-# def driver_robot():
-# _configs = the.app_configs[DRIVER_ROBOT]
-# if the.devices[DRIVER_ROBOT] == None:
-# the.devices[DRIVER_ROBOT] = Android(_configs)
-# the.devices[DRIVER_ROBOT].wait_switch(_configs['app_activity'])
-# return the.devices[DRIVER_ROBOT]
-#
-#
-# def customer_robot():
-#     _configs = the.app_configs[CUSTOMER_ROBOT]
-#     if the.devices[CUSTOMER_ROBOT] == None:
-#         the.devices[CUSTOMER_ROBOT] = Android(_configs)
-#         the.devices[CUSTOMER_ROBOT].wait_switch(_configs['app_activity'])
-#     return the.devices[CUSTOMER_ROBOT]
-
-
-class Android(WebDriver):
-    def __init__(self, config, browser_profile=None, proxy=None, keep_alive=False):
-        #cfs = config.strip().split('|')
-
-        self.config = fs.parserConfig(PATH('../../resource/app/%s' % config))#cfs[0]))
-        self.settings = self.config['settings']
-        self.api = self.config['api']
-        #self.app_layouts = fs.parserConfig(PATH('../../resource/app/%s' % self.config['layout']))
-        #self.api_host = self.settings['api_host']
-        self.api_token = ''
-        print self.settings['app']
-        desired_capabilities = {}
-        desired_capabilities['platformName'] = self.settings['platform_name']
-        desired_capabilities['platformVersion'] = self.settings['platform_version']
-        desired_capabilities['deviceName'] = self.settings['device_name']
-        desired_capabilities['app'] = PATH('../../resource/app/' + self.settings['app'])
-        desired_capabilities['appPackage'] = self.settings['app_package']
-        desired_capabilities['app-activity'] = self.settings['app_activity']
-        command_executor = 'http://localhost:%s/wd/hub' % self.settings['remote_port']
-
-        super(Android, self).__init__(command_executor, desired_capabilities, browser_profile, proxy, keep_alive)
-
-        self.package = self.settings['app_package'] + ':id/'
-        self.pkg = self.settings['app_package'] + ':id/'
-
-
-    def layouts(self):
-        #layout_ids = None
-        try:
-            #layout_ids = self.app_layouts[self.current_activity]
-            return self.config[self.current_activity]
-        except KeyError:
-            raise NameError, 'current_activity error'
-
-    def layout(self, id_):
-        try:
-            return self.layouts()[id_.lower()]
-        except KeyError:
-            raise NameError, 'option not exist'
-
-    def find_id(self, id_):
-        id = self.layout(id_)
-        return self.find_element_by_id(self.package + id)
-
-    def find_ids(self, id_):
-        id = self.layout(id_)
-        return self.find_elements_by_id(self.package + id)
-
-    def find_tag(self, class_name):
-        return self.find_element_by_class_name('android.widget.' + class_name)
-
-    def find_tags(self, class_name):
-        return self.find_elements_by_class_name('android.widget.' + class_name)
-
-    def find_name(self, name_):
-        return self.find_element_by_name(name_)
-
+class Application(android.Android):
+    def __init__(self, config):
+        super(Application, self).__init__(config)
 
     def wait_loading(self):
         '''
@@ -171,7 +62,7 @@ class Android(WebDriver):
 
     def swipe_up(self, id_):
         # {'y': 274, 'x': 0}
-        #{'width': 720, 'height': 894}
+        # {'width': 720, 'height': 894}
         loc = self.find_element_by_id(self.package + id_).location
         sz = self.find_element_by_id(self.package + id_).size
 
@@ -181,7 +72,7 @@ class Android(WebDriver):
         self.swipe(5, end_y, 5, start_y, 500)
         time.sleep(1)
 
-        #listview 数据载入
+        # listview 数据载入
         isLoading = False
         while not isLoading:
             try:
@@ -309,11 +200,11 @@ class Android(WebDriver):
         return loc
 
     # def request_order(self, user_name):
-    #     '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
-    #     查看是不是XX女士，如果不是就改名，并下个1人的周边订单
-    #     '''
-    #     xmlrpc_s = the.settings['xmlrpc']
-    #     s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
+    # '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
+    # 查看是不是XX女士，如果不是就改名，并下个1人的周边订单
+    # '''
+    # xmlrpc_s = the.settings['xmlrpc']
+    # s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
     #     try:
     #         s.set_customer(True, user_name)
     #     except xmlrpclib.Fault:
@@ -406,16 +297,6 @@ class Android(WebDriver):
             except KeyError:
                 pass
 
-
-    # def post(url, data):
-    #     req = urllib2.Request(url)
-    #     data = urllib.urlencode(data)
-    #     #enable cookie
-    #     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
-    #     response = opener.open(req, data)
-    #     return response.read()
-
-
     def auto_order(self, cmd):
         """
         与其他端通信，发送或者接收订单
@@ -432,7 +313,27 @@ class Android(WebDriver):
         return recv_str
 
     def enum(self, key, val):
-        return idriver_const.idriver_enum[key]['key_' + strs(val)]
+        idriver_enum = {
+            'province': {
+                'key_0': u'全国', 'key_1': u'北京', 'key_2': u'天津', 'key_3': u'上海', 'key_4': u'重庆',
+                'key_5': u'河北', 'key_6': u'山西', 'key_7': u'辽宁', 'key_8': u'吉林', 'key_9': u'黑龙江',
+                'key_10': u'江苏', 'key_11': u'浙江', 'key_12': u'安徽', 'key_13': u'福建', 'key_14': u'江西',
+                'key_15': u'山东', 'key_16': u'河南', 'key_17': u'湖北', 'key_18': u'湖南', 'key_19': u'广东',
+                'key_20': u'海南', 'key_21': u'四川', 'key_22': u'贵州', 'key_23': u'云南', 'key_24': u'陕西',
+                'key_25': u'甘肃', 'key_26': u'青海', 'key_27': u'台湾', 'key_28': u'西藏', 'key_29': u'广西',
+                'key_30': u'内蒙古', 'key_31': u'宁夏', 'key_32': u'新疆', 'key_33': u'香港', 'key_34': u'澳门'
+            },
+            'sex': {
+                'key_0': u'先生', 'key_1': u'女士'
+            },
+            'license_type': {
+                'key_1': u'A1', 'key_2': u'A2', 'key_3': u'A3', 'key_4': u'B1',
+                'key_5': u'B2', 'key_6': u'C1', 'key_7': u'C2', 'key_8': u'C3',
+                'key_9': u'C4', 'key_10': u'D', 'key_11': u'E', 'key_12': u'F',
+                'key_13': u'OT'
+            }
+        }
+        return idriver_enum[key]['key_' + str(val)]
 
     @property
     def no(self):
@@ -452,11 +353,6 @@ class Android(WebDriver):
         '''
         mysql数据查询，size大于0时为查询多条数据
         '''
-        # db_conf = 'database'
-        # if len(db_config.strip()) > 0:
-        # db_conf += ('_'+db_config)
-
-        # url,usr,pwd,db_name,port
         db_array = self.settings['database'].split('|')[db_no]
         dbs = db_array.split(',')
 
@@ -526,18 +422,23 @@ class Android(WebDriver):
             raise NameError, 'find_element timeout'
 
     def splash(self):
-        splash_activity = self.settings['app_activity']
         time_out = TIME_OUT
-        while time_out > 0:
-            if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
-                if splash_activity not in self.current_activity:
-                    break
-            time_out -= 1
-            time.sleep(0.5)
-        else:
-            raise NameError, 'switch timeout'
+        try:
+            splash_activity = self.settings['app_activity']
+            while time_out > 0:
+                if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+                    if splash_activity not in self.current_activity:
+                        break
+                time_out -= 1
+                time.sleep(0.5)
+            else:
+                raise NameError, 'switch timeout'
 
-        self.wait_loading()
+            self.wait_loading()
+
+        except KeyError:
+            pass  #raise NameError, 'app_activity is not exist'
+
 
     def wait_switch(self, origin_activity):
         time_out = TIME_OUT
@@ -597,7 +498,7 @@ def register_user(self_driver, user_name):
     # 验证码完成后，会返回到PersonActivity
     self_driver.wait_switch('.MyInfoActivity')
 
-    #方便调试先注释
+    # 方便调试先注释
     # #点击我的信息
     # self_driver.find_ids('personal_name')[0].click()
     # self_driver.wait_switch('.PersonActivity')
@@ -611,14 +512,14 @@ def register_user(self_driver, user_name):
     #
     # #选择性别
     # if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
-    #     self_driver.find_id('personal_man').click()
+    # self_driver.find_id('personal_man').click()
     # #点击完成按钮
     # self_driver.find_id('personal_finish').click()
     #
     # self_driver.wait_switch('.MyInfoActivity')
-    #方便调试先注释
+    # 方便调试先注释
 
-    #点击附近司机，返回到地图界面
+    # 点击附近司机，返回到地图界面
     self_driver.find_element_by_id(pkg + 'button_title_back').click()
     self_driver.wait_switch('.PersonActivity')
 
@@ -703,11 +604,11 @@ def customer_server():
             buf = connection.recv(1024)
             if 'request_order:' in buf:
                 ss = buf.split('request_order:')[1]
-                #if buf == socket_sign:
-                #connection.send('welcome to python server!')
-                #执行一个下订单的脚本
-                #subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
-                #cmd = PATH('../src/autobook/android/customer/%s' % py_file)
+                # if buf == socket_sign:
+                # connection.send('welcome to python server!')
+                # 执行一个下订单的脚本
+                # subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+                # cmd = PATH('../src/autobook/android/customer/%s' % py_file)
                 p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
                 connection.send(p.stdout.read())
         except socket.timeout:
@@ -730,37 +631,3 @@ def order_client(cmd):
     sock.close()
     return recv_str
 
-
-# def get_driver_no():
-# return the.project_settings['idriver.android.driver']['user_name']
-#
-#
-# def get_contact_phone():
-#     return the.project_settings['idriver.android.customer']['contact_phone']
-
-
-# def request_order(bol):
-#     '''
-#     司机端用来通知用户端 发送订单的请求
-#     :param host:
-#     :param bol:
-#     :return:
-#     '''
-#     host = xmlrpc_host() + ':' + xmlrpc_port()
-#     pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
-#     match = pattern.match(host)
-#     if match:
-#         s = xmlrpclib.ServerProxy('http://' + host)
-#         try:
-#             s.set_customer_action(bol)
-#         except xmlrpclib.Fault:
-#             pass
-
-
-# def isHostAddr(value):
-#     pattern = re.compile("((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))")
-#     match = pattern.match(value)
-#     if match:
-#         return True  # match.group()
-#     else:
-#         return False

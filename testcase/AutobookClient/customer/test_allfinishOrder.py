@@ -1,16 +1,17 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
-#查询第一屏已完成的历史订单并判断在数据库中
+
 
 import time
 import unittest
-from framework.core import idriver_android
-
-
+from framework.core import testcase
 
 class TestCase(unittest.TestCase):
+    '''
+    查询第一屏已完成的历史订单并判断在数据库中
+    '''
     def setUp(self):
-        self.driver = idriver_android.app(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
     def tearDown(self):
