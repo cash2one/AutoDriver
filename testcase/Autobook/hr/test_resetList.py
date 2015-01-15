@@ -3,13 +3,13 @@ __author__ = 'gaoxu@pathbook.com.cn'
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         #浏览器最大化
         self.driver.maximize_window()
         #登录平台
@@ -23,7 +23,11 @@ class TestCase(unittest.TestCase):
         # self.driver.close()
     #添加司机信息
     def test_adddriver(self):
+        gltx=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').text
+        self.assertTrue(u'司机管理' in gltx)
         self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
+        addtx=self.driver.find_element_by_id('add').text
+        self.assertTrue(u'添加' in addtx)
         self.driver.find_element_by_id('add').click()
         #  姓名
         self.driver.find_element_by_id('driverVo_name').send_keys(u'李美丽')
@@ -73,6 +77,8 @@ class TestCase(unittest.TestCase):
         #驾照申领日期
         js = '$(\'input[id=detailVo_licencetime]\').removeAttr(\'readonly\')'
         self.driver.execute_script(js)
+        self.driver.find_element_by_id('detailVo_licencetime').clear()
+        self.driver.find_element_by_id('detailVo_licencetime').send_keys('2015-01-14')
         #清除已有数据
         self.driver.find_element_by_id('detailVo_licencetime').clear()
         #输入内容
@@ -161,14 +167,106 @@ class TestCase(unittest.TestCase):
         for opt in opts12:
             if opt.get_attribute('value')=='1':
                 opt.click()
-        #代价经验
+        #代驾经验
         self.driver.find_element_by_id('detailVo_drivingExperience').click()
         self.driver.find_element_by_id('detailVo_drivingExperience').send_keys(u'驾驶经验丰富，年轻、沟通能力强。熟悉道路及各种中高档次各款车型。')
         time.sleep(5)
+
+    def test_reset(self):
+        self.test_adddriver()
         # 重置
         self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[2]').click()
         time.sleep(5)
+        # #判断姓名
+        # nametx=self.driver.find_element_by_id('driverVo_name').text
+        # self.assertTrue(nametx=='')
+        # #判断城市
+        # citytx=self.driver.find_element_by_id('driverVo_city').find_elements_by_tag_name('opti
+        #
+        #
+        # on')
+        # print citytx
+        # for opt in citytx:
+        #     if opt.get_attribute('text')==u'请选择':
+        #         print u'重置成功....'
+        # #判断性别
+        # citytx=self.driver.find_element_by_id('driverVo_sex').find_elements_by_tag_name('option')
+        # time.sleep(1)
+        # for opt in citytx:
+        #     if opt.get_attribute('text')==u'请选择':
+        #          print u'重置成功....'
+        #
+        # #判断出生年月
+        # yeartx=self.driver.find_element_by_id('year').find_elements_by_tag_name('option')
+        # time.sleep(1)
+        # for opt in yeartx:
+        #     if opt.get_attribute('text')==u'请选择':
+        #          print u'重置成功....'
+        # monthtx=self.driver.find_element_by_id('month').find_elements_by_tag_name('option')
+        # time.sleep(1)
+        # for opt in monthtx:
+        #     if opt.get_attribute('text')==u'请选择':
+        #          print u'重置成功....'
+        # #判断婚育
+        # marriagetx=self.driver.find_element_by_id('detailVo_marriage').find_elements_by_tag_name('option')
+        # time.sleep(1)
+        # for opt in marriagetx:
+        #     if opt.get_attribute('text')==u'请选择':
+        #          print u'重置成功....'
+        # #判断籍贯
+        # provincetx=self.driver.find_element_by_id('driverVo_province').find_elements_by_tag_name('option')
+        # time.sleep(1)
+        # for opt in provincetx:
+        #     if opt.get_attribute('text')==u'请选择':
+        #          print u'重置成功....'
+        # #判断身份证号码
+        # cardtx=self.driver.find_element_by_id('driverVo_card').text
+        # self.assertTrue(cardtx=='')
+        # #判断驾驶证
+        # numtx=self.driver.find_element_by_id('detailVo_licenseNum').text
+        # self.assertTrue(numtx=='')
+        # #判断档案编号
+        # notx=self.driver.find_element_by_id('ddetailVo_licenseNo').text
+        # self.assertTrue(notx=='')
+        # #判断申领时间
+        # timetx=self.driver.find_element_by_id('detailVo_licencetime').text
+        # self.assertTrue(timetx=='')
+        # #判断本人电话
+        # phonetx=self.driver.find_element_by_id('driverVo_name').text
+        # self.assertTrue(phonetx=='')
+        # #判断imsi
+        # imsitx=self.driver.find_element_by_id('driverVo_imsi').text
+        # self.assertTrue(imsitx=='')
+        # #判断邮箱
+        # emailtx=self.driver.find_element_by_id('driverVo_email').text
+        # self.assertTrue(emailtx=='')
+        # #判断户口地址
+        # oldAddrestx=self.driver.find_element_by_id('detailVo_oldAddres').text
+        # self.assertTrue(oldAddrestx=='')
+        # #判断户口邮编
+        # oldPostcodetx=self.driver.find_element_by_id('detailVo_oldPostcode').text
+        # self.assertTrue(oldPostcodetx=='')
+        # #判断现居地址
+        # newAddresstx=self.driver.find_element_by_id('detailVo_newAddress').text
+        # self.assertTrue(newAddresstx=='')
+        # #判断现居邮编
+        # newPostcodetx=self.driver.find_element_by_id('detailVo_newPostcode').text
+        # self.assertTrue(newPostcodetx=='')
+        # #判断民族
+        # nationtx=self.driver.find_element_by_id('detailVo_nation').text
+        # self.assertTrue(nationtx=='')
+        # #判断身高
+        # heighttx=self.driver.find_element_by_id('detailVo_height').text
+        # self.assertTrue(heighttx=='')
+        # #判断户籍类别
+        # provincetx=self.driver.find_element_by_id('container_placeType').find_elements_by_tag_name('option')
+        # time.sleep(1)
+        # print provincetx
+        # for opt in provincetx:
+        #     if opt.get_attribute('input')==u'农村户口':
+        #          print u'重置成功....'
+
         # #添加
         # self.driver.find_element_by_id('btn_add').click()
-        #列表
-        self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').click()
+        # #列表
+        # self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').click()
