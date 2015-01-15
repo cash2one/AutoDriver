@@ -2,13 +2,13 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-import re
+import time
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.util import fs
 from framework.gui.views import task_ui
 from framework.gui.models import home_model
-from framework.core import the
+from framework.core import the, data
 from framework.gui.dialog import dlg_task, temp_task
 
 
@@ -26,19 +26,12 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.setupUi(self)
         self.dlgTask = None
         self.currentCellIndex = 0
+        self.result_data = ()
 
-        task_datas = (
-            {'row': (
-                u'001', u'接口测试', u'自动化', u'未开始', u'普通', u'顾国海', u'顾国海', u'2014-07-02 17:35:00', u'2014-07-02 17:35:00',
-                u'2014-07-02 17:35:00',
-                u'2014-07-02 17:35:00', 'desc'), 'script': []},
-            {'row': (
-                u'002', u'app平台测试', u'自动化', u'未开始', u'高级', u'顾国海', u'顾国海', u'2014-08-02 17:35:00',
-                u'2014-08-02 17:35:00', u'2014-08-02 17:35:00',
-                u'2014-08-02 17:35:00', 'desc'),
-             'script': []})
+        self.task_datas = ()
+        self.show_temp_task_list()
 
-        self.taskModel = home_model.QTableModel(task_datas, self)
+        self.taskModel = home_model.QTableModel(self.task_datas, self)
         self.createContextMenu()
 
         self.tv_task.setModel(self.taskModel)
@@ -50,6 +43,41 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.connect(self.tv_task, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_current_task)
         self.connect(self.btn_new_task, SIGNAL("clicked()"), self.show_new_task)
         self.connect(self.btn_temp_task, SIGNAL("clicked()"), self.show_temp_task)
+        self.connect(self, SIGNAL("finish_case"), self.show_test_result)
+
+    def show_temp_task_list(self):
+
+        # case_list = [
+        #     {'cases': {'test_customer_allfinishOrder': 5, 'test_customer_callServer_xgh': 3}, 'status': 0,
+        #      'path': 'testcase/AutobookClient/customer'},
+        #     {'cases': {'test_driver_cmEarnings_zc': 3, 'test_driver_completeOrder_info__zc': 2}, 'status': 0,
+        #      'path': 'testcase/AutobookClient/driver'}
+        # ]
+
+        case_path = PATH('../../testcase/')
+
+        for parent, dirnames, filenames in os.walk(case_path):
+            if len(dirnames) == 0:
+                #f = parent[len(case_path) + 1:len(parent)]
+                #self.chk_value += (parent,)
+                #qc = QCheckBox()
+                #qc.setText(f)
+
+                files = fs.filter_files(parent, 'test', 'py')
+
+                case_dict = {}
+                for c in files:
+                    case_dict[c] = 1
+                case_f = {}
+                case_f['cases'] = case_dict
+                case_f['status'] = 0
+                case_f['path'] = parent  # p[len(PATH('../../'))+1:len(p)]
+
+                self.task_datas += (
+                            {'row': (
+                                u'001', u'接口测试', u'自动化', u'未开始', u'普通', u'顾国海', u'顾国海', u'2014-07-02 17:35:00', u'2014-07-02 17:35:00',
+                                u'2014-07-02 17:35:00',
+                                u'2014-07-02 17:35:00', 'desc'), 'script': [case_f]},)
 
         # self.connect.dataChanged.connect(self.update_table)
 
@@ -147,9 +175,18 @@ class TaskForm(QWidget, task_ui.Ui_Form):
             elif ret == QMessageBox.Cancel:
                 pass
 
+    def show_test_result(self, data):
+        d = {'row': data, 'script': []}
+        if len(self.result_data) == 0:
+            self.result_data += (d,)
+            self.taskModel = home_model.QTableModel(self.result_data, self)
+            self.tv_task.setModel(self.taskModel)
+        else:
+            self.taskModel.insertRows(d)
+            self.taskModel.layoutChanged.emit()
+
     def show_temp_task(self):
         dlg = temp_task.TaskExecDialog()
-        case_path = PATH('../../testcase/')
 
         case_list = []
         if dlg.exec_() == QDialog.Accepted:
@@ -158,39 +195,38 @@ class TaskForm(QWidget, task_ui.Ui_Form):
                 case_f = {}
                 if chk.isChecked():
                     p = dlg.chk_value[i]
-                    print p
-                    #case_s = os.listdir(p)
                     case_dict = {}  # 取出文件夹内的用例，并设置执行次数
 
-                    files = fs.filter_files(p,'test','py')
+                    files = fs.filter_files(p, 'test', 'py')
 
                     for c in files:
                         case_dict[c] = 1
                     case_f['cases'] = case_dict
                     case_f['status'] = 0
-                    case_f['path'] = p#p[len(PATH('../../'))+1:len(p)]
+                    case_f['path'] = p  # p[len(PATH('../../'))+1:len(p)]
                     case_list.append(case_f)
-        self.start_task(case_list)
-        #print case_list
+            self.start_task(case_list)
+            # print case_list
 
 
     def start_task(self, case_list):
         from framework.core import task as ta
-        # case_list = [
-        # {'cases': {'test_customer_allfinishOrder': 5, 'test_customer_callServer_xgh': 3}, 'status': 0,
-        # 'path': 'testcase/AutobookClient/customer'},
-        # {'cases': {'test_driver_cmEarnings_zc': 3, 'test_driver_completeOrder_info__zc': 2}, 'status': 0,
-        #      'path': 'testcase/AutobookClient/driver'}
-        # ]
+
+        time_str = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+        report_db = 'report' + time_str + '.db'
+        db_path = PATH('../../%s' % report_db)
+
+        gdata = data.generateData(PATH('../../resource/xls/'), db_path)
+        gdata.close()
 
         task_list = []
         for c in case_list:
-            print c
             t = ta.Task(c)
             task_list.append(t)
 
-        runner = ta.TestRunner(task_list)
+        runner = ta.TestRunner(task_list, db_path, self)
         runner.start()
+
 
     def insert_data(self):
         name = unicode(self.dlgTask.txt_TaskName.text())

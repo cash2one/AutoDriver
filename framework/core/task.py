@@ -10,7 +10,7 @@ import test_runner
 import threading
 import time
 from framework.util import sqlite
-import test_runner_temp, test_result_temp
+import test_result_temp, test_result
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -56,7 +56,7 @@ class Task():
 
     def getTestSuite(self):
         # 获取用例套件
-        #path_cases = PATH('../../%s' % self.path)
+        # path_cases = PATH('../../%s' % self.path)
         test = re.compile("^test.*?.py$", re.IGNORECASE)
         files = filter(test.search, os.listdir(self.path))
 
@@ -81,7 +81,6 @@ class Task():
             new_path = self.path.replace(r'/', os.sep)
 
         sys.path.append(new_path)
-        print sys.path
         self.datas[self.STATUS] = RUNNING
 
     def finish(self):
@@ -110,12 +109,14 @@ class TestRunner(threading.Thread):
     再次启动下一次TestSuite的运行
     """
 
-    def __init__(self, tasks):  # ,db_path):
+    def __init__(self, tasks, db_path='', ui=None):
         threading.Thread.__init__(self)
         self.thread_stop = False
         self.tasks = tasks
         self.task = None
-        # self.db_path = db_path
+        self.db_path = db_path
+        self.dbm = None
+        self.ui = ui
 
     # 取出一个未运行完毕的task
     def getTask(self):
@@ -138,17 +139,25 @@ class TestRunner(threading.Thread):
 
             # runner = test_runner_temp.TestRunner(
             # # db=dbm,
-            #     task=self.task
+            # task=self.task
             # )
             #
             # self.task.start()
             # runner.run(self.task.getTestSuite())
             self.task.start()
-            result = test_result_temp.NewTestResult()
+            # result = test_result_temp.NewTestResult()
+            product_info=None
+            if len(self.db_path.strip()) == 0:
+                self.dbm = None
+            else:
+                self.dbm = sqlite.DBManager(self.db_path)
+            result = test_result.NewTestResult(self.dbm, product_info,self.ui)
             self.task.getTestSuite()(result)
             self.task.finish()
 
         time.sleep(5)
 
     def stop(self):
+        if self.dbm != None:
+            self.dbm.close_db()
         self.thread_stop = True

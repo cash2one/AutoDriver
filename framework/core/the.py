@@ -27,7 +27,7 @@ class JIRA():
         self.isActive = False
         self.default_project = _gui['default_project']
         self.displayName = ''
-        self.userName = ''
+        self.userName = 'guest'
         self.pageSize = int(_gui['page_size'])
         self.folder = _gui['folder']
         self.follow = []
