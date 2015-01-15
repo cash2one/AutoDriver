@@ -38,7 +38,7 @@ class TestCase(unittest.TestCase):
                 #判断是不是td里面的接口名称是不是driverService.dealOrder
                 print text,i
                 tuple=u'cancelType=1&orderNo=15011315092036&memo=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&requestId=14000513261766449233646&event=7&tokenNo=140005F4EFFC4E8A1D40FE850D85181D1CBC14'
-                self.assertTure('aaaaa' in tuple)
+                self.assertTure('aaaaa' in text)
         else:
             text=self.driver.find_element_by_class_name('norecords').text
             self.assertTrue(u'没有符合条件的数据'in text)
