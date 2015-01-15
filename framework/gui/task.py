@@ -2,14 +2,14 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-
+import re
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-
+from framework.util import fs
 from framework.gui.views import task_ui
 from framework.gui.models import home_model
 from framework.core import the
-from framework.gui.dialog import dlg_task
+from framework.gui.dialog import dlg_task, temp_task
 
 
 PATH = lambda p: os.path.abspath(
@@ -48,7 +48,9 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.tv_task.setAlternatingRowColors(True)
         self.tv_task.horizontalHeader().setStretchLastSection(True)
         self.connect(self.tv_task, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_current_task)
-        self.connect(self.pushButton, SIGNAL("clicked()"), self.show_new_task)
+        self.connect(self.btn_new_task, SIGNAL("clicked()"), self.show_new_task)
+        self.connect(self.btn_temp_task, SIGNAL("clicked()"), self.show_temp_task)
+
         # self.connect.dataChanged.connect(self.update_table)
 
     def update_table(self):
@@ -145,6 +147,50 @@ class TaskForm(QWidget, task_ui.Ui_Form):
             elif ret == QMessageBox.Cancel:
                 pass
 
+    def show_temp_task(self):
+        dlg = temp_task.TaskExecDialog()
+        case_path = PATH('../../testcase/')
+
+        case_list = []
+        if dlg.exec_() == QDialog.Accepted:
+            for i in reversed(range(0, dlg.folderLayout.count())):
+                chk = dlg.folderLayout.itemAt(i).widget()
+                case_f = {}
+                if chk.isChecked():
+                    p = dlg.chk_value[i]
+                    print p
+                    #case_s = os.listdir(p)
+                    case_dict = {}  # 取出文件夹内的用例，并设置执行次数
+
+                    files = fs.filter_files(p,'test','py')
+
+                    for c in files:
+                        case_dict[c] = 1
+                    case_f['cases'] = case_dict
+                    case_f['status'] = 0
+                    case_f['path'] = p#p[len(PATH('../../'))+1:len(p)]
+                    case_list.append(case_f)
+        self.start_task(case_list)
+        #print case_list
+
+
+    def start_task(self, case_list):
+        from framework.core import task as ta
+        # case_list = [
+        # {'cases': {'test_customer_allfinishOrder': 5, 'test_customer_callServer_xgh': 3}, 'status': 0,
+        # 'path': 'testcase/AutobookClient/customer'},
+        # {'cases': {'test_driver_cmEarnings_zc': 3, 'test_driver_completeOrder_info__zc': 2}, 'status': 0,
+        #      'path': 'testcase/AutobookClient/driver'}
+        # ]
+
+        task_list = []
+        for c in case_list:
+            print c
+            t = ta.Task(c)
+            task_list.append(t)
+
+        runner = ta.TestRunner(task_list)
+        runner.start()
 
     def insert_data(self):
         name = unicode(self.dlgTask.txt_TaskName.text())

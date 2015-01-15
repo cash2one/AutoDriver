@@ -75,14 +75,14 @@ def combine_url(host, api='', params=None):
     return uri
 
 
-# def to_int(str_number):
-# if not isNumber(str_number):
-# return None
-#
-# if isFloat(str_number):
-#         return int(string.atof(str_number))
-#     else:
-#         return longToInt(str_number)
+def to_int(str_number):
+    if not isNumber(str_number):
+        return None
+
+    if isFloat(str_number):
+            return int(string.atof(str_number))
+    else:
+        return longToInt(str_number)
 
 
 
