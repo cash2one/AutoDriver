@@ -1,18 +1,22 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
 
-#待处理订单页面：查看通讯记录、关闭通讯记录
+
 
 
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
+from selenium.common import exceptions
 
 class TestCase(unittest.TestCase):
+    '''
+    待处理订单页面：查看通讯记录、关闭通讯记录
+    '''
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = testcase.app(__file__)
         self.driver.login()
 
 
@@ -22,14 +26,28 @@ class TestCase(unittest.TestCase):
 
     #查看通讯记录
     def test_communicationRecord(self):
-
         self.driver.find_ajax_id('communicationRecord')
+        #找到订单号，查看该通讯记录
         trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
-        #取第一行第一列的订单号
         for i in range(1,len(trs)-1):
-         CR=trs[i].find_elements_by_tag_name('td')[10]
-         if CR.find_elements_by_link_text('通讯记录'):
-              self.driver.find_element_by_id('communicationRecord').click()
+            tds=trs[i].find_elements_by_tag_name('td')
+            if '15011513577860' in tds[2].text:
+                try:
+                    tds[10].find_element_by_id('communicationRecord').click()
+                except exceptions.NoSuchElementException:
+                    pass
+
+        #点击通讯记录链接
+        self.driver.find_element_by_id('communicationRecord').click()
+        text=self.driver.find_element_by_class_name('xubox_title').text
+        print text
+
+        # try:
+        #     self.driver.find_element_by_id('communicationRecord').click()
+        # except exceptions.NoSuchElementException:
+        #     pass
+
+
 
         time.sleep(2)
 
@@ -41,4 +59,13 @@ class TestCase(unittest.TestCase):
         self.driver.find_ajax_id('orderFlow')
         self.driver.find_element_by_id('communicationRecord').click()
         time.sleep(2)
-        self.driver.find_element_by_class_name('xubox_setwin').click()
+        text=self.driver.find_element_by_class_name('xubox_title').text
+        print text
+
+        # id=self.driver.find_element_by_id('xubox_border1')
+        self.driver.find_element_by_class_name('xubox_close').click()
+        time.sleep(2)
+        #self.driver.find_element.getText()
+        #self.assertFalse()
+
+

@@ -68,12 +68,6 @@ def sendMail(mail_to):
         pass  # 文件夹，生成文件 及压缩包
 
 
-def order_robot():
-    from framework.core import idriver_android
-
-    idriver_android.customer_server()
-
-
 def gui():
     app = QtGui.QApplication(sys.argv)
     mainWin = ui.MainWindow()
@@ -101,8 +95,6 @@ def main():
             startReport()
         elif args[1] == "-gui":
             gui()
-        elif args[1] == "-robot":
-            order_robot()
         elif args[1] == "-help":
             help()
         elif args[1] == "-mail":
@@ -117,7 +109,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    from framework.util import strs
+    f=0.00
+    print strs.to_int(str(f))
 
     # dr = device.RunAppium(4725)
     # dr.start()
