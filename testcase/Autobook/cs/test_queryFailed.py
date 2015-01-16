@@ -55,24 +55,24 @@ class TestCase(unittest.TestCase):
 
     #一个条件，输入不存在客户手机号
     def test_query4(self):
-        self.initInputValue('','18502112','')
+        self.initInputValue('','00010112','')
         txt = self.driver.find_element_by_class_name('norecords').text
         print txt
         self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
 
     #一个条件，输入不存在的客户名称
     def test_query5(self):
-        self.initInputValue('','王小二','')
+        self.initInputValue('',u'王小二','')
         txt = self.driver.find_element_by_class_name('norecords').text
         print txt
         self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
 
     #一个条件，输入不存在的客户名称
-    def test_query6(self):
-        self.initInputValue('','王小二','')
-        txt = self.driver.find_element_by_class_name('norecords').text
-        print txt
-        self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
+    # def test_query6(self):
+    #     self.initInputValue('',u'王小二','')
+    #     txt = self.driver.find_element_by_class_name('norecords').text
+    #     print txt
+    #     self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
 
     #一个条件，输入不存在的司机工号
     def test_query7(self):
@@ -83,7 +83,7 @@ class TestCase(unittest.TestCase):
 
     #一个条件，输入不存在的司机名称
     def test_query8(self):
-        self.initInputValue('','','张张张')
+        self.initInputValue('','',u'张张张')
         txt = self.driver.find_element_by_class_name('norecords').text
         print txt
         self.assertTrue(u'没有符合条件的数据...' in txt ,'false')

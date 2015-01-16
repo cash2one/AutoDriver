@@ -140,7 +140,7 @@ def Tables():
 
     Result = '''
     ExecuteResult varchar(50) NOT NULL,
-    JIRAIssueID varchar(100) NULL,
+    Executor varchar(100) NULL,
     Owner varchar(100) NULL,
     ResultDesc varchar(1000) NULL,
     IsEnable integer NOT NULL,
