@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/task.ui'
 #
-# Created: Thu Jan 15 11:17:54 2015
+# Created: Fri Jan 16 15:11:09 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,11 +35,6 @@ class Ui_Form(object):
         self.btn_new_task.setMaximumSize(QtCore.QSize(100, 16777215))
         self.btn_new_task.setObjectName(_fromUtf8("btn_new_task"))
         self.horizontalLayout.addWidget(self.btn_new_task)
-        self.btn_temp_task = QtGui.QPushButton(Form)
-        self.btn_temp_task.setMinimumSize(QtCore.QSize(100, 0))
-        self.btn_temp_task.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.btn_temp_task.setObjectName(_fromUtf8("btn_temp_task"))
-        self.horizontalLayout.addWidget(self.btn_temp_task)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -54,6 +49,5 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
         self.btn_new_task.setText(_translate("Form", "新建任务", None))
-        self.btn_temp_task.setText(_translate("Form", "临时执行任务", None))
 
 import res_rc

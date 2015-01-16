@@ -10,16 +10,13 @@ class QTableModel(QtCore.QAbstractTableModel):
         # QtCore.QAbstractTableModel.__init__(self, parent, *args)
         super(QTableModel, self).__init__(parent, *args)
         self.arraydata = datain
-        self.header = (
-            u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间', u'备注')
-
-        # self.aa = (u'编号', u'任务名称', u'任务状态', u'任务类型', u'优先级', u'执行人', u'创建人', u'创建时间', '更新时间', u'执行时间', u'结束时间')
+        self.header = (u'脚本名', u'状态', u'结果')
 
     def updateAll(self, dataIn):
         self.arraydata = dataIn
 
     def updateRow(self, data, index):
-        self.arraydata[index]['row'] = data
+        self.arraydata[index] = data
 
 
     def insertRows(self, data):
@@ -31,7 +28,7 @@ class QTableModel(QtCore.QAbstractTableModel):
 
     def columnCount(self, parent):
         if len(self.arraydata) > 0:
-            return len(self.arraydata[0]['row'])
+            return len(self.arraydata[0])
 
     def rowContent(self, index):
         return self.arraydata[index]
@@ -46,7 +43,7 @@ class QTableModel(QtCore.QAbstractTableModel):
             i = index.row()
             j = index.column()
 
-            return QtCore.QVariant(self.arraydata[i]['row'][j])  # [index.row()]['info'][index.column()])
+            return QtCore.QVariant(self.arraydata[i][j])  # [index.row()]['info'][index.column()])
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
         if role == QtCore.Qt.DisplayRole and orientation == QtCore.Qt.Horizontal:
@@ -62,5 +59,5 @@ class QTableModel(QtCore.QAbstractTableModel):
         # return self.arraydata[index]#['info']
         #
         # def flags(self, index):
-        #     return QtCore.Qt.ItemIsEnabled
+        # return QtCore.Qt.ItemIsEnabled
 
