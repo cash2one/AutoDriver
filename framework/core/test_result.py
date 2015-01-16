@@ -6,22 +6,25 @@ import unittest
 import StringIO
 import datetime
 import re
+from PyQt4 import QtCore
 
 from framework.core import the
 
 
 STATUS = {
-0: 'pass',
-1: 'fail',
-2: 'error',
+    0: 'pass',
+    1: 'fail',
+    2: 'error',
 }
 
+
 class NewTestResult(unittest.TestResult):
-    def __init__(self,dbm=None,product_info=None):
+    def __init__(self, dbm=None, product_info=None, ui=None):
         unittest.TestResult.__init__(self)
         self.dbm = dbm
         self.product_info = product_info
-        self.testUser = the.settings['user']['name']
+        self.ui = ui
+        self.test_user = the.jira.userName
         self.currentStatus = 0
 
         self.result = []
@@ -47,16 +50,32 @@ class NewTestResult(unittest.TestResult):
 
     def stopTest(self, test):
         self.complete_output()
-        _testcase = str(test)
+        # _testcase = str(test)
 
-        result_desc = self.getAssertResult()
-        startDT = datetime.datetime.now()
-        #data1 = [(_testcase,_count,self.currentSuccess,self.currentFail,self.currentError,_update_time,_detail)]
-        #自动化脚本里没有task，默认id为1
-        data = (STATUS[self.currentStatus],self.testUser,result_desc,1,'',startDT,'Product_name','Product_TYPE',1,1,1)
+        # result_desc = self.getAssertResult()
+        # startDT = datetime.datetime.now()
+        # data1 = [(_testcase,_count,self.currentSuccess,self.currentFail,self.currentError,_update_time,_detail)]
+        # 自动化脚本里没有task，默认id为1
+        ExecuteResult = STATUS[self.currentStatus]
+        Executor = self.test_user
+        Owner = ''
+        ResultDesc = self.getAssertResult()
+        IsEnable = 1
+        LogFile = ''
+        ExecuteDT = datetime.datetime.now()
+        ProductName = ''
+        ProductTypeName = ''
+        TestCase_Id = 1
+        Task_Id = 1
+
+        data = (ExecuteResult, Executor, Owner, ResultDesc, IsEnable, LogFile, ExecuteDT, ProductName, ProductTypeName,
+                TestCase_Id, Task_Id)
 
         sql = "INSERT INTO Result values (NULL,?,?,?,?,?,?,?,?,?,?,?)"
-        self.dbm.insert_value(sql,data)
+        if self.dbm != None:
+            self.dbm.insert_value(sql, data)
+        if self.ui!=None:
+            self.ui.emit(QtCore.SIGNAL("finish_case"),data)
 
 
     def addSuccess(self, test):
@@ -97,27 +116,35 @@ class NewTestResult(unittest.TestResult):
         elif self.error_str.strip() != '':
             result_desc = self.error_str
 
-        print result_desc
+        # print result_desc
 
         for ex in self.excepts:
-            ex_str = r'(?<=%s:).*' % ex
-            match = re.compile(ex_str).search(result_desc)
-            if match:
-                return ex+ ':' + match.group()
-            else:
-                return ''
+            if ex in result_desc:
+                ex_idx = result_desc.find(ex)
+                return result_desc[ex_idx:len(result_desc)]
 
 
-#获取exceptions 所有Error的类名
+                # ex_str = r'(?<=%s:).*' % ex
+                # match = re.compile(ex_str).search(result_desc)
+                # if match:
+                # return ex + ':' + match.group()
+                # else:
+                # return ''
+
+
+# 获取exceptions 所有Error的类名
 def getExcepts():
-    excepts = []
+    # excepts = []
     __import__('exceptions')
     m = sys.modules['exceptions']
     attstr = dir(m)
-    for strr in attstr:
-        att = str(getattr(m,strr))
-        pattern = re.compile(r'(?<=exceptions.).*Error')
-        match = pattern.search(att)
-        if match:
-            excepts.append(match.group())
-    return excepts
+    return attstr
+
+    # for strr in attstr:
+    # att = str(getattr(m, strr))
+    #     #print att
+    #     pattern = re.compile(r'(?<=exceptions.).*Error')
+    #     match = pattern.search(att)
+    #     if match:
+    #         excepts.append(match.group())
+    # return excepts

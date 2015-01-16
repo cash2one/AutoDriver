@@ -14,7 +14,7 @@ STATUS = {
 }
 
 class NewTestResult(unittest.TestResult):
-    def __init__(self,product_info=None):
+    def __init__(self,dbm=None,product_info=None):
         unittest.TestResult.__init__(self)
         #self.dbm = dbm
         self.product_info = product_info
@@ -94,7 +94,7 @@ class NewTestResult(unittest.TestResult):
         elif self.error_str.strip() != '':
             result_desc = self.error_str
 
-        print result_desc
+        #print result_desc
 
         for ex in self.excepts:
             ex_str = r'(?<=%s:).*' % ex
