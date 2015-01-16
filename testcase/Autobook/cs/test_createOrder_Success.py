@@ -11,7 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class TestCase(unittest.TestCase):
     '''
-    创建订单成功
+    周边创建订单成功
     '''
 
     def setUp(self):
