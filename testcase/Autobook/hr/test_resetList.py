@@ -234,13 +234,13 @@ class TestCase(unittest.TestCase):
         #判断imsi
         imsitx=self.driver.find_element_by_id('driverVo_imsi').text
         self.assertTrue(imsitx=='')
-        #判断邮箱
+         #判断邮箱
         emailtx=self.driver.find_element_by_id('driverVo_email').text
         self.assertTrue(emailtx=='')
         #判断户口地址
-        oldAddrestx=self.driver.find_element_by_id('detailVo_oldAddres').text
+        oldAddrestx=self.driver.find_element_by_id('detailVo_oldAddress').text
         self.assertTrue(oldAddrestx=='')
-        #判断户口邮编
+         #判断户口邮编
         oldPostcodetx=self.driver.find_element_by_id('detailVo_oldPostcode').text
         self.assertTrue(oldPostcodetx=='')
         #判断现居地址
