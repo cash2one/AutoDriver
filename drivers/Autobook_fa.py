@@ -2,6 +2,7 @@
 __author__ = 'guguohai@outlook.com'
 
 from framework.core import web
+from framework.util import strs
 
 
 def Application(config):
@@ -20,8 +21,8 @@ class MyDriver(object):
     def __init__(self):
         pass
 
-    def example(self):
-        return 'test'
+    def to_int(self,value):
+        return strs.to_int(str(value))
 
 
 class Firefox(web.Firefox, MyDriver):
