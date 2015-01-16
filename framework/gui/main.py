@@ -26,7 +26,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         ja.cookie = QtNetwork.QNetworkCookieJar(self)
 
-        self.setFont(QFont("Microsoft YaHei", 9))
+        self.setFont(QFont("Microsoft YaHei", 10))
         self.showMaximized()
         self.statusBar().showMessage(self.tr("Parsing eventlog data..."))
 
