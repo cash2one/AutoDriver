@@ -14,7 +14,7 @@ class TestCase(unittest.TestCase):
         pass
 
     def test_print_f(self):
-        result = __file__ + ':testcase'
+        result = __file__ + ':testcase333'
         time.sleep(1)
-        #self.assertTrue(False,result)
-        print __file__,time.strftime("%H:%M:%S")
+        self.assertTrue(False,result)
+        #print __file__,time.strftime("%H:%M:%S")

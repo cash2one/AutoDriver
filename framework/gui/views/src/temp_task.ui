@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>441</width>
-    <height>432</height>
+    <width>941</width>
+    <height>552</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,12 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>100</height>
+      </size>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -24,8 +30,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>421</width>
-        <height>383</height>
+        <width>921</width>
+        <height>98</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -45,6 +51,9 @@
       </layout>
      </widget>
     </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="tv_result_data"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
