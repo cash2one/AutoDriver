@@ -57,7 +57,7 @@ class TestCase(unittest.TestCase):
 
         #成功充值后，查询对应司机账户明细是否有记录
         self.driver.find_element_by_link_text('账户管理').click()
-        time.sleep(2)
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('司机账户').click()
         time.sleep(2)
         self.driver.find_element_by_id('driverInfo').click()#输入查询条件140017
@@ -79,7 +79,7 @@ class TestCase(unittest.TestCase):
 
         #成功充值后，查询公司预付款账户明细是否有记录
         self.driver.find_element_by_link_text('账户管理').click()
-        time.sleep(2)
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('公司账户').click()
         time.sleep(2)
         table2 = self.driver.find_element_by_id('list')
