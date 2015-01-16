@@ -110,9 +110,17 @@ def main():
 
 if __name__ == "__main__":
     #main()
-    from framework.util import strs
-    f=0.00
-    print strs.to_int(str(f))
+    from framework.util import http
+
+    ja=http.TestJIRA()
+    ja.login()
+    time.sleep(5)
+
+    ja.get_user()
+
+    time.sleep(2)
+
+    ja.post_data()
 
     # dr = device.RunAppium(4725)
     # dr.start()

@@ -5,10 +5,6 @@ import os, sys, re
 import unittest
 import threading
 import time
-from framework.util import const, sqlite
-import test_runner
-import threading
-import time
 from framework.util import sqlite
 import test_result
 from PyQt4 import QtCore
@@ -143,15 +139,8 @@ class TestRunner(threading.Thread):
             if self.task == None or not self.task.isRunning():
                 self.task = self.getTask()
 
-            # runner = test_runner_temp.TestRunner(
-            # # db=dbm,
-            # task=self.task
-            # )
-            #
-            # self.task.start()
-            # runner.run(self.task.getTestSuite())
             self.task.start()
-            # result = test_result_temp.NewTestResult()
+
             product_info = None
             if len(self.db_path.strip()) == 0:
                 self.dbm = None

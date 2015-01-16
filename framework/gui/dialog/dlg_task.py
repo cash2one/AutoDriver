@@ -16,9 +16,6 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
     def __init__(self, data=None):
         QDialog.__init__(self)
 
-        self.data_row = data['row']
-        self.data_task = data['task']
-
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
         self.current_executor = []
@@ -36,23 +33,22 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         self.btn_requester.clicked.connect(self.select_user)
 
         # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
+        self.data_row = None
+        if data != None:
+            self.data_row = data['row']
+            self.data_task = data['task']
 
-        if len(self.data_task) > 0:
-            print self.data_task
-            print len(self.data_task)
-            # self.tw_task.addTab(u'任务详情')
-            #self.tab_detail.show()
-            #self.tw_task.addTab(Q)
-            tv_detail, tab_detail_layout = self.add_tab(u'任务详情')
-            tv_detail = QTableView()
-            tv_detail.setFrameShape(QFrame.NoFrame)
-            print self.data_task[0]['cases']
-            t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
-            tv_detail.setModel(t_model)
-            tv_detail.setColumnWidth(0, 250)
-            tv_detail.horizontalHeader().setStretchLastSection(True)
+            if len(self.data_task) > 0:
+                tv_detail, tab_detail_layout = self.add_tab(u'任务详情')
+                tv_detail = QTableView()
+                tv_detail.setFrameShape(QFrame.NoFrame)
+                print self.data_task[0]['cases']
+                t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
+                tv_detail.setModel(t_model)
+                tv_detail.setColumnWidth(0, 250)
+                tv_detail.horizontalHeader().setStretchLastSection(True)
 
-            tab_detail_layout.addWidget(tv_detail)
+                tab_detail_layout.addWidget(tv_detail)
 
         for t in GUI_TASK_TYPE:
             self.cmb_TaskType.addItem(t)
@@ -119,16 +115,16 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
     def confirm(self):
         self.reject()  # 关闭窗口
 
-    def add_tab(self,tab_name):
+    def add_tab(self, tab_name):
         tab_detail = QWidget()
-        #self.tab_detail.setObjectName(_fromUtf8("tab_detail"))
+        # self.tab_detail.setObjectName(_fromUtf8("tab_detail"))
         tab_detail_layout = QVBoxLayout(tab_detail)
         tab_detail_layout.setSpacing(0)
         tab_detail_layout.setMargin(0)
-        #self.tab_detail_layout.setObjectName(_fromUtf8("tab_detail_layout"))
+        # self.tab_detail_layout.setObjectName(_fromUtf8("tab_detail_layout"))
         #self.tw_task.setTabText(self.tw_task.indexOf(tab_detail),u'任务详情')
-        self.tw_task.addTab(tab_detail,tab_name)
-        return tab_detail,tab_detail_layout
+        self.tw_task.addTab(tab_detail, tab_name)
+        return tab_detail, tab_detail_layout
 
 
     def select_tasks(self):
@@ -156,8 +152,8 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         # def __init__(self):
         # QDialog.__init__(self)
         #
-        #         # self.ui = select_task.Ui_Form()
-        #         # self.ui.setupUi(self)
+        # # self.ui = select_task.Ui_Form()
+        # # self.ui.setupUi(self)
         #         self.setupUi(self)
         #
         #         f = QFile(':/default.txt')
