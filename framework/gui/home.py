@@ -16,6 +16,10 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+DOWNLOAD_SUCCESS = 0
+DOWNLOAD_MEMORY = 1
+DOWNLOAD_FAIL = 2
+
 
 class HomeForm(QWidget, home_ui.Ui_Form):
     def __init__(self, netAccess_method):
@@ -41,36 +45,43 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                 title = dic['title']
                 result = dic['result']
                 time_str = dic['time']
-                self.load_to_ul(result, title, time_str, False)
+                self.load_to_ul(result, title, time_str, DOWNLOAD_MEMORY)
         else:
             self.start_load_page()
 
     def start_load_page(self):
-        self.nam[0](self.pages[0], self.on_ltesting_reply)
-        #这个网站加载速度较慢，所以单独来加载
-        self.nam[1](self.pages[2], self.on_zaodula_reply)
+        self.nam[0](self.pages[0], self.on_one_reply)
+        # 这个网站加载速度较慢，所以单独来加载
+        self.nam[1](self.pages[2], self.on_three_reply)
 
-    def on_ltesting_reply(self, reply):
+    def on_one_reply(self, reply):
+        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        title = u'领测软件测试网'
         if reply.error() == reply.NoError:
-            self.nam_finish_num += 1
-            time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            self.load_to_ul(reply.readAll(), u'领测软件测试网', time_str, True)
+            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
             # 加载完成后，再次加载下一个页面
-            self.nam[0](self.pages[1], self.on_testerhome_reply)
+            self.nam[0](self.pages[1], self.on_two_reply)
+        else:
+            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
 
 
-    def on_testerhome_reply(self, reply):
+    def on_two_reply(self, reply):
+        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        title = u'TesterHome社区精华帖'
         if reply.error() == reply.NoError:
-            self.nam_finish_num += 1
-            time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            self.load_to_ul(reply.readAll(), u'TesterHome社区精华帖', time_str, True)
+            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+        else:
+            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
 
 
-    def on_zaodula_reply(self, reply):
+    def on_three_reply(self, reply):
+        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        title = u'互联网早读课'
         if reply.error() == reply.NoError:
-            self.nam_finish_num += 1
             time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            self.load_to_ul(reply.readAll(), u'互联网早读课', time_str, True)
+            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+        else:
+            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
 
 
     def refresh_content(self, txt):
@@ -99,24 +110,29 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         fileBrowser = browser.FileDialog(txt, 2, self.netAccessNoCookie)
         fileBrowser.exec_()
 
-    def load_to_ul(self, content, title, time_str, isDownload):
+    def load_to_ul(self, content, title, time_str, download_status):
         lbl = QLabel()
         lbl.setAlignment(Qt.AlignTop)
         lbl.setStyleSheet("background-color:#ffffff;padding:20px 15px 0 15px;font-family:Microsoft YaHei")
         lbl.setMinimumWidth(350)
         lbl.setMaximumHeight(430)
         # lbl.setOpenExternalLinks(True)#在浏览器中打开链接
-        result = content
-        if isDownload:
-            result = self.read_xml_feed(content)
-            self.save_home_data(title, result, time_str)
 
-        lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
+        if download_status == DOWNLOAD_SUCCESS:
+            result = self.read_xml_feed(content)
+            lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
+            self.save_home_data(title, result, time_str)
+        elif download_status == DOWNLOAD_MEMORY:
+            lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, content))
+        elif download_status == DOWNLOAD_FAIL:
+            lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, u'<li>加载失败</li>'))
+            self.save_home_data(title, u'<li>加载失败</li>', time_str)
+
         self.hz_layout.addWidget(lbl)
 
         # Label中的链接点击信号槽
         self.connect(lbl, SIGNAL('linkActivated (const QString&)'), self.open_file_browser)
-
+        self.nam_finish_num += 1
         if self.nam_finish_num >= len(self.pages):
             self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
             self.emit(SIGNAL("loading_finish()"))
