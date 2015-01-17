@@ -13,8 +13,8 @@ PATH = lambda p: os.path.abspath(
 
 
 class TestCase(unittest.TestCase):
-    def __init__(self):
-        super(TestCase, self).__init__()
+    def __init__(self, methodName='runTest'):
+        super(TestCase, self).__init__(methodName)
 
         self.exceptions = exceptions
 
