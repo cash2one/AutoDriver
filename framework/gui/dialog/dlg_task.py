@@ -19,20 +19,12 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
         self.current_executor = []
-        # detailLayout = QGridLayout(self.widget_task)
-        # taskv = QTableView()
-        # detailLayout.addWidget(taskv, 0, 1)
-        # self.widget_task.hide()
 
-        # self.hzLayout.setSizeConstraint(QLayout.SetFixedSize)
-
-        # self.btn_Automate.hide()
         self.connect(self.btn_auto, SIGNAL("clicked()"), self.select_tasks)
         self.connect(self, SIGNAL("selectTask()"), self.select_tasks)
         self.connect(self.cmb_TaskType, SIGNAL('activated(QString)'), self.onActivated)
         self.btn_requester.clicked.connect(self.select_user)
 
-        # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
         self.data_row = None
         if data != None:
             self.data_row = data['row']
@@ -42,7 +34,10 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
                 tv_detail, tab_detail_layout = self.add_tab(u'任务详情')
                 tv_detail = QTableView()
                 tv_detail.setFrameShape(QFrame.NoFrame)
-                print self.data_task[0]['cases']
+                print 'cases:', self.data_task[0]['cases']
+                print 'result:', self.data_task[0]['result']
+                print 'status:', self.data_task[0]['status']
+                print 'path:', self.data_task[0]['path']
                 t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
                 tv_detail.setModel(t_model)
                 tv_detail.setColumnWidth(0, 250)
@@ -109,11 +104,8 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         else:
             self.btn_auto.hide()
 
-            # self.label.setText(txt)
-            # self.label.adjustSize()
-
     def confirm(self):
-        self.reject()  # 关闭窗口
+        self.reject()
 
     def add_tab(self, tab_name):
         tab_detail = QWidget()
@@ -122,7 +114,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         tab_detail_layout.setSpacing(0)
         tab_detail_layout.setMargin(0)
         # self.tab_detail_layout.setObjectName(_fromUtf8("tab_detail_layout"))
-        #self.tw_task.setTabText(self.tw_task.indexOf(tab_detail),u'任务详情')
+        # self.tw_task.setTabText(self.tw_task.indexOf(tab_detail),u'任务详情')
         self.tw_task.addTab(tab_detail, tab_name)
         return tab_detail, tab_detail_layout
 
@@ -146,22 +138,3 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
             # ))
 
         self.selectUser.destroy()
-
-
-        # class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):
-        # def __init__(self):
-        # QDialog.__init__(self)
-        #
-        # # self.ui = select_task.Ui_Form()
-        # # self.ui.setupUi(self)
-        #         self.setupUi(self)
-        #
-        #         f = QFile(':/default.txt')
-        #         f.open(QIODevice.ReadOnly)
-        #         model = tree_model.TreeModel(f.readAll())
-        #         f.close()
-        #         self.treeView.setModel(model)
-        #
-        #
-        #     def confirm(self):
-        #         self.reject()  # 关闭窗口

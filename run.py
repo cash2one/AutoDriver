@@ -43,8 +43,15 @@ def start():
 
 
 def startReport():
-    pass
-
+    '''
+    测试完成，生成静态html报告
+    :return:
+    '''
+    import webbrowser
+    from framework.core import report
+    rp = report.Report(data.getDatabasePath(root_dir),25)
+    rp.start()
+    webbrowser.open(PATH('./report/index.html'))
 
 def sendMail(mail_to):
     '''

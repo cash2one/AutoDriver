@@ -5,15 +5,18 @@ __pycache__/
 # C extensions
 *.so
 
-#pycharm
-.idea/
+#AutoDriver
 temporary/
 *.html
 *.db
 *.apk
 *.xls
 *.xlsx
-resource/app.ini
+
+
+#pycharm
+.idea/
+
 
 # Distribution / packaging
 .Python

@@ -2,7 +2,7 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-import time
+import uuid
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.util import fs
@@ -80,6 +80,7 @@ class TaskForm(QWidget, task_ui.Ui_Form):
                     task['cases'] = scripts
                     task['status'] = 0
                     task['path'] = parent
+                    task['result'] = str(uuid.uuid1()) + '.db'
                     tasks.append(task)
 
                 t_no += 1
@@ -112,15 +113,30 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.contextMenu = QMenu(self)
         self.actionA = self.contextMenu.addAction(u'显示详情')
         self.actionB = self.contextMenu.addAction(u'执行自动化')
+        self.action_report = self.contextMenu.addAction(u'生成测试报告')
         self.actionC = self.contextMenu.addAction(u'删除')
 
         self.actionA.triggered.connect(self.show_current_task)
         self.actionB.triggered.connect(self.run_auto_test)
         self.actionC.triggered.connect(self.actionHandler)
+        self.action_report.triggered.connect(self.startReport)
         # self.connect(self.actionB, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_current_task)
 
         self.contextMenu.popup(QCursor.pos())
         self.contextMenu.show()
+
+    def startReport(self):
+        '''
+        测试完成，生成静态html报告
+        :return:
+        '''
+        import webbrowser
+        from framework.core import report
+
+        root_dir = PATH('../../')
+        rp = report.Report(data.getDatabasePath(root_dir), 25)
+        rp.start()
+        webbrowser.open(PATH('./report/index.html'))
 
     def run_auto_test(self):
         idx = self.tv_task.currentIndex()
@@ -217,7 +233,7 @@ class TaskForm(QWidget, task_ui.Ui_Form):
     # if len(self.result_data) == 0:
     # self.result_data += (d,)
     # self.taskModel = home_model.QTableModel(self.result_data, self)
-    #         self.tv_task.setModel(self.taskModel)
+    # self.tv_task.setModel(self.taskModel)
     #     else:
     #         self.taskModel.insertRows(d)
     #         self.taskModel.layoutChanged.emit()
