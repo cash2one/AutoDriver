@@ -11,6 +11,7 @@ class QTableModel(QtCore.QAbstractTableModel):
         super(QTableModel, self).__init__(parent, *args)
         self.arraydata = []
 
+        print 'datain:::::',datain
         for da in datain:
             dat = (da['name'], da['source'], da['loop'], da['desc'])
             self.arraydata.append(dat)

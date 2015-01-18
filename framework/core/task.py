@@ -21,6 +21,7 @@ FINISH = 0
 class Task():
     def __init__(self, init_data):
         self.task_status = False
+        print 'task core:',init_data
         self.datas = init_data
         self.path = self.datas['path']
         self.CASES = 'cases'
@@ -90,7 +91,10 @@ class Task():
             loop = cases[i]['loop']
             if loop > 0:
                 loop -= 1
-                self.datas[self.CASES][i] = loop  # 更新数据self.datas[self.CASES][ca] = num
+                #print 'tasks::::::',self.datas[self.CASES][i]
+                #cases=[{'source': 'MyDemo\\demo', 'name': 'test_customer_allfinishOrder.py', 'loop': 0, 'desc': ''},
+                #TODO: 未测试一个test类内的多个test方法的次数
+                self.datas[self.CASES][i]['loop'] = loop  # 更新数据self.datas[self.CASES][ca] = num
                 if loop > 0:  # 递减后的数量仍大于零
                     left_cases += 1
 

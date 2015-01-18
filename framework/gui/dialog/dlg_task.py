@@ -1,15 +1,20 @@
-# -*- coding: utf-8 -*-
+# coding=utf-8
 
+import os
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from framework.util import const
+from framework.util import sqlite
 from framework.gui.views import dlg_task_ui
-from framework.gui.models import script_model
+from framework.gui.models import script_model,autotest_model
 from framework.gui.dialog import check_user, script_list
 
 GUI_TASK_TYPE = (u'自动化', u'车机测试', u'App', u'Web平台', u'接口', u'性能测试')
 GUI_TASK_PRIORITY = (u'普通', u'中级', u'高级')
 GUI_TASK_STATE = (u'未开始', u'已开始', u'已取消', u'已结束')
+
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
 
 
 class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
@@ -31,19 +36,16 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
             self.data_task = data['task']
 
             if len(self.data_task) > 0:
-                tv_detail, tab_detail_layout = self.add_tab(u'任务详情')
-                tv_detail = QTableView()
-                tv_detail.setFrameShape(QFrame.NoFrame)
-                print 'cases:', self.data_task[0]['cases']
-                print 'result:', self.data_task[0]['result']
-                print 'status:', self.data_task[0]['status']
-                print 'path:', self.data_task[0]['path']
                 t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
-                tv_detail.setModel(t_model)
-                tv_detail.setColumnWidth(0, 250)
-                tv_detail.horizontalHeader().setStretchLastSection(True)
+                self.add_tab(u'任务详情',t_model)
 
-                tab_detail_layout.addWidget(tv_detail)
+            if self.find_result(data['result'])!=None:
+                result_data =self.find_result(data['result'])
+                new_result_data=[]
+                for d in result_data:
+                    new_result_data.append((d[8], d[1], d[4]))
+                result_model = autotest_model.QTableModel(new_result_data, self)
+                self.add_tab(u'测试结果',result_model)
 
         for t in GUI_TASK_TYPE:
             self.cmb_TaskType.addItem(t)
@@ -97,6 +99,17 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
             self.lbl_exectime_title.setText('')
             self.lbl_exectime.setText('')
 
+    def find_result(self, result_data):
+        result_path = PATH('../../../result/')
+        data_file = os.path.join(result_path, result_data)
+        if not os.path.exists(data_file):
+            return None
+
+        dbm = sqlite.DBManager(data_file)  # data['result']))
+        result_list = dbm.fetchall('select * from Result')
+        dbm.close_db()
+        return result_list
+
 
     def onActivated(self, txt):
         if txt == u'自动化':
@@ -107,7 +120,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
     def confirm(self):
         self.reject()
 
-    def add_tab(self, tab_name):
+    def add_tab(self, tab_name,model):
         tab_detail = QWidget()
         # self.tab_detail.setObjectName(_fromUtf8("tab_detail"))
         tab_detail_layout = QVBoxLayout(tab_detail)
@@ -116,7 +129,17 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         # self.tab_detail_layout.setObjectName(_fromUtf8("tab_detail_layout"))
         # self.tw_task.setTabText(self.tw_task.indexOf(tab_detail),u'任务详情')
         self.tw_task.addTab(tab_detail, tab_name)
-        return tab_detail, tab_detail_layout
+        #return tab_detail_layout
+
+        #tab_detail_layout = self.add_tab(u'任务详情')
+        tv_detail = QTableView()
+        tv_detail.setFrameShape(QFrame.NoFrame)
+        #t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
+        tv_detail.setModel(model)
+        tv_detail.setColumnWidth(0, 250)
+        tv_detail.horizontalHeader().setStretchLastSection(True)
+
+        tab_detail_layout.addWidget(tv_detail)
 
 
     def select_tasks(self):
