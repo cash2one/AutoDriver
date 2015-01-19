@@ -83,7 +83,7 @@ class TestCase(unittest.TestCase):
     def test_driverName_query(self):
 
         self.driver.find_ajax_id('driverInfo')
-        self.driver.find_element_by_id('driverInfo').send_keys('康')
+        self.driver.find_element_by_id('driverInfo').send_keys(u'康')
         time.sleep(1)
         #选择“全部任务”查询条件
         opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
@@ -120,6 +120,6 @@ class TestCase(unittest.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'140018' in tds.text,'msg')
+         self.assertTrue(u'14001' in tds.text,'msg')
 
 

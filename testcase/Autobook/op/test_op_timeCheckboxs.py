@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
 
     def test_sourceOrder(self):
         '''
-        按时段统计订单，选择时间范围及订单来源及订单类型
+        按时段统计订单，查看订单来源及订单类型下拉框
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
 
-        opts=self.driver.find_id('orderType_amount').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('orderType_time').find_elements_by_tag_name('option')
         self.assertTrue(opts[0].text==u'全部')
         #订单类型默认显示全部
         tuple=(u'全部',u'指定下单',u'周边下单')
@@ -67,3 +67,32 @@ class TestCase(unittest.TestCase):
         time.sleep(2)
         self.assertTrue(isExist,'false')
         #查看订单类型下拉框中的选项
+
+
+    def test_dateControl(self):
+        '''
+        结束时间小于开始时间，系统给出错误提示
+        :return:
+        '''
+        above=self.driver.find_element_by_link_text(u'统计查询')
+
+        ActionChains(self.driver).move_to_element(above).perform()
+        #鼠标悬停在统计查询
+        self.driver.find_element_by_link_text(u'订单统计').click()
+        self.driver.find_id('li_time').click()
+        js = '$(\'input[id=startTime_time]\').removeAttr(\'readonly\')'
+        self.driver.execute_script(js)
+        self.driver.find_element_by_id('startTime_time').clear()
+        self.driver.find_element_by_id('startTime_time').send_keys('2015-01-06')
+        #选择开始时间
+        js = '$(\'input[id=endTime_time]\').removeAttr(\'readonly\')'
+        self.driver.execute_script(js)
+        self.driver.find_element_by_id('endTime_time').clear()
+        self.driver.find_element_by_id('endTime_time').send_keys('2015-01-01')
+        self.driver.find_id('statistics_time').click()
+        #选择结束时间
+        time.sleep(3)
+        text=self.driver.switch_to_alert().text
+        self.assertEqual(text,u'开始时间不能大于截止时间，请重新选择！')
+        self.driver.switch_to_alert().accept()
+        print(text)

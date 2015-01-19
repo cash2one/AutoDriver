@@ -30,7 +30,8 @@ class QTableModel(QtCore.QAbstractTableModel):
         return len(self.arraydata)
 
     def columnCount(self, parent):
-        return len(self.arraydata[0]['row'])
+        if len(self.arraydata) > 0:
+            return len(self.arraydata[0]['row'])
 
     def rowContent(self, index):
         return self.arraydata[index]
@@ -44,6 +45,7 @@ class QTableModel(QtCore.QAbstractTableModel):
         else:
             i = index.row()
             j = index.column()
+
             return QtCore.QVariant(self.arraydata[i]['row'][j])  # [index.row()]['info'][index.column()])
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):

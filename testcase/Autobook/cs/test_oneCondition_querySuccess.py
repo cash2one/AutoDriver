@@ -99,7 +99,7 @@ class TestCase(unittest.TestCase):
     def test_driverName_query(self):
 
         self.driver.find_ajax_id('driverInfo')
-        self.driver.find_element_by_id('driverInfo').send_keys('康小伟')
+        self.driver.find_element_by_id('driverInfo').send_keys(u'康小伟')
         time.sleep(1)
         #选择“全部任务”查询条件
         opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
