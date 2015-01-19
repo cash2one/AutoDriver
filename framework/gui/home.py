@@ -8,13 +8,17 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
 from framework.gui.views import home_ui
-from framework.gui.dialog import browser,loading
+from framework.gui.dialog import browser
 from framework.core import the
 
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
+
+DOWNLOAD_SUCCESS = 0
+DOWNLOAD_MEMORY = 1
+DOWNLOAD_FAIL = 2
 
 
 class HomeForm(QWidget, home_ui.Ui_Form):
@@ -30,60 +34,67 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # self.connect(self, SIGNAL("loading_finish()"), self.loading_finish)
         # self.lbl_colors = ['00a1f1', '7cbb00', 'ffbb00']
         # self.load_num = 0
-        #self.loading_dlg=None
+        # self.loading_dlg=None
+        self.pages = ('http://www.ltesting.net/rss.xml', 'http://testerhome.com/topics/feedgood',
+                      'http://zaodula.com/feed')
+        self.nam_finish_num = 0
 
-        if len(the.jira.home) >= 3:
-            time_str = ''
+        if len(the.jira.home) >= len(self.pages):
             for dic in the.jira.home:
+                self.nam_finish_num += 1
                 title = dic['title']
                 result = dic['result']
                 time_str = dic['time']
-                self.load_to_ul(result, title, time_str, False)
-            self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
-
+                self.load_to_ul(result, title, time_str, DOWNLOAD_MEMORY)
         else:
-            self.nam('http://www.ltesting.net/rss.xml', self.on_ltesting_reply)
-            self.emit(SIGNAL("loading_start()"))
+            self.start_load_page()
 
-    def on_ltesting_reply(self, reply):
+    def start_load_page(self):
+        self.nam[0](self.pages[0], self.on_one_reply)
+        # 这个网站加载速度较慢，所以单独来加载
+        self.nam[1](self.pages[2], self.on_three_reply)
+
+    def on_one_reply(self, reply):
+        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        title = u'领测软件测试网'
+        if reply.error() == reply.NoError:
+            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+            # 加载完成后，再次加载下一个页面
+            self.nam[0](self.pages[1], self.on_two_reply)
+        else:
+            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
+
+
+    def on_two_reply(self, reply):
+        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        title = u'TesterHome社区精华帖'
+        if reply.error() == reply.NoError:
+            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+        else:
+            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
+
+
+    def on_three_reply(self, reply):
+        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        title = u'互联网早读课'
         if reply.error() == reply.NoError:
             time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            self.load_to_ul(reply.readAll(), u'领测软件测试网', time_str, True)
-            self.nam('http://testerhome.com/topics/feedgood', self.on_testerhome_reply)
-
-
-    def on_testerhome_reply(self, reply):
-        if reply.error() == reply.NoError:
-            time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            self.load_to_ul(reply.readAll(), u'TesterHome社区精华帖', time_str, True)
-            self.nam('http://zaodula.com/feed', self.on_zaodula_reply)
-
-    def on_zaodula_reply(self, reply):
-        if reply.error() == reply.NoError:
-            time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            self.load_to_ul(reply.readAll(), u'互联网早读课', time_str, True)
-
-            self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
-            self.emit(SIGNAL("loading_finish()"))
+            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+        else:
+            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
 
 
     def refresh_content(self, txt):
-        # self.load_num = 0
+        # 初始化
         self.lbl_status.setText(u"Loading...")
         the.jira.home = []
-        # self.clearLayout(self.hz_layout)
+        self.nam_finish_num = 0
+        # 清除原先加载的Label
         for i in reversed(range(0, self.hz_layout.count())):
             self.hz_layout.itemAt(i).widget().deleteLater()
             self.hz_layout.itemAt(i).widget().setParent(None)
 
-        # self.hz_layout.setContentsMargins(0,0,0,0)
-        # for lbl in self.lbls:
-        # #lbl.setParent(None)
-        # self.hz_layout.removeWidget(lbl)
-        #     self.hz_layout.setContentsMargins(0,0,0,0)
-        #     lbl.deleteLater()
-        #     #lbl = None
-        self.nam('http://www.ltesting.net/rss.xml', self.on_ltesting_reply)
+        self.start_load_page()
 
     def clearLayout(self, layout):
         if layout is not None:
@@ -99,23 +110,32 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         fileBrowser = browser.FileDialog(txt, 2, self.netAccessNoCookie)
         fileBrowser.exec_()
 
-    def load_to_ul(self, content, title, time_str, isDownload):
+    def load_to_ul(self, content, title, time_str, download_status):
         lbl = QLabel()
         lbl.setAlignment(Qt.AlignTop)
         lbl.setStyleSheet("background-color:#ffffff;padding:20px 15px 0 15px;font-family:Microsoft YaHei")
         lbl.setMinimumWidth(350)
         lbl.setMaximumHeight(430)
-        # lbl.setOpenExternalLinks(True)
-        result = content
-        if isDownload:
-            result = self.read_xml_feed(content)
-            self.save_home_data(title, result, time_str)
+        # lbl.setOpenExternalLinks(True)#在浏览器中打开链接
 
-        # bg_color = self.lbl_colors[self.load_num]
-        lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
+        if download_status == DOWNLOAD_SUCCESS:
+            result = self.read_xml_feed(content)
+            lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
+            self.save_home_data(title, result, time_str)
+        elif download_status == DOWNLOAD_MEMORY:
+            lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, content))
+        elif download_status == DOWNLOAD_FAIL:
+            lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, u'<li>加载失败</li>'))
+            self.save_home_data(title, u'<li>加载失败</li>', time_str)
+
         self.hz_layout.addWidget(lbl)
+
+        # Label中的链接点击信号槽
         self.connect(lbl, SIGNAL('linkActivated (const QString&)'), self.open_file_browser)
-        #self.load_num += 1
+        self.nam_finish_num += 1
+        if self.nam_finish_num >= len(self.pages):
+            self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
+            self.emit(SIGNAL("loading_finish()"))
 
     def save_home_data(self, title, result, time_str):
         res_dict = {}
@@ -157,11 +177,11 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         return lis
 
     # def show_loading(self):
-    #     self.loading_dlg = loading.LoadingDialog()
-    #     self.loading_dlg.exec_()
+    # self.loading_dlg = loading.LoadingDialog()
+    # self.loading_dlg.exec_()
     #
     # def loading_finish(self):
-    #     self.loading_dlg.destroy()
+    # self.loading_dlg.destroy()
 
     def netAccessNoCookie(self, api, reply_func):
         m = QtNetwork.QNetworkAccessManager(self)
