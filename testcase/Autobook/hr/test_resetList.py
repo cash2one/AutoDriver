@@ -328,3 +328,7 @@ class TestCase(unittest.TestCase):
 
         # #添加
         # self.driver.find_element_by_id('btn_add').click()
+        #列表
+        lbtx=self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').text
+        self.assertTrue(u'司机列表' in lbtx)
+        self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').click()
