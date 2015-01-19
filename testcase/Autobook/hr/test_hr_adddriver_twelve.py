@@ -30,19 +30,19 @@ class TestCase(unittest.TestCase):
 
     def test__licenseNum_null(self):
         self.test_licenseNum1('')
-        # 本人联系电话为空
+        # 驾驶证号码为空
     def test_licenseNum_long(self):
         self.test_licenseNum1('4305231993020214230')
-        # 本人联系电话输入超长
+        # 驾驶证号码输入超长
     def test_licenseNum_special(self):
         self.test_licenseNum1('@#$$')
-        # 本人联系电话输入特殊字符
+        # 驾驶证号码输入特殊字符
     def test_licenseNum_j(self):
         self.test_licenseNum1(u'43052319930202414k')
-        # 本人联系电话输入大小写字母
+        # 驾驶证号码输入大小写字母
     def test_licenseNum_ture(self):
         self.test_licenseNum1('430523199302024140')
-        # 输入正确的本人联系电话
+        # 输入正确的驾驶证号码
 
 
 
