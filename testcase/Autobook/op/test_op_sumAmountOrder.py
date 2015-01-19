@@ -54,6 +54,11 @@ class TestCase(unittest.TestCase):
         self.assertEqual(sum_fail,int(list_fail))
         self.assertEqual(sum_total,int(list_total))
 
-        successRate=float(list_success)/float(list_total)
-        list_successRate=table.find_elements_by_tag_name('td')[4].text
-        print float( '%.3f' % successRate)
+        success_Rate=float(list_success)/float(list_total)
+        text=table.find_elements_by_tag_name('td')[4].text
+        list_successRate=filter(str.isdigit, str(text))
+        successRate=float( '%.3f' % success_Rate)
+        #保留小数点后三位数字
+        print successRate,list_successRate
+        self.assertTrue(list_successRate in str(successRate))
+        #订单成功率=成功订单数/总订单数
