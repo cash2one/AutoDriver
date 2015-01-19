@@ -1,6 +1,7 @@
 # coding=utf-8
-__author__ = 'guguohai@pathbook.com.cn'
+__author__ = 'guguohai@outlook.com'
 
-import time
-import unittest
+from framework.core import unit
 from framework.core import testcase
+
+#__all__ = ['unit','testcase']

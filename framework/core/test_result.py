@@ -56,6 +56,10 @@ class NewTestResult(unittest.TestResult):
         # startDT = datetime.datetime.now()
         # data1 = [(_testcase,_count,self.currentSuccess,self.currentFail,self.currentError,_update_time,_detail)]
         # 自动化脚本里没有task，默认id为1
+        value = str(test)
+        s = value.find('(')
+        e = value.find('.')
+
         ExecuteResult = STATUS[self.currentStatus]
         Executor = self.test_user
         Owner = ''
@@ -63,7 +67,7 @@ class NewTestResult(unittest.TestResult):
         IsEnable = 1
         LogFile = ''
         ExecuteDT = datetime.datetime.now()
-        ProductName = ''
+        ProductName = value[s+1:e+1] + value[0:s]
         ProductTypeName = ''
         TestCase_Id = 1
         Task_Id = 1
@@ -74,9 +78,8 @@ class NewTestResult(unittest.TestResult):
         sql = "INSERT INTO Result values (NULL,?,?,?,?,?,?,?,?,?,?,?)"
         if self.dbm != None:
             self.dbm.insert_value(sql, data)
-        if self.ui!=None:
-            self.ui.emit(QtCore.SIGNAL("finish_case"),data)
-
+        if self.ui != None:
+            self.ui.emit(QtCore.SIGNAL("finish_case"), data)
 
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)
@@ -116,7 +119,7 @@ class NewTestResult(unittest.TestResult):
         elif self.error_str.strip() != '':
             result_desc = self.error_str
 
-        # print result_desc
+        print result_desc
 
         for ex in self.excepts:
             if ex in result_desc:
@@ -142,9 +145,9 @@ def getExcepts():
 
     # for strr in attstr:
     # att = str(getattr(m, strr))
-    #     #print att
-    #     pattern = re.compile(r'(?<=exceptions.).*Error')
-    #     match = pattern.search(att)
+    # #print att
+    # pattern = re.compile(r'(?<=exceptions.).*Error')
+    # match = pattern.search(att)
     #     if match:
     #         excepts.append(match.group())
     # return excepts

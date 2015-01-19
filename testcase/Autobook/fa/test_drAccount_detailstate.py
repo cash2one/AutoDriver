@@ -43,7 +43,7 @@ class TestCase(unittest.TestCase):
         #定位当前列表
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs2)-1):
+        for i in range(1,len(trs2)):
             tds_pledgeOut = trs2[i].find_elements_by_tag_name('td')[5]
             tds_prepay = trs2[i].find_elements_by_tag_name('td')[8]
             tds_orderOut = trs2[i].find_elements_by_tag_name('td')[10]
@@ -81,7 +81,7 @@ class TestCase(unittest.TestCase):
         #定位当前列表
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
+        for i in range(1,len(trs3)):
             tds_pledgeIn = trs3[i].find_elements_by_tag_name('td')[4]
             tds_prepayIn = trs3[i].find_elements_by_tag_name('td')[7]
 

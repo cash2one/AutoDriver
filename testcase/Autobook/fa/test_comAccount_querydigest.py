@@ -39,7 +39,7 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs2)-1):
+        for i in range(1,len(trs2)):
             tds2 = trs2[i].find_elements_by_tag_name('td')[3]
             digest_text = tds2.get_attribute('title')
             self.assertTrue(u'预付款充值' in digest_text,'msg')
@@ -54,7 +54,7 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
+        for i in range(1,len(trs3)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[3]
             digest_text3 = tds3.get_attribute('title')
             self.assertTrue(u'退' in digest_text3,'msg')

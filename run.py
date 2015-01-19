@@ -43,8 +43,15 @@ def start():
 
 
 def startReport():
-    pass
-
+    '''
+    测试完成，生成静态html报告
+    :return:
+    '''
+    import webbrowser
+    from framework.core import report
+    rp = report.Report(data.getDatabasePath(root_dir),25)
+    rp.start()
+    webbrowser.open(PATH('./report/index.html'))
 
 def sendMail(mail_to):
     '''
@@ -110,9 +117,17 @@ def main():
 
 if __name__ == "__main__":
     #main()
-    from framework.util import strs
-    f=0.00
-    print strs.to_int(str(f))
+    from framework.util import http
+
+    ja=http.TestJIRA()
+    ja.login()
+    time.sleep(5)
+
+    ja.get_user()
+
+    time.sleep(2)
+
+    ja.post_data()
 
     # dr = device.RunAppium(4725)
     # dr.start()
