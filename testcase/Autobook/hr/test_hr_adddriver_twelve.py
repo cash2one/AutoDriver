@@ -20,4 +20,33 @@ class TestCase(unittest.TestCase):
         self.driver.login()
 
 
+    def test_detailVo_licenseNum(self):
+        self.driver.find_element_by_id('btn_add').click()
+        test_licenseNum_tx=self.driver.find_element_by_id('detailVo_licenseNum_tip').text
+        self.assertTrue(u'驾驶证号码不能为空.'in test_licenseNum_tx)
+
+    def  test_licenseNum1(self,detailVo_licenseNum):
+        self.driver.find_element_by_id('detailVo_licenseNum').send_keys(detailVo_licenseNum)
+
+    def test__licenseNum_null(self):
+        self.test_licenseNum1('')
+        # 本人联系电话为空
+    def test_licenseNum_long(self):
+        self.test_licenseNum1('4305231993020214230')
+        # 本人联系电话输入超长
+    def test_licenseNum_special(self):
+        self.test_licenseNum1('@#$$')
+        # 本人联系电话输入特殊字符
+    def test_licenseNum_j(self):
+        self.test_licenseNum1(u'43052319930202414k')
+        # 本人联系电话输入大小写字母
+    def test_licenseNum_ture(self):
+        self.test_licenseNum1('430523199302024140')
+        # 输入正确的本人联系电话
+
+
+
+
+
+
 
