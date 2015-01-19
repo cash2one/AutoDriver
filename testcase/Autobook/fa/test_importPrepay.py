@@ -66,7 +66,7 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于司机明细列表中
         table1 = self.driver.find_element_by_id('list')
         trs1 = table1.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs1)-1):
+        for i in range(1,len(trs1)):
             tds1 = trs1[i].find_elements_by_tag_name('td')[1]
             if  tds1.get_attribute('title') == tradeNo_text:
                 print 'Ture',tds1.get_attribute('title')
@@ -87,7 +87,7 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于公司预付款账户明细列表中
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs1)-1):
+        for i in range(1,len(trs1)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[1]
             if  tds3.get_attribute('title') == tradeNo_text:
                 print 'Ture',tds3.get_attribute('title')

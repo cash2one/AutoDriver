@@ -1,23 +1,17 @@
-# -*- coding: utf-8 -*-
+# coding=utf-8
+__author__ = 'guguohai@outlook.com'
 
 import sys
-
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
-
 from framework.gui.views import main_ui
-import home
-import dialog
-import jiras
-import testcase
-import task
-import login
-import api_test
 from framework.gui.dialog import monitor, new_issue
 from framework.core import the
+import home, jiras, testcase, task, login, api_test
 
 ja = the.jira
+
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -26,12 +20,10 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         ja.cookie = QtNetwork.QNetworkCookieJar(self)
 
-        self.setFont(QFont("Microsoft YaHei", 9))
+        self.setFont(QFont("Microsoft YaHei", 10))
         self.showMaximized()
         self.statusBar().showMessage(self.tr("Parsing eventlog data..."))
 
-        self.frm_home = None
-        self.frm_jira = None
         self.dlg_login = None
         self.dlg_select_task = None
         self.dlg_new_task = None
@@ -61,17 +53,6 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
 
         self.load_index()
 
-    # self.make_thumbnail()
-    #
-    # def make_thumbnail(self):
-    # PATH = lambda p: os.path.abspath(
-    # os.path.join(os.path.dirname(__file__), p)
-    # )
-    #
-    #     if not os.path.exists(PATH('../../thumbnail/')):
-    #         os.mkdir(PATH('../../thumbnail/'))
-
-
     def save_task(self, arg):
         self.task_data += arg
         print self.task_data
@@ -95,14 +76,14 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.trayIcon.setContextMenu(self.trayIconMenu)
 
     def load_index(self):
-        self.frm_home = home.HomeForm(self.netAccessNoCookie)
-        self.frm_home.connect(self.frm_home, SIGNAL("notLogin"), self.login_dialog)
-        self.setCentralWidget(self.frm_home)
+        na = [self.netAccessNoCookie, self.netAccessNoCookie]
+        frm_home = home.HomeForm(na)
+        frm_home.connect(frm_home, SIGNAL("notLogin"), self.login_dialog)
+        self.setCentralWidget(frm_home)
 
 
     def load_testcase(self):
         self.frm_testcase = testcase.TestCaseForm()
-        # self.frm_testcase.connect(self.frm_testcase, SIGNAL("notLogin"), self.login_dialog)
         self.setCentralWidget(self.frm_testcase)
 
 
@@ -111,10 +92,12 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.frm_task.connect(self.frm_task, SIGNAL("notLogin"), self.login_dialog)
         self.setCentralWidget(self.frm_task)
 
+
     def outSelect(self, Item=None):
         if Item == None:
             return
         print(unicode(Item))
+
 
     def trayClick(self, reason):
         if reason == QSystemTrayIcon.DoubleClick:
@@ -129,28 +112,23 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
 
-    def netAccessNoCookie(self, api, reply_func):
+    def netAccessNoCookie(self, url, reply_func):
         m = QtNetwork.QNetworkAccessManager(self)
-        #m1.setCookieJar(ja.cookie)
+        # m1.setCookieJar(ja.cookie)
         m.finished.connect(reply_func)
-        req = QtNetwork.QNetworkRequest(QUrl(api))
-        #req.setRawHeader("Host", "www.nuihq.com")
-        req.setRawHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
+        req = QtNetwork.QNetworkRequest(QUrl(url))
+        # req.setRawHeader("Host", "www.nuihq.com")
+        req.setRawHeader("User-Agent",
+                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
         req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
         # req.setRawHeader("Accept-Language", "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
         # req.setRawHeader("Accept-Encoding", "deflate")
         # req.setRawHeader("Accept-Charset", "utf-8;q=0.7,*;q=0.7")
         # req.setRawHeader("Connection", "keep-alive")
         # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
-
         m.get(req)
 
     def load_jira_main(self):
-        # if the.JIRA == None:
-        # self.msgHandler()
-        # return
-
-        # if ja.isActive:
         if ja.isActive:
             self.frm_jira = jiras.JIRAForm(self.netAccess)
             self.setCentralWidget(self.frm_jira)
@@ -168,9 +146,6 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             pass
 
     def login_dialog(self):
-        # if the.JIRA != None:
-        # if ja.isActive:
-        # return
         if ja.isActive:
             return
 
@@ -190,16 +165,10 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
             print unicode(issueDlg.label.text())
         else:
             pass
-            #issueDlg.label.addAction()
 
     def show_interface(self):
         interfaceDlg = api_test.InterfaceForm()
         self.setCentralWidget(interfaceDlg)
-
-
-    def show_msg(self, txt):
-        msg = dialog.MsgDialog(txt)
-        msg.exec_()
 
 
 if __name__ == "__main__":

@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
 
     def test_sourceOrder(self):
         '''
-        按时段统计订单，选择时间范围及订单来源及订单类型
+        按时段统计订单，查看订单来源及订单类型下拉框
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
 
-        opts=self.driver.find_id('orderType_amount').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('orderType_time').find_elements_by_tag_name('option')
         self.assertTrue(opts[0].text==u'全部')
         #订单类型默认显示全部
         tuple=(u'全部',u'指定下单',u'周边下单')

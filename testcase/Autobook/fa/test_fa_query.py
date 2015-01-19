@@ -42,7 +42,7 @@ class TestCase(unittest.TestCase):
         time.sleep(3)
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs2)-1):
+        for i in range(1,len(trs2)):
             tds2 = trs2[i].find_elements_by_tag_name('td')[3]
             if  tds2.get_attribute('title') == u'预付款充值':
                 print 'Ture'
@@ -58,7 +58,7 @@ class TestCase(unittest.TestCase):
         time.sleep(2)
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
+        for i in range(1,len(trs3)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[6]
             if  tds3.get_attribute('title') == u'页面导入':
                 print 'Ture'
@@ -76,7 +76,7 @@ class TestCase(unittest.TestCase):
         time.sleep(3)
         table4 = self.driver.find_element_by_id('list')
         trs4 = table4.find_elements_by_tag_name('tr')
-        for i in range(0,len(trs4)-1):
+        for i in range(0,len(trs4)):
             tds4 = trs4[i].find_elements_by_tag_name('td')[4]
             if  tds4.get_attribute('title') == u'司马小二啊哈(140017)':
                 print 'Ture'

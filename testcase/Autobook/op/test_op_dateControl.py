@@ -47,8 +47,6 @@ class TestCase(unittest.TestCase):
         self.driver.switch_to_alert().accept()
         print(text)
 
-
-
     def test_dateControl1(self):
         '''
         结束时间小于开始时间，系统给出错误提示
@@ -62,16 +60,21 @@ class TestCase(unittest.TestCase):
 
         js = '$(\'input[id=startTime_amount]\').removeAttr(\'readonly\')'
         self.driver.execute_script(js)
+        self.driver.find_element_by_id('startTime_amount').clear()
+        self.driver.find_element_by_id('startTime_amount').send_keys('2014-11-06')
+        #选择开始时间
+        js = '$(\'input[id=endTime_amount]\').removeAttr(\'readonly\')'
+        self.driver.execute_script(js)
+        self.driver.find_element_by_id('endTime_amount').clear()
+        self.driver.find_element_by_id('endTime_amount').send_keys('2015-01-01')
+        self.driver.find_id('statistics_amount').click()
+        #选择结束时间
+        time.sleep(3)
+        text=self.driver.switch_to_alert().text
+        self.assertEqual(text,u'按天统计，只统计30天内的数据，请重新选择！')
+        self.driver.switch_to_alert().accept()
+        print(text)
 
-        startTime=self.driver.find_element_by_id('startTime_amount').text
-        startTime1=filter(str.isdigit,str(startTime))
-        endTime=self.driver.find_element_by_id('endTime_amount').text
-        # year=datetime.date.today().year
-        # month=datetime.date.today().month
-        #
-        # s=datetime.date(year,month,01)
 
-        print startTime1
-        #self.assertEqual(s,str(startTime))
 
 

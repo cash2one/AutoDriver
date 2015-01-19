@@ -34,7 +34,7 @@ class TestCase(unittest.TestCase):
         amount_text = self.driver.find_element_by_id('pay_confirm_amount').get_attribute('title')
 
         print driver_text,amount_text
-        self.assertTrue(u'宁芳芳(140202)' in driver_text,'msg')
+        self.assertTrue('140202' in driver_text,'msg')
         self.assertTrue(u'9,999,999.00(玖佰玖拾玖万玖仟玖佰玖拾玖元整)' in amount_text,'msg')
         self.driver.find_element_by_id('btn_pay_confirm').click()#点击确定，跳转至打印凭证界面
         time.sleep(3)
@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于列表中
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs)-1):
+        for i in range(1,len(trs)):
             tds = trs[i].find_elements_by_tag_name('td')[2]
             if  tds.get_attribute('title') == tradeNo_text:
                 print 'Ture',tds.get_attribute('title')
