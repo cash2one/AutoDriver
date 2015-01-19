@@ -36,7 +36,7 @@ class TestCase(unittest.TestCase):
         #定位当前列表
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs2)-1):
+        for i in range(1,len(trs2)):
             tds2 = trs2[i].find_elements_by_tag_name('td')[5]
             balanceOut_text = tds2.get_attribute('title')
             print balanceOut_text,len(trs2),'222'
@@ -52,7 +52,7 @@ class TestCase(unittest.TestCase):
         #定位当前列表
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
+        for i in range(1,len(trs3)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[4]
             balanceIn_text = tds3.get_attribute('title')
             print balanceIn_text,len(trs3)

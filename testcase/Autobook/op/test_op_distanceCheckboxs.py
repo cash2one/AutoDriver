@@ -21,7 +21,7 @@ class TestCase(unittest.TestCase):
 
     def test_sourceOrder(self):
         '''
-        按时段统计订单，查看订单来源及订单类型下拉框
+        按里程数统计订单，查看下拉框选项
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
@@ -30,8 +30,8 @@ class TestCase(unittest.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
 
-        self.driver.find_id('li_time').click()
-        opts=self.driver.find_id('orderSource_time').find_elements_by_tag_name('option')
+        self.driver.find_id('li_dis').click()
+        opts=self.driver.find_id('orderSource_dis').find_elements_by_tag_name('option')
         self.assertTrue(opts[0].text==u'全部')
         #订单来源默认显示全部
         tuple=(u'全部',u'平台下单',u'客户下单',u'微信下单')
@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
 
-        opts=self.driver.find_id('orderType_time').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('orderType_dis').find_elements_by_tag_name('option')
         self.assertTrue(opts[0].text==u'全部')
         #订单类型默认显示全部
         tuple=(u'全部',u'指定下单',u'周边下单')

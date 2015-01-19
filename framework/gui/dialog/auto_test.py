@@ -15,9 +15,10 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+DB_PATH='../../../result/' #存储测试结果数据的目录
 
 class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
-    def __init__(self, scripts):
+    def __init__(self, task_data):
         QDialog.__init__(self)
 
         self.setupUi(self)
@@ -31,19 +32,21 @@ class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
         self.result_data = ()
         self.taskModel = None
 
-        print scripts
-        self.start_task(scripts)
+        print task_data
+        self.start_task(task_data)
 
-    def start_task(self, scripts):
-        time_str = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-        report_db = 'report' + time_str + '.db'
-        db_path = PATH('../../../%s' % report_db)
+    def start_task(self, task_data):
+        db_folder = PATH(DB_PATH)
+        if not os.path.exists(db_folder):
+            os.mkdir(db_folder)
+
+        db_path = os.path.join(db_folder,task_data['result'])
 
         gdata = data.generateData(PATH('../../../resource/xls/'), db_path)
         gdata.close()
 
         task_list = []
-        for c in scripts:
+        for c in task_data['task']:
             t = ta.Task(c)
             task_list.append(t)
 
