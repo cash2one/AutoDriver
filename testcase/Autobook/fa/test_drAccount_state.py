@@ -29,7 +29,7 @@ class TestCase(unittest.TestCase):
         #取出当前列表账户状态文本，正常为真
         table1 = self.driver.find_element_by_id('list')
         trs1 = table1.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs1)-1):
+        for i in range(1,len(trs1)):
             tds1 = trs1[i].find_elements_by_tag_name('td')[9]
             state1_text = tds1.get_attribute('title')
             self.assertTrue(u'正常' in state1_text,'msg')
@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
         #取出当前列表账户状态文本，已冻结为真
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
+        for i in range(1,len(trs3)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[9]
             state2_text = tds3.get_attribute('title')
             self.assertTrue(u'已冻结' in state2_text,'msg')
