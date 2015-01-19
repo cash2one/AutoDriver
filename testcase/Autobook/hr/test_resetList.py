@@ -261,8 +261,6 @@ class TestCase(unittest.TestCase):
         for opt in provincetx:
             if opt.get_attribute('value')=='1':
                  print u'重置成功....'
-            else:
-                print '失败'
         #判断体重
         weighttx=self.driver.find_element_by_id('detailVo_weight').text
         self.assertTrue(weighttx=='')
@@ -328,9 +326,5 @@ class TestCase(unittest.TestCase):
         Experiencetx=self.driver.find_element_by_id('detailVo_drivingExperience').text
         self.assertTrue(Experiencetx=='')
 
-
-
         # #添加
         # self.driver.find_element_by_id('btn_add').click()
-        # #列表
-        # self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').click()
