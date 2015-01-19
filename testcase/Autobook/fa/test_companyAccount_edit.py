@@ -52,5 +52,28 @@ class TestCase(unittest.TestCase):
 
         time.sleep(2)
 
+        self.driver.find_element_by_link_text('账户管理').click()
+        time.sleep(1)
+        self.driver.find_element_by_link_text('公司账户').click()
+        time.sleep(2)
+        table3 = self.driver.find_element_by_id('list')
+        trs3 = table3.find_elements_by_tag_name('tr')
+        trs3[1].find_element_by_id('edit').click()#点击第一行修改
+        time.sleep(2)
+
+        #修改账户名称、银行账号
+        self.driver.find_element_by_id('companyAccount_name_edit').clear()
+        self.driver.find_element_by_id('companyAccount_name_edit').send_keys(u'预付款账户')
+
+        self.driver.find_element_by_id('companyAccount_bankAccount_edit').clear()
+        self.driver.find_element_by_id('companyAccount_bankAccount_edit').send_keys('6545622123123123')
+
+        #点击确定
+        self.driver.find_element_by_id('sure_edit_btn').click()
+        time.sleep(2)
+
+
+
+
 if __name__ =='__main__':
     unittest.main()

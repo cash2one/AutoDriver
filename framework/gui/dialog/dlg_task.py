@@ -4,14 +4,20 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.util import const
 from framework.gui.views import dlg_task_ui
+from framework.gui.models import script_model
 from framework.gui.dialog import check_user, script_list
+
+GUI_TASK_TYPE = (u'自动化', u'车机测试', u'App', u'Web平台', u'接口', u'性能测试')
+GUI_TASK_PRIORITY = (u'普通', u'中级', u'高级')
+GUI_TASK_STATE = (u'未开始', u'已开始', u'已取消', u'已结束')
 
 
 class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
     def __init__(self, data=None):
         QDialog.__init__(self)
 
-        self.data = data
+        self.data_row = data['row']
+        self.data_task = data['task']
 
         self.setupUi(self)
         self.setFont(QFont("Microsoft YaHei", 9))
@@ -31,49 +37,66 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
 
         # u'编号', u'任务名称', u'任务类型', u'任务状态', u'优先级', u'执行人', u'创建人', u'创建时间', u'更新时间', u'执行时间', u'结束时间'
 
-        for t in const.GUI_TASK_TYPE:
+        if len(self.data_task) > 0:
+            print self.data_task
+            print len(self.data_task)
+            # self.tw_task.addTab(u'任务详情')
+            #self.tab_detail.show()
+            #self.tw_task.addTab(Q)
+            tv_detail, tab_detail_layout = self.add_tab(u'任务详情')
+            tv_detail = QTableView()
+            tv_detail.setFrameShape(QFrame.NoFrame)
+            print self.data_task[0]['cases']
+            t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
+            tv_detail.setModel(t_model)
+            tv_detail.setColumnWidth(0, 250)
+            tv_detail.horizontalHeader().setStretchLastSection(True)
+
+            tab_detail_layout.addWidget(tv_detail)
+
+        for t in GUI_TASK_TYPE:
             self.cmb_TaskType.addItem(t)
 
-        for p in const.GUI_TASK_PRIORITY:
+        for p in GUI_TASK_PRIORITY:
             self.cmb_TaskPriority.addItem(p)
 
-        for ts in const.GUI_TASK_STATE:
+        for ts in GUI_TASK_STATE:
             self.cmb_TaskState.addItem(ts)
 
-        if self.data != None:
-            self.setWindowTitle(u'任务编号：' + self.data[0])
+        if self.data_row != None:
+            self.setWindowTitle(u'任务编号：' + self.data_row[0])
             # print self.cmb_TaskType.currentText()
-            self.txt_TaskName.setText(self.data[1])
+            self.txt_TaskName.setText(self.data_row[1])
 
-            type_idx = self.cmb_TaskType.findText(self.data[2])
+            type_idx = self.cmb_TaskType.findText(self.data_row[2])
             self.cmb_TaskType.setCurrentIndex(type_idx)
 
-            if self.data[2] == u'自动化':
+            if self.data_row[2] == u'自动化':
                 self.btn_auto.show()
             else:
                 self.btn_auto.hide()
 
-            s_idx = self.cmb_TaskState.findText(self.data[3])
+            s_idx = self.cmb_TaskState.findText(self.data_row[3])
             self.cmb_TaskState.setCurrentIndex(s_idx)
 
-            p_idx = self.cmb_TaskPriority.findText(self.data[4])
+            p_idx = self.cmb_TaskPriority.findText(self.data_row[4])
             self.cmb_TaskPriority.setCurrentIndex(p_idx)
 
-            self.txt_executor.setText(self.data[5])
-            self.lbl_creator.setText(self.data[6])
-            self.lbl_createtime.setText(self.data[7])
+            self.txt_executor.setText(self.data_row[5])
+            self.lbl_creator.setText(self.data_row[6])
+            self.lbl_createtime.setText(self.data_row[7])
 
-            strBuffer = self.data[10]
+            strBuffer = self.data_row[10]
             qtime = QDateTime.fromString(strBuffer, "yyyy-MM-dd hh:mm:ss")
             self.dt_endtime.setDateTime(qtime)  # (QDateTime.currentDateTime())
-            self.txt_desc.setPlainText(self.data[11])  # setPlainText
+            self.txt_desc.setPlainText(self.data_row[11])  # setPlainText
 
-            if QString(self.data[9]).isEmpty():
+            if QString(self.data_row[9]).isEmpty():
                 self.lbl_exectime_title.setText('')
                 self.lbl_exectime.setText('')
             else:
                 self.lbl_exectime_title.setText(u'执行时间')
-                self.lbl_exectime.setText(self.data[9])
+                self.lbl_exectime.setText(self.data_row[9])
         else:
             self.setWindowTitle(u'新建任务')
 
@@ -96,6 +119,18 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
     def confirm(self):
         self.reject()  # 关闭窗口
 
+    def add_tab(self,tab_name):
+        tab_detail = QWidget()
+        #self.tab_detail.setObjectName(_fromUtf8("tab_detail"))
+        tab_detail_layout = QVBoxLayout(tab_detail)
+        tab_detail_layout.setSpacing(0)
+        tab_detail_layout.setMargin(0)
+        #self.tab_detail_layout.setObjectName(_fromUtf8("tab_detail_layout"))
+        #self.tw_task.setTabText(self.tw_task.indexOf(tab_detail),u'任务详情')
+        self.tw_task.addTab(tab_detail,tab_name)
+        return tab_detail,tab_detail_layout
+
+
     def select_tasks(self):
         t = script_list.ScriptsDialog()
         t.exec_()
@@ -111,7 +146,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
             print self.selectUser.getUser()
             # self.model.appendRow((
             # QStandardItem(self.selectUser.name()),
-            #     QStandardItem(str(self.selectUser.age())),
+            # QStandardItem(str(self.selectUser.age())),
             # ))
 
         self.selectUser.destroy()
@@ -119,7 +154,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
 
         # class SelectScriptsDialog(QDialog, autos_ui.Ui_Form):
         # def __init__(self):
-        #         QDialog.__init__(self)
+        # QDialog.__init__(self)
         #
         #         # self.ui = select_task.Ui_Form()
         #         # self.ui.setupUi(self)

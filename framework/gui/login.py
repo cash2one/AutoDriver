@@ -13,6 +13,7 @@ from framework.core import the
 
 ja = the.jira
 
+
 class LoginDialog(QDialog, login_ui.Ui_Form):
     def __init__(self):
         super(LoginDialog, self).__init__()
@@ -115,6 +116,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
             try:
                 dicts = json.loads(con)
                 ja.userName = dicts['name']
+                ja.displayName = dicts['displayName']
                 ja.isActive = True
                 self.emit(SIGNAL("loginFinish"), ja.userName)
 
@@ -142,7 +144,7 @@ class LoginDialog(QDialog, login_ui.Ui_Form):
 # self.isStartLogin = False
 # self.ui = ui
 # self.timeout = 15
-#         self.u_name = u_name
+# self.u_name = u_name
 #         self.u_pwd = u_pwd
 #
 #     def run(self):

@@ -43,7 +43,11 @@ class TestCase(unittest.TestCase):
         #显示结果分析图
         text2=self.driver.find_element_by_class_name('highcharts-title').text
         self.assertTrue(text1,text2)
-        success2=self.driver.find_element_by_xpath('//*[@id="highcharts-0"]/svg/text[1]/tspan[1]').text
-        lose2=self.driver.find_element_by_xpath('//*[@id="highcharts-0"]/svg/text[1]/tspan[2]').text
-        print lose2,success2
+        success2=self.driver.find_element_by_css_selector('#highcharts-0 > svg > text:nth-child(4) > tspan:nth-child(1)').text
+        lose2=self.driver.find_element_by_css_selector('#highcharts-0 > svg > text:nth-child(4) > tspan:nth-child(2)').text
+
+        self.assertTrue(success1 in success2)
+        self.assertTrue(lose1 in lose2)
         self.driver.find_element_by_link_text(u'关闭').click()
+        self.driver.find_element_by_link_text(u'返回').click()
+        self.assertEqual(self.driver.title,u'订单统计')
