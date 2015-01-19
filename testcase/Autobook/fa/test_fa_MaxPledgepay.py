@@ -53,7 +53,7 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于列表中
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs)-1):
+        for i in range(1,len(trs)):
             tds = trs[i].find_elements_by_tag_name('td')[2]
             if  tds.get_attribute('title') == tradeNo_text:
                 print 'ture',tds.get_attribute('title')

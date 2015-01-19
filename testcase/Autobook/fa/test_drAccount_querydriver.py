@@ -33,7 +33,7 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table1 = self.driver.find_element_by_id('list')
         trs1 = table1.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs1)-1):
+        for i in range(1,len(trs1)):
             tds1 = trs1[i].find_elements_by_tag_name('td')[1]
             driverNo_text = tds1.get_attribute('title')
             self.assertTrue('140017' in driverNo_text,'msg')
@@ -49,7 +49,7 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs2)-1):
+        for i in range(1,len(trs2)):
             tds2 = trs2[i].find_elements_by_tag_name('td')[2]
             driverName = tds2.get_attribute('title')
             self.assertTrue(u'徐三妹' in driverName,'msg')
@@ -64,10 +64,10 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
-            tds3 = trs3[i].find_elements_by_tag_name('td')[3]
+        for i in range(1,len(trs3)):
+            tds3 = trs3[i].find_elements_by_tag_name('td')[4]
             driverPhone = tds3.get_attribute('title')
-            self.assertTrue(u'徐三妹' in driverPhone,'msg')
+            self.assertTrue('18701796807' in driverPhone,'msg')
         time.sleep(2)
 
         #4.模糊查询
@@ -79,7 +79,7 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table4 = self.driver.find_element_by_id('list')
         trs4 = table4.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs4)-1):
+        for i in range(1,len(trs4)):
             tds4 = trs4[i].find_elements_by_tag_name('td')[2]
             driverName1 = tds4.get_attribute('title')
             self.assertTrue(u'张' in driverName1,'msg')
