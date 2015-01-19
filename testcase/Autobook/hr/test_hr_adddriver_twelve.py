@@ -42,7 +42,7 @@ class TestCase(unittest.TestCase):
         # 驾驶证号码输入大小写字母
     def test_licenseNum_ture(self):
         self.test_licenseNum1('430523199302024140')
-        # 输入正确的驾驶证号码
+        # 输入正确的驾驶证号码.
 
 
 
