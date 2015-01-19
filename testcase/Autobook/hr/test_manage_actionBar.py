@@ -1,26 +1,17 @@
 # coding=utf-8
 __author__ = 'gaoxu@pathbook.com.cn'
 
-
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
+class TestCase(unit.TestCase):
 
-class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver =testcase.app(__file__)
-        # 浏览器最大化
-        self.driver.maximize_window()
-        #登录平台
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):
-        # 返回首页
-        # self.driver.switch_to_home()
-        time.sleep(5)
-        #关闭浏览器
-        # self.driver.close()
+        self.driver.switch_to_home()
 
     def test_state(self):
         # 司机管理

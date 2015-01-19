@@ -4,15 +4,12 @@ __author__ = 'wangsahnshan@126.com'
 #用户登录，联系电话为空（若不为空，删除电话号码）
 
 import time
+from drivers import *
 
-import unittest
-from framework.core import testcase
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
-
 
     def tearDown(self):
         #返回首页

@@ -2,13 +2,13 @@
 
 __author__ = 'wangsahnshan@126.com'
 # 用户登录，验证码输入错误
-import time
-import unittest
-from framework.core import testcase
 
-class TestCase(unittest.TestCase):
+import time
+from drivers import *
+
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         #self.driver.login()
 
     def tearDown(self):

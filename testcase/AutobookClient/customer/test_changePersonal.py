@@ -3,13 +3,11 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 #用户登录,选择性别，判断紧急电话是否为空，若不为空输入紧急联系电话
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):

@@ -2,15 +2,11 @@
 __author__ = 'guanghua_2011@126.com'
 
 import time
-import unittest
-from framework.core import testcase
-from appium.webdriver.common.touch_action import TouchAction
-from selenium.common.exceptions import NoSuchElementException
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):
@@ -27,7 +23,7 @@ class TestCase(unittest.TestCase):
         nearbyrivers = []
         try:
             nearbyrivers = self.driver.find_ids('nearbyriver')
-        except NoSuchElementException:
+        except self.driver.NoSuchElementException:
             pass
 
         self.assertTrue(len(nearbyrivers) > 0, u'附近没有司机')
