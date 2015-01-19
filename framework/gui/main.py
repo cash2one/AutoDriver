@@ -57,6 +57,15 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.task_data += arg
         print self.task_data
 
+    def add_widget(self, form):
+        # frm_testcase = testcase.TestCaseForm()
+        wid = QWidget()
+        vlayout = QVBoxLayout(wid)
+        vlayout.setSpacing(0)
+        vlayout.setMargin(0)
+        vlayout.addWidget(form)
+        self.setCentralWidget(wid)
+
     def update_user(self, arg):
         self.toolbar_jira.setText(arg.capitalize())
 
@@ -76,21 +85,25 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.trayIcon.setContextMenu(self.trayIconMenu)
 
     def load_index(self):
-        na = [self.netAccessNoCookie, self.netAccessNoCookie]
-        frm_home = home.HomeForm(na)
-        frm_home.connect(frm_home, SIGNAL("notLogin"), self.login_dialog)
-        self.setCentralWidget(frm_home)
+        # na = [self.netAccessNoCookie, self.netAccessNoCookie]
+        frm_home = home.HomeForm()
+        # frm_home.connect(frm_home, SIGNAL("notLogin"), self.login_dialog)
+        #self.setCentralWidget(self.frm_home)
+        self.add_widget(frm_home)
 
 
     def load_testcase(self):
-        self.frm_testcase = testcase.TestCaseForm()
-        self.setCentralWidget(self.frm_testcase)
+        # self.frm_testcase = testcase.TestCaseForm()
+        # self.setCentralWidget(self.frm_testcase)
+        frm_testcase = testcase.TestCaseForm()
+        #self.setCentralWidget(self.frm_testcase)
+        self.add_widget(frm_testcase)
 
 
     def load_task(self):
-        self.frm_task = task.TaskForm()
-        self.frm_task.connect(self.frm_task, SIGNAL("notLogin"), self.login_dialog)
-        self.setCentralWidget(self.frm_task)
+        frm_task = task.TaskForm()
+        frm_task.connect(frm_task, SIGNAL("notLogin"), self.login_dialog)
+        self.setCentralWidget(frm_task)
 
 
     def outSelect(self, Item=None):
@@ -112,26 +125,26 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)
 
-    def netAccessNoCookie(self, url, reply_func):
-        m = QtNetwork.QNetworkAccessManager(self)
-        # m1.setCookieJar(ja.cookie)
-        m.finished.connect(reply_func)
-        req = QtNetwork.QNetworkRequest(QUrl(url))
-        # req.setRawHeader("Host", "www.nuihq.com")
-        req.setRawHeader("User-Agent",
-                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
-        req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-        # req.setRawHeader("Accept-Language", "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
-        # req.setRawHeader("Accept-Encoding", "deflate")
-        # req.setRawHeader("Accept-Charset", "utf-8;q=0.7,*;q=0.7")
-        # req.setRawHeader("Connection", "keep-alive")
-        # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
-        m.get(req)
+    # def netAccessNoCookie(self, url, reply_func):
+    # m = QtNetwork.QNetworkAccessManager(self)
+    # # m1.setCookieJar(ja.cookie)
+    #     m.finished.connect(reply_func)
+    #     req = QtNetwork.QNetworkRequest(QUrl(url))
+    #     # req.setRawHeader("Host", "www.nuihq.com")
+    #     req.setRawHeader("User-Agent",
+    #                      "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
+    #     req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+    #     # req.setRawHeader("Accept-Language", "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
+    #     # req.setRawHeader("Accept-Encoding", "deflate")
+    #     # req.setRawHeader("Accept-Charset", "utf-8;q=0.7,*;q=0.7")
+    #     # req.setRawHeader("Connection", "keep-alive")
+    #     # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
+    #     m.get(req)
 
     def load_jira_main(self):
         if ja.isActive:
-            self.frm_jira = jiras.JIRAForm(self.netAccess)
-            self.setCentralWidget(self.frm_jira)
+            frm_jira = jiras.JIRAForm(self.netAccess)
+            self.setCentralWidget(frm_jira)
         else:
             self.msgHandler()
 
