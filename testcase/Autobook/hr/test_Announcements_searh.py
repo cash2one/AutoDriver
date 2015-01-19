@@ -1,15 +1,15 @@
-__author__ = 'gaoxu@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'gaoxu@pathbook.com.cn'
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver =testcase.app(__file__)
         #浏览器最大化
         self.driver.maximize_window()
         #登录平台

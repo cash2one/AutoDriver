@@ -3,13 +3,13 @@ __author__ = 'gaoxu@pathbook.com.cn'
 
 import time
 import unittest
-from framework.core import idriver_web
+from framework.core import testcase
 
 
 class TestCase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver =testcase.app(__file__)
         #浏览器最大化
         self.driver.maximize_window()
         #登录平台
@@ -25,10 +25,15 @@ class TestCase(unittest.TestCase):
 
     def test_setting_reset(self):
        #点击系统公告
-       self.driver.find_id('sysNotice').click()
-       nametx= self.driver.find_id('name').text
-       print nametx
+       self.driver.find_element_by_id('sysNotice').click()
+       nametx=self.driver.find_element_by_id('sysNotice').text
+       self.assertTrue(u'系统公告' in nametx)
        #点击未读
-       self.driver.find_id('unread').click()
-       contx=self.driver.find_id('content').text
-       print contx
+       self.driver.find_element_by_id('unRead').click()
+       untx=self.driver.find_element_by_id('unRead').text
+       self.assertTrue(u'未读' in untx)
+       contx=self.driver.find_element_by_id('content').text
+       if contx==u"没有数据哦╮(╯_╰)╭":
+          print '没有信息'
+       else :
+          print contx
