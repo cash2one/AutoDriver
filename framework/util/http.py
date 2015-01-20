@@ -80,6 +80,29 @@ def getHttpStatus(url, time_out):
         return resp_tup
 
 
+DEFAULT_OPTIONS = {
+    "server": "http://localhost:2990/jira",
+    "rest_path": "api",
+    "rest_api_version": "2",
+    "verify": True,
+    "resilient": False,
+    "async": False,
+    "client_cert": None,
+    "headers": {
+        'X-Atlassian-Token': 'no-check',
+        'Cache-Control': 'no-cache',
+        #'Pragma': 'no-cache',
+        #'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT'
+    }
+}
+
+JIRA_BASE_URL = '{server}/rest/api/{rest_api_version}/{path}'
+
+def _get_url(self, path, base=JIRA_BASE_URL):
+    options = self._options
+    options.update({'path': path})
+    return base.format(**options)
+
 class TestJIRA():
     def __init__(self):
         self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
@@ -112,68 +135,82 @@ class TestJIRA():
         except urllib2.HTTPError:
             pass
 
-    def post_data(self):
-        url = '/rest/api/2/issue'
+    def createmeta(self):
+        url = '/rest/api/2/issue/createmeta?projectIds=10303&projectKeys=CI-64&issuetypeIds=3&issuetypeNames=任务'
+        req = urllib2.Request(self.host + url)
+        req.add_header('Content-type', 'application/json')
+        data = None
+
+        try:
+            response = self.opener.open(req, data)
+            print response.read()
+        except urllib2.HTTPError:
+            pass
+
+    def create_issue(self, fields=None, prefetch=True, **fieldargs):
+
+        data = {}
+        if fields is not None:
+            data['fields'] = fields
+        else:
+            fields_dict = {}
+            for field in fieldargs:
+                fields_dict[field] = fieldargs[field]
+            data['fields'] = fields_dict
+
+
+        #r = self._session.post(url, headers={'content-type': 'application/json'}, data=json.dumps(data))
+        url = '/rest/api/2/issue'#/createmeta?projectIds=10303&projectKeys=CI-64&issuetypeIds=3&issuetypeNames=任务'
         req = urllib2.Request(self.host + url)
         req.add_header('Content-type', 'application/json')
         # headers = {
         # 'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6',
         # 'Content-type': 'application/json'}
 
-        data_dict = {
-            'update': {
-                'worklog': [
-                    {
-                        'add': {
-                            'started': '2011-07-05T11:05:00.000+0000',
-                            'timeSpent': '60m'
-                        }
-                    }
-                ]
-            },
-            'fields': {
-                'project': {
-                    'id': '10303'
-                },
-                'summary': 'something s wrongfff',
-                'issuetype': {
-                    'id': '3'
-                },
-                'assignee': {
-                    'name': 'guguohai'
-                },
-                'reporter': {
-                    'name': 'guguohai'
-                },
-                'priority': {
-                    'id': '20000'
-                },
-                'labels': [],
-                'timetracking': {
-                    'originalEstimate': '10',
-                    'remainingEstimate': '5'
-                },
-                'versions': [
-                    {
-                        'id': '10364'
-                    }
-                ],
-                'environment': 'environment',
-                'description': 'description',
-                'duedate': '2011-03-11',
-                'fixVersions': [
-                    {
-                        'id': '10364'
-                    }
-                ],
-                'components': []
-            }
-        }
+        # data_dict = {
+        #     'fields': {
+        #         'project': {
+        #             'id': '10303'
+        #         },
+        #         'summary': 'something s wrongfff',
+        #         'issuetype': {
+        #             'id': '3'
+        #         },
+        #         'assignee': {
+        #             'name': 'guguohai'
+        #         },
+        #         'reporter': {
+        #             'name': 'guguohai'
+        #         },
+        #         'priority': {
+        #             'id': '20000'
+        #         },
+        #         'labels': [],
+        #         'timetracking': {
+        #             'originalEstimate': '10',
+        #             'remainingEstimate': '5'
+        #         },
+        #         'versions': [
+        #             {
+        #                 'id': '10364'
+        #             }
+        #         ],
+        #         'environment': 'environment',
+        #         'description': 'description',
+        #         'duedate': '2011-03-11',
+        #         'fixVersions': [
+        #             {
+        #                 'id': '10364'
+        #             }
+        #         ]
+        #     }
+        # }
 
-        data = urllib.urlencode(data_dict)
+        #data = urllib.urlencode(data_dict)
+
 
         try:
-            response = self.opener.open(req, data)
+            response = self.opener.open(req, json.dumps(data))
             print response.read()
         except urllib2.HTTPError, e:
             print 'eeeeeee', e.code

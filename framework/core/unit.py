@@ -4,7 +4,6 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 from framework.core import the
 from framework.util import const, fs
-from selenium.common import exceptions
 import unittest
 
 PATH = lambda p: os.path.abspath(
@@ -15,8 +14,6 @@ PATH = lambda p: os.path.abspath(
 class TestCase(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         super(TestCase, self).__init__(methodName)
-
-        self.exceptions = exceptions
 
     def app(self, file_):
         '''

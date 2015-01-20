@@ -22,11 +22,11 @@ DOWNLOAD_FAIL = 2
 
 
 class HomeForm(QWidget, home_ui.Ui_Form):
-    def __init__(self, netAccess_method):
+    def __init__(self):
         super(HomeForm, self).__init__()
 
         self.setupUi(self)
-        self.nam = netAccess_method
+        #self.nam = [self.netAccessNoCookie,self.netAccessNoCookie]#netAccess_method
         self.lbl_status.setText('Loading...')
         self.lbl_status.setFont(QFont("Microsoft YaHei", 11))
         self.connect(self.lbl_status, SIGNAL('linkActivated (const QString&)'), self.refresh_content)
@@ -49,10 +49,26 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         else:
             self.start_load_page()
 
+    def netAccess(self, url, reply_func):
+        m = QtNetwork.QNetworkAccessManager(self)
+        # m1.setCookieJar(ja.cookie)
+        m.finished.connect(reply_func)
+        req = QtNetwork.QNetworkRequest(QUrl(url))
+        # req.setRawHeader("Host", "www.nuihq.com")
+        req.setRawHeader("User-Agent",
+                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
+        req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+        # req.setRawHeader("Accept-Language", "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
+        # req.setRawHeader("Accept-Encoding", "deflate")
+        # req.setRawHeader("Accept-Charset", "utf-8;q=0.7,*;q=0.7")
+        # req.setRawHeader("Connection", "keep-alive")
+        # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
+        m.get(req)
+
     def start_load_page(self):
-        self.nam[0](self.pages[0], self.on_one_reply)
+        self.netAccess(self.pages[0], self.on_one_reply)
         # 这个网站加载速度较慢，所以单独来加载
-        self.nam[1](self.pages[2], self.on_three_reply)
+        self.netAccess(self.pages[2], self.on_three_reply)
 
     def on_one_reply(self, reply):
         time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
@@ -60,7 +76,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         if reply.error() == reply.NoError:
             self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
             # 加载完成后，再次加载下一个页面
-            self.nam[0](self.pages[1], self.on_two_reply)
+            self.netAccess(self.pages[1], self.on_two_reply)
         else:
             self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
 

@@ -1,22 +1,16 @@
 # coding=utf-8
 __author__ = 'xhl'
 
-import unittest
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
 import time
-from selenium.webdriver.common.action_chains import ActionChains
-from framework.core import idriver_web
-import os
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
+
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):
-        #返回首页
         self.driver.switch_to_home()
 
     def test_logPulldown(self):
@@ -92,7 +86,6 @@ class TestCase(unittest.TestCase):
         self.driver.find_element_by_id('query').click()
 
     def test_logselectName(self):
-         #空条件查询
         above=self.driver.find_element_by_link_text(u'日志查询')
         ActionChains(self.driver).move_to_element(above).perform()
          #鼠标悬停在日志查询上

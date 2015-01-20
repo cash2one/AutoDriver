@@ -5,16 +5,12 @@ __author__ = 'wangsahnshan@126.com'
 #用户登录，查看代驾协议
 
 import time
-import unittest
-from framework.core import testcase
-from selenium.common.exceptions import NoSuchElementException
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
-
 
     def tearDown(self):
         #返回首页

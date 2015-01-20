@@ -2,13 +2,13 @@
 
 __author__ = 'wangshanshan@pathbook.com.cn'
 #用户未登录，填写手机号码界面，手机号为空
-import time
-import unittest
-from framework.core import testcase
 
-class TestCase(unittest.TestCase):
+import time
+from drivers import *
+
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         #self.driver.login()
 
     def tearDown(self):

@@ -1,20 +1,14 @@
 # coding=utf-8
-
 __author__ = 'wangsahnshan@126.com'
 #用户未登录，指定司机下单（周边有司机）
 
 import time
-import unittest
-from framework.core import testcase
-from appium.webdriver.common.touch_action import TouchAction
-from selenium.common.exceptions import NoSuchElementException
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         #self.driver.login()
-
 
     def tearDown(self):
         #返回首页
@@ -34,7 +28,7 @@ class TestCase(unittest.TestCase):
        nearbyrivers = []
        try:
           nearbyrivers = self.driver.find_ids('nearbyriver')
-       except NoSuchElementException:
+       except self.driver.NoSuchElementException:
             pass
 
        self.assertTrue(len(nearbyrivers) > 0, u'附近没有司机')

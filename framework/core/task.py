@@ -87,7 +87,7 @@ class Task():
     def finish(self):
         left_cases = 0  # 判断是否全部运行完毕
         cases = self.datas[self.CASES]
-        for i in range(0, len(cases) - 1):
+        for i in range(0, len(cases)):
             loop = cases[i]['loop']
             if loop > 0:
                 loop -= 1

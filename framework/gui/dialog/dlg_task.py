@@ -5,7 +5,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from framework.util import sqlite
 from framework.gui.views import dlg_task_ui
-from framework.gui.models import script_model,autotest_model
+from framework.gui.models import script_model, autotest_model
 from framework.gui.dialog import check_user, script_list
 
 GUI_TASK_TYPE = (u'自动化', u'车机测试', u'App', u'Web平台', u'接口', u'性能测试')
@@ -37,15 +37,15 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
 
             if len(self.data_task) > 0:
                 t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
-                self.add_tab(u'任务详情',t_model)
+                self.add_tab(u'任务详情', t_model)
 
-            if self.find_result(data['result'])!=None:
-                result_data =self.find_result(data['result'])
-                new_result_data=[]
+            if self.find_result(data['result']) != None:
+                result_data = self.find_result(data['result'])
+                new_result_data = []
                 for d in result_data:
                     new_result_data.append((d[8], d[1], d[4]))
                 result_model = autotest_model.QTableModel(new_result_data, self)
-                self.add_tab(u'测试结果',result_model)
+                self.add_tab(u'测试结果', result_model)
 
         for t in GUI_TASK_TYPE:
             self.cmb_TaskType.addItem(t)
@@ -104,7 +104,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         data_file = os.path.join(result_path, result_data)
         if not os.path.exists(data_file):
             return None
-
+        # TODO: 目前先从本地读取测试结果sqlite，计划以后读取远程
         dbm = sqlite.DBManager(data_file)  # data['result']))
         result_list = dbm.fetchall('select * from Result')
         dbm.close_db()
@@ -120,7 +120,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
     def confirm(self):
         self.reject()
 
-    def add_tab(self, tab_name,model):
+    def add_tab(self, tab_name, model):
         tab_detail = QWidget()
         # self.tab_detail.setObjectName(_fromUtf8("tab_detail"))
         tab_detail_layout = QVBoxLayout(tab_detail)
@@ -129,7 +129,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         # self.tab_detail_layout.setObjectName(_fromUtf8("tab_detail_layout"))
         # self.tw_task.setTabText(self.tw_task.indexOf(tab_detail),u'任务详情')
         self.tw_task.addTab(tab_detail, tab_name)
-        #return tab_detail_layout
+        # return tab_detail_layout
 
         #tab_detail_layout = self.add_tab(u'任务详情')
         tv_detail = QTableView()
