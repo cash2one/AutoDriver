@@ -53,13 +53,11 @@ class TestCase(unittest.TestCase):
             f = sys.exc_info()[2].tb_frame.f_back
         return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
 
-    def issue(self, function_name, actual=''):
-        expect = function_name
-        print function_name
-        expect_str = u'【期望结果】\r\n%s\r\n\r\n' % expect
-        actual_str = u'【实际结果】\r\n%s' % actual
-        return expect_str + actual_str
 
-
+    def assertTrue(self, expr, msg=None):
+        expect_str = u'期望结果还未读取用例...'
+        expect_msg = u'【期望结果】\r\n%s\r\n\r\n' % expect_str
+        actual_msg = u'【实际结果】\r\n%s' % msg
+        super(TestCase, self).assertTrue(expr, expect_msg + actual_msg)
 
 

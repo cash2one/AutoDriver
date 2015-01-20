@@ -60,14 +60,20 @@ class NewTestResult(unittest.TestResult):
         s = value.find('(')
         e = value.find('.')
 
+        assert_str = ''
+        try:
+            assert_str = self.getAssertResult().decode("unicode-escape")
+        except UnicodeDecodeError:
+            print self.getAssertResult()
+
         ExecuteResult = STATUS[self.currentStatus]
         Executor = self.test_user
         Owner = ''
-        ResultDesc = self.getAssertResult().decode("unicode-escape")
+        ResultDesc = assert_str
         IsEnable = 1
         LogFile = ''
         ExecuteDT = datetime.datetime.now()
-        ProductName = value[s+1:e+1] + value[0:s]
+        ProductName = value[s + 1:e + 1] + value[0:s]
         ProductTypeName = ''
         TestCase_Id = 1
         Task_Id = 1
@@ -120,17 +126,18 @@ class NewTestResult(unittest.TestResult):
             result_desc = self.error_str
 
         for ex in self.excepts:
-            if ex in result_desc:
-                ex_idx = result_desc.find(ex)
-                return result_desc[ex_idx:len(result_desc)]
+            # AssertionError:
+            ex_idx = result_desc.find(ex) + len(ex)
+            r_desc = result_desc[ex_idx:len(result_desc)]
+            return r_desc[1:].strip()
 
 
-                # ex_str = r'(?<=%s:).*' % ex
-                # match = re.compile(ex_str).search(result_desc)
-                # if match:
-                # return ex + ':' + match.group()
-                # else:
-                # return ''
+            # ex_str = r'(?<=%s:).*' % ex
+            # match = re.compile(ex_str).search(result_desc)
+            # if match:
+            # return ex + ':' + match.group()
+            # else:
+            # return ''
 
 
 # 获取exceptions 所有Error的类名
@@ -146,6 +153,6 @@ def getExcepts():
     # #print att
     # pattern = re.compile(r'(?<=exceptions.).*Error')
     # match = pattern.search(att)
-    #     if match:
-    #         excepts.append(match.group())
+    # if match:
+    # excepts.append(match.group())
     # return excepts
