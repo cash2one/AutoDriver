@@ -1,22 +1,16 @@
 # coding=utf-8
-
 __author__ = 'wangsahnshan@126.com'
 
-
 import time
-import unittest
-from framework.core import testcase
-from selenium.common.exceptions import NoSuchElementException
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     '''
     用户登录，查看关于车谱
     '''
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
-
 
     def tearDown(self):
         #返回首页

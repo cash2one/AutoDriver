@@ -1,13 +1,13 @@
 # coding=utf-8
 __author__ = 'xuguanghua@pathbook.com.cn'
-import time
-import unittest
-from framework.core import testcase
 
-class TestCase(unittest.TestCase):
+import time
+from drivers import *
+
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -71,9 +71,3 @@ class TestCase(unittest.TestCase):
         #点击确定
         self.driver.find_element_by_id('sure_edit_btn').click()
         time.sleep(2)
-
-
-
-
-if __name__ =='__main__':
-    unittest.main()

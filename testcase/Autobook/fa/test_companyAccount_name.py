@@ -2,13 +2,12 @@
 __author__ = 'xuguanghua@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
+class TestCase(unit.TestCase):
 
-class TestCase(unittest.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -40,10 +39,5 @@ class TestCase(unittest.TestCase):
         tips2_text = table.find_element_by_id('companyAccount_name_edit_tip').text
         print tips2_text
         self.assertTrue(u'账户名称含有非法符号.' in tips2_text, 'msg')
-
-
-if __name__ == '__main__':
-    unittest.main()
-
 
 

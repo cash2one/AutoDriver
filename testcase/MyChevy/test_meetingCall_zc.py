@@ -1,20 +1,17 @@
-__author__ = 'zhangchun'
 # coding=utf-8
-import unittest
+__author__ = 'zhangchun'
+
 from time import sleep
-
-from framework.core import device_bak, the
-
-
+from drivers import *
 
 #点击活动详情中的电话按钮，弹出提示框
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = the.android
+        self.driver = self.app(__file__)
 
     def tearDown(self):
         #返回首页
-        device_bak.switchToHome(self,self.mainActivity)
+        self.driver.switch_to_home()
 
 
     def test_case(self):

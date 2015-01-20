@@ -1,20 +1,16 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
 
-
-
 import time
-import unittest
-from framework.core import testcase
-from selenium.common import exceptions
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     '''
     查询客户信息明细
     '''
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
     def tearDown(self):
          #返回首页
