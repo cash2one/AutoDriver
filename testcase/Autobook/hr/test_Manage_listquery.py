@@ -8,10 +8,15 @@ class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = self.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
         self.driver.login()
 
     def tearDown(self):
-        self.driver.switch_to_home()
+        # 返回首页
+        # self.driver.switch_to_home()
+        # 关闭浏览器
+        self.driver.close()
 
     #默认的条件查询
     def test_defaul(self):
@@ -37,7 +42,9 @@ class TestCase(unit.TestCase):
          for opt in opts:
             if opt.get_attribute('value')=='0':
                 opt.click()
-         self.driver.find_element_by_id('query').click()
+                self.assertTrue(opt.is_selected())
+         qu=self.driver.find_element_by_id('query').click()
+         self.assertTrue(qu.is_selected())
         #打印查询内容
          txt=self.driver.find_element_by_xpath('/html/body/div[4]/div[3]/div[3]/div/table').text
          print txt
@@ -55,7 +62,9 @@ class TestCase(unit.TestCase):
          for opt in opts:
             if opt.get_attribute('value')=='0':
                 opt.click()
-         self.driver.find_element_by_id('query').click()
+                self.assertTrue(opt.is_selected())
+         q=self.driver.find_element_by_id('query').click()
+         self.assertTrue(q.is_selected())
          txt=self.driver.find_element_by_xpath('/html/body/div[4]/div[3]/div[3]/div/table').text
          print txt
 
@@ -72,7 +81,9 @@ class TestCase(unit.TestCase):
          for opt in opts:
             if opt.get_attribute('value')=='0':
                 opt.click()
-         self.driver.find_element_by_id('query').click()
+                self.assertTrue(opt.is_selected())
+         que=self.driver.find_element_by_id('query').click()
+         self.assertTrue(que.is_selected())
          txt=self.driver.find_element_by_class_name('norecords').text
          print txt
          self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
@@ -91,7 +102,9 @@ class TestCase(unit.TestCase):
          for opt in opts:
             if opt.get_attribute('value')=='5':
                 opt.click()
-         self.driver.find_element_by_id('query').click()
+                self.assertTrue(opt.is_selected())
+         que=self.driver.find_element_by_id('query').click()
+         self.assertTrue(que.is_selected())
          txt=self.driver.find_element_by_class_name('norecords').text
          print txt
          self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
