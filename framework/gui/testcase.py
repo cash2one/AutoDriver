@@ -19,19 +19,19 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
 
         self.setupUi(self)
 
-        self.http = QtNetwork.QHttp(parent=self)
-        # 绑定 done 信号
-        self.http.done.connect(self.on_req_done)
-        self.url = QUrl("http://www.weather.com.cn/data/sk/101190101.html")
-
-        # 设置主机
-        self.http.setHost(self.url.host(), self.url.port(80))
-        self.getId = self.http.get(self.url.path())
-
-    def on_req_done(self, error):
-        if not error:
-            print "Success"
-            con = self.http.readAll()
-            self.textEdit.setPlainText(QString(con))
-        else:
-            print "Error"
+    #     self.http = QtNetwork.QHttp(parent=self)
+    #     # 绑定 done 信号
+    #     self.http.done.connect(self.on_req_done)
+    #     self.url = QUrl("http://www.weather.com.cn/data/sk/101190101.html")
+    #
+    #     # 设置主机
+    #     self.http.setHost(self.url.host(), self.url.port(80))
+    #     self.getId = self.http.get(self.url.path())
+    #
+    # def on_req_done(self, error):
+    #     if not error:
+    #         print "Success"
+    #         con = self.http.readAll()
+    #         self.textEdit.setPlainText(QString(con))
+    #     else:
+    #         print "Error"

@@ -1,11 +1,10 @@
 # coding=utf-8
 __author__ = 'xuguanghua@pathbook.com.cn'
+
 import time
-import unittest
-from framework.core import testcase
 from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = testcase.app(__file__)
@@ -69,7 +68,3 @@ class TestCase(unittest.TestCase):
         norecords_text = self.driver.find_element_by_class_name('norecords').text
         self.assertTrue(u'没有符合条件的数据...' in norecords_text,'msg')
         time.sleep(2)
-
-if __name__ =='__main__':
-    unittest.main()
-

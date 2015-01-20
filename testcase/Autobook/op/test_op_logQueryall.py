@@ -1,23 +1,18 @@
 # coding=utf-8
 __author__ = 'xhl'
 
-
-import unittest
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
 import time
-from selenium.webdriver.common.action_chains import ActionChains
-from framework.core import testcase
-import os
-class TestCase(unittest.TestCase):
+from drivers import *
+
+class TestCase(unit.TestCase):
+
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):
-        #返回首页
         self.driver.switch_to_home()
+
     #查询全部
     def test_logall(self):
         above=self.driver.find_element_by_link_text(u'日志查询')

@@ -2,18 +2,16 @@
 __author__ = 'guanghua_2011@126.com'
 
 import time
-import unittest
-from framework.core import testcase
-from framework.util import strs
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):
         self.driver.switch_to_home()
+
     #评价历史订单时，取消
     def test_cancel_EvalHistory(self):
         current_activity = self.driver.current_activity

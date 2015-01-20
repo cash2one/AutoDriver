@@ -2,14 +2,12 @@
 __author__ = 'xuguanghua@pathbook.com.cn'
 
 import time
-import unittest
-from selenium.webdriver.common.keys import Keys
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -35,13 +33,13 @@ class TestCase(unittest.TestCase):
         input = self.driver.find_element_by_class_name('ui-pg-input')
         input.clear()
         input.send_keys('13')
-        input.send_keys(Keys.ENTER)#输入回车键
+        input.send_keys(self.driver.keys().ENTER)#输入回车键
         time.sleep(2)
         #输入第一页，并跳转
         input = self.driver.find_element_by_class_name('ui-pg-input')
         input.clear()
         input.send_keys('1')
-        input.send_keys(Keys.ENTER)#输入回车键
+        input.send_keys(self.driver.keys().ENTER)#输入回车键
         time.sleep(2)
         #选择每页10行
         self.driver.find_element_by_class_name('ui-pg-selbox').find_elements_by_tag_name('option')[0].click()
@@ -52,11 +50,3 @@ class TestCase(unittest.TestCase):
         #选择每页40行
         self.driver.find_element_by_class_name('ui-pg-selbox').find_elements_by_tag_name('option')[2].click()
         time.sleep(1)
-
-
-
-if __name__ =='__main__':
-    unittest.main()
-
-
-

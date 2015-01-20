@@ -4,7 +4,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 from appium.webdriver.webdriver import WebDriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common import exceptions
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -37,6 +37,10 @@ class Android(WebDriver):
 
         self.package = self.settings['app_package'] + ':id/'
         self.pkg = self.settings['app_package'] + ':id/'
+
+    @property
+    def NoSuchElementException(self):
+        return exceptions.NoSuchElementException()
 
     def layouts(self):
         try:

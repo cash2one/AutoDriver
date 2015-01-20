@@ -6,7 +6,7 @@ import time
 import subprocess
 import json
 import urllib2
-
+import datetime
 from selenium.common.exceptions import NoSuchElementException
 
 import socket
@@ -30,6 +30,12 @@ PATH = lambda p: os.path.abspath(
 class Application(android.Android):
     def __init__(self, config):
         super(Application, self).__init__(config)
+
+    def to_datetime(self,str_time):
+        return strs.to_datetime(str_time)
+
+    def to_long(self,str_number):
+        return strs.to_long(str_number)
 
     def wait_loading(self):
         '''
