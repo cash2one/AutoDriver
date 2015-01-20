@@ -1,16 +1,14 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
 #上下滑动已完取消单列表，提示“无数据可加载”(还未完成)
+
 import time
-import unittest
-from framework.core import testcase
-from selenium.common import exceptions
+from drivers import *
 
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):

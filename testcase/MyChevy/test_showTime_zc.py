@@ -1,21 +1,17 @@
 # coding=utf-8
 __author__ = 'zhangchun'
-import unittest
+
 from time import sleep
-import datetime
-import time
-
-from framework.core import device_bak, the
-
+from drivers import *
 
 #查看时间控件,点击确定后，选择的时间回显在文本框中
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = the.android
+        self.driver = self.app(__file__)
 
     def tearDown(self):
         #返回首页
-        device_bak.switchToHome(self,self.mainActivity)
+        self.driver.switch_to_home()
 
     def test_case1(self):
         #每个测试用例，都需要把首页加入到变量mainActivity

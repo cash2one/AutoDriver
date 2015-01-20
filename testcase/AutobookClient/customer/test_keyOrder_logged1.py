@@ -4,12 +4,11 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 #用户未登录，一键下单界面，输入联系电话跳转到填写手机号码界面
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         #self.driver.login()
 
 

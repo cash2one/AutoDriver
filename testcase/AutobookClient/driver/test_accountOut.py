@@ -1,15 +1,12 @@
 # coding=utf-8
 __author__ = 'zhangchun@pathbook.com.cn'
 
-import datetime
-from framework.core import testcase
-from framework.util import strs
-import unittest
+import time
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
         #获取登录司机的工号
 
@@ -33,12 +30,12 @@ class TestCase(unittest.TestCase):
         recharge_info1=()
         for i in range(0,len(ids)):
             time=self.driver.find_ids('recharge_time')[i].text
-            recharge_time=strs.to_datetime(time)
+            recharge_time=self.driver.to_datetime(time)
             type=self.driver.find_ids('text')[i].text
             text_out=self.driver.find_ids('recharge_in')[i].text[1:]
             text_out1=text_out.split('.')[0]
             text_out2=text_out.split('.')[1]
-            recharge_out=strs.to_long(text_out1+text_out2)
+            recharge_out=self.driver.to_long(text_out1+text_out2)
             recharge_info1+=((recharge_time,type,recharge_out,),)
         #获取一个屏幕的支出记录的信息（时间，类别，支出数目）
 

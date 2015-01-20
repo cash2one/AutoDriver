@@ -1,26 +1,17 @@
-__author__ = 'gaoxu@pathbook.com.cn'
 # coding=utf-8
+__author__ = 'gaoxu@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import idriver_web
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
-        #浏览器最大化
-        self.driver.maximize_window()
-        #登录平台
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):
-         #返回首页
-        # self.driver.switch_to_home()
-        time.sleep(5)
-         #关闭浏览器
-        # self.driver.close()
+        self.driver.switch_to_home()
 
     def test_Announcements(self):
        #跳转至公告管理界面
