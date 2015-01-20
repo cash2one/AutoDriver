@@ -16,7 +16,7 @@ class TestCase(unit.TestCase):
     def test_stateQuery(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'账号管理').click()
         opts=self.driver.find_id('state').find_elements_by_tag_name('option')
@@ -26,7 +26,7 @@ class TestCase(unit.TestCase):
                 opt.click()
         self.driver.find_id('query').click()
         trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
-        for i in range(1,len(trs)-1):
+        for i in range(1,len(trs)):
             tds=trs[i].find_elements_by_tag_name('td')
             text=tds[4].text
             if text==u'已禁用':
