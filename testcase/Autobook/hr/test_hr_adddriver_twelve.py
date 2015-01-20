@@ -61,6 +61,50 @@ class TestCase(unit.TestCase):
         # 输入正确的驾驶证号码.
 
 
+    def test_imsi(self):
+        self.driver.find_element_by_id('btn_add').click()
+        test_imsi_tx=self.driver.find_element_by_id('driverVo_imsi_tip').text
+        self.assertTrue(u'手机标识号不能为空.'in test_imsi_tx)
+
+
+    # def test_driverVo_phone(self,driverVo_phone):
+    #     self.driver.find_element_by_id('driverVo_phone').send_keys(driverVo_phone)
+
+    def test_imsi_null(self):
+        driverVo_imsi=self.driver.find_element_by_id('driverVo_imsi')
+        driverVo_imsi.send_keys('')
+        time.sleep(1)
+        self.assertTrue(driverVo_imsi.text=='',u'')
+        # 手机标识号为空
+
+
+    def test_imsi_long(self):
+        driverVo_imsi=self.driver.find_element_by_id('driverVo_imsi')
+        driverVo_imsi.send_keys('46002701738556865')
+        time.sleep(1)
+        self.assertTrue(driverVo_imsi.text=='460027017385568',u'')
+        # 手机标识号输入超长
+
+
+    def test_imsi_specia(self):
+        driverVo_imsi=self.driver.find_element_by_id('driverVo_phone')
+        driverVo_imsi.send_keys('@#$')
+        time.sleep(1)
+        self.assertTrue(driverVo_imsi.text=='',u'')
+        #  手机标识号输入特殊字符
+
+
+    def test_imsi_j(self):
+        driverVo_imsi=self.driver.find_element_by_id('driverVo_imsi')
+        driverVo_imsi.send_keys('jjgh')
+        time.sleep(1)
+        self.assertTrue(driverVo_imsi.text=='',u'')
+        # 手机标识号输入大小写字母
+
+
+    def test_imsi_ture(self):
+        self.driver.find_element_by_id('driverVo_imsi').send_keys('15618633412')
+       # 输入正确的手机标识号
 
 
 
