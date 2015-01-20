@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'xhl'
+__author__ = 'xiaohengli@pathbook.com.cn'
 
 import time
 from drivers import *
@@ -16,7 +16,7 @@ class TestCase(unit.TestCase):
     def test_logPulldown(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         opts=self.driver.find_element_by_id('platformId').find_elements_by_tag_name('option')
@@ -37,7 +37,7 @@ class TestCase(unit.TestCase):
 
     def test_logPullselect(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         opts=self.driver.find_element_by_id('platformId').find_elements_by_tag_name('option')
@@ -53,7 +53,7 @@ class TestCase(unit.TestCase):
 
     def test_logResult(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #下拉框里面成功或者失败
@@ -78,7 +78,7 @@ class TestCase(unit.TestCase):
     def test_logselect(self):
         #空条件查询
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         time.sleep(1)
@@ -87,7 +87,7 @@ class TestCase(unit.TestCase):
 
     def test_logselectName(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
 
@@ -100,7 +100,7 @@ class TestCase(unit.TestCase):
         #判断长度是不是小于1
         if len(trs)>1:
             #循环行
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 #找到td
                 text=trs[i].find_elements_by_tag_name('td')[5].text
                 #判断是不是td里面的接口名称是不是driverService.dealOrder
@@ -113,14 +113,15 @@ class TestCase(unit.TestCase):
     def test_logseleID(self):
          #空条件查询
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         opts=self.driver.find_element_by_id('platformId').find_elements_by_tag_name('option')
         for opt in opts:
          #判断下拉列表里面的是不是禁用
             if opt.get_attribute('text')==u'APP_001':  #获取对象属性
-               opt.click()
+                opt.click()
+                self.assertTrue(opt.is_selected())
         self.driver.find_element_by_id('query').click()
          #找到对应的td
         time.sleep(3)
@@ -129,7 +130,7 @@ class TestCase(unit.TestCase):
         #判断长度是不是小于1
         if len(trs)>1:
             #循环行
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 #找到td
                 text=trs[i].find_elements_by_tag_name('td')[4].text
                 #判断是不是td里面的接口名称是不是driverService.dealOrder

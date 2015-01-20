@@ -20,7 +20,7 @@ class TestCase(unit.TestCase):
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above)
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
         self.driver.find_id('statistics_amount').click()
@@ -36,6 +36,7 @@ class TestCase(unit.TestCase):
             sum_success+=int(success)
             sum_fail+=int(fail)
             sum_total+=int(total)
+            print success
         print sum_success,sum_fail,sum_total
         table=self.driver.find_element_by_class_name('ui-jqgrid-ftable').find_elements_by_tag_name('tr')[0]
         list_success=table.find_elements_by_tag_name('td')[1].text
