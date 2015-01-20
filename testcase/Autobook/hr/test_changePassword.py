@@ -19,7 +19,8 @@ class TestCase(unit.TestCase):
         self.driver.find_id('myNes').click()
         menu=self.driver.find_class_name('tab_head')
 
-        menu.driver.find_class_name('tab_head_show').click()
+        me= menu.driver.find_class_name('tab_head_show').click()
+        self.assertTrue(me.is_selected())
         print menu
         # menu.driver.find_class_name(u'修改密码').click()
 

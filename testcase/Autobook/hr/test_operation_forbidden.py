@@ -29,13 +29,15 @@ class TestCase(unit.TestCase):
     def test_forbidden_cancel(self):
         self.test_forbidden()
         #取消
-        self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[2]').click()
-        time.sleep(5)
+        qx=self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[2]').click()
+        self.assertTrue(qx.is_selected())
+        time.sleep(3)
 
      #禁用操作
     def test_forbidden_confirm(self):
         self.test_forbidden()
         #确定
-        self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[1]').click()
-        time.sleep(5)
+        qd=self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[1]').click()
+        self.assertTrue(qd.is_selected())
+        time.sleep(3)
 

@@ -96,5 +96,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('value') == '0':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         txt = self.driver.find_element_by_id('query').click()
+        self.assertTrue(txt.is_selected())
         print txt
