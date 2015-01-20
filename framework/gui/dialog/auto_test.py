@@ -15,7 +15,8 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-DB_PATH='../../../result/' #存储测试结果数据的目录
+DB_PATH = '../../../result/'  # 存储测试结果数据的目录
+
 
 class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
     def __init__(self, task_data):
@@ -40,7 +41,7 @@ class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
         if not os.path.exists(db_folder):
             os.mkdir(db_folder)
 
-        db_path = os.path.join(db_folder,task_data['result'])
+        db_path = os.path.join(db_folder, task_data['result'])
 
         gdata = data.generateData(PATH('../../../resource/xls/'), db_path)
         gdata.close()
@@ -54,7 +55,9 @@ class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
         runner.start()
 
     def show_test_result(self, data):
-        new_data = (data[7], data[0], data[3])
+        d = data[3].replace('\r\n', '')
+
+        new_data = (data[7], data[0], d)
 
         # d = {'row': data, 'script': []}
         if len(self.result_data) == 0:

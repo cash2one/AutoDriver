@@ -63,7 +63,7 @@ class NewTestResult(unittest.TestResult):
         ExecuteResult = STATUS[self.currentStatus]
         Executor = self.test_user
         Owner = ''
-        ResultDesc = self.getAssertResult()
+        ResultDesc = self.getAssertResult().decode("unicode-escape")
         IsEnable = 1
         LogFile = ''
         ExecuteDT = datetime.datetime.now()
@@ -118,8 +118,6 @@ class NewTestResult(unittest.TestResult):
             result_desc = self.fail_str
         elif self.error_str.strip() != '':
             result_desc = self.error_str
-
-        print result_desc
 
         for ex in self.excepts:
             if ex in result_desc:
