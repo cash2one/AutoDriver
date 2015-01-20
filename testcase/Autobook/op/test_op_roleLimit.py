@@ -25,7 +25,7 @@ class TestCase(unit.TestCase):
 
     def test_roleName1(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()#进入角色添加页面

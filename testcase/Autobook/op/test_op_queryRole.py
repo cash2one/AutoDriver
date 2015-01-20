@@ -16,7 +16,7 @@ class TestCase(unit.TestCase):
     def test_queryRole1(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
         opts=self.driver.find_id('platformType').find_elements_by_tag_name('option')
@@ -28,7 +28,7 @@ class TestCase(unit.TestCase):
         trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
         #查询条件角色类型为客服
         if len(trs)>1:
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 text=trs[i].find_elements_by_tag_name('td')[1].text
                 self.assertEqual(text,u"客服")
         else:
@@ -38,7 +38,7 @@ class TestCase(unit.TestCase):
     def test_queryRole2(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
 
@@ -50,7 +50,7 @@ class TestCase(unit.TestCase):
     def test_queryRole3(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
 
@@ -64,7 +64,7 @@ class TestCase(unit.TestCase):
         trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
         #查询条件角色类型为客服，名称为服务员
         if len(trs)>1:
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 type=trs[i].find_elements_by_tag_name('td')[1].text
                 self.assertEqual(type,u"客服")
                 name=trs[i].find_elements_by_tag_name('td')[2].text
