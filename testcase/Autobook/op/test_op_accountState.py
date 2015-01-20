@@ -24,6 +24,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'全部':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         self.driver.find_id('query').click()
         trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
         for i in range(1,len(trs)):

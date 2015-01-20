@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'xhl'
+__author__ = 'xiaohengli@pathbook.com.cn'
 
 import time
 from drivers import *
@@ -84,3 +84,8 @@ class TestCase(unit.TestCase):
         else:
             text=self.driver.find_element_by_class_name('norecords').text
             self.assertTrue(u'没有符合条件的数据'in text)
+
+
+
+
+
