@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'xhl'
+__author__ = 'xiaohengli@pathbook.com.cn'
 
 import time
 from drivers import *
@@ -120,7 +120,8 @@ class TestCase(unit.TestCase):
         for opt in opts:
          #判断下拉列表里面的是不是禁用
             if opt.get_attribute('text')==u'APP_001':  #获取对象属性
-               opt.click()
+                opt.click()
+                self.assertTrue(opt.is_selected())
         self.driver.find_element_by_id('query').click()
          #找到对应的td
         time.sleep(3)

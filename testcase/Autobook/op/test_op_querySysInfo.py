@@ -47,6 +47,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'后台配置':
                 opt.click()
+                self.assertTrue(opt.is_selected())
 
         self.driver.find_id('sysInfo').send_keys(u'CORE')
         self.driver.find_id('query').click()
@@ -74,6 +75,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'后台配置':
                 opt.click()
+                self.assertTrue(opt.is_selected())
 
         self.driver.find_id('sysInfo').send_keys(u'http://192.168.3.31')
         self.driver.find_id('query').click()
