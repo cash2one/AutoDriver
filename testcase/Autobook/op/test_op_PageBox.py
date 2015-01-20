@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'xhl'
+__author__ = 'xiaohengli@pathbook.com.cn'
 
 import time
 from drivers import *
@@ -16,7 +16,7 @@ class TestCase(unit.TestCase):
     #查询分页
     def test_logall(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         time.sleep(1)

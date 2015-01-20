@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'xhl'
+__author__ = 'xiaohengli@pathbook.com.cn'
 
 import time
 from drivers import *
@@ -16,7 +16,7 @@ class TestCase(unit.TestCase):
     #查询分页
     def test_logall(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #点击末一页，是点击左后一夜的图标变灰
@@ -33,7 +33,7 @@ class TestCase(unit.TestCase):
     #输入小数
     def test_logInput(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数
@@ -42,7 +42,7 @@ class TestCase(unit.TestCase):
 
     def test_Inputdecimal(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数小数
@@ -52,7 +52,7 @@ class TestCase(unit.TestCase):
     #输入非法字符
     def test_InputCharacters(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数
@@ -63,7 +63,7 @@ class TestCase(unit.TestCase):
     #输入超长字符
     def test_InputCharacter(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数
