@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'xhl'
+__author__ = 'xiaohengli@pathbook.com.cn'
 
 import time
 from drivers import *

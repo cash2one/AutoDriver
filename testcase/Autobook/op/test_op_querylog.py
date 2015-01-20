@@ -24,6 +24,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'(运维)LXJ_OP_001':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         self.driver.find_id('query').click()
         trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
         #查询条件平台名称选择(运维)LXJ_OP_001
@@ -48,6 +49,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'用户日志':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         self.driver.find_id('query').click()
         trs=self.driver.find_id('list').find_elements_by_tag_name('tr')
         #查询条件日志类型选择用户日志
