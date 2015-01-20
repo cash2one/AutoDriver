@@ -1,22 +1,16 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
 
-
-
-
-
 import time
-import unittest
-from framework.core import testcase
-from selenium.common import exceptions
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     '''
     待处理订单页面：查看通讯记录、关闭通讯记录
     '''
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -49,7 +43,7 @@ class TestCase(unittest.TestCase):
         if '15011515344163' in tds[1].text:
             try:
                 tds[10].find_element_by_id('communicationRecord').click()
-            except exceptions.NoSuchElementException:
+            except self.driver.NoSuchElementException:
                 pass
         time.sleep(3)
         #点击通讯记录链接
@@ -77,7 +71,7 @@ class TestCase(unittest.TestCase):
         try:
             self.driver.find_element_by_id('xubox_main')
             isClose=False
-        except exceptions.NoSuchElementException:
+        except self.driver.NoSuchElementException:
             isClose=True
 
         self.assertTrue(isClose,'msg')

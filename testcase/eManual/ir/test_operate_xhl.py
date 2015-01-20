@@ -1,16 +1,13 @@
 # coding=utf-8
 __author__ = 'xhl'
 
-#hr_循环添加司机多选框测试lll
-import unittest
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
 import time
-from framework.core import testcase
-import os
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
+    '''
+    循环添加司机多选框测试lll
+    '''
     def setUp(self):
         self.driver = testcase.app(__file__)
         self.driver.login('role_operation')
@@ -18,8 +15,6 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         #返回首页
         self.driver.close()
-
-
 
 
     def test_my_batch(self):

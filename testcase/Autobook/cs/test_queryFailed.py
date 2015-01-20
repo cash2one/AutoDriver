@@ -2,16 +2,15 @@
 __author__ = 'wangshanshan@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     '''
     查询失败
     '''
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -88,7 +87,3 @@ class TestCase(unittest.TestCase):
         print txt
         self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
 
-
-
-if __name__ =='__main__':
-    unittest.main()

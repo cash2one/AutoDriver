@@ -2,13 +2,12 @@
 __author__ = 'xuguanghua@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -61,11 +60,5 @@ class TestCase(unittest.TestCase):
         table.find_element_by_id('companyAccount_memo_edit').send_keys('12345678902145233')
 
         #table.find_element_by_id('sure_edit_btn').click()#点击确定
-
-
-if __name__ == '__main__':
-    unittest.main()
-
-
 
 

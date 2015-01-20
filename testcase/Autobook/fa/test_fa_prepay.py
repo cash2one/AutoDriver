@@ -1,15 +1,13 @@
 # coding=utf-8
 __author__ = 'xuguanghua@pathbook.com.cn'
-#查询成功
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -98,7 +96,3 @@ class TestCase(unittest.TestCase):
                 print 'False',tds3.get_attribute('title')
         time.sleep(2)
 
-
-
-if __name__ =='__main__':
-    unittest.main()
