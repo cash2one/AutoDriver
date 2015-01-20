@@ -15,7 +15,7 @@ class TestCase(unit.TestCase):
 
     def test_logParameter(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #在请求参数文本框里面输入aaaaa
@@ -27,7 +27,7 @@ class TestCase(unit.TestCase):
         #判断长度是不是小于1
         if len(trs)>1:
             #循环行
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 #找到td
                 text=trs[i].find_elements_by_tag_name('td')[6].text
                 #判断是不是td里面的  请求参数是不是aaaaa
@@ -38,7 +38,7 @@ class TestCase(unit.TestCase):
 
     def test_logReques(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #在请求参数文本框里面输入aaaaa
@@ -50,7 +50,7 @@ class TestCase(unit.TestCase):
         #判断长度是不是小于1
         if len(trs)>1:
             #循环行
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 #找到td
                 text=trs[i].find_elements_by_tag_name('td')[8].text
                 #判断是不是td里面的  请求参数是不是14017814213006828048340
@@ -63,7 +63,7 @@ class TestCase(unit.TestCase):
 
     def test_logException(self):
         above=self.driver.find_element_by_link_text(u'日志查询')
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #在请求参数文本框里面输入aaaaa
@@ -75,7 +75,7 @@ class TestCase(unit.TestCase):
         #判断长度是不是小于1
         if len(trs)>1:
             #循环行
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 #找到td
                 text=trs[i].find_elements_by_tag_name('td')[9].text
                 #判断是不是td里面的  请求参数是不是res":"-2031","msg":"令牌失效

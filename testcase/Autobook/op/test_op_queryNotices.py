@@ -16,7 +16,7 @@ class TestCase(unit.TestCase):
     def test_queryNotice1(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_xpath('//*[@id="main_menu"]/ul/li[4]/ul/li[5]/a').click()
         self.driver.find_id('noticeInfo').send_keys(u'通知')
@@ -25,7 +25,7 @@ class TestCase(unit.TestCase):
         list_title=[]
         list_content=[]
         if len(trs)>1:
-            for i in range(1,len(trs)-1):
+            for i in range(1,len(trs)):
                 title=trs[i].find_elements_by_tag_name('td')[1].text
                 content=trs[i].find_elements_by_tag_name('td')[2].text
                 if u'通知'in title:

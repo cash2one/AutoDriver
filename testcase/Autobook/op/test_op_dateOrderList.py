@@ -3,6 +3,7 @@ __author__ = 'zhangchun@pathbook.com.cn'
 
 import time
 from drivers import *
+import datetime
 
 class TestCase(unit.TestCase):
 
@@ -20,7 +21,7 @@ class TestCase(unit.TestCase):
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above)
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
         year=datetime.date.today().year
@@ -46,7 +47,7 @@ class TestCase(unit.TestCase):
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
 
