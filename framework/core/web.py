@@ -4,6 +4,8 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common import exceptions
 
 TIME_OUT = 100
@@ -25,6 +27,15 @@ class Firefox(WebDriver):
         proxy = None
         super(Firefox, self).__init__(firefox_profile, firefox_binary, timeout,
                                       capabilities, proxy)
+    @property
+    def NoSuchElementException(self):
+        return exceptions.NoSuchElementException
+
+    def action_chains(self):
+        return ActionChains(self)
+
+    def keys(self):
+        return Keys()
 
     def _get_sections_url(self):
         server_url = self.settings['url']

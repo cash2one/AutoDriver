@@ -7,6 +7,7 @@ from framework.util import fs
 from framework.core import the
 
 displayName = the.jira.displayName
+print displayName
 
 
 def task_list(data_path):

@@ -1,16 +1,14 @@
 # coding=utf-8
 __author__ = 'zhangchun@pathbook.com.cn'
 
-import datetime
-from framework.core import testcase
-import unittest
-from framework.util import strs
+import time
+from drivers import *
 
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     #获取登录司机的工号
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     #返回首页
@@ -36,10 +34,10 @@ class TestCase(unittest.TestCase):
 
         for i in range(0,len(ids)):
             income=self.driver.find_ids('incomelist_in')[i].text[1:]
-            order_income=strs.to_long(income.split('.')[0]+income.split('.')[1])
+            order_income=self.driver.to_long(income.split('.')[0]+income.split('.')[1])
             #获取屏幕上各记录的收益
             time=self.driver.find_ids('incomelist_time')[i].text
-            order_time=strs.to_datetime(time)
+            order_time=self.driver.to_datetime(time)
             #获取屏幕上各记录的时间
             order_order=self.driver.find_ids('incomelist_orderno')[i].text
             #获取屏幕上各记录的订单号
