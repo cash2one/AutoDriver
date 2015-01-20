@@ -27,6 +27,7 @@ class TestCase(unit.TestCase):
         for city in citys:
             if city.get_attribute('value')=='-99':
                 city.click()
+                self.assertTrue(city.is_selected())
 
     def test_city2(self):
 
@@ -35,6 +36,7 @@ class TestCase(unit.TestCase):
         for city in citys:
             if city.get_attribute('value')=='1':
                 city.click()
+                self.assertTrue(city.is_selected())
 #
 
     def test_year(self):
@@ -48,6 +50,7 @@ class TestCase(unit.TestCase):
         for year in years:
             if year.get_attribute('value')=='-99':
                 year.click()
+                self.assertTrue(year.is_selected())
 
     def test_year2(self):
         years=self.driver.find_element_by_id('year').find_elements_by_tag_name('option')
@@ -55,6 +58,7 @@ class TestCase(unit.TestCase):
         for year in years:
             if year.get_attribute('value')=='1995':
                year.click()
+               self.assertTrue(year.is_selected())
 
     def test_month(self):
         self.driver.find_element_by_id('btn_add').click()
@@ -67,6 +71,7 @@ class TestCase(unit.TestCase):
         for month in months:
             if month.get_attribute('value')=='-99':
                 month.click()
+                self.assertTrue(month.is_selected())
 
     def test_month2(self):
         months=self.driver.find_element_by_id('month').find_elements_by_tag_name('option')
@@ -74,6 +79,7 @@ class TestCase(unit.TestCase):
         for month in months:
             if month.get_attribute('value')=='1':
                 month.click()
+                self.assertTrue(month.is_selected())
 
 
     def test_province(self):
@@ -87,6 +93,7 @@ class TestCase(unit.TestCase):
         for province in provinces:
             if province.get_attribute('value')=='-99':
                 province.click()
+                self.assertTrue(province.is_selected())
 
     def test_province2(self):
         provinces=self.driver.find_element_by_id('driverVo_province').find_elements_by_tag_name('option')
@@ -94,3 +101,4 @@ class TestCase(unit.TestCase):
         for province in provinces:
             if province.get_attribute('value')=='1':
                 province.click()
+                self.assertTrue(province.is_selected())
