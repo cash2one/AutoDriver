@@ -28,6 +28,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'按天':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         time.sleep(3)
         startTime=self.driver.find_id('startTime_amount')
         endTime=self.driver.find_id('endTime_amount')
@@ -37,6 +38,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'按年':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         time.sleep(3)
         startYear=self.driver.find_id('startYear')
         endYear=self.driver.find_id('endYear')
@@ -46,6 +48,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'按月':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         time.sleep(3)
         startMonth=self.driver.find_id('startMonth')
         endMonth=self.driver.find_id('endMonth')
