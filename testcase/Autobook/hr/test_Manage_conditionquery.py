@@ -4,15 +4,19 @@ __author__ = 'gaoxu@pathbook.com.cn'
 import time
 from drivers import *
 
-
 class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = self.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
         self.driver.login()
 
     def tearDown(self):
-        self.driver.switch_to_home()
+        # 返回首页
+        # self.driver.switch_to_home()
+        # 关闭浏览器
+        self.driver.close()
 
     def initInputValue(self, driver_no, driver_name, driver_phone, driver_idnumber):
         # 司机管理
