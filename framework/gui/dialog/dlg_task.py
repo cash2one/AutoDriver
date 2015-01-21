@@ -43,7 +43,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
                 result_data = self.find_result(data['result'])
                 new_result_data = []
                 for d in result_data:
-                    new_result_data.append((d[8], d[1], d[4]))
+                    new_result_data.append((d[8], d[1], d[4].replace('\r\n', '')))  # 期望结果和实际结果不在界面上换行显示
                 result_model = autotest_model.QTableModel(new_result_data, self)
                 self.add_tab(u'测试结果', result_model)
 
@@ -131,7 +131,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
         self.tw_task.addTab(tab_detail, tab_name)
         # return tab_detail_layout
 
-        #tab_detail_layout = self.add_tab(u'任务详情')
+        # tab_detail_layout = self.add_tab(u'任务详情')
         tv_detail = QTableView()
         tv_detail.setFrameShape(QFrame.NoFrame)
         #t_model = script_model.QTableModel(self.data_task[0]['cases'], self)
