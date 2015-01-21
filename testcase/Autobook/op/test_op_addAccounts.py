@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_createAccount(self):
+        '''
+        添加账号，添加成功后，显示在列表第一项
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
