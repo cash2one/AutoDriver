@@ -25,7 +25,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
         #进入角色添加页面
-        els=self.driver.find_id('lv1Menu20').find_elements_by_tag_name('input')[0]
+        els=self.driver.find_id('lv1Menu20').find_tags('input')[0]
         els.click()
         self.assertTrue(els.is_selected())
         time.sleep(3)

@@ -24,7 +24,7 @@ class TestCase(unit.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
 
-        opts=self.driver.find_id('dateType_amount').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('dateType_amount').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'按天':
                 opt.click()

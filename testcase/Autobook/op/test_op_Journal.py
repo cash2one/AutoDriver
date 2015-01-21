@@ -19,7 +19,7 @@ class TestCase(unit.TestCase):
         self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
-        opts=self.driver.find_element_by_id('platformId').find_elements_by_tag_name('option')
+        opts=self.driver.find_element_by_id('platformId').find_tags('option')
         self.assertTrue(opts[0].text==u'平台Id')
         tuple=(u'平台Id','APP_001','CS_001','CYL_OP_001','HEART_001','HR_001','HZL_HEART_001','HZL_HR_001','HZL_OP_001','IS_001','LCH_CS_001',
                'LXJ_CS_001','LXJ_HEART_001','LXJ_IS_001','LXJ_OP_001','NBY_APP_001','NBY_OP_001','OP_001','OP_002','STC_APP_001','STC_HEART_001',
@@ -40,7 +40,7 @@ class TestCase(unit.TestCase):
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
-        opts=self.driver.find_element_by_id('platformId').find_elements_by_tag_name('option')
+        opts=self.driver.find_element_by_id('platformId').find_tags('option')
 
         for opt in opts:
             #判断text里面的内容等不等于客服专员
@@ -57,7 +57,7 @@ class TestCase(unit.TestCase):
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #下拉框里面成功或者失败
-        opts=self.driver.find_element_by_id('result').find_elements_by_tag_name('option')
+        opts=self.driver.find_element_by_id('result').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'成功':
                opt.click()
@@ -95,19 +95,19 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('query').click()
          #找到对应的td
         time.sleep(3)
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs=self.driver.find_element_by_id('list').find_tags('tr')
         print len(trs)
         #判断长度是不是小于1
         if len(trs)>1:
             #循环行
             for i in range(1,len(trs)):
                 #找到td
-                text=trs[i].find_elements_by_tag_name('td')[5].text
+                text=trs[i].find_tags('td')[5].text
                 #判断是不是td里面的接口名称是不是driverService.dealOrder
                 print text,i
                 self.assertEqual(text,u"driverService.dealOrder")
         else:
-            text=self.driver.find_element_by_class_name('norecords').text
+            text=self.driver.find_class('norecords').text
             self.assertTrue(u'没有符合条件的数据'in text)
 
     def test_logseleID(self):
@@ -116,7 +116,7 @@ class TestCase(unit.TestCase):
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
-        opts=self.driver.find_element_by_id('platformId').find_elements_by_tag_name('option')
+        opts=self.driver.find_element_by_id('platformId').find_tags('option')
         for opt in opts:
          #判断下拉列表里面的是不是禁用
             if opt.get_attribute('text')==u'APP_001':  #获取对象属性
@@ -125,17 +125,17 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('query').click()
          #找到对应的td
         time.sleep(3)
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs=self.driver.find_element_by_id('list').find_tags('tr')
         print len(trs)
         #判断长度是不是小于1
         if len(trs)>1:
             #循环行
             for i in range(1,len(trs)):
                 #找到td
-                text=trs[i].find_elements_by_tag_name('td')[4].text
+                text=trs[i].find_tags('td')[4].text
                 #判断是不是td里面的接口名称是不是driverService.dealOrder
                 print text,i
                 self.assertEqual(text,u"APP_001")
         else:
-            text=self.driver.find_element_by_class_name('norecords').text
+            text=self.driver.find_class('norecords').text
             self.assertTrue(u'没有符合条件的数据'in text)
