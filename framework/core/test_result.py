@@ -60,16 +60,17 @@ class NewTestResult(unittest.TestResult):
         s = value.find('(')
         e = value.find('.')
 
-        assert_str = ''
-        try:
-            assert_str = self.getAssertResult().decode("unicode-escape")
-        except UnicodeDecodeError:
-            print self.getAssertResult()
+        # assert_str = self.getAssertResult()
+        # if
+        #     try:
+        #         assert_str = self.getAssertResult().decode("unicode-escape")
+        #     except UnicodeDecodeError:
+        #         print self.getAssertResult()
 
         ExecuteResult = STATUS[self.currentStatus]
         Executor = self.test_user
         Owner = ''
-        ResultDesc = assert_str
+        ResultDesc = self.getAssertResult().decode("unicode-escape")
         IsEnable = 1
         LogFile = ''
         ExecuteDT = datetime.datetime.now()
@@ -125,19 +126,23 @@ class NewTestResult(unittest.TestResult):
         elif self.error_str.strip() != '':
             result_desc = self.error_str
 
+        assert_str = ''
         for ex in self.excepts:
-            if ex in result_desc:# AssertionError:
+            if ex in result_desc:  # AssertionError:
                 ex_idx = result_desc.find(ex) + len(ex)
                 r_desc = result_desc[ex_idx:len(result_desc)]
-                return r_desc[1:].strip()
+                assert_str = r_desc[1:].strip()
+                break
+
+        return assert_str
 
 
-            # ex_str = r'(?<=%s:).*' % ex
-            # match = re.compile(ex_str).search(result_desc)
-            # if match:
-            # return ex + ':' + match.group()
-            # else:
-            # return ''
+        # ex_str = r'(?<=%s:).*' % ex
+        # match = re.compile(ex_str).search(result_desc)
+        # if match:
+        # return ex + ':' + match.group()
+        # else:
+        # return ''
 
 
 # 获取exceptions 所有Error的类名
