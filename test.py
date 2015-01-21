@@ -4,12 +4,14 @@ __author__ = 'Administrator'
 import sys
 import time
 
+
 def add_path():
     import webbrowser
+
     webbrowser.open('http://www.baidu.com')
 
 # def jiraa():
-#     from jira.client import JIRA
+# from jira.client import JIRA
 #     jira = JIRA(options={'server': 'http://192.168.3.11:8080'},basic_auth=('guguohai', 'guguohai'))
 #
 #     # projectKeys={'key': 'CI'}
@@ -26,8 +28,27 @@ def add_path():
 #     # new_issue = jira.create_issue(fields=issue_dict)
 #     # print new_issue
 
+class dd():
+    def __init__(self):
+        '''
+        fwege
+        :return:
+        '''
+        self.name='fff'
+
+    def ccd(self):
+        '''
+        geeeee
+        :return:
+        '''
+        print 'ddd'
+
+
+
+def aaa():
+    print dd.__dict__
+
 if __name__ == "__main__":
-    pass
     # from framework.util import http
     #
     # ja=http.TestJIRA()
@@ -38,5 +59,5 @@ if __name__ == "__main__":
     #
     # time.sleep(2)
     #
-    # ja.create_issue(project={'key': 'CI'}, summary='New issue from jira-python',
-    #                           description='Look into this one', issuetype={'name': u'任务'})
+    # ja.create_issue()
+    print aaa()
