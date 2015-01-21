@@ -25,13 +25,13 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'客户统计').click()
         self.driver.find_id('statistics').click()
         time.sleep(5)
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs=self.driver.find_element_by_id('list').find_tags('tr')
         sum_newCount=0
         for i in range(1,len(trs)):
-            newCount=trs[i].find_elements_by_tag_name('td')[1].text
+            newCount=trs[i].find_tags('td')[1].text
             sum_newCount+=int(newCount)
 
-        table=self.driver.find_element_by_class_name('ui-jqgrid-ftable').find_elements_by_tag_name('tr')[0]
-        list_newCount=table.find_elements_by_tag_name('td')[1].text
+        table=self.driver.find_class('ui-jqgrid-ftable').find_tags('tr')[0]
+        list_newCount=table.find_tags('td')[1].text
 
         self.assertEqual(int(list_newCount),sum_newCount)

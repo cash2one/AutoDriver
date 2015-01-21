@@ -24,7 +24,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('allRole').click()
         time.sleep(3)
         try:
-            inputs=self.driver.find_id('roleList').find_elements_by_tag_name('input')
+            inputs=self.driver.find_id('roleList').find_tags('input')
             for ipt in inputs:
                 self.assertTrue(ipt.is_selected())
         finally:
@@ -39,11 +39,11 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_xpath('//*[@id="main_menu"]/ul/li[4]/ul/li[5]/a').click()
 
         self.driver.find_id('create').click()
-        self.driver.find_id('platform2').find_elements_by_tag_name('input')[0].click()
+        self.driver.find_id('platform2').find_tags('input')[0].click()
 
         time.sleep(3)
         try:
-            inputs=self.driver.find_id('pf2_roles').find_elements_by_tag_name('input')
+            inputs=self.driver.find_id('pf2_roles').find_tags('input')
             for ipt in inputs:
                 self.assertTrue(ipt.is_selected())
         finally:

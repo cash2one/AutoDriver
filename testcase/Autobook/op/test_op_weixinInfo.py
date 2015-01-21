@@ -27,7 +27,7 @@ class TestCase(unit.TestCase):
         print(self.driver.title)
 
         self.driver.find_id('add').click()
-        opts=self.driver.find_id('weixinInfo_responseType').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('weixinInfo_responseType').find_tags('option')
         self.assertTrue(opts[0].text==u'文本')
         tuple=(u'文本',u'图片',u'图文')
         isExit=True
@@ -53,15 +53,7 @@ class TestCase(unit.TestCase):
         content=self.driver.find_id('weixinInfo_content')
         self.assertTrue(content.is_enabled(),u'下放不显示文本框')
         #响应类型选择文本，下方显示文本内容文本框
-        time.sleep(3)
 
-        for opt in opts:
-            if opt.get_attribute('text')==u'图文':
-                opt.click()
-                self.assertTrue(opt.is_selected())
-        time.sleep(3)
-        self.assertFalse(content.is_enabled(),u'下方仍显示文本框')
 
-        #响应类型选择文本，下方显示文本内容文本框
 
 
