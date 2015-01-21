@@ -64,15 +64,15 @@ class TestCase(unittest.TestCase):
     # path_ = path.replace('.pyc', '.py')
     # file_object = open(path_)
     # file_con = ''
-    #     try:
-    #         file_con = file_object.read()
-    #     finally:
-    #         file_object.close()
-    #     return file_con
+    # try:
+    # file_con = file_object.read()
+    # finally:
+    # file_object.close()
+    # return file_con
     #
     # def __read_notes(self, func):
-    #     sign_str = "'''"
-    #     func_index = self.file_text.find(func)
+    # sign_str = "'''"
+    # func_index = self.file_text.find(func)
     #     note = self.file_text[func_index:]
     #
     #     notes_s = note.find(sign_str) + len(sign_str)
@@ -82,15 +82,27 @@ class TestCase(unittest.TestCase):
     #         return note_c[0:note_e].replace(':return:', '').strip()
     #     else:
     #         return 'null'
+    def __msg(self, func_str, msg):
+        func_doc = eval('self.__class__.%s.__doc__' % func_str)
+
+        expect = func_doc.replace(':return:', '').strip()
+        expect_msg = u'【期望结果】\r\n' + unicode(expect, "utf-8")
+        actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
+
+        return expect_msg + actual_msg
 
     def assertTrue(self, expr, msg=None):
         #func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
         # expect_str = self.__read_notes(func[2])
-        func_doc = eval('self.__class__.%s.__doc__' % inspect.stack()[1][3])
-        expect = func_doc.replace(':return:', '').strip()
+        func_str = inspect.stack()[1][3]
+        super(TestCase, self).assertTrue(expr, self.__msg(func_str, msg))
 
-        expect_msg = u'【期望结果】\r\n' + unicode(expect, "utf-8")
-        actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
-        super(TestCase, self).assertTrue(expr, expect_msg + actual_msg)
+    def assertFalse(self, expr, msg=None):
+        func_str = inspect.stack()[1][3]
+        super(TestCase, self).assertFalse(expr, self.__msg(func_str, msg))
+
+    def assertEqual(self, first, second, msg=None):
+        func_str = inspect.stack()[1][3]
+        super(TestCase, self).assertEqual(first, second, self.__msg(func_str, msg))
 
 
