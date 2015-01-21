@@ -4,6 +4,9 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 from drivers import *
 
 class TestCase(unit.TestCase):
+    '''
+    tetsetsetttee
+    '''
     def setUp(self):
         self.driver = self.app(__file__)
         pass
@@ -12,9 +15,13 @@ class TestCase(unit.TestCase):
         pass
 
 
-    def test_print_e(self):
+    def test_print_oschina(self):
+        '''
+        fewgweg  wwged eg
+        :return:
+        '''
         self.driver.get('http://www.oschina.net')
-        aa= self.driver.find_id('ProjectNews').find_class('TodayNewsTop1').find_tag('h12').text
+        aa= self.driver.find_id('ProjectNews').find_class('TodayNewsTop1').find_tag('h2').text
         self.assertTrue(aa in 'dddd','gwgwegegwewweg')
 
     def test_print_f(self):

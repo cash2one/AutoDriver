@@ -3,18 +3,29 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 import os
 import sys
+import re
 from framework.core import the
 from framework.util import const, fs
 import unittest
+import inspect
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
 
+def my_import(name):
+    mod = __import__(name)
+    components = name.split('.')
+    for comp in components[1:]:
+        mod = getattr(mod, comp)
+    return mod
+
+
 class TestCase(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         super(TestCase, self).__init__(methodName)
+        self.file_text = ''
 
     def app(self, file_):
         '''
@@ -23,6 +34,10 @@ class TestCase(unittest.TestCase):
         :return:
         '''
         # 获取项目路径，转换成app.init 的sections
+        # func = inspect.getframeinfo(inspect.currentframe().f_back)
+        # print 'func::',os.path.dirname(func[0])
+        self.file_text = self.__py_content(file_)
+
         init_size = len(PATH('../../testcase')) + 1
         tar_path = os.path.dirname(file_)
         section = tar_path[init_size:len(tar_path)].replace(os.sep, '_')
@@ -45,17 +60,41 @@ class TestCase(unittest.TestCase):
             the.taskConfig[sect][const.PRODUCT].splash()
         return the.taskConfig[sect][const.PRODUCT]
 
-    def func_name(self):
-        """Return the frame object for the caller's stack frame."""
-        try:
-            raise Exception
-        except:
-            f = sys.exc_info()[2].tb_frame.f_back
-        return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
+    # def func_name(self):
+    # """Return the frame object for the caller's stack frame."""
+    # try:
+    # raise Exception
+    # except:
+    # f = sys.exc_info()[2].tb_frame.f_back
+    #     return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
 
+    def __py_content(self, path):
+        path_ = path.replace('.pyc', '.py')
+        file_object = open(path_)
+        file_con = ''
+        try:
+            file_con = file_object.read()
+        finally:
+            file_object.close()
+        return file_con
+
+    def __read_notes(self, func):
+        sign_str = "'''"
+        func_index = self.file_text.find(func)
+        note = self.file_text[func_index:]
+
+        notes_s = note.find(sign_str) + len(sign_str)
+        note_c = note[notes_s:]
+        #print note_c
+        note_e = note_c.find(sign_str)
+        content = note_c[0:note_e].replace(':return:', '').strip()
+
+        return content
 
     def assertTrue(self, expr, msg=None):
-        expect_str = u'期望结果还未读取用例...'
+        func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
+        expect_str = self.__read_notes(func)
+
         expect_msg = ur'【期望结果】\r\n%s\r\n\r\n' % expect_str
         actual_msg = ur'【实际结果】\r\n%s' % msg
         super(TestCase, self).assertTrue(expr, expect_msg + actual_msg)

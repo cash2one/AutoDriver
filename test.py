@@ -27,8 +27,11 @@ def add_path():
 #     # }
 #     # new_issue = jira.create_issue(fields=issue_dict)
 #     # print new_issue
-
+import inspect
 class dd():
+    '''
+    gweg wwe egwge w
+    '''
     def __init__(self):
         '''
         fwege
@@ -41,14 +44,38 @@ class dd():
         geeeee
         :return:
         '''
-        print 'ddd'
+        print self.__class__.__name__
+        print self.__doc__
+
+def func_name():
+    """Return the frame object for the caller's stack frame."""
+    try:
+        raise Exception
+    except:
+        f = sys.exc_info()[2].tb_frame.f_back
+    return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
 
 
+def get_current_function_name():
+    #return inspect.stack()[1][3]
+    return inspect.getframeinfo(inspect.currentframe().f_back)[2]
 
-def aaa():
-    print dd.__dict__
+class ttes():
+    def testtt(self):
+        '''
+        teststet
+        :return:
+        '''
+        #print func_name()
+        print 'ff::',get_current_function_name()
+        d=dd()
+        d.ccd()
+
+    #print dd.__doc__.strip()
 
 if __name__ == "__main__":
+    t=ttes()
+    t.testtt()
     # from framework.util import http
     #
     # ja=http.TestJIRA()
@@ -60,4 +87,3 @@ if __name__ == "__main__":
     # time.sleep(2)
     #
     # ja.create_issue()
-    print aaa()
