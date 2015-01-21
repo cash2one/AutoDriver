@@ -25,13 +25,13 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'订单统计').click()
 
         self.driver.find_id('li_dis').click()
-        opts1=self.driver.find_id('orderSource_dis').find_elements_by_tag_name('option')
+        opts1=self.driver.find_id('orderSource_dis').find_tags('option')
         for opt1 in opts1:
             if opt1.get_attribute('text')==u'客户下单':
                 opt1.click()
                 self.assertTrue(opt1.is_selected())
 
-        opts2=self.driver.find_id('orderType_dis').find_elements_by_tag_name('option')
+        opts2=self.driver.find_id('orderType_dis').find_tags('option')
         for opt2 in opts2:
             if opt2.get_attribute('text')==u'指定下单':
                 opt2.click()

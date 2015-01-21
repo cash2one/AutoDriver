@@ -24,7 +24,7 @@ class TestCase(unit.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
 
-        opts=self.driver.find_id('customerSource').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('customerSource').find_tags('option')
         self.assertTrue(opts[0].text==u'全部')
         #客户来源默认显示全部
         tuple=(u'全部',u'平台注册',u'手机注册',u'微信注册',u'接口注册')
@@ -50,7 +50,7 @@ class TestCase(unit.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
 
-        opts=self.driver.find_id('dateType').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('dateType').find_tags('option')
         self.assertTrue(opts[0].text==u'按天')
         #时间粒度默认显示全部
         tuple=(u'按天',u'按年',u'按月')

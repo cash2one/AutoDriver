@@ -25,7 +25,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'订单统计').click()
 
         self.driver.find_id('li_source').click()
-        opts=self.driver.find_id('orderResult').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('orderResult').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'成功':
                 opt.click()
