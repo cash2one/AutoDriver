@@ -8,10 +8,15 @@ class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = self.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
         self.driver.login()
 
     def tearDown(self):
-        self.driver.switch_to_home()
+        # 返回首页
+        # self.driver.switch_to_home()
+        # 关闭浏览器
+        self.driver.close()
 
     def test_Announcements(self):
        #跳转至公告管理界面
@@ -19,7 +24,8 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('noticeInfo').clear()
         self.driver.find_element_by_id('noticeInfo').send_keys(u'公告')
         time.sleep(5)
-        self.driver.find_element_by_id('query').click()
+        que=self.driver.find_element_by_id('query').click()
+        self.assertTrue(que.is_selected())
 
 
     def test_Announcements_error(self,Announcements_value):
@@ -28,7 +34,8 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('noticeInfo').clear()
         self.driver.find_element_by_id('noticeInfo').send_keys(Announcements_value)
         time.sleep(5)
-        self.driver.find_element_by_id('query').click()
+        que=self.driver.find_element_by_id('query').click()
+        self.assertTrue(que.is_selected())
 
  #调用initInputValue，并输入不存在的参数
     def test_vulue_error(self):
@@ -50,12 +57,16 @@ class TestCase(unit.TestCase):
         self.driver.get("http://192.168.3.31/hr/hr/notice/listNotice.html")
         #点击标题排序
         self.driver.find_element_by_id('jqgh_list_title').click()
+        tit=self.driver.find_element_by_id('query').click()
+        self.assertTrue(tit.is_selected())
         time.sleep(2)
         #点击发布人排序
-        self.driver.find_element_by_id('jqgh_list_creator_realName').click()
+        re=self.driver.find_element_by_id('jqgh_list_creator_realName').click()
+        self.assertTrue(re.is_selected())
         time.sleep(2)
         #点击发布时间排序
-        self.driver.find_element_by_id('jqgh_list_createTime').click()
+        ti=self.driver.find_element_by_id('jqgh_list_createTime').click()
+        self.assertTrue(ti.is_selected())
         time.sleep(2)
 
 

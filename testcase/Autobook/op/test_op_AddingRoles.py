@@ -16,7 +16,7 @@ class TestCase(unit.TestCase):
     def test_selectAllLimit(self):
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
@@ -26,6 +26,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'运维':  #获取对象属性
                 opt.click()
+                self.assertTrue(opt.is_selected())
         self.driver.find_element_by_id('allLimit').click()
         self.driver.find_id('role_memo').send_keys(u'此角色拥有全部财务权限')
         self.driver.find_id('sure_create_role_btn').click()
