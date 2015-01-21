@@ -24,11 +24,11 @@ class TestCase(unit.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
         self.driver.find_id('statistics_amount').click()
-        text1=self.driver.find_element_by_class_name('order_title').text
+        text1=self.driver.find_class('order_title').text
         self.driver.find_element_by_id('searchCountChart').click()
         self.driver.switch_to_alert()
 
-        text2=self.driver.find_element_by_class_name('highcharts-title').text
+        text2=self.driver.find_class('highcharts-title').text
         self.assertTrue(text1,text2)
         self.driver.find_element_by_link_text(u'关闭').click()
 

@@ -14,7 +14,7 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def selectType(self,type,id,limit):
-        opts=self.driver.find_id('role_platformType').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('role_platformType').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==type:  #获取对象属性
                 opt.click()

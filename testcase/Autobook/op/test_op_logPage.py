@@ -37,7 +37,7 @@ class TestCase(unit.TestCase):
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数
-        self.driver.find_element_by_class_name('ui-pg-input').send_keys("1" + self.driver.keys().RETURN)
+        self.driver.find_class('ui-pg-input').send_keys("1" + self.driver.keys().RETURN)
 
 
     def test_Inputdecimal(self):
@@ -47,7 +47,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数小数
         time.sleep(1)
-        self.driver.find_element_by_class_name('ui-pg-input').send_keys("1.5" + self.driver.keys().RETURN)
+        self.driver.find_class('ui-pg-input').send_keys("1.5" + self.driver.keys().RETURN)
 
     #输入非法字符
     def test_InputCharacters(self):
@@ -57,7 +57,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数
         time.sleep(1)
-        self.driver.find_element_by_class_name('ui-pg-input').send_keys("@@@" + self.driver.keys().RETURN)
+        self.driver.find_class('ui-pg-input').send_keys("@@@" + self.driver.keys().RETURN)
 
 
     #输入超长字符
@@ -68,4 +68,4 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数
         time.sleep(1)
-        self.driver.find_element_by_class_name('ui-pg-input').send_keys("11111111111" + self.driver.keys().RETURN)
+        self.driver.find_class('ui-pg-input').send_keys("11111111111" + self.driver.keys().RETURN)

@@ -25,7 +25,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
 
-        opts=self.driver.find_id('role_platformType').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('role_platformType').find_tags('option')
         self.assertTrue(opts[0].text==u'客服')
         #角色类型默认显示客服
         tuple=(u'客服',u'人事',u'财务',u'运维',u'接口')
