@@ -39,7 +39,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('sure_create_account_btn').click()
         self.driver.switch_to_alert()
         text=self.driver.find_class('xubox_dialog').text
-        self.assertTrue(u'创建账号成功'in text)
+        self.assertTrue(u'创建账号成功'in text,u'')
         self.driver.find_element_by_link_text(u'确定').click()
 
         name=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[1].text
