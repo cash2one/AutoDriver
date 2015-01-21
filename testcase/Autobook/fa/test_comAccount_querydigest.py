@@ -7,7 +7,7 @@ from drivers import *
 class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 

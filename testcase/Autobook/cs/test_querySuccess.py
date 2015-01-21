@@ -24,6 +24,7 @@ class TestCase(unit.TestCase):
         for option in allOptions:
          if option.get_attribute('text')==u'客户下单':
            option.click()
+           self.assertTrue(option.is_selected())
          self.driver.find_element_by_id('query').click()
 
     def test_query1(self):
@@ -33,7 +34,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'平台下单':
                 opt.click()
-
+                self.assertTrue(opt.is_selected())
         self.driver.find_element_by_id('query').click()
         time.sleep(2)
 
@@ -44,7 +45,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'全部来源':
                 opt.click()
-
+                self.assertTrue(opt.is_selected())
         self.driver.find_element_by_id('query').click()
         time.sleep(2)
 
@@ -55,7 +56,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'微信下单':
                 opt.click()
-
+                self.assertTrue(opt.is_selected())
         # table=self.driver.find_element_by_id('table')
         # trs=table.find_elements_by_tag_name('tr')
         #
@@ -74,6 +75,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'全部任务':
                 opt.click()
+                self.assertTrue(opt.is_selected())
 
         self.driver.find_element_by_id('query').click()
         time.sleep(2)
@@ -85,6 +87,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'待分配任务':
                 opt.click()
+                self.assertTrue(opt.is_selected())
 
         self.driver.find_element_by_id('query').click()
         time.sleep(2)
@@ -97,6 +100,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'我的任务':
                 opt.click()
+                self.assertTrue(opt.is_selected())
 
         self.driver.find_element_by_id('query').click()
         time.sleep(2)

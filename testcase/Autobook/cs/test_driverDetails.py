@@ -22,7 +22,7 @@ class TestCase(unit.TestCase):
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
         #点击第一行的司机信息
-        orderInfo_customer_name = trs[1].find_element_by_id('orderInfo_driver_name').click()
+        trs[1].find_element_by_id('orderInfo_driver_name').click()
         time.sleep(2)
         self.driver.switch_to_alert()
         text=self.driver.find_element_by_class_name('xubox_title').text
@@ -35,7 +35,7 @@ class TestCase(unit.TestCase):
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
         #点击第一行的司机信息
-        orderInfo_customer_name = trs[1].find_element_by_id('orderInfo_driver_name').click()
+        trs[1].find_element_by_id('orderInfo_driver_name').click()
         time.sleep(1)
 
         #点击关闭按钮
@@ -45,5 +45,3 @@ class TestCase(unit.TestCase):
 
 
 
-if __name__ =='__main__':
-    unittest.main()
