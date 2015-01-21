@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_orderSource(self):
+        '''
+        按数量统计订单页面，查看订单来源下拉框，下拉框显示'全部'、'平台下单'、'客户下单'、'微信下单'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -37,6 +41,10 @@ class TestCase(unit.TestCase):
 
 
     def test_orderType(self):
+        '''
+        查看订单类型下拉框，下拉框显示'全部'、'指定下单'、'周边下单'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -60,6 +68,10 @@ class TestCase(unit.TestCase):
 
 
     def test_dateType(self):
+        '''
+        查看时间粒度下拉框，下拉框显示'按天'、'按年'、'按月'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
         self.driver.action_chains().move_to_element(above).perform()

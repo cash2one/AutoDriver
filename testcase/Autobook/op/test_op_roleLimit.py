@@ -25,6 +25,10 @@ class TestCase(unit.TestCase):
 
 
     def test_roleName1(self):
+        '''
+        切换角色，查看权限框中的权限是否显示相应权限
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
         self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
