@@ -126,10 +126,10 @@ class NewTestResult(unittest.TestResult):
             result_desc = self.error_str
 
         for ex in self.excepts:
-            # AssertionError:
-            ex_idx = result_desc.find(ex) + len(ex)
-            r_desc = result_desc[ex_idx:len(result_desc)]
-            return r_desc[1:].strip()
+            if ex in result_desc:# AssertionError:
+                ex_idx = result_desc.find(ex) + len(ex)
+                r_desc = result_desc[ex_idx:len(result_desc)]
+                return r_desc[1:].strip()
 
 
             # ex_str = r'(?<=%s:).*' % ex

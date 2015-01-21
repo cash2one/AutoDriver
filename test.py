@@ -28,6 +28,26 @@ def add_path():
 #     # new_issue = jira.create_issue(fields=issue_dict)
 #     # print new_issue
 
+class dd():
+    def __init__(self):
+        '''
+        fwege
+        :return:
+        '''
+        self.name='fff'
+
+    def ccd(self):
+        '''
+        geeeee
+        :return:
+        '''
+        print 'ddd'
+
+
+
+def aaa():
+    print dd.__dict__
+
 if __name__ == "__main__":
     # from framework.util import http
     #
@@ -40,5 +60,4 @@ if __name__ == "__main__":
     # time.sleep(2)
     #
     # ja.create_issue()
-    a=': fwfefe'
-    print a[1:].strip()
+    print aaa()

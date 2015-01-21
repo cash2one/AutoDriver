@@ -56,8 +56,8 @@ class TestCase(unittest.TestCase):
 
     def assertTrue(self, expr, msg=None):
         expect_str = u'期望结果还未读取用例...'
-        expect_msg = u'【期望结果】\r\n%s\r\n\r\n' % expect_str
-        actual_msg = u'【实际结果】\r\n%s' % msg
+        expect_msg = ur'【期望结果】\r\n%s\r\n\r\n' % expect_str
+        actual_msg = ur'【实际结果】\r\n%s' % msg
         super(TestCase, self).assertTrue(expr, expect_msg + actual_msg)
 
 
