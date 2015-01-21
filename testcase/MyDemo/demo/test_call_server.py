@@ -25,6 +25,10 @@ class TestCase(unit.TestCase):
         self.assertTrue(aa in 'dddd','gwgwegegwewweg')
 
     def test_print_f(self):
+        '''
+        ppppp
+        :return:
+        '''
         # winxin_code = self.driver.find_element_by_class_name('winxin_code').find_element_by_tag_name('p').text
         self.driver.get('http://www.baidu.com')
         self.assertTrue(u'关注微信公众' in u'关注微信', u'关注微信')

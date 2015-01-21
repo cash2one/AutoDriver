@@ -2,7 +2,12 @@
 __author__ = 'Administrator'
 
 import sys
+import os
 import time
+
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
 
 
 def add_path():
@@ -71,11 +76,18 @@ class ttes():
         d=dd()
         d.ccd()
 
-    #print dd.__doc__.strip()
+def pyContent():
+
+    file_object = open(PATH('./tesetcase/MyDemo/demo/test_order.pyc'))
+    file_con = ''
+    try:
+        file_con = file_object.read()
+    finally:
+        file_object.close()
+    return file_con
 
 if __name__ == "__main__":
-    t=ttes()
-    t.testtt()
+    print ''.decode("unicode-escape")
     # from framework.util import http
     #
     # ja=http.TestJIRA()
