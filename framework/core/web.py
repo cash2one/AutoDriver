@@ -93,6 +93,18 @@ class Firefox(WebDriver):
     def find_names(self, name):
         return self.find_elements(by=By.NAME, value=name)
 
+    def find_link(self, link_text):
+        return self.find_element(by=By.LINK_TEXT, value=link_text)
+
+    def find_links(self, link_text):
+        return self.find_elements(by=By.LINK_TEXT, value=link_text)
+
+    def find_css(self, css_selector):
+        return self.find_element(by=By.CSS_SELECTOR, value=css_selector)
+
+    def find_csses(self, css_selector):
+        return self.find_elements(by=By.CSS_SELECTOR, value=css_selector)
+
     def _index_url(self, value=''):
         index_url = ''
         try:
