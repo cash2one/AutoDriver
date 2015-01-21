@@ -14,9 +14,13 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_addNotice(self):
+        '''
+        添加公告，添加成功后显示在列表第一项
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_xpath('//*[@id="main_menu"]/ul/li[4]/ul/li[5]/a').click()
         self.driver.find_id('create').click()

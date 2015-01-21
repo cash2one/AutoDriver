@@ -57,18 +57,24 @@ class TestCase(unit.TestCase):
         time.sleep(2)
         #点击选择司机
         self.driver.find_element_by_id('select_driver_btn').click()
+        self.driver.find_ajax_id('near_driver_list')
         nearbyrivers = []
         try:
-            nearbyrivers=self.driver.find_elements_by_class_name('driver_detail_on_list')
+              nearbyrivers=self.driver.find_elements_by_class_name('driver_detail_on_list')
         except self.driver.NoSuchElementException:
             pass
         self.assertTrue(len(nearbyrivers) > 0, u'附近没有司机')
-        driver_exist = False
-        for d in nearbyrivers:
-          name=self.driver.find_element_by_class_name('driver_detail_on_list').find_element_by_class_name('driver_name').text
-          if u'小米' in name:
-           driver_exist = True
-           d.click()
+        ul=self.driver.find_element_by_id('near_driver_list').find_element_by_tag_name('ul')
+        li=ul.find_elements_by_tag_name('li')
+        for d in range(0,len(li)):
+            els=li[d]
+            name=els.find_element_by_class_name('driver_name').text
+            if u'小米' in name:
+                els.click()
+                break
+            else:
+                print(u'没找到司机小米')
+        time.sleep(3)
         self.driver.find_element_by_id('sure_btn').click()
 
         #创建订单按钮

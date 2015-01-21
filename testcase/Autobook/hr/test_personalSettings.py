@@ -8,10 +8,15 @@ class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = self.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
         self.driver.login()
 
     def tearDown(self):
-        self.driver.switch_to_home()
+        # 返回首页
+        # self.driver.switch_to_home()
+        # 关闭浏览器
+        self.driver.close()
 
      #内容为空
     def test_setting_null(self):
@@ -86,3 +91,26 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('email').send_keys(u'zhang123@163.com')
         #点击提交按钮
         self.driver.find_element_by_id('infoSubmit').click()
+
+
+     #内容为空
+    def test_reset(self):
+       #点击个人设置
+        self.driver.find_element_by_id('myNes').click()
+        self.driver.find_element_by_id('realName').clear()
+        self.driver.find_element_by_id('realName').send_keys(u'张静123abc')
+        self.driver.find_element_by_id('mobile').clear()
+        self.driver.find_element_by_id('mobile').send_keys('13123456789')
+        self.driver.find_element_by_id('email').clear()
+        self.driver.find_element_by_id('email').send_keys(u'zhanjin.163.cm')
+        #点击重置按钮
+        self.driver.find_element_by_xpath('/html/body/div[3]/div[2]/div[1]/div[5]/a[2]').click()
+        natex=self.driver.find_element_by_id('realName').text
+        # self.assertTrue(u'人事' in natex)
+        print natex
+        motex=self.driver.find_element_by_id('mobile').text
+        # self.assertTrue(u'人事' in motex)
+        print motex
+        realtex=self.driver.find_element_by_id('realName').text
+        # self.assertTrue(u'人事' in realtex)
+        print realtex

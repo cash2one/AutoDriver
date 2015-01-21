@@ -14,9 +14,13 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_email1(self):
+        '''
+        Email中输入非法字符，系统提示Email格式不正确
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'账号管理').click()
         self.driver.find_id('create').click()
@@ -26,9 +30,13 @@ class TestCase(unit.TestCase):
         self.assertTrue(u'Email格式不正确' in text)
 
     def test_email2(self):
+        '''
+        Email中输入格式不正确，系统提示Email格式不正确
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'账号管理').click()
         self.driver.find_id('create').click()

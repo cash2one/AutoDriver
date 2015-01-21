@@ -14,9 +14,13 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_editNotice1(self):
+        '''
+        修改公告，必填项为空，系统给出错误提示
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_xpath('//*[@id="main_menu"]/ul/li[4]/ul/li[5]/a').click()
         tds=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')
@@ -34,9 +38,13 @@ class TestCase(unit.TestCase):
 
 
     def test_editNotice2(self):
+        '''
+        修改公告，成功后列表中显示修改后的公告
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_xpath('//*[@id="main_menu"]/ul/li[4]/ul/li[5]/a').click()
         tds=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')

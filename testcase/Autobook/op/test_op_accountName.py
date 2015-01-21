@@ -14,9 +14,13 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_createOperator1(self):
+        '''
+        添加账号时，用户名、姓名不填写，系统给出错误提示
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'账号管理').click()
         self.driver.find_id('create').click()
@@ -27,9 +31,13 @@ class TestCase(unit.TestCase):
         self.assertTrue(u'姓名不能为空' in realName)
 
     def test_createOperator2(self):
+        '''
+        添加账号时用户名及姓名输入非法字符，系统给出错误提示
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()

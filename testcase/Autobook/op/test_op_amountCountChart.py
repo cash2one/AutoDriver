@@ -14,9 +14,13 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_searchCountChart(self):
+        '''
+        按订单数量统计订单，点击数量分析图，页面显示准确
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'订单统计').click()
         self.driver.find_id('statistics_amount').click()

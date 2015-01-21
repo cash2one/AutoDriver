@@ -2,46 +2,33 @@
 __author__ = 'wangshanshan@pathbook.com.cn'
 
 from drivers import *
-from drivers import Autobook_cs
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.firefox.webdriver import WebDriver
-import unittest
 
-
-class TT(WebDriver):
-    def __init__(self):
-        firefox_profile = None
-        firefox_binary = None
-        capabilities = None
-        proxy = None
-        timeout = 30
-        super(TT, self).__init__(firefox_profile, firefox_binary, timeout,
-                                      capabilities, proxy)
-
-    def action_chains(self):
-        return ActionChains(self)#.move_to_element(ele).perform()
-
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
+    '''
+    tetsetsetttee
+    '''
     def setUp(self):
-        self.driver = TT()
+        self.driver = self.app(__file__)
         pass
 
     def tearDown(self):
         pass
 
-    def test_print_d(self):
-        self.driver.get('http://www.oschina.net/')
-        a=self.driver.find_element_by_link_text(u'开源中国')
-        self.driver.action_chains().move_to_element(a).perform()
 
-
-    def test_print_e(self):
-        # winxin_code = self.driver.find_element_by_class_name('winxin_code').find_element_by_tag_name('p').text
-
-        self.assertTrue(u'关注微信公众' in '关注微信', 'no content')
+    def test_print_oschina(self):
+        '''
+        期望结果写这里
+        :return:
+        '''
+        self.driver.get('http://www.oschina.net')
+        aa= self.driver.find_id('ProjectNews').find_class('TodayNewsTop1').find_tag('h2').text
+        self.assertTrue(aa in 'dddd','gwgwegegwewweg')
 
     def test_print_f(self):
+        '''
+        期望结果写这里
+        :return:
+        '''
         # winxin_code = self.driver.find_element_by_class_name('winxin_code').find_element_by_tag_name('p').text
-
-        self.assertTrue(u'关注微信公众' in '关注微信', 'no content')
+        self.driver.get('http://www.baidu.com')
+        self.assertTrue(u'关注微信公众' in u'关注微信', u'关注微信')

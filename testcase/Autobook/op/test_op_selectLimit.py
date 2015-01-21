@@ -14,9 +14,13 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_selectLimit(self):
+        '''
+        添加角色页面，点击复选框，复选框被选中，再次点击，复选框被取消选中
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()

@@ -20,7 +20,7 @@ class TestCase(unit.TestCase):
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
 
@@ -58,7 +58,7 @@ class TestCase(unit.TestCase):
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
 
@@ -81,12 +81,12 @@ class TestCase(unit.TestCase):
 
     def test_dateControl1(self):
         '''
-        结束时间小于开始时间，系统给出错误提示
+        统计时间范围超过30天，系统提示'按天统计，只统计30天内的数据，请重新选择！'
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
 

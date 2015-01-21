@@ -14,9 +14,13 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_roleType(self):
+        '''
+        添加角色时，查看角色类型下拉框，'客服'、'人事'、'财务'、'运维'、'接口'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
-        ActionChains(self.driver).move_to_element(above).perform()
+        self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
