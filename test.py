@@ -62,8 +62,12 @@ def func_name():
 
 
 def get_current_function_name():
-    #return inspect.stack()[1][3]
-    return inspect.getframeinfo(inspect.currentframe().f_back)[2]
+    return inspect.stack()[1][3]
+    #return inspect.getframeinfo(inspect.currentframe().f_back)[2]
+
+def cccd():
+    print get_current_function_name()
+
 
 class ttes():
     def testtt(self):
@@ -87,7 +91,7 @@ def pyContent():
     return file_con
 
 if __name__ == "__main__":
-    print ''.decode("unicode-escape")
+    print cccd()
     # from framework.util import http
     #
     # ja=http.TestJIRA()

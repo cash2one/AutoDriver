@@ -14,14 +14,6 @@ PATH = lambda p: os.path.abspath(
 )
 
 
-def my_import(name):
-    mod = __import__(name)
-    components = name.split('.')
-    for comp in components[1:]:
-        mod = getattr(mod, comp)
-    return mod
-
-
 class TestCase(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         super(TestCase, self).__init__(methodName)
@@ -36,7 +28,7 @@ class TestCase(unittest.TestCase):
         # 获取项目路径，转换成app.init 的sections
         # func = inspect.getframeinfo(inspect.currentframe().f_back)
         # print 'func::',os.path.dirname(func[0])
-        #self.file_text = self.__pyContent(file_)
+        # self.file_text = self.__pyContent(file_)
 
         init_size = len(PATH('../../testcase')) + 1
         tar_path = os.path.dirname(file_)
@@ -69,7 +61,7 @@ class TestCase(unittest.TestCase):
     # return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
 
     # def __pyContent(self, path):
-    #     path_ = path.replace('.pyc', '.py')
+    # path_ = path.replace('.pyc', '.py')
     #     file_object = open(path_)
     #     file_con = ''
     #     try:
@@ -92,9 +84,9 @@ class TestCase(unittest.TestCase):
     #         return 'null'
 
     def assertTrue(self, expr, msg=None):
-        func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
+        #func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
         # expect_str = self.__read_notes(func[2])
-        expect_str = eval('self.__class__.%s.__doc__' % func)
+        expect_str = eval('self.__class__.%s.__doc__' % inspect.stack()[1][3])
 
         expect_msg = u'【期望结果】\r\n' + expect_str.replace(':return:', '').strip()
         actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
