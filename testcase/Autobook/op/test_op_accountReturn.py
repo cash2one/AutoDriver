@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_createAccount(self):
+        '''
+        添加账号页面，点击返回按钮，回到账号管理页面
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()

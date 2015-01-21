@@ -56,7 +56,7 @@ class TestCase(unit.TestCase):
 
     def test_queryCustomer1(self):
         '''
-        时间粒度选择按月
+        时间粒度选择按月，列表按月显示客户新增数目
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')

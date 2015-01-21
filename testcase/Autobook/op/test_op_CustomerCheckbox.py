@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_orderSource(self):
+        '''
+        在客户统计页面，查看客户来源下拉框，下拉框显示'全部'、'平台注册'、'手机注册'、'微信注册'、'接口注册'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -22,7 +26,7 @@ class TestCase(unit.TestCase):
 
         opts=self.driver.find_id('customerSource').find_elements_by_tag_name('option')
         self.assertTrue(opts[0].text==u'全部')
-        #订单来源默认显示全部
+        #客户来源默认显示全部
         tuple=(u'全部',u'平台注册',u'手机注册',u'微信注册',u'接口注册')
         isExist =True
         for opt in opts:
@@ -33,9 +37,13 @@ class TestCase(unit.TestCase):
                 break
         time.sleep(2)
         self.assertTrue(isExist,'false')
-        #查看订单来源下拉框中的选项
+        #查看客户来源下拉框中的选项
 
     def test_dateType(self):
+        '''
+        在客户统计页面，查看时间粒度下拉框，下拉框显示'按天'、'按年'、'按月'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
         self.driver.action_chains().move_to_element(above).perform()

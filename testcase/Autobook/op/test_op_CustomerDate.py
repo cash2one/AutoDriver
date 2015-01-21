@@ -81,7 +81,7 @@ class TestCase(unit.TestCase):
 
     def test_dateControl1(self):
         '''
-        结束时间小于开始时间，系统给出错误提示
+        统计时间范围超过30天，系统提示'按天统计，只统计30天内的数据，请重新选择！'
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')

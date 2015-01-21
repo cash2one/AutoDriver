@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_editNotice1(self):
+        '''
+        修改公告，必填项为空，系统给出错误提示
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -34,6 +38,10 @@ class TestCase(unit.TestCase):
 
 
     def test_editNotice2(self):
+        '''
+        修改公告，成功后列表中显示修改后的公告
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()

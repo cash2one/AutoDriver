@@ -41,6 +41,10 @@ class TestCase(unit.TestCase):
 
 
     def test_orderType(self):
+        '''
+        按时段统计订单，查看订单类型下拉框，下拉框显示'全部'、'指定下单'、'周边下单'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'统计查询')
 
         self.driver.action_chains().move_to_element(above).perform()
