@@ -92,3 +92,4 @@ class TestCase(unit.TestCase):
         #点击提交按钮
         self.driver.find_element_by_id('infoSubmit').click()
 
+
