@@ -62,8 +62,8 @@ class TestCase(unittest.TestCase):
 
     # def __pyContent(self, path):
     # path_ = path.replace('.pyc', '.py')
-    #     file_object = open(path_)
-    #     file_con = ''
+    # file_object = open(path_)
+    # file_con = ''
     #     try:
     #         file_con = file_object.read()
     #     finally:
@@ -86,9 +86,10 @@ class TestCase(unittest.TestCase):
     def assertTrue(self, expr, msg=None):
         #func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
         # expect_str = self.__read_notes(func[2])
-        expect_str = eval('self.__class__.%s.__doc__' % inspect.stack()[1][3])
+        func_doc = eval('self.__class__.%s.__doc__' % inspect.stack()[1][3])
+        expect = func_doc.replace(':return:', '').strip()
 
-        expect_msg = u'【期望结果】\r\n' + expect_str.replace(':return:', '').strip()
+        expect_msg = u'【期望结果】\r\n' + unicode(expect, "utf-8")
         actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
         super(TestCase, self).assertTrue(expr, expect_msg + actual_msg)
 

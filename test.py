@@ -91,7 +91,7 @@ def pyContent():
     return file_con
 
 if __name__ == "__main__":
-    print cccd()
+    print unicode('您的爱车', "utf-8")
     # from framework.util import http
     #
     # ja=http.TestJIRA()

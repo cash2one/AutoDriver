@@ -17,7 +17,7 @@ class TestCase(unit.TestCase):
 
     def test_print_oschina(self):
         '''
-        fewgweg  wwged eg
+        期望结果写这里
         :return:
         '''
         self.driver.get('http://www.oschina.net')
@@ -26,7 +26,7 @@ class TestCase(unit.TestCase):
 
     def test_print_f(self):
         '''
-        ppppp
+        期望结果写这里
         :return:
         '''
         # winxin_code = self.driver.find_element_by_class_name('winxin_code').find_element_by_tag_name('p').text
