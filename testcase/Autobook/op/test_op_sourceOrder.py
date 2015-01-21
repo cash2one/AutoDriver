@@ -29,6 +29,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'成功':
                 opt.click()
+                self.assertTrue(opt.is_selected())
 
         time.sleep(3)
         js = '$(\'input[id=startTime_source]\').removeAttr(\'readonly\')'

@@ -8,10 +8,15 @@ class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = self.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
         self.driver.login()
 
     def tearDown(self):
-        self.driver.switch_to_home()
+        # 返回首页
+        # self.driver.switch_to_home()
+        # 关闭浏览器
+        self.driver.close()
 
     #禁用提示
     def test_forbidden(self):
@@ -29,12 +34,14 @@ class TestCase(unit.TestCase):
     def test_forbidden_cancel(self):
         self.test_forbidden()
        #取消
-        self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[2]').click()
-        time.sleep(5)
+        qx1=self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[2]').click()
+        self.assertTrue(qx1.is_selected())
+        time.sleep(3)
 
      #启用操作
     def test_forbidden_confirm(self):
         self.test_forbidden()
         #确定
-        self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[1]').click()
-        time.sleep(5)
+        qd1=self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[1]').click()
+        self.assertTrue(qd1.is_selected())
+        time.sleep(3)

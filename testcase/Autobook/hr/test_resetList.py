@@ -8,10 +8,15 @@ class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = self.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
         self.driver.login()
 
     def tearDown(self):
-        self.driver.switch_to_home()
+        # 返回首页
+        # self.driver.switch_to_home()
+        # 关闭浏览器
+        self.driver.close()
 
     #添加司机信息
     def test_adddriver(self):
@@ -29,12 +34,15 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('value')=='2':
                 opt.click()
+                # 判断是否点击
+                self.assertTrue(opt.is_selected())
         #性别
         opts1=self.driver.find_element_by_id('driverVo_sex').find_elements_by_tag_name('option')
         time.sleep(1)
         for opt in opts1:
             if opt.get_attribute('value')=='0':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #出生年月
         #年份
         opts2=self.driver.find_element_by_id('year').find_elements_by_tag_name('option')
@@ -42,24 +50,28 @@ class TestCase(unit.TestCase):
         for opt in opts2:
             if opt.get_attribute('value')=='1999':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #月份
         opts3=self.driver.find_element_by_id('month').find_elements_by_tag_name('option')
         time.sleep(1)
         for opt in opts3:
             if opt.get_attribute('value')=='10':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #婚育
         opts4=self.driver.find_element_by_id('detailVo_marriage').find_elements_by_tag_name('option')
         time.sleep(1)
         for opt in opts4:
             if opt.get_attribute('value')=='0':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #籍贯
         opts5=self.driver.find_element_by_id('detailVo_marriage').find_elements_by_tag_name('option')
         time.sleep(1)
         for opt in opts5:
             if opt.get_attribute('value')=='3':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #身份证号码
         self.driver.find_element_by_id('driverVo_card').send_keys(u'61232119991020111X')
         #驾驶证号码
@@ -101,6 +113,7 @@ class TestCase(unit.TestCase):
         for opt in opts6:
             if opt.get_attribute('value')=='1':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #体重
         self.driver.find_element_by_id('detailVo_weight').send_keys('50')
         #电脑水平
@@ -109,18 +122,21 @@ class TestCase(unit.TestCase):
         for opt in opts7:
             if opt.get_attribute('value')=='2':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #英语水平
         opts7=self.driver.find_element_by_id('detailVo_englishLevel').find_elements_by_tag_name('option')
         time.sleep(1)
         for opt in opts7:
             if opt.get_attribute('value')=='2':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #学历
         opts8=self.driver.find_element_by_id('detailVo_education').find_elements_by_tag_name('option')
         time.sleep(1)
         for opt in opts8:
             if opt.get_attribute('value')=='2':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #专业
         self.driver.find_element_by_id('detailVo_major').send_keys(u'旅游管理')
         #健康状况
@@ -131,12 +147,14 @@ class TestCase(unit.TestCase):
         for opt in opts9:
             if opt.get_attribute('value')=='1':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         # 熟练驾驶车型
         opts10=self.driver.find_element_by_id('container_carType').find_elements_by_tag_name('input')
         time.sleep(1)
         for opt in opts10:
             if opt.get_attribute('value')=='1':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         # 熟练驾驶车型全选
         self.driver.find_element_by_id('carType_CheckAll').click()
         # 驾龄
@@ -147,6 +165,7 @@ class TestCase(unit.TestCase):
         for opt in opts11:
             if opt.get_attribute('value')=='1':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         # 设备领用全选
         self.driver.find_element_by_id('equipment_CheckAll').click()
         # 紧急联系人姓名
@@ -159,6 +178,7 @@ class TestCase(unit.TestCase):
         for opt in opts12:
             if opt.get_attribute('value')=='1':
                 opt.click()
+                self.assertTrue(opt.is_selected())
         #代驾经验
         self.driver.find_element_by_id('detailVo_drivingExperience').click()
         self.driver.find_element_by_id('detailVo_drivingExperience').send_keys(u'驾驶经验丰富，年轻、沟通能力强。熟悉道路及各种中高档次各款车型。')
@@ -323,4 +343,5 @@ class TestCase(unit.TestCase):
         #列表
         lbtx=self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').text
         self.assertTrue(u'司机列表' in lbtx)
-        self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').click()
+        lb=self.driver.find_element_by_xpath('/html/body/div[3]/div[4]/a[3]').click()
+        self.assertTrue(lb.is_selected())

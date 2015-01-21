@@ -26,6 +26,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'运维':  #获取对象属性
                 opt.click()
+                self.assertTrue(opt.is_selected())
         self.driver.find_element_by_id('allLimit').click()
         self.driver.find_id('role_memo').send_keys(u'此角色拥有全部财务权限')
         self.driver.find_id('sure_create_role_btn').click()
