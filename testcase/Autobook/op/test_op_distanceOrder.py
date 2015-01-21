@@ -61,7 +61,7 @@ class TestCase(unit.TestCase):
 
     def test_dateControl(self):
         '''
-        结束时间小于开始时间，系统弹出提示框
+        结束时间小于开始时间，系统弹出提示框'开始日期不能大于截止日期，请重新选择日期！'
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'统计查询')
