@@ -14,6 +14,12 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_stateQuery(self):
+        '''
+        账号管理列表页面
+        状态为已禁用的，操作栏显示：编辑、启用、重置密码
+        状态为正常的，操作栏显示：编辑、禁用、重置密码
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -36,5 +42,3 @@ class TestCase(unit.TestCase):
                 self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'禁用'))
             self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'编辑'))
             self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'重置密码'))
-        #状态为已禁用的，操作栏显示：编辑、启用、重置密码
-        #状态为正常的，操作栏显示：编辑、禁用、重置密码

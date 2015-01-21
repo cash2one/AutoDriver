@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_roleName1(self):
+        '''
+        添加角色时，角色未填写，系统提示'角色名称不能为空.'
+        :return:
+        '''
 
         above=self.driver.find_element_by_link_text(u'系统管理')
 
@@ -29,7 +33,10 @@ class TestCase(unit.TestCase):
         self.assertEqual(text,u'角色名称不能为空.')
 
     def test_roleName2(self):
-
+        '''
+        添加角色时，角色填写非法字符，系统提示'角色名称不能为空.'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()

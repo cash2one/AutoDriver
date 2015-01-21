@@ -16,6 +16,7 @@ class TestCase(unit.TestCase):
     def test_weixin_info(self):
         '''
         添加微信响应信息，查看类型下拉框
+        切换类型下拉框，下方显示响应的模块
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'微信服务')
