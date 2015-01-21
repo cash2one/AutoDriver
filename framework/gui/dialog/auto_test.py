@@ -10,6 +10,7 @@ from framework.gui.views import auto_test_ui
 from framework.gui.models import autotest_model
 from framework.core import data
 from framework.core import task as ta
+from framework.util import fs
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -36,15 +37,26 @@ class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
         print task_data
         self.start_task(task_data)
 
+    def find_xls(self, task_data):
+        path = task_data['path']
+        idx = path.find('testcase') + len('testcase')
+        opt = path[idx:0].replace(os.sep, '_')
+        ini = fs.readConfig(PATH('../../config.ini'), 'task', opt)
+        xls_name = fs.readConfig(PATH('../../manifest/%s' % ini), 'settings', 'test_case')
+        return xls_name
+
+
     def start_task(self, task_data):
         db_folder = PATH(DB_PATH)
         if not os.path.exists(db_folder):
             os.mkdir(db_folder)
 
         db_path = os.path.join(db_folder, task_data['result'])
-
-        gdata = data.generateData(PATH('../../../resource/xls/'), db_path)
-        gdata.close()
+        if not os.path.exists(db_path):
+            xls_file = PATH('../../../resource/xls/%s' % self.find_xls(task_data))
+            if os.path.exists(xls_file):
+                gdata = data.generateData(xls_file, db_path)
+                gdata.close()
 
         task_list = []
         for c in task_data['task']:
