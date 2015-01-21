@@ -44,7 +44,7 @@ class TestCase(unit.TestCase):
         driver_name=self.driver.find_element_by_id('driver_name')
         driver_name.send_kets('赵茜阿尔木子克里斯蒂娜')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='赵茜阿尔木子','')
+        self.assertTrue(driver_name.text=='赵茜阿尔木子','不存在指定字符串')
         # 姓名输入超长
 
 
@@ -52,14 +52,14 @@ class TestCase(unit.TestCase):
         driver_name=self.driver.find_element_by_id('driver_name')
         driver_name.send_kets('54351')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','')
+        self.assertTrue(driver_name.text=='','不存在指定字符串')
         # 姓名输入数字
 
     def test_name_special(self):
         driver_name=self.driver.find_element_by_id('driver_name')
         driver_name.send_kets('%%￥￥')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','')
+        self.assertTrue(driver_name.text=='','不存在指定字符串')
         # 姓名输入特殊字符
 
     def test_name(self):
