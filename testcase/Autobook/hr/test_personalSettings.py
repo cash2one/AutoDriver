@@ -91,3 +91,5 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('email').send_keys(u'zhang123@163.com')
         #点击提交按钮
         self.driver.find_element_by_id('infoSubmit').click()
+
+

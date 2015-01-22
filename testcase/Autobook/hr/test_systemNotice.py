@@ -55,3 +55,4 @@ class TestCase(unit.TestCase):
           notx=self.driver.find_element_by_class_name('notice_row').text
           self.assertTrue(u'1、' in notx)
           self.driver.find_element_by_class_name('notice_row').click()
+

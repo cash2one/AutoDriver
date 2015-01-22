@@ -185,3 +185,9 @@ class DBManager():
                 self.close_all(cu)
         else:
             print('the [{}] is empty or equal None!'.format(sql))
+
+    def clean_table(self,table_name):
+        cu = self.get_cursor()
+        cu.execute("delete from %s" %table_name)
+        self.conn.commit()
+        self.close_all(cu)

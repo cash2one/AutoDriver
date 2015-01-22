@@ -10,21 +10,19 @@ def sql(tables_vals):
         list.append(sql_str)
     return list
 
-
+# HasAndroid 0,
+# HasInterface 1,
+# HasIOS 2,
+# HasWeb 3,
+# HasWindowsPhone 4,
 def Tables():
     tables = {}
 
     Product = '''
     ProductName varchar(100) NOT NULL,
     ProductDesc varchar(300) NULL,
-    HasAndroid integer NOT NULL,
-    HasInterface integer NOT NULL,
-    HasIOS integer NOT NULL,
-    HasWeb integer NOT NULL,
-    HasWindowsPhone integer NOT NULL,
-    ProductTypeName varchar(100) NOT NULL,
-    IsEnable integer NOT NULL,
-    Product_Id integer NOT NULL
+    ProductType integer NOT NULL,
+    IsEnable integer NOT NULL
     '''
     tables.setdefault('Product', Product)
 
@@ -57,6 +55,7 @@ def Tables():
     Abstract varchar(4000) NULL,
     LastUpdateDT datetime NULL,
     LastUpdateBy varchar(255) NULL
+    Module_Id integer NOT NULL
     '''
     tables.setdefault('TestCase', TestCase)
 
@@ -72,12 +71,12 @@ def Tables():
     '''
     tables.setdefault('TestCaseAtt', TestCaseAtt)
 
+    #子用例，适配接口的流程
     TestCaseDetail = '''
     Actual varchar(1000) NULL,
     Expectation varchar(1000) NULL,
     IsEnable integer NOT NULL,
     TestCase_Id integer NOT NULL,
-    Module_Id integer NOT NULL
     '''
     tables.setdefault('TestCaseDetail', TestCaseDetail)
 
