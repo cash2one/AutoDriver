@@ -73,7 +73,7 @@ class TestCase(unit.TestCase):
         self.assertTrue(u'小米' in text,'选择的司机不是小米')
 
 
-    #在选择司机页面判断选择的死是否匹配
+    #在选择司机页面判断选择的司机是否匹配
     def test_driver(self):
         self.driver.find_ajax_id('main_menu')
         self.driver.find_element_by_id('main_menu').click()
@@ -127,4 +127,7 @@ class TestCase(unit.TestCase):
         #点击确定按钮
         self.driver.find_element_by_id('sure_btn').click()
         time.sleep(3)
-       #没下完少个断言（选择的司机和司机框中的司机比较）
+        #获取创建订单页面选择司机文本框中的司机
+        text=self.driver.find_element_by_id('driverName').get_attribute("value")
+        print text
+        self.assertEqual(text==u'小米',u'选择的司机和文本框中显示的司机相等')
