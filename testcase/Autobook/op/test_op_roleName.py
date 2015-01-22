@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_roleName1(self):
+        '''
+        添加角色时，角色未填写，系统提示'角色名称不能为空.'
+        :return:
+        '''
 
         above=self.driver.find_element_by_link_text(u'系统管理')
 
@@ -29,7 +33,10 @@ class TestCase(unit.TestCase):
         self.assertEqual(text,u'角色名称不能为空.')
 
     def test_roleName2(self):
-
+        '''
+        添加角色时，角色填写非法字符，系统提示'角色名称不能为空.'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -56,11 +63,11 @@ class TestCase(unit.TestCase):
         self.driver.find_id('sure_create_role_btn').click()
         self.driver.switch_to_alert()
         time.sleep(2)
-        text=self.driver.find_element_by_class_name('xubox_main').text
+        text=self.driver.find_class('xubox_main').text
         self.assertTrue(u"添加角色成功" in text)
         self.driver.find_element_by_xpath(u'/html/body/div[5]/div[1]/span[2]/a').click()
 
-        name=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[2].text
+        name=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')[2].text
         self.assertTrue(name==u'财务超级管理')
         print name
 

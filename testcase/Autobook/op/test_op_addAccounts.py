@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_createAccount(self):
+        '''
+        添加账号，添加成功后，显示在列表第一项
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -24,7 +28,7 @@ class TestCase(unit.TestCase):
         r=u'李三56'
         self.driver.find_id('operator_name').send_keys(n)
         self.driver.find_id('operator_realName').send_keys(r)
-        ipts=self.driver.find_id('pf2_roles').find_elements_by_tag_name('input')
+        ipts=self.driver.find_id('pf2_roles').find_tags('input')
         for ipt in ipts:
             if ipt.get_attribute('title')==u'客服经理':
                 ipt.click()
@@ -34,13 +38,13 @@ class TestCase(unit.TestCase):
 
         self.driver.find_id('sure_create_account_btn').click()
         self.driver.switch_to_alert()
-        text=self.driver.find_element_by_class_name('xubox_dialog').text
+        text=self.driver.find_class('xubox_dialog').text
         self.assertTrue(u'创建账号成功'in text)
         self.driver.find_element_by_link_text(u'确定').click()
 
-        name=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[1].text
-        realName=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[2].text
-        role=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[3].text
+        name=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[1].text
+        realName=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[2].text
+        role=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[3].text
         self.assertTrue(n in name)
         self.assertTrue(r in realName)
         self.assertTrue(u'客服经理'in role)

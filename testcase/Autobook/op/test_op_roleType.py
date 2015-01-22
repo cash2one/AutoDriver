@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_roleType(self):
+        '''
+        添加角色时，查看角色类型下拉框，'客服'、'人事'、'财务'、'运维'、'接口'
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -21,7 +25,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'角色管理').click()
         self.driver.find_id('create').click()
 
-        opts=self.driver.find_id('role_platformType').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('role_platformType').find_tags('option')
         self.assertTrue(opts[0].text==u'客服')
         #角色类型默认显示客服
         tuple=(u'客服',u'人事',u'财务',u'运维',u'接口')
