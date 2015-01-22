@@ -3,8 +3,8 @@ from selenium.webdriver.remote.webelement import WebElement as SeleniumWebElemen
 
 
 class WebElement(SeleniumWebElement):
-    def find_id(self, id):
-        return self.find_element(by=By.ID, value=id)
+    def find_id(self, id_):
+        return self.find_element(by=By.ID, value=id_)
 
     def find_ids(self, id_):
         return self.find_elements(by=By.ID, value=id_)

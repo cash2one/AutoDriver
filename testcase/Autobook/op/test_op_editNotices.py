@@ -23,7 +23,7 @@ class TestCase(unit.TestCase):
         self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_xpath('//*[@id="main_menu"]/ul/li[4]/ul/li[5]/a').click()
-        tds=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')
+        tds=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')
         tds[len(tds)-1].find_element_by_link_text(u'修改').click()
         self.driver.find_id('notice_title').clear()
         self.driver.find_id('notice_content').clear()
@@ -47,7 +47,7 @@ class TestCase(unit.TestCase):
         self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在系统管理上
         self.driver.find_element_by_xpath('//*[@id="main_menu"]/ul/li[4]/ul/li[5]/a').click()
-        tds=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')
+        tds=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')
         tds[len(tds)-1].find_element_by_link_text(u'修改').click()
         self.driver.find_id('notice_title').clear()
         self.driver.find_id('notice_title').send_keys(u'最新消息')
@@ -56,7 +56,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('notice_content').send_keys(t)
 
         self.driver.find_id('sure_btn').click()
-        tds=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')
+        tds=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')
         title=tds[1].text
         content=tds[2].text
         self.assertEqual(u'最新消息',title)

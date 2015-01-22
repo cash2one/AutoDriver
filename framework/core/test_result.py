@@ -125,7 +125,7 @@ class NewTestResult(unittest.TestResult):
             result_desc = self.fail_str
         elif self.error_str.strip() != '':
             result_desc = self.error_str
-
+        print result_desc
         assert_str = ''
         for ex in self.excepts:
             if ex in result_desc:  # AssertionError:

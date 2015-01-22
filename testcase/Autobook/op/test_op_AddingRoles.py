@@ -26,7 +26,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('create').click()
         #进入角色添加页面
         self.driver.find_id('role_name').send_keys(u'运维超级管理员2')
-        opts=self.driver.find_id('role_platformType').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('role_platformType').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'运维':  #获取对象属性
                 opt.click()
@@ -36,12 +36,12 @@ class TestCase(unit.TestCase):
         self.driver.find_id('sure_create_role_btn').click()
         self.driver.switch_to_alert()
         time.sleep(2)
-        text=self.driver.find_element_by_class_name('xubox_main').text
+        text=self.driver.find_class('xubox_main').text
         self.assertTrue(u"添加角色成功" in text)
         self.driver.find_element_by_xpath(u'/html/body/div[5]/div[1]/span[2]/a').click()
-        type=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[1].text
-        name=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[2].text
-        memo=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[3].text
+        type=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')[1].text
+        name=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')[2].text
+        memo=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')[3].text
         self.assertTrue(type==u'运维')
         self.assertTrue(name==u'运维超级管理员2')
         self.assertTrue(memo==u'此角色拥有全部财务权限')

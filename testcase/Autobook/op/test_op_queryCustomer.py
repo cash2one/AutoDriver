@@ -24,7 +24,7 @@ class TestCase(unit.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
 
-        opts=self.driver.find_id('customerSource').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('customerSource').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'平台注册':
                 opt.click()
@@ -64,31 +64,31 @@ class TestCase(unit.TestCase):
         self.driver.action_chains().move_to_element(above).perform()
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
-        opts=self.driver.find_id('dateType').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('dateType').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'按月':
                 opt.click()
                 self.assertTrue(opt.is_selected())
 
-        Syears=self.driver.find_id('startYear').find_elements_by_tag_name('option')
+        Syears=self.driver.find_id('startYear').find_tags('option')
         for Syear in Syears:
             if Syear.get_attribute('text')==u'2014':
                 Syear.click()
                 self.assertTrue(Syear.is_selected())
 
-        Smonths=self.driver.find_id('startMonth').find_elements_by_tag_name('option')
+        Smonths=self.driver.find_id('startMonth').find_tags('option')
         for Smonth in Smonths:
             if Smonth.get_attribute('text')==u'10':
                 Smonth.click()
                 self.assertTrue(Smonth.is_selected())
 
-        Eyears=self.driver.find_id('endYear').find_elements_by_tag_name('option')
+        Eyears=self.driver.find_id('endYear').find_tags('option')
         for Eyear in Eyears:
             if Eyear.get_attribute('text')==u'2015':
                 Eyear.click()
                 self.assertTrue(Eyear.is_selected())
 
-        Emonths=self.driver.find_id('endMonth').find_elements_by_tag_name('option')
+        Emonths=self.driver.find_id('endMonth').find_tags('option')
         for Emonth in Emonths:
             if Emonth.get_attribute('text')==u'01':
                 Emonth.click()
