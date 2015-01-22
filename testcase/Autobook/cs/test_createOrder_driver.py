@@ -87,7 +87,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text('创建订单').click()
         time.sleep(5)
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'该页面不是创建订单页面')
         finally:
             pass
         #time.sleep(3)
@@ -108,4 +108,4 @@ class TestCase(unit.TestCase):
         #在选择司机页面直接点击确定按钮
         self.driver.find_element_by_id('sure_btn').click()
         text=self.driver.find_element_by_class_name('xubox_dialog').text
-        self.assertTrue(text==u'请至少选择一位司机')
+        self.assertEqual(text==u'请至少选择一位司机',u'提示框中内容不相等')
