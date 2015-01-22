@@ -73,10 +73,10 @@ class TestCase(unittest.TestCase):
     # def __read_notes(self, func):
     # sign_str = "'''"
     # func_index = self.file_text.find(func)
-    #     note = self.file_text[func_index:]
+    # note = self.file_text[func_index:]
     #
-    #     notes_s = note.find(sign_str) + len(sign_str)
-    #     if notes_s > len(sign_str):
+    # notes_s = note.find(sign_str) + len(sign_str)
+    # if notes_s > len(sign_str):
     #         note_c = note[notes_s:]
     #         note_e = note_c.find(sign_str)
     #         return note_c[0:note_e].replace(':return:', '').strip()
@@ -84,10 +84,16 @@ class TestCase(unittest.TestCase):
     #         return 'null'
     def __msg(self, func_str, msg):
         func_doc = eval('self.__class__.%s.__doc__' % func_str)
+        if func_doc != None:
+            expect = func_doc.replace(':return:', '').strip()
+            expect_msg = u'【期望结果】\r\n' + unicode(expect, "utf-8")
+        else:
+            expect_msg = u'【期望结果】\r\n'
 
-        expect = func_doc.replace(':return:', '').strip()
-        expect_msg = u'【期望结果】\r\n' + unicode(expect, "utf-8")
-        actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
+        if msg != None:
+            actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
+        else:
+            actual_msg = u'\r\n\r\n【实际结果】\r\n'
 
         return expect_msg + actual_msg
 
