@@ -2,6 +2,7 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import datetime, string, re
+import uuid
 
 
 def to_datetime(str_time):
@@ -62,7 +63,7 @@ def combine_url(host, api='', params=None):
 
     uri = ''
     if host[-1] == '/':
-        #服务器地址是否末尾带斜杠/
+        # 服务器地址是否末尾带斜杠/
         if api.find('/') == 0:
             uri = host + api[1:len(api)] + param_str
         else:
@@ -80,11 +81,40 @@ def to_int(str_number):
         return None
 
     if isFloat(str_number):
-            return int(string.atof(str_number))
+        return int(string.atof(str_number))
     else:
         return longToInt(str_number)
 
 
+def path_to_tree(cat_list):
+    '''
+    路径转化为树
+    :param cat_list:
+    :return:
+    '''
+    nodes = []
+    for ca in cat_list:
+        t = tuple(ca.split('\\'))
+
+        for i in range(0, len(t)):
+            node = {}
+            index = len(t) - 1
+            current = t[index - i]
+
+            node['name'] = current
+            self_name = (ca.split(current)[0] + current).replace('\\', '')
+            #parent_name = ''
+            node['uu_name'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, str(self_name)))
+            if index - i - 1 < 0:
+                node['parent'] = None
+            else:
+                parent_name = ca.split(current)[0].replace('\\', '')
+                node['parent'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, str(parent_name)))
+            #print node['name'], '---', self_name, '---', parent_name
+            if not node in nodes:
+                nodes.append(node)
+
+    return nodes
 
 
 
