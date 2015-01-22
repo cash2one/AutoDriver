@@ -28,18 +28,18 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('content').send_keys(u'{"res":"-2031","msg":"令牌失效"}')
         self.driver.find_element_by_id('query').click()
         time.sleep(3)
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs=self.driver.find_element_by_id('list').find_tags('tr')
          #判断长度是不是小于1
         if len(trs)>1:
             #循环行
             for i in range(1,len(trs)):
                 #找到td
-                text1=trs[i].find_elements_by_tag_name('td')[4].text
-                text2=trs[i].find_elements_by_tag_name('td')[5].text
-                text3=trs[i].find_elements_by_tag_name('td')[6].text
-                text4=trs[i].find_elements_by_tag_name('td')[7].text
-                text5=trs[i].find_elements_by_tag_name('td')[8].text
-                text6=trs[i].find_elements_by_tag_name('td')[9].text
+                text1=trs[i].find_tags('td')[4].text
+                text2=trs[i].find_tags('td')[5].text
+                text3=trs[i].find_tags('td')[6].text
+                text4=trs[i].find_tags('td')[7].text
+                text5=trs[i].find_tags('td')[8].text
+                text6=trs[i].find_tags('td')[9].text
                 #判断是不是td里面的  请求参数是不是res":"-2031","msg":"令牌失效
                 print text1,i
                 print text2,i

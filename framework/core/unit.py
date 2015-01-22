@@ -2,9 +2,12 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
+import sys
+import re
 from framework.core import the
 from framework.util import const, fs
 import unittest
+import inspect
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -14,6 +17,7 @@ PATH = lambda p: os.path.abspath(
 class TestCase(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         super(TestCase, self).__init__(methodName)
+        self.file_text = ''
 
     def app(self, file_):
         '''
@@ -22,6 +26,10 @@ class TestCase(unittest.TestCase):
         :return:
         '''
         # 获取项目路径，转换成app.init 的sections
+        # func = inspect.getframeinfo(inspect.currentframe().f_back)
+        # print 'func::',os.path.dirname(func[0])
+        # self.file_text = self.__pyContent(file_)
+
         init_size = len(PATH('../../testcase')) + 1
         tar_path = os.path.dirname(file_)
         section = tar_path[init_size:len(tar_path)].replace(os.sep, '_')
@@ -44,5 +52,63 @@ class TestCase(unittest.TestCase):
             the.taskConfig[sect][const.PRODUCT].splash()
         return the.taskConfig[sect][const.PRODUCT]
 
+    # def func_name(self):
+    # """Return the frame object for the caller's stack frame."""
+    # try:
+    # raise Exception
+    # except:
+    # f = sys.exc_info()[2].tb_frame.f_back
+    # return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
+
+    # def __pyContent(self, path):
+    # path_ = path.replace('.pyc', '.py')
+    # file_object = open(path_)
+    # file_con = ''
+    # try:
+    # file_con = file_object.read()
+    # finally:
+    # file_object.close()
+    # return file_con
+    #
+    # def __read_notes(self, func):
+    # sign_str = "'''"
+    # func_index = self.file_text.find(func)
+    # note = self.file_text[func_index:]
+    #
+    # notes_s = note.find(sign_str) + len(sign_str)
+    # if notes_s > len(sign_str):
+    #         note_c = note[notes_s:]
+    #         note_e = note_c.find(sign_str)
+    #         return note_c[0:note_e].replace(':return:', '').strip()
+    #     else:
+    #         return 'null'
+    def __msg(self, func_str, msg):
+        func_doc = eval('self.__class__.%s.__doc__' % func_str)
+        if func_doc != None:
+            expect = func_doc.replace(':return:', '').strip()
+            expect_msg = u'【期望结果】\r\n' + unicode(expect, "utf-8")
+        else:
+            expect_msg = u'【期望结果】\r\n'
+
+        if msg != None:
+            actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
+        else:
+            actual_msg = u'\r\n\r\n【实际结果】\r\n'
+
+        return expect_msg + actual_msg
+
+    def assertTrue(self, expr, msg=None):
+        #func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
+        # expect_str = self.__read_notes(func[2])
+        func_str = inspect.stack()[1][3]
+        super(TestCase, self).assertTrue(expr, self.__msg(func_str, msg))
+
+    def assertFalse(self, expr, msg=None):
+        func_str = inspect.stack()[1][3]
+        super(TestCase, self).assertFalse(expr, self.__msg(func_str, msg))
+
+    def assertEqual(self, first, second, msg=None):
+        func_str = inspect.stack()[1][3]
+        super(TestCase, self).assertEqual(first, second, self.__msg(func_str, msg))
 
 

@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_addNotice(self):
+        '''
+        添加公告，添加成功后显示在列表第一项
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -24,7 +28,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('notice_content').send_keys(u'最近，凤凰台风来袭，注意关好窗户，防止衣服被刮走。')
         self.driver.find_id('allRole').click()
         self.driver.find_id('sure_btn').click()
-        tds=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')
+        tds=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')
         title=tds[1].text
         content=tds[2].text
         self.assertEqual(u'公告通知',title)

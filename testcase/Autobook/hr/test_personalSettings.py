@@ -14,9 +14,10 @@ class TestCase(unit.TestCase):
 
     def tearDown(self):
         # 返回首页
-        # self.driver.switch_to_home()
+        self.driver.switch_to_home()
         # 关闭浏览器
-        self.driver.close()
+        # self.driver.close()
+
 
      #内容为空
     def test_setting_null(self):
@@ -91,3 +92,5 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('email').send_keys(u'zhang123@163.com')
         #点击提交按钮
         self.driver.find_element_by_id('infoSubmit').click()
+
+

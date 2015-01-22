@@ -14,6 +14,11 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_selectAllLimit(self):
+        '''
+        点击全选复选框，权限选项全部被选中
+        点击反选复选框，权限选项全部被取消选中
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -22,9 +27,9 @@ class TestCase(unit.TestCase):
         self.driver.find_id('create').click()
         #进入角色添加页面
         self.driver.find_id('allLimit').click()
-        #点击全选复选框，权限选项全部被选中
+
         try:
-            inputs=self.driver.find_id('limitsList').find_elements_by_tag_name('input')
+            inputs=self.driver.find_id('limitsList').find_tags('input')
             for ipt in inputs:
                 self.assertTrue(ipt.is_selected())
         finally:
@@ -34,7 +39,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('reverseCheck').click()
         #点击反选复选框，权限选项全部被取消选中
         try:
-            inputs=self.driver.find_id('limitsList').find_elements_by_tag_name('input')
+            inputs=self.driver.find_id('limitsList').find_tags('input')
             for ipt in inputs:
                 self.assertFalse(ipt.is_selected())
         finally:
