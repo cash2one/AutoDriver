@@ -29,7 +29,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('allLimit').click()
 
         try:
-            inputs=self.driver.find_id('limitsList').find_elements_by_tag_name('input')
+            inputs=self.driver.find_id('limitsList').find_tags('input')
             for ipt in inputs:
                 self.assertTrue(ipt.is_selected())
         finally:
@@ -39,7 +39,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('reverseCheck').click()
         #点击反选复选框，权限选项全部被取消选中
         try:
-            inputs=self.driver.find_id('limitsList').find_elements_by_tag_name('input')
+            inputs=self.driver.find_id('limitsList').find_tags('input')
             for ipt in inputs:
                 self.assertFalse(ipt.is_selected())
         finally:

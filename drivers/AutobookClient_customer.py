@@ -31,10 +31,10 @@ class Application(android.Android):
     def __init__(self, config):
         super(Application, self).__init__(config)
 
-    def to_datetime(self,str_time):
+    def to_datetime(self, str_time):
         return strs.to_datetime(str_time)
 
-    def to_long(self,str_number):
+    def to_long(self, str_number):
         return strs.to_long(str_number)
 
     def wait_loading(self):
@@ -44,7 +44,7 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package + NET_WAIT)
+                self.find_id(NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True
@@ -56,21 +56,33 @@ class Application(android.Android):
             self.settings['driver_status'] = False
 
         if self.settings['driver_status'] != isWorking:
-            self.find_element_by_id(self.package + WORK_STATE).click()
+            self.find_id(WORK_STATE).click()
             self.settings['driver_status'] = isWorking
             self.wait_loading()
 
     def login(self, robot_name=''):
-        if '.driver' in self.settings['app_package']:
-            login_driver(self)
-        elif '.customer' in self.settings['app_package']:
-            login_customer(self, robot_name)
+        # if '.driver' in self.settings['app_package']:
+        #     login_driver(self)
+        # elif '.customer' in self.settings['app_package']:
+        #     login_customer(self, robot_name)
+        user_name = self.settings['user_name']
+
+        # 向全局the新增用户端登录状态
+        login_status = add_devices('customer_login', False)
+
+        if not login_status:
+            register_user(self, user_name)
+
+        # 订单机器人发起，发起自定义的用户名，需要修改用户名
+        if robot_name != '' and robot_name not in user_name:
+            self.switch_to_home()
+            register_user(self, robot_name)
 
     def swipe_up(self, id_):
         # {'y': 274, 'x': 0}
         # {'width': 720, 'height': 894}
-        loc = self.find_element_by_id(self.package + id_).location
-        sz = self.find_element_by_id(self.package + id_).size
+        loc = self.find_id(id_).location
+        sz = self.find_id(id_).size
 
         start_y = loc['y'] + 5
         end_y = start_y - 5 + sz['height'] - 5
@@ -82,12 +94,12 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package + ORDER_LOAD)
+                self.find_id(ORDER_LOAD)
             except NoSuchElementException:
                 isLoading = True
 
     def swipee(self, id_):
-        ids = self.find_elements_by_id(self.package + id_)
+        ids = self.find_id(id_)
         first_y = ids[0].location['y']
         item_height = ids[0].size['height']
 
@@ -100,7 +112,7 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package + ORDER_LOAD)
+                self.find_id(ORDER_LOAD)
             except NoSuchElementException:
                 isLoading = True
 
@@ -109,14 +121,14 @@ class Application(android.Android):
         '''
         列表滑动，找到匹配的内容后，click
         '''
-        self.find_element_by_id(self.package + item_id)
+        self.find_id(item_id)
         time_out = TIME_OUT + 50
         while time_out > 0:
-            items = self.find_elements_by_id(self.package + item_id)
+            items = self.find_id(item_id)
             for item in items:
-                if target_txt in item.find_element_by_id(target_id).text:
+                if target_txt in item.find_id(target_id).text:
                     if execute_id != '':
-                        item.find_element_by_id(execute_id).click()
+                        item.find_id(execute_id).click()
                     else:
                         item.click()
                     break
@@ -133,7 +145,7 @@ class Application(android.Android):
         '''
         datas = ()
         while page_size > 0:
-            items = self.find_elements_by_id(self.package + item_id)
+            items = self.find_id(item_id)
 
             for item in items:
                 # if len(sub_item_id) > 0:
@@ -142,7 +154,7 @@ class Application(android.Android):
                 for sub in sub_items:
                     sub_txt = ''
                     try:
-                        sub_txt = item.find_element_by_id(self.package + sub).text
+                        sub_txt = item.find_id(sub).text
                         sub_tup += (sub_txt,)
                     except NoSuchElementException:
                         print 'find id fail', sub_txt
@@ -166,7 +178,7 @@ class Application(android.Android):
         while True:
             tv_wait = ''
             try:
-                tv_wait = self.find_element_by_id(self.package + 'tv_wait').text
+                tv_wait = self.find_id('tv_wait').text
             except NoSuchElementException:
                 break
 
@@ -211,7 +223,7 @@ class Application(android.Android):
     # '''
     # xmlrpc_s = the.settings['xmlrpc']
     # s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
-    #     try:
+    # try:
     #         s.set_customer(True, user_name)
     #     except xmlrpclib.Fault:
     #         pass
@@ -349,7 +361,7 @@ class Application(android.Android):
         return self.settings['contact_phone']  # ['idriver.android.customer']
 
     def clear_text(self, id_):
-        txt = self.find_element_by_id(self.package + id_).get_attribute('text')
+        txt = self.find_id(id_).get_attribute('text')
         self.keyevent(123)
 
         for i in range(0, len(txt)):
@@ -399,13 +411,13 @@ class Application(android.Android):
         time_out = TIME_OUT
         while time_out > 0:
             try:
-                self.find_element_by_id(self.package + id_)
+                self.find_id(id_)
                 isExist = True
             except NoSuchElementException:
                 isExist = False
 
             if isExist:
-                return self.find_element_by_id(self.package + id_)
+                return self.find_id(id_)
 
             time_out -= 1
             time.sleep(0.5)
@@ -416,8 +428,8 @@ class Application(android.Android):
         time_out = TIME_OUT
         while time_out > 0:
             try:
-                if txt in self.find_element_by_id(self.package + id_).text:
-                    return self.find_element_by_id(self.package + id_)
+                if txt in self.find_id(id_).text:
+                    return self.find_id(id_)
                     # break
             except NoSuchElementException:
                 pass
@@ -427,23 +439,33 @@ class Application(android.Android):
         else:
             raise NameError, 'find_element timeout'
 
+
     def splash(self):
-        time_out = TIME_OUT
-        try:
-            splash_activity = self.settings['app_activity']
-            while time_out > 0:
-                if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
-                    if splash_activity not in self.current_activity:
-                        break
-                time_out -= 1
-                time.sleep(0.5)
-            else:
-                raise NameError, 'switch timeout'
+        splash_activity = self.settings['app_activity']  #.SplashActivity
+        guide_activity = self.settings['guide_activity']  #.GuideActivity
 
-            self.wait_loading()
+        self.wait_switch(splash_activity)
+        self.find_id('start_btn').click()
+        self.wait_switch(guide_activity)
 
-        except KeyError:
-            pass  #raise NameError, 'app_activity is not exist'
+
+    # def splash(self):
+    #     time_out = TIME_OUT
+    #     try:
+    #         splash_activity = self.settings['app_activity']
+    #         while time_out > 0:
+    #             if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+    #                 if splash_activity not in self.current_activity:
+    #                     break
+    #             time_out -= 1
+    #             time.sleep(0.5)
+    #         else:
+    #             raise NameError, 'switch timeout'
+    #
+    #         self.wait_loading()
+    #
+    #     except KeyError:
+    #         pass  #raise NameError, 'app_activity is not exist'
 
 
     def wait_switch(self, origin_activity):

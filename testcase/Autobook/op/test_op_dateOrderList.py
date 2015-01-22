@@ -31,10 +31,10 @@ class TestCase(unit.TestCase):
         self.driver.find_id('statistics_amount').click()
         #选择结束时间
         time.sleep(3)
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
-        start=trs[1].find_elements_by_tag_name('td')[0].text
+        trs=self.driver.find_element_by_id('list').find_tags('tr')
+        start=trs[1].find_tags('td')[0].text
         startTime=start[0:4]+'-'+start[5:7]+'-'+start[-3:-1]
-        end=trs[len(trs)-1].find_elements_by_tag_name('td')[0].text
+        end=trs[len(trs)-1].find_tags('td')[0].text
         endTime=end[0:4]+'-'+end[5:7]+'-'+end[-3:-1]
         print startTime1,endTime1
         self.assertEqual(str(startTime1),startTime)
@@ -65,10 +65,10 @@ class TestCase(unit.TestCase):
         self.driver.find_id('statistics_amount').click()
         #选择结束时间
         time.sleep(3)
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
-        start=trs[1].find_elements_by_tag_name('td')[0].text
+        trs=self.driver.find_element_by_id('list').find_tags('tr')
+        start=trs[1].find_tags('td')[0].text
         startTime=start[0:4]+'-'+start[5:7]+'-'+start[-3:-1]
-        end=trs[len(trs)-1].find_elements_by_tag_name('td')[0].text
+        end=trs[len(trs)-1].find_tags('td')[0].text
         endTime=end[0:4]+'-'+end[5:7]+'-'+end[-3:-1]
         self.assertEqual(time1,startTime)
         self.assertEqual(time2,endTime)
