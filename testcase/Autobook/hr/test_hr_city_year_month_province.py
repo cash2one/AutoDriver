@@ -3,26 +3,17 @@ __author__ = 'lvfangying@pathbook.com.cn'
 
 #hr_循环验证用户名错误登录测试
 
-import unittest
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
 import time
-# from util.fileUtil import *
-import os
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
+
     def setUp(self):
-        self.driver = testcase.app(__file__)
-        #浏览器最大化
-        self.driver.maximize_window()
+        self.driver = self.app(__file__)
         self.driver.login()
 
-
-    # def tearDown(self):
-    #     # 返回首页
-    #     self.driver.switch_to_home()
+    def tearDown(self):
+        self.driver.switch_to_home()
 
     def test_city(self):
         self.driver.find_element_by_id('btn_add').click()
@@ -36,6 +27,7 @@ class TestCase(unittest.TestCase):
         for city in citys:
             if city.get_attribute('value')=='-99':
                 city.click()
+                self.assertTrue(city.is_selected())
 
     def test_city2(self):
 
@@ -44,6 +36,7 @@ class TestCase(unittest.TestCase):
         for city in citys:
             if city.get_attribute('value')=='1':
                 city.click()
+                self.assertTrue(city.is_selected())
 #
 
     def test_year(self):
@@ -57,6 +50,7 @@ class TestCase(unittest.TestCase):
         for year in years:
             if year.get_attribute('value')=='-99':
                 year.click()
+                self.assertTrue(year.is_selected())
 
     def test_year2(self):
         years=self.driver.find_element_by_id('year').find_elements_by_tag_name('option')
@@ -64,6 +58,7 @@ class TestCase(unittest.TestCase):
         for year in years:
             if year.get_attribute('value')=='1995':
                year.click()
+               self.assertTrue(year.is_selected())
 
     def test_month(self):
         self.driver.find_element_by_id('btn_add').click()
@@ -76,6 +71,7 @@ class TestCase(unittest.TestCase):
         for month in months:
             if month.get_attribute('value')=='-99':
                 month.click()
+                self.assertTrue(month.is_selected())
 
     def test_month2(self):
         months=self.driver.find_element_by_id('month').find_elements_by_tag_name('option')
@@ -83,6 +79,7 @@ class TestCase(unittest.TestCase):
         for month in months:
             if month.get_attribute('value')=='1':
                 month.click()
+                self.assertTrue(month.is_selected())
 
 
     def test_province(self):
@@ -96,6 +93,7 @@ class TestCase(unittest.TestCase):
         for province in provinces:
             if province.get_attribute('value')=='-99':
                 province.click()
+                self.assertTrue(province.is_selected())
 
     def test_province2(self):
         provinces=self.driver.find_element_by_id('driverVo_province').find_elements_by_tag_name('option')
@@ -103,3 +101,4 @@ class TestCase(unittest.TestCase):
         for province in provinces:
             if province.get_attribute('value')=='1':
                 province.click()
+                self.assertTrue(province.is_selected())
