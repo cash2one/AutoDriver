@@ -54,9 +54,9 @@ class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
         db_path = os.path.join(db_folder, task_data['result'])
         if not os.path.exists(db_path):
             xls_file = PATH('../../../resource/xls/%s' % self.find_xls(task_data))
-            if os.path.exists(xls_file):
-                gdata = data.generateData(xls_file, db_path)
-                gdata.close()
+            #if os.path.exists(xls_file):
+            gdata = data.generateData(xls_file, db_path)
+            gdata.close()
 
         task_list = []
         for c in task_data['task']:
