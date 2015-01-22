@@ -15,7 +15,7 @@ class TestCase(unit.TestCase):
          #返回首页
         self.driver.switch_to_home()
 
-    #司机出入账,打印，打印次数自动加1
+    #司机出入账,打印，打印次数自动加  1
     def test_statisticsDriver_Print(self):
         '''
         司机出入账,打印，打印次数自动加1
