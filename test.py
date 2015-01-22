@@ -135,6 +135,8 @@ def load_tree(cat):
         print t_dict
         trees.append(t_dict)
 
+    print trees
+
 
 def scan_path(path_str, i):
     di = {}
@@ -149,5 +151,5 @@ def scan_path(path_str, i):
 
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
-    print eval('1'+'.'+'2')
+    print load_tree(cats())
 
