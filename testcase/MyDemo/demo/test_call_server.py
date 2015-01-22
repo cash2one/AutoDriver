@@ -16,13 +16,10 @@ class TestCase(unit.TestCase):
 
 
     def test_print_oschina(self):
-        '''
-        期望结果写这里
-        :return:
-        '''
+
         self.driver.get('http://www.oschina.net')
         aa= self.driver.find_id('ProjectNews').find_class('TodayNewsTop1').find_tag('h2').text
-        self.assertTrue(aa in 'dddd','gwgwegegwewweg')
+        self.assertTrue(aa in 'dddd')
 
     def test_print_f(self):
         '''
