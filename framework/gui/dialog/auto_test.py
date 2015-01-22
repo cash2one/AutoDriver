@@ -34,7 +34,7 @@ class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
         self.result_data = ()
         self.taskModel = None
 
-        print task_data
+        print 'auto_test::',task_data
         self.start_task(task_data)
 
     def find_xls(self, task_data):
@@ -52,8 +52,9 @@ class AutotestDialog(QDialog, auto_test_ui.Ui_Dialog):
             os.mkdir(db_folder)
 
         db_path = os.path.join(db_folder, task_data['result'])
+        print db_path
         if not os.path.exists(db_path):
-            xls_file = PATH('../../../resource/xls/%s' % self.find_xls(task_data))
+            xls_file = ''#PATH('../../../resource/xls/%s' % self.find_xls(task_data['task']))
             #if os.path.exists(xls_file):
             gdata = data.generateData(xls_file, db_path)
             gdata.close()

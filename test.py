@@ -149,5 +149,5 @@ def scan_path(path_str, i):
 
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
-    print load_tree(cats())
+    print eval('1'+'.'+'2')
 
