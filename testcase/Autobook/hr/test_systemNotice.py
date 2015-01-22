@@ -37,7 +37,6 @@ class TestCase(unit.TestCase):
           self.driver.find_element_by_class_name('notice_row').click()
 
 
-
     def test_setting_readed(self):
 
        #点击系统公告

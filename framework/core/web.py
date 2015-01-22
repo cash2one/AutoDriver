@@ -68,9 +68,9 @@ class Firefox(WebDriver):
     #     #return self.find_element_by_id(id)
     #     return self.find_element(by=By.ID, value=id_)
 
-    def find_id(self, id):
+    def find_id(self, id_):
         #id_ = self.layout(id)
-        return self.find_element(by=By.ID, value=id)
+        return self.find_element(by=By.ID, value=id_)
 
     def find_ids(self, id_):
         return self.find_elements(by=By.ID, value=id_)

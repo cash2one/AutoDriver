@@ -349,8 +349,8 @@ class generateData():
             p_id = self.init_product(p)
 
             for t in types:
-                pt_id = self.init_productType(p,t,p_id)
-                t+=(pt_id,)
+                #pt_id = self.init_productType(p,t,p_id)
+                #t+=(pt_id,)
                 if len(new_types)!=len(types):
                     new_types.append(t)
 
@@ -378,22 +378,22 @@ class generateData():
 
 
     def init_product(self,data):
-        sql = "INSERT INTO Product values (NULL,?,?,?,?,?,?,?,?)"
+        sql = "INSERT INTO Product values (NULL,?,?,?,?)"
         return self.dbm.insert_value(sql,data)
 
-    def init_productType(self,product,product_type,pid):
-        sql_t = "INSERT INTO ProductType values (NULL,?,?,?,?)"
-
-        if product[0] == product_type[0]:
-            #去除第一个作为匹配product的name，加入product的id，重新生成一个元组
-            tu = ()
-            for i in range(1,len(product_type)):
-                tu+=(product_type[i],)
-            tu+=(pid,)
-
-            return self.dbm.insert_value(sql_t,tu)
-        else:
-            return 0
+    # def init_productType(self,product,product_type,pid):
+    #     sql_t = "INSERT INTO ProductType values (NULL,?,?,?,?)"
+    #
+    #     if product[0] == product_type[0]:
+    #         #去除第一个作为匹配product的name，加入product的id，重新生成一个元组
+    #         tu = ()
+    #         for i in range(1,len(product_type)):
+    #             tu+=(product_type[i],)
+    #         tu+=(pid,)
+    #
+    #         return self.dbm.insert_value(sql_t,tu)
+    #     else:
+    #         return 0
 
     def init_module(self,module,p_type_name,pt_id):
         sql = "INSERT INTO Module values (NULL,?,?,?,?,?,?,?,?,?,?,?)"
