@@ -24,8 +24,8 @@ class TestCase(unit.TestCase):
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'账号管理').click()
         self.driver.find_id('create').click()
-        n='lishan23'
-        r=u'李三56'
+        n='lishan232'
+        r=u'李三16'
         self.driver.find_id('operator_name').send_keys(n)
         self.driver.find_id('operator_realName').send_keys(r)
         ipts=self.driver.find_id('pf2_roles').find_tags('input')
@@ -48,3 +48,6 @@ class TestCase(unit.TestCase):
         self.assertTrue(n in name)
         self.assertTrue(r in realName)
         self.assertTrue(u'客服经理'in role)
+
+
+
