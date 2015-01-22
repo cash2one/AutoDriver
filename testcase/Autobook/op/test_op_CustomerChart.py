@@ -24,7 +24,7 @@ class TestCase(unit.TestCase):
         #鼠标悬停在统计查询
         self.driver.find_element_by_link_text(u'客户统计').click()
 
-        opts=self.driver.find_id('customerSource').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('customerSource').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'平台注册':
                 opt.click()
@@ -33,9 +33,9 @@ class TestCase(unit.TestCase):
         self.driver.find_id('statistics').click()
 
         self.assertEqual(self.driver.title,u'客户统计列表')
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
-        startTime=trs[1].find_elements_by_tag_name('td')[0].text
-        endTime=trs[len(trs)-1].find_elements_by_tag_name('td')[0].text
+        trs=self.driver.find_element_by_id('list').find_tags('tr')
+        startTime=trs[1].find_tags('td')[0].text
+        endTime=trs[len(trs)-1].find_tags('td')[0].text
         self.driver.find_element_by_id('customerChart').click()
         text=self.driver.find_element_by_css_selector('#highcharts-0 > svg > text > tspan').text
         self.assertTrue(u'平台注册' in text)

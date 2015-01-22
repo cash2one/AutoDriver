@@ -7,7 +7,7 @@ from PyQt4.QtCore import *
 from framework.gui.views import task_ui
 from framework.gui.models import home_model
 from framework.core import the
-from framework.gui.helpers import temp_data
+from framework.util import fs, sqlite
 from framework.gui.dialog import dlg_task, auto_test
 
 
@@ -27,7 +27,7 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.currentCellIndex = 0
         self.result_data = ()
 
-        task_data = temp_data.task_list(PATH('../../testcase'))
+        task_data = temp_task_data(PATH('../../testcase'))
         self.taskModel = home_model.QTableModel(task_data, self)
 
         self.createContextMenu()
@@ -66,17 +66,34 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         self.contextMenu = QMenu(self)
         self.actionA = self.contextMenu.addAction(u'显示详情')
         self.actionB = self.contextMenu.addAction(u'执行自动化')
+        self.contextMenu.addSeparator()
         self.action_report = self.contextMenu.addAction(u'生成测试报告')
-        self.actionC = self.contextMenu.addAction(u'删除')
+        self.action_clean = self.contextMenu.addAction(u'清空测试结果')
 
         self.actionA.triggered.connect(self.show_current_task)
         self.actionB.triggered.connect(self.run_auto_test)
-        self.actionC.triggered.connect(self.actionHandler)
+        self.action_clean.triggered.connect(self.clean_result)
         self.action_report.triggered.connect(self.startReport)
         # self.connect(self.actionB, SIGNAL("doubleClicked(const QModelIndex&)"), self.show_current_task)
 
         self.contextMenu.popup(QCursor.pos())
         self.contextMenu.show()
+
+    def clean_result(self):
+        idx = self.tv_task.currentIndex()
+        if idx.isValid():
+            _data = self.taskModel.rowContent(idx.row())
+            db_path = PATH('../../result/%s' % _data['result'])
+            ret = QMessageBox.warning(self, u'清空测试结果',
+                                      u"\n是否确认清空测试结果！",
+                                      QMessageBox.Yes | QMessageBox.Cancel)
+            if ret == QMessageBox.Yes and os.path.exists(db_path):
+                dbm = sqlite.DBManager(db_path)
+                dbm.clean_table('Result')
+                dbm.close_db()
+            elif ret == QMessageBox.Cancel:
+                pass
+
 
     def startReport(self):
         '''
@@ -90,7 +107,9 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         # rp = report.Report(data.getDatabasePath(root_dir), 25)
         # rp.start()
         # webbrowser.open(PATH('./report/index.html'))
-        pass
+        QMessageBox.warning(self, u'没做',
+                            u"\n等我搞定数据库！",
+                            QMessageBox.Yes)
 
     def run_auto_test(self):
         idx = self.tv_task.currentIndex()
@@ -211,3 +230,38 @@ class TaskForm(QWidget, task_ui.Ui_Form):
                                 u"\n有未填写的内容，请仔细校对！  \n",
                                 QMessageBox.Yes)
 
+
+def temp_task_data(data_path):
+    task_list = ()
+    t_no = 0
+    for parent, dirnames, filenames in os.walk(data_path):
+        if len(dirnames) == 0:
+            dir_name = parent[len(data_path) + 1:len(parent)]
+            files = fs.filter_files(parent, 'test', 'py')
+
+            scripts = []
+            for c in files:
+                sc = {}
+                sc['name'] = c
+                sc['source'] = dir_name
+                sc['loop'] = 1  # 写入自动化脚本 和执行次数到case_dict
+                sc['desc'] = ''
+                scripts.append(sc)
+
+            tasks = []
+            if len(scripts) > 0:
+                task = {}
+                task['cases'] = scripts
+                task['status'] = 0
+                task['path'] = parent
+                tasks.append(task)
+
+            t_no += 1
+            db = dir_name.replace(os.sep, '_') + '.db'  # str(uuid.uuid1()).replace('-', '') + '.db'
+            task_list += (
+                {'row': (
+                    '00' + str(t_no), dir_name, u'自动化', u'未开始', u'普通', the.jira.displayName, the.jira.displayName,
+                    '2014-07-02 17:35:00', '2014-07-02 17:35:00', '', '2014-07-02 17:35:00', 'desc'),
+                 'task': tasks, 'result': db},
+            )
+    return task_list

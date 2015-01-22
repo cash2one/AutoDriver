@@ -63,11 +63,11 @@ class TestCase(unit.TestCase):
         self.driver.find_id('sure_create_role_btn').click()
         self.driver.switch_to_alert()
         time.sleep(2)
-        text=self.driver.find_element_by_class_name('xubox_main').text
+        text=self.driver.find_class('xubox_main').text
         self.assertTrue(u"添加角色成功" in text)
         self.driver.find_element_by_xpath(u'/html/body/div[5]/div[1]/span[2]/a').click()
 
-        name=self.driver.find_id('list').find_elements_by_tag_name('tr')[1].find_elements_by_tag_name('td')[2].text
+        name=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')[2].text
         self.assertTrue(name==u'财务超级管理')
         print name
 
