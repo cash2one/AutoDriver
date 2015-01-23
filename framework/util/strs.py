@@ -103,14 +103,12 @@ def path_to_tree(cat_list):
 
             node['name'] = current
             self_name = (ca.split(current)[0] + current).replace('\\', '')
-            #parent_name = ''
-            node['uu_name'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, str(self_name)))
+            node['uu_name'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, self_name.encode('utf-8')))
             if index - i - 1 < 0:
                 node['parent'] = None
             else:
                 parent_name = ca.split(current)[0].replace('\\', '')
-                node['parent'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, str(parent_name)))
-            #print node['name'], '---', self_name, '---', parent_name
+                node['parent'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, parent_name.encode('utf-8')))
             if not node in nodes:
                 nodes.append(node)
 

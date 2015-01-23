@@ -89,9 +89,9 @@ class ttes():
 
 
 def cats():
-    # cat = [u'订单管理\待处理订单\查询失败', u'订单管理\历史订单\查询成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核']
-    cat = [u'order\\pending\\findFail\\fwgweg\\eeee', u'order\\history\\findSuccess', u'customer\\complain\\vaisit',
-           u'customer\\complain\Auditing']
+    cat = [u'订单管理\待处理订单\查询失败', u'订单管理\历史订单\查询成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核']
+    # cat = [u'order\\pending\\findFail\\fwgweg\\eeee', u'order\\history\\findSuccess', u'customer\\complain\\vaisit',
+    # u'customer\\complain\Auditing']
     cat = list(set(cat))
 
     tree = [
@@ -99,17 +99,17 @@ def cats():
             u'订单管理':
                 [
                     {
-                        u'待处理订': [u'查询失败']
+                        u'待处理订': [{'查询失败': []}]
                     },
                     {
-                        u'历史订单': [u'查询成功']
+                        u'历史订单': [{'查询成功': []}]
                     }
                 ]
         },
         {u'客户管理':
              [
                  {
-                     u'客户投诉': ['回访', '审核']
+                     u'客户投诉': [{'回访': []}, {'审核': []}]
                  },
                  {
                      u'客户xx': ['oo', 'cc']
@@ -118,7 +118,6 @@ def cats():
         }
     ]
     return cat
-
 
 
 def PrintFrame():
@@ -131,8 +130,35 @@ def PrintFrame():
     print info.lineno
 
 
-def gg():
-    PrintFrame()
+def walk_tree(nodes):
+    # for node in nodes:
+    # node_dict = {node['name']: []}
+    # print node_dict
+    # if node['parent'] == None:
+    # pass
+    #     elif node['parent'] == node['name']:
+    #         pass
+    new_list = []
+    for i in range(0, len(nodes)):
+        n_list = []
+
+        for n in range(i + 1, len(nodes)):
+            node_self = {nodes[i]['name']: []}
+            node_parent = {nodes[n]['name']: []}
+            if nodes[i]['parent'] == nodes[n]['uu_name']:
+                node_parent[nodes[n]['name']].append(node_self)
+                n_list.append(node_parent)
+            elif nodes[i]['uu_name'] == nodes[n]['parent']:
+                node_self[nodes[i]['name']].append(node_parent)
+
+                n_list.append(node_self)
+            # else:
+            #     print nodes[i]['name']
+
+        if len(n_list)>0:
+            new_list.append(n_list)
+
+    return new_list
 
 
 if __name__ == "__main__":
@@ -140,5 +166,9 @@ if __name__ == "__main__":
     #
     # print  os.path.realpath(__file__)
     from framework.util import strs
-    print json.dumps(strs.path_to_tree((cats())))
+
+    nodes = strs.path_to_tree(cats())
+    #print nodes
+    print json.dumps(walk_tree(nodes))
+
 
