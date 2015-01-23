@@ -23,40 +23,47 @@ class TestCase(unit.TestCase):
         '''
         time.sleep(2)
         self.driver.find_element_by_link_text('统计报表').click()
-        time.sleep(2)
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('司机出入账').click()
         time.sleep(2)
 
-        self.driver.find_element_by_id('year').click()
+        #self.driver.find_element_by_id('year').click()
         self.driver.find_element_by_id('year').find_elements_by_tag_name('option')[3].click()#选择2013年
-        self.driver.find_element_by_id('year').click()
+        time.sleep(1)
+        #self.driver.find_element_by_id('year').click()
         self.driver.find_element_by_id('year').find_elements_by_tag_name('option')[4].click()#选择2014年
+        time.sleep(1)
         self.driver.find_element_by_id('statistics').click()#点击统计，进入司机出入账列表界面
         time.sleep(1)
 
 
-        self.driver.find_element_by_id('invoices').find_elements_by_tag_name('option')[2].click()#选择未打印
+        self.driver.find_element_by_id('invoices').find_elements_by_tag_name('option')[0].click()#选择是否打印发票
         self.driver.find_element_by_id('query').click()#点击查询query
-        time.sleep(1)
+        time.sleep(2)
 
         #取出打印之前的打印次数
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
         printNum = trs[1].find_elements_by_tag_name('td')[7]
         printNum_text = printNum.get_attribute('title')
-        trs[1].find_element_by_id('print').click()#点击第一行的打印
-        time.sleep(1)
-        text = self.driver.find_class('xubox_main').find_class('xubox_msg').text
-        self.assertTrue(u'确定打印发票？' in text,'msg')
-        self.driver.find_class('xubox_main').find_class('xubox_yes').click()#点击确定
-        time.sleep(1)
+        print printNum_text
+        trs[1].find_class('print').click()#点击第一行的打印
+        time.sleep(2)
+        table_msg = self.driver.find_class('xubox_main')
+        msg_text = table_msg.find_class('xubox_text').text
+        print msg_text
+        self.assertTrue(u'确定打印发票' in msg_text,'msg')
+        table_msg.find_class('xubox_yes').click()#点击确定
+        time.sleep(3)
 
         #取出打印之后的打印次数
+        self.driver.find_element_by_id('query').click()#点击查询query刷新页面
+        time.sleep(2)
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
         printNum2 = trs2[1].find_elements_by_tag_name('td')[7]
         printNum_text_new = printNum2.get_attribute('title')
-        print printNum_text,printNum_text_new
+        print printNum_text_new
         #比较打印前后的次数打印后自动加1，先将次数转换成int型。
         self.assertTrue(int(printNum_text_new) == int(printNum_text) + 1,'msg')
         # if int(printNum_text_new) == int(printNum_text) + 1:
