@@ -37,14 +37,13 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('query').click()
 
     def test_Apppage(self):
-
         above=self.driver.find_element_by_link_text(u'信息维护')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
         self.driver.find_element_by_link_text(u'APP基本信息').click()
         id=self.driver.find_id('first_pager')
-        self.assertFalse(id.is_enabled())
-        text=self.driver.find_element_by_class_name('ui-pg-selbox').text
+        #self.assertFalse(id.is_enabled())
+
         #系统自动更新列表记录，底部的当前显示页数也自动更新
         self.driver.find_id('next_pager').click()
         text=self.driver.find_element_by_class_name('ui-pg-selbox').text
@@ -91,6 +90,7 @@ class TestCase(unit.TestCase):
                 opt.click()
                 time.sleep(1)
                 self.assertTrue(len(trs)=='21')
+
             elif opt.get_attribute('text')=='40':
                 opt.click()
                 time.sleep(1)
