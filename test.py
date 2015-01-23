@@ -4,6 +4,8 @@ __author__ = 'Administrator'
 import sys
 import os
 import time
+import json
+import uuid
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -91,7 +93,7 @@ def cats():
     cat = [u'order\\pending\\findFail\\fwgweg\\eeee', u'order\\history\\findSuccess', u'customer\\complain\\vaisit',
            u'customer\\complain\Auditing']
     cat = list(set(cat))
-    print cat
+
     tree = [
         {
             u'订单管理':
@@ -108,6 +110,9 @@ def cats():
              [
                  {
                      u'客户投诉': ['回访', '审核']
+                 },
+                 {
+                     u'客户xx': ['oo', 'cc']
                  }
              ]
         }
@@ -115,39 +120,25 @@ def cats():
     return cat
 
 
-def load_tree(cat):
-    trees = []
-    for ca in cat:
-        t = tuple(ca.split('\\'))
 
-        t_tup = ()
-        for i in range(0, len(t) - 1):
-            di = {}
-            di[t[i]] = t[i + 1]
-            t_tup += (di,)
-
-        print t_tup
-
-        t_dict = {}
-        for m in range(0, len(t_tup) - 1):
-            if t_tup[m].values()[0] == t_tup[m + 1].keys()[0]:
-                t_dict[t_tup[m].values()[0]] = t_tup[m + 1]
-        print t_dict
-        trees.append(t_dict)
+def PrintFrame():
+    callerframerecord = inspect.stack()[1]  # 0 represents this line
+    # 1 represents line at caller
+    frame = callerframerecord[0]
+    info = inspect.getframeinfo(frame)
+    print info.filename  # __FILE__     -> Test.py
+    print info.function  # __FUNCTION__ -> Main
+    print info.lineno
 
 
-def scan_path(path_str, i):
-    di = {}
-    di[path_str[i]] = path_str[i + 1]
-    return di
-    # t_dict[path_str[i]] = di
-
-
-
-    # for i in range(0,len(cats)):
+def gg():
+    PrintFrame()
 
 
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
-    print load_tree(cats())
+    #
+    # print  os.path.realpath(__file__)
+    from framework.util import strs
+    print json.dumps(strs.path_to_tree((cats())))
 
