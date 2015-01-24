@@ -10,7 +10,7 @@ from PyQt4 import QtNetwork
 from woodpecker.views import main_ui
 from woodpecker.dialog import monitor, new_issue
 from framework.core import the
-from woodpecker import task, jiras, api_test, testcase, login, home
+import task, jiras, api_test, testcase, login, home
 
 
 ja = the.jira
