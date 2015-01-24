@@ -90,8 +90,6 @@ class ttes():
 
 def cats():
     cat = [u'订单管理\待处理订单\查询失败', u'订单管理\历史订单\查询成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核']
-    # cat = [u'order\\pending\\findFail\\fwgweg\\eeee', u'order\\history\\findSuccess', u'customer\\complain\\vaisit',
-    # u'customer\\complain\Auditing']
     cat = list(set(cat))
 
     tree = [
@@ -131,34 +129,80 @@ def PrintFrame():
 
 
 def walk_tree(nodes):
-    # for node in nodes:
-    # node_dict = {node['name']: []}
-    # print node_dict
-    # if node['parent'] == None:
-    # pass
-    #     elif node['parent'] == node['name']:
-    #         pass
     new_list = []
+    left_list = []
+    yq = []
+    parents = []
     for i in range(0, len(nodes)):
-        n_list = []
+        if nodes[i]['parent_id'] == None:
+            parents.append(nodes[i])
 
-        for n in range(i + 1, len(nodes)):
-            node_self = {nodes[i]['name']: []}
-            node_parent = {nodes[n]['name']: []}
-            if nodes[i]['parent'] == nodes[n]['uu_name']:
-                node_parent[nodes[n]['name']].append(node_self)
-                n_list.append(node_parent)
-            elif nodes[i]['uu_name'] == nodes[n]['parent']:
-                node_self[nodes[i]['name']].append(node_parent)
 
-                n_list.append(node_self)
+    for i in range(0, len(nodes)):
+        for p in parents:
+            p_s = {p['name']: []}
+            if p['self_id'] == nodes[i]['parent_id']:
+                p_s[p['name']].append({nodes[i]['name']: []})
+                yq.append(i)
+
+            if not i in yq:
+                p_s['name'] = nodes[i]['name']
+                p_s['self_id'] = nodes[i]['self_id']
+                p_s['parent_id'] = nodes[i]['parent_id']
+
+                new_list.append(p_s)
+
+    # for i in range(0, len(nodes)):
+    #
+    #     self_s = {nodes[i]['name']: [], 'parent_id': ''}
+    #     for n in range(i + 1, len(nodes)):
+    #
+    #         # 把子都找出来
+    #         if nodes[i]['self_id'] == nodes[n]['parent_id']:
+    #             self_s[nodes[i]['name']].append({nodes[n]['name']: []})
+    #             yq.append(n)
+
+                # for n in range(i + 1, len(nodes)):
+                # parent_s = {nodes[n]['name']: [], 'parent_id': ''}
+                #     if nodes[i]['parent_id'] == nodes[n]['self_id']:
+                #         parent_s[nodes[n]['name']].append(self_s)
+                #         yq.append(n)
+
+                # 后面的子 没找出来
+
+        # if not i in yq:
+        #     self_s['name'] = nodes[i]['name']
+        #     self_s['self_id'] = nodes[i]['self_id']
+        #     self_s['parent_id'] = nodes[i]['parent_id']
+        #
+        #     new_list.append(self_s)
+
+
+
+
+
+
+            # if self_s['parent_id'] == None:
+
+
             # else:
-            #     print nodes[i]['name']
+            # left_list.append(self_s)
 
-        if len(n_list)>0:
-            new_list.append(n_list)
+            # for new in new_list:
+            # if new['parent_id']!=None:
+            # walk_tree(new_list)
+            #
+            # if len(n_list) > 0:
+            # new_list.append(n_list)
 
-    return new_list
+    return new_list, left_list
+
+
+def ddd(nodes):
+    # new_nodes = walk_tree(nodes)
+    for node in nodes:
+        if node['parent_id'] != None:
+            walk_tree(nodes)
 
 
 if __name__ == "__main__":
@@ -168,7 +212,10 @@ if __name__ == "__main__":
     from framework.util import strs
 
     nodes = strs.path_to_tree(cats())
-    #print nodes
-    print json.dumps(walk_tree(nodes))
+    # print nodes
+    n, l = walk_tree(nodes)
+    print json.dumps(n)
+    print '----------------'
+    print json.dumps(l)
 
 
