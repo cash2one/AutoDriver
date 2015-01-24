@@ -4,10 +4,12 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
+
 from PyQt4 import QtGui
+
 from framework.core import task, data, the
 from framework.util import mail
-from framework.gui import main as ui
+from woodpecker import main as ui
 
 
 PATH = lambda p: os.path.abspath(
@@ -100,7 +102,7 @@ def main():
             start()
         elif args[1] == "-report":
             startReport()
-        elif args[1] == "-gui":
+        elif args[1] == "-woodpecker":
             gui()
         elif args[1] == "-help":
             help()
