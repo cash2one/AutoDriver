@@ -2,13 +2,13 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
+from framework.core import box
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4.QtWebKit import *
 
 from woodpecker.views import file_browser_ui, label_btn
-from framework.core import the
 
 
 PATH = lambda p: os.path.abspath(
@@ -47,7 +47,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
 
         if file_type != HTML:
             self.file_name = file_url.split('/')[-1]
-            self.file_path = os.path.join(PATH(the.jira.folder), self.file_name)
+            self.file_path = os.path.join(PATH(box.jira.folder), self.file_name)
             self.setWindowTitle(u'文件浏览：' + self.file_name)
         else:
             self.file_name = ''
@@ -122,7 +122,7 @@ class FileDialog(QDialog, file_browser_ui.Ui_Dialog):
             self.v_layout.addWidget(webview)
 
     def write_file(self, data_reply):
-        folder = PATH(the.jira.folder)
+        folder = PATH(box.jira.folder)
         if not os.path.exists(folder):
             os.mkdir(PATH(folder))
 

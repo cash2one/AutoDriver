@@ -2,6 +2,7 @@
 __author__ = 'guguohai@outlook.com'
 
 import sys
+from framework.core import box
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -9,11 +10,10 @@ from PyQt4 import QtNetwork
 
 from woodpecker.views import main_ui
 from woodpecker.dialog import monitor, new_issue
-from framework.core import the
 import task, jiras, api_test, testcase, login, home
 
 
-ja = the.jira
+ja = box.jira
 
 
 class MainWindow(QMainWindow, main_ui.Ui_MainWindow):

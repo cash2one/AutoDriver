@@ -2,11 +2,11 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
+from framework.core import box
+from framework.util import fs, sqlite
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
-from framework.core import the
-from framework.util import fs, sqlite
 
 from woodpecker.views import task_ui
 from woodpecker.models import home_model
@@ -186,9 +186,9 @@ class TaskForm(QWidget, task_ui.Ui_Form):
 
 
     def show_new_task(self):
-        if the.jira.isActive:
+        if box.jira.isActive:
             self.dlgTask = dlg_task.TaskDialog()
-            self.dlgTask.lbl_creator.setText(the.jira.userName)
+            self.dlgTask.lbl_creator.setText(box.jira.userName)
             self.dlgTask.btn_ok.clicked.connect(self.insert_data)
             self.dlgTask.exec_()
         else:
@@ -266,7 +266,7 @@ def temp_task_data(data_path):
             db = dir_name.replace(os.sep, '_') + '.db'  # str(uuid.uuid1()).replace('-', '') + '.db'
             task_list += (
                 {'row': (
-                    '00' + str(t_no), dir_name, u'自动化', u'未开始', u'普通', the.jira.displayName, the.jira.displayName,
+                    '00' + str(t_no), dir_name, u'自动化', u'未开始', u'普通', box.jira.displayName, box.jira.displayName,
                     '2014-07-02 17:35:00', '2014-07-02 17:35:00', '', '2014-07-02 17:35:00', 'desc'),
                  'task': tasks, 'result': db},
             )

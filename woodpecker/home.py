@@ -4,6 +4,7 @@ __author__ = 'guguohai@outlook.com'
 import os
 import time
 import re
+from framework.core import box
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -11,7 +12,6 @@ from PyQt4 import QtNetwork
 
 from woodpecker.views import home_ui
 from woodpecker.dialog import browser
-from framework.core import the
 
 
 PATH = lambda p: os.path.abspath(
@@ -41,8 +41,8 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                       'http://zaodula.com/feed')
         self.nam_finish_num = 0
 
-        if len(the.jira.home) >= len(self.pages):
-            for dic in the.jira.home:
+        if len(box.jira.home) >= len(self.pages):
+            for dic in box.jira.home:
                 self.nam_finish_num += 1
                 title = dic['title']
                 result = dic['result']
@@ -105,7 +105,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
     def refresh_content(self, txt):
         # 初始化
         self.lbl_status.setText(u"Loading...")
-        the.jira.home = []
+        box.jira.home = []
         self.nam_finish_num = 0
         # 清除原先加载的Label
         for i in reversed(range(0, self.hz_layout.count())):
@@ -160,7 +160,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         res_dict['title'] = title
         res_dict['result'] = result
         res_dict['time'] = time_str
-        the.jira.home.append(res_dict)
+        box.jira.home.append(res_dict)
 
 
     def read_xml_feed(self, xml_string):

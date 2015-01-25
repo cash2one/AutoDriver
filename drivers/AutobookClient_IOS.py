@@ -4,7 +4,7 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 from appium.webdriver.webdriver import WebDriver
 from selenium.common.exceptions import NoSuchElementException
-from framework.core import the
+from framework.core import box
 from framework.util import const, strs, mysql, fs
 from framework.core import ios
 

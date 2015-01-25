@@ -1,13 +1,14 @@
 # coding=utf-8
 __author__ = 'guguohai@outlook.com'
 
+from framework.util import convert
+from framework.core import box
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 
 from woodpecker.views import issue_detail_ui,label_btn
-from framework.util import convert
-from framework.core import the
 import browser
 
 
@@ -143,7 +144,7 @@ class IssueDialog(QDialog, issue_detail_ui.Ui_Dialog):
 
     def net_access(self, api, reply_func):
         m1 = QtNetwork.QNetworkAccessManager(self)
-        m1.setCookieJar(the.jira.cookie)
+        m1.setCookieJar(box.jira.cookie)
         m1.finished.connect(reply_func)
         req1 = QtNetwork.QNetworkRequest(QUrl(api))
         m1.get(req1)

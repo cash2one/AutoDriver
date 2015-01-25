@@ -7,7 +7,7 @@ import time
 
 from PyQt4 import QtGui
 
-from framework.core import task, data, the
+from framework.core import task, data, box
 from framework.util import mail
 from woodpecker import main as ui
 
@@ -21,9 +21,9 @@ root_dir = os.path.dirname(__file__)
 
 def createDatabase():
     time_str = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-    the.db_path = 'report' + time_str + '.db'
+    box.db_path = 'report' + time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'), os.path.join(root_dir, the.db_path))
+    gdata = data.generateData(PATH('./resource/xls/'), os.path.join(root_dir, box.db_path))
     gdata.close()
 
 

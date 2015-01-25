@@ -8,7 +8,7 @@ import datetime
 import re
 from PyQt4 import QtCore
 
-from framework.core import the
+from framework.core import box
 
 
 STATUS = {
@@ -24,7 +24,7 @@ class NewTestResult(unittest.TestResult):
         self.dbm = dbm
         self.product_info = product_info
         self.ui = ui
-        self.test_user = the.jira.userName
+        self.test_user = box.jira.userName
         self.currentStatus = 0
 
         self.result = []

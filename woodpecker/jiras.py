@@ -3,13 +3,13 @@ __author__ = 'guguohai@outlook.com'
 
 import json
 import os
+from framework.core import box
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
 from woodpecker.views import jira_main_ui
 from woodpecker.models import jira_model
-from framework.core import the
 from woodpecker.dialog import issue_detail, new_issue
 
 
@@ -17,7 +17,7 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-ja = the.jira
+ja = box.jira
 
 jira_folder = PATH(ja.folder)
 

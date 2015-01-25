@@ -10,7 +10,7 @@ import datetime
 from selenium.common.exceptions import NoSuchElementException
 
 import socket
-from framework.core import the
+from framework.core import box
 from framework.util import strs, mysql
 from framework.core import android
 
@@ -484,11 +484,11 @@ class Application(android.Android):
 
 def add_devices(key, val):
     try:
-        status = the.devices[key]
+        status = box.devices[key]
     except KeyError:
-        the.devices[key] = val
+        box.devices[key] = val
 
-    return the.devices[key]
+    return box.devices[key]
 
 
 def register_user(self_driver, user_name):

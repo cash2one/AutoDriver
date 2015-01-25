@@ -4,9 +4,9 @@ __author__ = 'guguohai@outlook.com'
 import os
 import uuid
 from framework.util import fs
-from framework.core import the
+from framework.core import box
 
-displayName = the.jira.displayName
+displayName = box.jira.displayName
 print displayName
 
 

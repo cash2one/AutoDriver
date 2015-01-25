@@ -2,16 +2,16 @@
 __author__ = 'guguohai@outlook.com'
 
 import json
+from framework.core import box
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from PyQt4 import QtNetwork
 
 from woodpecker.views import login_ui
-from framework.core import the
 
 
-ja = the.jira
+ja = box.jira
 
 
 class LoginDialog(QDialog, login_ui.Ui_Form):
