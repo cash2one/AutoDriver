@@ -38,7 +38,6 @@ class TestCase(unittest.TestCase):
         cfg = the.taskConfig[sect]
 
         if cfg[const.PRODUCT] == None:
-            # configs = fs.parserConfig(PATH('../../resource/app/%s' % cfg[const.TASK_CONFIG]))
             manifest = fs.parserConfig(PATH('../../manifest/%s' % cfg[const.TASK_CONFIG]))
 
             class_name = 'drivers.%s' % section
@@ -52,36 +51,7 @@ class TestCase(unittest.TestCase):
             the.taskConfig[sect][const.PRODUCT].splash()
         return the.taskConfig[sect][const.PRODUCT]
 
-    # def func_name(self):
-    # """Return the frame object for the caller's stack frame."""
-    # try:
-    # raise Exception
-    # except:
-    # f = sys.exc_info()[2].tb_frame.f_back
-    # return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
 
-    # def __pyContent(self, path):
-    # path_ = path.replace('.pyc', '.py')
-    # file_object = open(path_)
-    # file_con = ''
-    # try:
-    # file_con = file_object.read()
-    # finally:
-    # file_object.close()
-    # return file_con
-    #
-    # def __read_notes(self, func):
-    # sign_str = "'''"
-    # func_index = self.file_text.find(func)
-    # note = self.file_text[func_index:]
-    #
-    # notes_s = note.find(sign_str) + len(sign_str)
-    # if notes_s > len(sign_str):
-    #         note_c = note[notes_s:]
-    #         note_e = note_c.find(sign_str)
-    #         return note_c[0:note_e].replace(':return:', '').strip()
-    #     else:
-    #         return 'null'
     def __msg(self, func_str, msg):
         func_doc = eval('self.__class__.%s.__doc__' % func_str)
         if func_doc != None:
@@ -112,3 +82,9 @@ class TestCase(unittest.TestCase):
         super(TestCase, self).assertEqual(first, second, self.__msg(func_str, msg))
 
 
+# def my_import(name):
+#     mod = __import__(name)
+#     components = name.split('.')
+#     for comp in components[1:]:
+#         mod = getattr(mod, comp)
+#     return mod
