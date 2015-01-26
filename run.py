@@ -4,10 +4,12 @@ __author__ = 'guguohai@pathbook.com.cn'
 import sys
 import os
 import time
+
 from PyQt4 import QtGui
-from framework.core import task, data, the
+
+from framework.core import task, data, box
 from framework.util import mail
-from framework.gui import main as ui
+from woodpecker import main as ui
 
 
 PATH = lambda p: os.path.abspath(
@@ -19,9 +21,9 @@ root_dir = os.path.dirname(__file__)
 
 def createDatabase():
     time_str = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-    the.db_path = 'report' + time_str + '.db'
+    box.db_path = 'report' + time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'), os.path.join(root_dir, the.db_path))
+    gdata = data.generateData(PATH('./resource/xls/'), os.path.join(root_dir, box.db_path))
     gdata.close()
 
 
@@ -100,7 +102,7 @@ def main():
             start()
         elif args[1] == "-report":
             startReport()
-        elif args[1] == "-gui":
+        elif args[1] == "-woodpecker":
             gui()
         elif args[1] == "-help":
             help()

@@ -7,8 +7,8 @@ import os
 import webbrowser
 
 from framework.util import mail,fs
-from framework.core import data,task,report, routine, runner_bak, the
-from framework.core import the
+from framework.core import data,task,report, routine, runner_bak, box
+from framework.core import box
 
 
 PATH = lambda p: os.path.abspath(
@@ -24,9 +24,9 @@ root_dir = os.path.dirname(__file__)
 
 def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    the.db_path = 'report'+time_str + '.db'
+    box.db_path = 'report'+time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, the.db_path))
+    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, box.db_path))
     gdata.close()
 
 

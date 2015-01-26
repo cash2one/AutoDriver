@@ -86,36 +86,3 @@ def to_int(str_number):
         return longToInt(str_number)
 
 
-def path_to_tree(cat_list):
-    '''
-    路径转化为树
-    :param cat_list:
-    :return:
-    '''
-    nodes = []
-    for ca in cat_list:
-        t = tuple(ca.split('\\'))
-
-        for i in range(0, len(t)):
-            node = {}
-            index = len(t) - 1
-            current = t[index - i]
-
-            node['name'] = current
-            self_name = (ca.split(current)[0] + current).replace('\\', '')
-            #parent_name = ''
-            node['uu_name'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, str(self_name)))
-            if index - i - 1 < 0:
-                node['parent'] = None
-            else:
-                parent_name = ca.split(current)[0].replace('\\', '')
-                node['parent'] = str(uuid.uuid3(uuid.NAMESPACE_DNS, str(parent_name)))
-            #print node['name'], '---', self_name, '---', parent_name
-            if not node in nodes:
-                nodes.append(node)
-
-    return nodes
-
-
-
-
