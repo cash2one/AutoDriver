@@ -60,7 +60,7 @@ class TestCase(unittest.TestCase):
     def __msg(self, func_name, msg):
         c_note = eval('self.__class__.__doc__')
         f_note = eval('self.__class__.%s.__doc__' % func_name)
-        heads = [u'【说明】', u'【期望结果】'], u'【实际结果】'
+        heads = [u'【说明】', u'【期望结果】', u'【实际结果】']
 
         step = '' if c_note == None else self.__doc(heads[0], c_note) + '\r\n\r\n'
         expect = '' if f_note == None else self.__doc(heads[1], f_note) + '\r\n\r\n'
