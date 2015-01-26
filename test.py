@@ -135,13 +135,13 @@ if __name__ == "__main__":
            u'客户管理\客户投诉\审核\结果']
 
     nodes = fs.path_to_dict(cat)
-    trees = fs.walk_tree(nodes)
+    trees = fs.walk_tree_tuple(nodes)
     print json.dumps(trees)
-    print trees.items()
-
-    aa = {'a': 'b', 'c': [{'d': [{'ff':'cccc'}]}]}
-
-    def find_aa():
-        for n in aa:
-            print aa[n]
+    # print trees.items()
+    #
+    # aa = {'a': 'b', 'c': [{'d': [{'ff':'cccc'}]}]}
+    #
+    # def find_aa():
+    #     for n in aa:
+    #         print aa[n]
 
