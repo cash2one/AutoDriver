@@ -45,8 +45,8 @@ def task_container(path_str, selections):
 # for sect in sections:
 # dictCase = {}
 # options = conf.options(sect)
-#         for opt in options:  # 取出sections内的所有options
-#             str_val = conf.get(sect, opt)
+# for opt in options:  # 取出sections内的所有options
+# str_val = conf.get(sect, opt)
 #             dictCase[opt] = str_val.decode('utf-8')
 #
 #         dictCase[const.PRODUCT] = None
@@ -321,6 +321,7 @@ def walk_tree(nodes):
             if nodes[i]['self_id'] == nodes[n]['parent_id']:
                 n_name = nodes[n]['name']
                 i_name = nodes[i]['name']
+                #把下一个的name，和它本身的容器都一起装进来
                 nodes[i][i_name].append({n_name: nodes[n][n_name]})
 
         if nodes[i]['parent_id'] == None:
@@ -332,26 +333,55 @@ def walk_tree(nodes):
     return new_dict  #new_list
 
 
-def walk_tree_tuple(nodes):
+def path_to_tuple(cat_list):
     '''
-    读取路径字典的集合
-    :param nodes:
+    路径字符串转化为带父子id的元组
+    :param cat_list:
     :return:
     '''
-    new_dict = ()
+    cats = list(set(cat_list))  # 去重
+
+    nodes = []
+    for cat in cats:
+        t = tuple(cat.split('\\'))
+
+        for i in range(0, len(t)):
+            index = len(t) - 1
+            current = t[index - i]
+
+            name = current
+            self_name = (cat.split(current)[0] + current).encode('utf-8').replace(os.sep, '')
+            self_id = str(uuid.uuid3(uuid.NAMESPACE_DNS, self_name))
+            if index - i - 1 < 0:
+                parent_id = None
+            else:
+                parent_name = cat.split(current)[0].encode('utf-8').replace(os.sep, '')
+                parent_id = str(uuid.uuid3(uuid.NAMESPACE_DNS, parent_name))
+
+            node = (name, self_id, parent_id, [])
+            if not node in nodes:
+                nodes.append(node)
+
+    return nodes
+
+
+def walk_tree_tuple(cat_list):
+    nodes = path_to_tuple(cat_list)
+    new_list = []
     for i in range(0, len(nodes)):
-        i_name = ''
         for n in range(0, len(nodes)):
-            if nodes[i]['self_id'] == nodes[n]['parent_id']:
-                n_name = nodes[n]['name']
-                i_name = nodes[i]['name']
-                print nodes[i]
-                nodes[i] += ((n_name, nodes[n]['name']),)
+            if nodes[i][1] == nodes[n][2]:
+                #把下一个的name，和它本身的容器都一起装进来
+                nodes[i][3].append((nodes[n][0], nodes[n][3]))
 
-        if nodes[i]['parent_id'] == None:
-            new_dict += nodes[i]  #dict(new_dict, **nodes[i])
+        if nodes[i][2] == None:
+            new_list.append(nodes[i])
 
-    return new_dict  #new_list
+    n_nodes = []
+    for n_node in new_list:
+        n_nodes.append((n_node[0], n_node[3]))
+
+    return n_nodes
 
 
 #执行操作系统命令

@@ -134,9 +134,9 @@ if __name__ == "__main__":
     cat = [u'订单管理\历史订单\查询成功\查询成功1', u'订单管理\历史订单\查询f成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核', u'订单管理\待处理订单\查询失败',
            u'客户管理\客户投诉\审核\结果']
 
-    nodes = fs.path_to_dict(cat)
+    nodes = fs.path_to_tuple(cat)
     trees = fs.walk_tree_tuple(nodes)
-    print json.dumps(trees)
+    print trees
     # print trees.items()
     #
     # aa = {'a': 'b', 'c': [{'d': [{'ff':'cccc'}]}]}
@@ -144,4 +144,8 @@ if __name__ == "__main__":
     # def find_aa():
     #     for n in aa:
     #         print aa[n]
+    from framework.core import data
+    xls_path = './resource/xls/'
+    xlss = data.getExcelsData(PATH(xls_path),False)
+
 
