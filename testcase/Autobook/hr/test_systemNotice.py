@@ -14,11 +14,12 @@ class TestCase(unit.TestCase):
 
     def tearDown(self):
         # 返回首页
-        # self.driver.switch_to_home()
+        self.driver.switch_to_home()
         # 关闭浏览器
-        self.driver.close()
+        # self.driver.close()
 
     def test_setting_reset(self):
+
        #点击系统公告
        self.driver.find_element_by_id('sysNotice').click()
        nametx=self.driver.find_element_by_id('sysNotice').text

@@ -54,7 +54,7 @@ def Tables():
     Tags varchar(2000) NULL,
     Abstract varchar(4000) NULL,
     LastUpdateDT datetime NULL,
-    LastUpdateBy varchar(255) NULL
+    LastUpdateBy varchar(255) NULL,
     Module_Id integer NOT NULL
     '''
     tables.setdefault('TestCase', TestCase)
@@ -76,7 +76,7 @@ def Tables():
     Actual varchar(1000) NULL,
     Expectation varchar(1000) NULL,
     IsEnable integer NOT NULL,
-    TestCase_Id integer NOT NULL,
+    TestCase_Id integer NOT NULL
     '''
     tables.setdefault('TestCaseDetail', TestCaseDetail)
 
