@@ -19,8 +19,13 @@ class TestCase(unit.TestCase):
          #返回首页
         self.driver.switch_to_home()
 
-     #点击创建订单跳转到创建订单界面
+
     def test_repeatedSelection_driver(self):
+        '''
+        #点击创建订单跳转到创建订单界面
+        :return:
+        '''
+        time.sleep(2)
         self.driver.find_ajax_id('main_menu')
         self.driver.find_element_by_id('main_menu').click()
         # print menu
@@ -32,7 +37,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text('创建订单').click()
         time.sleep(5)
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的不是创建订单页面')
         finally:
             pass
         #time.sleep(3)
@@ -74,8 +79,12 @@ class TestCase(unit.TestCase):
         self.assertTrue(text==u'小米 已选，请选择其他司机','提示信息不正确')
 
 
-    #不选择司机，直接点击确定按钮
+
     def test_driverNull(self):
+        '''
+        #不选择司机，直接点击确定按钮
+        :return:
+        '''
         self.driver.find_ajax_id('main_menu')
         self.driver.find_element_by_id('main_menu').click()
         # print menu
