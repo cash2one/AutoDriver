@@ -20,6 +20,7 @@ class TestCase(unit.TestCase):
 
     #查看通讯记录
     def test_communicationRecord(self):
+        time.sleep(2)
         self.driver.find_ajax_id('communicationRecord')
         # #找到订单号，查看该通讯记录(遍例找订单号)
         # trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
@@ -51,7 +52,7 @@ class TestCase(unit.TestCase):
         time.sleep(5)
         text=self.driver.find_element_by_class_name('xubox_title').text
         print text
-        self.assertTrue('15011515344163' in text,'msg')
+        self.assertTrue('15011515344163' in text,u'没有找到该订单的订单号')
         # time.sleep(2)
 
 
@@ -74,7 +75,7 @@ class TestCase(unit.TestCase):
         except self.driver.NoSuchElementException:
             isClose=True
 
-        self.assertTrue(isClose,'msg')
+        self.assertTrue(isClose,u'通讯记录内容没有被关闭')
         time.sleep(2)
 
 

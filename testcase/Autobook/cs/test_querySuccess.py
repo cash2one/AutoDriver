@@ -19,7 +19,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_query(self):
+        '''
         #查询客户下单的结果
+        :return:
+        '''
         allOptions = self.driver.find_element_by_id('orderSource').find_elements_by_tag_name('option')
         for option in allOptions:
          if option.get_attribute('text')==u'客户下单':
@@ -28,7 +31,10 @@ class TestCase(unit.TestCase):
          self.driver.find_element_by_id('query').click()
 
     def test_query1(self):
+        '''
         #查询平台下单的结果
+        :return:
+        '''
         opts=self.driver.find_element_by_id('orderSource').find_elements_by_tag_name('option')
         print opts
         for opt in opts:
@@ -39,7 +45,10 @@ class TestCase(unit.TestCase):
         time.sleep(2)
 
     def test_query2(self):
+        '''
         #查询全部订单（全部来源）的结果
+        :return:
+        '''
         opts=self.driver.find_element_by_id('orderSource').find_elements_by_tag_name('option')
         print opts
         for opt in opts:
@@ -50,7 +59,10 @@ class TestCase(unit.TestCase):
         time.sleep(2)
 
     def test_query3(self):
+        '''
         #查询微信下单的结果
+        :return:
+        '''
         opts=self.driver.find_element_by_id('orderSource').find_elements_by_tag_name('option')
         print opts
         for opt in opts:
@@ -69,7 +81,10 @@ class TestCase(unit.TestCase):
         time.sleep(2)
 
     def test_query4(self):
+        '''
         #查询全部任务（订单来源默认）
+        :return:
+        '''
         opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
         print opts
         for opt in opts:
@@ -81,7 +96,10 @@ class TestCase(unit.TestCase):
         time.sleep(2)
 
     def test_query5(self):
+        '''
         #查询默认待分配任务（订单来源默认）
+        :return:
+        '''
         opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
         print opts
         for opt in opts:
@@ -94,7 +112,10 @@ class TestCase(unit.TestCase):
 
 
     def test_query6(self):
+        '''
         #查询我的任务（订单来源默认）
+        :return:
+        '''
         opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
         print opts
         for opt in opts:

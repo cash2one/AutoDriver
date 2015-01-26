@@ -66,7 +66,7 @@ class TestCase(unit.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'wss' in tds.text,'msg')
+         self.assertTrue(u'wss' in tds.text,u'不符合查询条件')
 
 
     def test_customerPhone_query(self):
@@ -89,7 +89,7 @@ class TestCase(unit.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'13636468713' in tds.text,'msg')
+         self.assertTrue(u'13636468713' in tds.text,u'不符合查询条件')
 
 
     def test_driverName_query(self):
@@ -111,7 +111,7 @@ class TestCase(unit.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'康小伟' in tds.text,'msg')
+         self.assertTrue(u'康小伟' in tds.text,u'不符合查询条件')
 
     def test_driverPhone_query(self):
 
@@ -132,7 +132,7 @@ class TestCase(unit.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'140018' in tds.text,'msg')
+         self.assertTrue(u'140018' in tds.text,u'不符合查询条件')
 
 
 
