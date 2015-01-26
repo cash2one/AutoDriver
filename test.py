@@ -132,9 +132,16 @@ if __name__ == "__main__":
     from framework.util import fs
 
     cat = [u'订单管理\历史订单\查询成功\查询成功1', u'订单管理\历史订单\查询f成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核', u'订单管理\待处理订单\查询失败',
-           u'客户管理\客户投诉\审核\神呢']
+           u'客户管理\客户投诉\审核\结果']
 
     nodes = fs.path_to_dict(cat)
     trees = fs.walk_tree(nodes)
     print json.dumps(trees)
+    print trees.items()
+
+    aa = {'a': 'b', 'c': [{'d': [{'ff':'cccc'}]}]}
+
+    def find_aa():
+        for n in aa:
+            print aa[n]
 
