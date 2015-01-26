@@ -18,8 +18,12 @@ class TestCase(unit.TestCase):
          #返回首页
         self.driver.switch_to_home()
 
-    #中止订单
+
     def test_closeOrder(self):
+        '''
+        #中止订单
+        :return:
+        '''
         self.driver.find_ajax_id('closeOrder')
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
@@ -49,8 +53,12 @@ class TestCase(unit.TestCase):
             print '两个订单不相等！！！'
 
 
-    #取消中止订单
+
     def test_cancel(self):
+        '''
+        #取消中止订单
+        :return:
+        '''
         self.driver.find_ajax_id('closeOrder')
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')

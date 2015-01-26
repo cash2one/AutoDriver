@@ -2,6 +2,7 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import datetime, string, re
+import uuid
 
 
 def to_datetime(str_time):
@@ -62,7 +63,7 @@ def combine_url(host, api='', params=None):
 
     uri = ''
     if host[-1] == '/':
-        #服务器地址是否末尾带斜杠/
+        # 服务器地址是否末尾带斜杠/
         if api.find('/') == 0:
             uri = host + api[1:len(api)] + param_str
         else:
@@ -80,12 +81,8 @@ def to_int(str_number):
         return None
 
     if isFloat(str_number):
-            return int(string.atof(str_number))
+        return int(string.atof(str_number))
     else:
         return longToInt(str_number)
-
-
-
-
 
 

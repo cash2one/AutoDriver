@@ -2,11 +2,10 @@
 __author__ = 'guguohai@pathbook.com.cn'
 
 import os
-import sys
-import re
-from framework.core import the
+from framework.core import box
 from framework.util import const, fs
 import unittest
+from unittest import util as unitutil
 import inspect
 
 PATH = lambda p: os.path.abspath(
@@ -17,7 +16,6 @@ PATH = lambda p: os.path.abspath(
 class TestCase(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         super(TestCase, self).__init__(methodName)
-        self.file_text = ''
 
     def app(self, file_):
         '''
@@ -31,14 +29,14 @@ class TestCase(unittest.TestCase):
         # self.file_text = self.__pyContent(file_)
 
         init_size = len(PATH('../../testcase')) + 1
-        tar_path = os.path.dirname(file_)
+
+        tar_path = os.path.dirname(inspect.stack()[1][1])  # file_)
         section = tar_path[init_size:len(tar_path)].replace(os.sep, '_')
 
         sect = section.lower()
-        cfg = the.taskConfig[sect]
+        cfg = box.taskConfig[sect]
 
         if cfg[const.PRODUCT] == None:
-            # configs = fs.parserConfig(PATH('../../resource/app/%s' % cfg[const.TASK_CONFIG]))
             manifest = fs.parserConfig(PATH('../../manifest/%s' % cfg[const.TASK_CONFIG]))
 
             class_name = 'drivers.%s' % section
@@ -47,68 +45,47 @@ class TestCase(unittest.TestCase):
             for comp in components[1:]:
                 mod = getattr(mod, comp)
 
-            the.taskConfig[sect][const.PRODUCT] = mod.Application(manifest)
+            box.taskConfig[sect][const.PRODUCT] = mod.Application(manifest)
+            box.taskConfig[sect][const.PRODUCT].splash()
 
-            the.taskConfig[sect][const.PRODUCT].splash()
-        return the.taskConfig[sect][const.PRODUCT]
+        return box.taskConfig[sect][const.PRODUCT]
 
-    # def func_name(self):
-    # """Return the frame object for the caller's stack frame."""
-    # try:
-    # raise Exception
-    # except:
-    # f = sys.exc_info()[2].tb_frame.f_back
-    # return f.f_code.co_name  # (f.f_code.co_name, f.f_lineno)
-
-    # def __pyContent(self, path):
-    # path_ = path.replace('.pyc', '.py')
-    # file_object = open(path_)
-    # file_con = ''
-    # try:
-    # file_con = file_object.read()
-    # finally:
-    # file_object.close()
-    # return file_con
-    #
-    # def __read_notes(self, func):
-    # sign_str = "'''"
-    # func_index = self.file_text.find(func)
-    # note = self.file_text[func_index:]
-    #
-    # notes_s = note.find(sign_str) + len(sign_str)
-    # if notes_s > len(sign_str):
-    #         note_c = note[notes_s:]
-    #         note_e = note_c.find(sign_str)
-    #         return note_c[0:note_e].replace(':return:', '').strip()
-    #     else:
-    #         return 'null'
-    def __msg(self, func_str, msg):
-        func_doc = eval('self.__class__.%s.__doc__' % func_str)
-        if func_doc != None:
-            expect = func_doc.replace(':return:', '').strip()
-            expect_msg = u'【期望结果】\r\n' + unicode(expect, "utf-8")
+    def __doc(self, title, origin_txt):
+        if not type(origin_txt) is unicode:
+            orgin = origin_txt.replace(':return:', '')
+            return title + '\r\n' + unicode(orgin.strip(), "utf-8")
         else:
-            expect_msg = u'【期望结果】\r\n'
+            return origin_txt
 
-        if msg != None:
-            actual_msg = u'\r\n\r\n【实际结果】\r\n' + msg
-        else:
-            actual_msg = u'\r\n\r\n【实际结果】\r\n'
+    def __msg(self, func_name, msg):
+        c_note = eval('self.__class__.__doc__')
+        f_note = eval('self.__class__.%s.__doc__' % func_name)
+        heads = [u'【说明】', u'【期望结果】', u'【实际结果】']
 
-        return expect_msg + actual_msg
+        step = '' if c_note == None else self.__doc(heads[0], c_note) + '\r\n\r\n'
+        expect = '' if f_note == None else self.__doc(heads[1], f_note) + '\r\n\r\n'
+        actual = '' if msg == None else self.__doc(heads[2], msg)
+
+        return step + expect + actual
 
     def assertTrue(self, expr, msg=None):
-        #func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
+        # func = inspect.getframeinfo(inspect.currentframe().f_back)[2]
         # expect_str = self.__read_notes(func[2])
-        func_str = inspect.stack()[1][3]
-        super(TestCase, self).assertTrue(expr, self.__msg(func_str, msg))
+        func_name = inspect.stack()[1][3]
+        super(TestCase, self).assertTrue(expr, self.__msg(func_name, msg))
 
     def assertFalse(self, expr, msg=None):
-        func_str = inspect.stack()[1][3]
-        super(TestCase, self).assertFalse(expr, self.__msg(func_str, msg))
+        func_name = inspect.stack()[1][3]
+        super(TestCase, self).assertFalse(expr, self.__msg(func_name, msg))
 
     def assertEqual(self, first, second, msg=None):
-        func_str = inspect.stack()[1][3]
-        super(TestCase, self).assertEqual(first, second, self.__msg(func_str, msg))
+        func_name = inspect.stack()[1][3]
+        super(TestCase, self).assertEqual(first, second, self.__msg(func_name, msg))
 
 
+        # def my_import(name):
+        # mod = __import__(name)
+        # components = name.split('.')
+        # for comp in components[1:]:
+        # mod = getattr(mod, comp)
+        # return mod

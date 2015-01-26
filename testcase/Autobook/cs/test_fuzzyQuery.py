@@ -71,7 +71,7 @@ class TestCase(unit.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'wss' in tds.text,'msg')
+         self.assertTrue(u'wss' in tds.text,u'模糊查询结果不正确或该条件不存在')
 
 
 
@@ -95,7 +95,7 @@ class TestCase(unit.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'康小伟' in tds.text,'msg')
+         self.assertTrue(u'康小伟' in tds.text,u'模糊查询结果不正确或该条件不存在')
 
     def test_driverPhone_query(self):
 
@@ -116,6 +116,6 @@ class TestCase(unit.TestCase):
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'14001' in tds.text,'msg')
+         self.assertTrue(u'14001' in tds.text,u'模糊查询结果不正确或该条件不存在')
 
 

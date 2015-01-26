@@ -4,6 +4,8 @@ __author__ = 'Administrator'
 import sys
 import os
 import time
+import json
+import uuid
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -66,7 +68,7 @@ def func_name():
 
 
 def get_current_function_name():
-    return inspect.stack()[1][3]
+    return inspect.stack()[1][1]  # [3]
     # return inspect.getframeinfo(inspect.currentframe().f_back)[2]
 
 
@@ -87,67 +89,59 @@ class ttes():
 
 
 def cats():
-    # cat = [u'订单管理\待处理订单\查询失败', u'订单管理\历史订单\查询成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核']
-    cat = [u'order\\pending\\findFail\\fwgweg\\eeee', u'order\\history\\findSuccess', u'customer\\complain\\vaisit',
-           u'customer\\complain\Auditing']
-    cat = list(set(cat))
-    print cat
     tree = [
         {
-            u'订单管理':
-                [
-                    {
-                        u'待处理订': [u'查询失败']
-                    },
-                    {
-                        u'历史订单': [u'查询成功']
-                    }
-                ]
+            u'订单管理': [
+                {u'待处理订': [{'查询失败': []}]},
+                {u'历史订单': [{'查询成功': []}]}
+            ]
         },
-        {u'客户管理':
-             [
-                 {
-                     u'客户投诉': ['回访', '审核']
-                 }
-             ]
+        {u'客户管理': [
+            {u'客户投诉': [
+                {'回访': []}, {'审核': []}
+            ]}
+        ]
         }
     ]
     return cat
 
 
-def load_tree(cat):
-    trees = []
-    for ca in cat:
-        t = tuple(ca.split('\\'))
-
-        t_tup = ()
-        for i in range(0, len(t) - 1):
-            di = {}
-            di[t[i]] = t[i + 1]
-            t_tup += (di,)
-
-        print t_tup
-
-        t_dict = {}
-        for m in range(0, len(t_tup) - 1):
-            if t_tup[m].values()[0] == t_tup[m + 1].keys()[0]:
-                t_dict[t_tup[m].values()[0]] = t_tup[m + 1]
-        print t_dict
-        trees.append(t_dict)
+def PrintFrame():
+    callerframerecord = inspect.stack()[1]  # 0 represents this line
+    # 1 represents line at caller
+    frame = callerframerecord[0]
+    info = inspect.getframeinfo(frame)
+    print info.filename  # __FILE__     -> Test.py
+    print info.function  # __FUNCTION__ -> Main
+    print info.lineno
 
 
-def scan_path(path_str, i):
-    di = {}
-    di[path_str[i]] = path_str[i + 1]
-    return di
-    # t_dict[path_str[i]] = di
-
-
-
-    # for i in range(0,len(cats)):
+def isHw(txt):
+    txts = list(txt.lower())
+    for i in range(0, len(txts) / 2):
+        if cmp(txts[i], txts[-i - 1]) != 0:
+            return False
+    return True
 
 
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
-    print eval('1'+'.'+'2')
+    #
+    # print  os.path.realpath(__file__)
+
+    from framework.util import fs
+
+    cat = [u'订单管理\历史订单\查询成功\查询成功1', u'订单管理\历史订单\查询f成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核', u'订单管理\待处理订单\查询失败',
+           u'客户管理\客户投诉\审核\结果']
+
+    nodes = fs.path_to_dict(cat)
+    trees = fs.walk_tree(nodes)
+    print json.dumps(trees)
+    print trees.items()
+
+    aa = {'a': 'b', 'c': [{'d': [{'ff':'cccc'}]}]}
+
+    def find_aa():
+        for n in aa:
+            print aa[n]
 
