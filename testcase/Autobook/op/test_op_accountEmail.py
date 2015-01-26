@@ -27,7 +27,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('operator_email').send_keys('<td>')
         self.driver.find_id('sure_create_account_btn').click()
         text=self.driver.find_id('operator_email_tip').text
-        self.assertTrue(u'Email格式不正确' in text)
+        self.assertTrue(u'Email格式不正确' in text,u'提示不正确或没有提示')
 
     def test_email2(self):
         '''
@@ -43,4 +43,4 @@ class TestCase(unit.TestCase):
         self.driver.find_id('operator_email').send_keys('dgfdgfdgdsdgfdgdgd')
         self.driver.find_id('sure_create_account_btn').click()
         text=self.driver.find_id('operator_email_tip').text
-        self.assertTrue(u'Email格式不正确' in text)
+        self.assertTrue(u'Email格式不正确' in text,u'提示不正确或没有提示')

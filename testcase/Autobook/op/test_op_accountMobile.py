@@ -46,14 +46,14 @@ class TestCase(unit.TestCase):
         self.driver.find_id('operator_mobile').send_keys(u'1815536')
         self.driver.find_id('sure_create_account_btn').click()
         mobile=self.driver.find_id('operator_mobile_tip').text
-        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.'in mobile)
+        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.'in mobile,u'提示不正确或没有提示')
 
         self.driver.find_id('operator_mobile').clear()
         self.driver.find_id('operator_mobile').send_keys(u'gjkfsjgkljsssss')
         self.driver.find_id('sure_create_account_btn').click()
-        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.'in mobile)
+        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.'in mobile,u'提示不正确或没有提示')
 
         self.driver.find_id('operator_mobile').clear()
         self.driver.find_id('operator_mobile').send_keys('<td>')
         self.driver.find_id('sure_create_account_btn').click()
-        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.'in mobile)
+        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.'in mobile,u'提示不正确或没有提示')

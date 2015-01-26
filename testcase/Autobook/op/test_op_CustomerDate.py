@@ -103,7 +103,7 @@ class TestCase(unit.TestCase):
         #选择结束时间
         time.sleep(3)
         text=self.driver.switch_to_alert().text
-        self.assertEqual(text,u'按天统计，只统计30天内的数据，请重新选择！')
+        self.assertEqual(text,u'按天统计，只统计30天内的数据，请重新选择！',u'没有提示或提示错误')
         self.driver.switch_to_alert().accept()
         print(text)
 

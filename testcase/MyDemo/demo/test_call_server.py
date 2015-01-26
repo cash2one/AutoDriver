@@ -4,11 +4,9 @@ __author__ = 'wangshanshan@pathbook.com.cn'
 from drivers import *
 
 class TestCase(unit.TestCase):
-    '''
-    tetsetsetttee
-    '''
     def setUp(self):
         self.driver = self.app(__file__)
+
         pass
 
     def tearDown(self):
@@ -16,14 +14,13 @@ class TestCase(unit.TestCase):
 
 
     def test_print_oschina(self):
-
         self.driver.get('http://www.oschina.net')
         aa= self.driver.find_id('ProjectNews').find_class('TodayNewsTop1').find_tag('h2').text
         self.assertTrue(aa in 'dddd')
 
     def test_print_f(self):
         '''
-        期望结果写这里
+        func2
         :return:
         '''
         # winxin_code = self.driver.find_element_by_class_name('winxin_code').find_element_by_tag_name('p').text

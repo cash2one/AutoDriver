@@ -20,11 +20,11 @@ class TestCase(unit.TestCase):
         :return:
         '''
         above=self.driver.find_element_by_link_text(u'微信服务')
-
         self.driver.action_chains().move_to_element(above).perform()
-        #鼠标悬停在统计查询
+
+        #鼠标悬停在微信服务
         self.driver.find_element_by_link_text(u'响应信息').click()
-        print(self.driver.title)
+        self.assertEqual(self.driver.title,u'微信响应信息列表',u'没有进入对应页面')
 
         self.driver.find_id('add').click()
         opts=self.driver.find_id('weixinInfo_responseType').find_tags('option')
@@ -53,6 +53,7 @@ class TestCase(unit.TestCase):
         content=self.driver.find_id('weixinInfo_content')
         self.assertTrue(content.is_enabled(),u'下放不显示文本框')
         #响应类型选择文本，下方显示文本内容文本框
+
 
 
 

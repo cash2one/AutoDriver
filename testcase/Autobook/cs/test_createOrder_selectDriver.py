@@ -7,6 +7,7 @@ class TestCase(unit.TestCase):
     '''
     指定司机下单(判断是否选择的是该司机)
     '''
+    DRIVER=u'小米'
 
     def setUp(self):
         self.driver = self.app(__file__)
@@ -30,7 +31,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text('创建订单').click()
         time.sleep(5)
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的页面不是创建订单页面')
         finally:
             pass
         #time.sleep(3)
@@ -70,7 +71,7 @@ class TestCase(unit.TestCase):
         time.sleep(3)
         text=self.driver.find_element_by_class_name('selectd_name').text
         print text
-        self.assertTrue(u'小米' in text,'选择的司机不是小米')
+        self.assertTrue(u'小米' in text,u'选择的司机不是小米')
 
 
     #在选择司机页面判断选择的司机是否匹配
@@ -86,7 +87,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text('创建订单').click()
         time.sleep(5)
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的页面不是创建订单页面')
         finally:
             pass
         #time.sleep(3)
@@ -117,7 +118,7 @@ class TestCase(unit.TestCase):
         for d in range(0,len(li)):
             els=li[d]
             name=els.find_element_by_class_name('driver_name').text
-            print name
+            # print name
             if u'小米' in name:
                 els.click()
                 break
@@ -129,5 +130,5 @@ class TestCase(unit.TestCase):
         time.sleep(3)
         #获取创建订单页面选择司机文本框中的司机
         text=self.driver.find_element_by_id('driverName').get_attribute("value")
-        print text
-        self.assertEqual(text==u'小米',u'选择的司机和文本框中显示的司机相等')
+        # print text
+        self.assertEqual(text,u'小米',u'选择的司机和文本框中显示的司机相等')

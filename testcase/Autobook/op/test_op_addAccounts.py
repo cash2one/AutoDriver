@@ -24,8 +24,8 @@ class TestCase(unit.TestCase):
         #鼠标悬停在系统管理上
         self.driver.find_element_by_link_text(u'账号管理').click()
         self.driver.find_id('create').click()
-        n='lishan23'
-        r=u'李三56'
+        n='lishan232'
+        r=u'李三16'
         self.driver.find_id('operator_name').send_keys(n)
         self.driver.find_id('operator_realName').send_keys(r)
         ipts=self.driver.find_id('pf2_roles').find_tags('input')
@@ -39,7 +39,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('sure_create_account_btn').click()
         self.driver.switch_to_alert()
         text=self.driver.find_class('xubox_dialog').text
-        self.assertTrue(u'创建账号成功'in text)
+        self.assertTrue(u'创建账号成功'in text,u'')
         self.driver.find_element_by_link_text(u'确定').click()
 
         name=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[1].text
@@ -48,3 +48,6 @@ class TestCase(unit.TestCase):
         self.assertTrue(n in name)
         self.assertTrue(r in realName)
         self.assertTrue(u'客服经理'in role)
+
+
+
