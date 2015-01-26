@@ -26,4 +26,4 @@ class TestCase(unit.TestCase):
         self.driver.find_id('create').click()
         self.assertEqual(self.driver.title,u'添加账号')
         self.driver.find_id('return_btn').click()
-        self.assertEqual(self.driver.title,u'账号管理')
+        self.assertEqual(self.driver.title,u'账号管理',u'没有进入账号管理页面')

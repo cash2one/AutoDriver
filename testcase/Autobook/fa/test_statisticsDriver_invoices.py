@@ -23,16 +23,20 @@ class TestCase(unit.TestCase):
         '''
         time.sleep(2)
         self.driver.find_element_by_link_text('统计报表').click()
-        time.sleep(2)
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('司机出入账').click()
         time.sleep(2)
 
-        self.driver.find_element_by_id('year').click()
+        #self.driver.find_element_by_id('year').click()
         self.driver.find_element_by_id('year').find_elements_by_tag_name('option')[3].click()#选择2013年
-        self.driver.find_element_by_id('year').click()
+
+
+        time.sleep(4)
+
+        #self.driver.find_element_by_id('year').click()
         self.driver.find_element_by_id('year').find_elements_by_tag_name('option')[4].click()#选择2014年
         self.driver.find_element_by_id('statistics').click()#点击统计，进入司机出入账列表界面
-        time.sleep(1)
+        time.sleep(3)
 
 
         self.driver.find_element_by_id('invoices').find_elements_by_tag_name('option')[2].click()#选择未打印

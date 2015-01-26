@@ -8,7 +8,7 @@ import datetime
 import re
 from PyQt4 import QtCore
 
-from framework.core import the
+from framework.core import box
 
 
 STATUS = {
@@ -24,7 +24,7 @@ class NewTestResult(unittest.TestResult):
         self.dbm = dbm
         self.product_info = product_info
         self.ui = ui
-        self.test_user = the.jira.userName
+        self.test_user = box.jira.userName
         self.currentStatus = 0
 
         self.result = []
@@ -50,22 +50,10 @@ class NewTestResult(unittest.TestResult):
 
     def stopTest(self, test):
         self.complete_output()
-        # _testcase = str(test)
 
-        # result_desc = self.getAssertResult()
-        # startDT = datetime.datetime.now()
-        # data1 = [(_testcase,_count,self.currentSuccess,self.currentFail,self.currentError,_update_time,_detail)]
-        # 自动化脚本里没有task，默认id为1
         value = str(test)
         s = value.find('(')
         e = value.find('.')
-
-        # assert_str = self.getAssertResult()
-        # if
-        #     try:
-        #         assert_str = self.getAssertResult().decode("unicode-escape")
-        #     except UnicodeDecodeError:
-        #         print self.getAssertResult()
 
         ExecuteResult = STATUS[self.currentStatus]
         Executor = self.test_user
