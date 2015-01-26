@@ -66,6 +66,7 @@ class TestCase(unit.TestCase):
             name=els.find_element_by_class_name('driver_name').text
             print name
             els.click()
+
         time.sleep(3)
         #点击确定按钮，跳转到创建订单页面
         self.driver.find_element_by_id('sure_btn').click()
@@ -74,7 +75,8 @@ class TestCase(unit.TestCase):
         # self.driver.find_element_by_id('driverName').clear()
         # self.driver.find_element_by_id('driverName').send_keys(li)
         # time.sleep(3)
-        text=self.driver.find_element_by_id('driverName').get_attribute("value")
+        id=self.driver.find_element_by_id('driverName')
+        text=id.get_attribute("value")
         print text
-        # self.assertEqual(text,driver_names,'选择的司机和文本框中司机相等')
+        self.assertTrue(name in text,u'选择的司机和文本框中司机相等')
 

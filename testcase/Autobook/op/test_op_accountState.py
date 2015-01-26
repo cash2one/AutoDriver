@@ -37,8 +37,8 @@ class TestCase(unit.TestCase):
             tds=trs[i].find_tags('td')
             text=tds[4].text
             if text==u'已禁用':
-                self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'启用'))
+                self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'启用'),u'没有启用的链接')
             else:
-                self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'禁用'))
-            self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'编辑'))
-            self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'重置密码'))
+                self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'禁用'),u'没有禁用的链接')
+            self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'编辑'),u'没有编辑的链接')
+            self.assertTrue(tds[len(tds)-1].find_elements_by_link_text(u'重置密码'),u'没有重置密码的链接')
