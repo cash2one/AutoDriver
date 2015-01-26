@@ -51,9 +51,11 @@ def startReport():
     '''
     import webbrowser
     from framework.core import report
-    rp = report.Report(data.getDatabasePath(root_dir),25)
+
+    rp = report.Report(data.getDatabasePath(root_dir), 25)
     rp.start()
     webbrowser.open(PATH('./report/index.html'))
+
 
 def sendMail(mail_to):
     '''
@@ -118,10 +120,10 @@ def main():
 
 
 if __name__ == "__main__":
-    #main()
+    # main()
     from framework.util import http
 
-    ja=http.TestJIRA()
+    ja = http.TestJIRA()
     ja.login()
     time.sleep(5)
 
