@@ -113,7 +113,7 @@ class TestCase(unit.TestCase):
             if txt1==text:
                 tds[len(tds)-1].find_link(u'删除').click()
                 break
-        self.driver.switch_to_alter()
+        self.driver.switch_to_alert()
         self.driver.find_element_by_link_text(u'确定').click()
 
 
