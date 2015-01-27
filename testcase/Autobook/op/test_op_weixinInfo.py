@@ -40,7 +40,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'图片':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         weixin_img=self.driver.find_id('weixin_img')
         self.assertTrue(weixin_img.is_enabled(),u'未显示图片按钮')
         #响应类型选择图片，下方显示选择图片按钮
@@ -49,7 +49,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'文本':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         content=self.driver.find_id('weixinInfo_content')
         self.assertTrue(content.is_enabled(),u'下放不显示文本框')
         #响应类型选择文本，下方显示文本内容文本框

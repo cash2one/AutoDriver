@@ -34,7 +34,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==text:
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 
         desc=self.driver.find_id('info_desc').text
 
@@ -42,7 +42,7 @@ class TestCase(unit.TestCase):
         for opt1 in opts1:
             if opt1.get_attribute('text')==u'图片':
                 opt1.click()
-                self.assertTrue(opt1.is_selected())
+                self.assertTrue(opt1.is_selected(),u'下拉框选项没有被选中')
         self.driver.find_id('file').send_keys('F:\weixin.jpg')
 
         self.driver.find_id('weixinInfoSubmit').click()
@@ -79,7 +79,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'文本':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         self.driver.find_element_by_id('weixinInfo_content').send_keys(u'编辑微信响应信息')
         self.driver.find_element_by_id('weixinInfoSubmit').click()
         self.assertEqual(u'微信响应信息列表页面',self.driver.title,u'没有进入对应页面')
