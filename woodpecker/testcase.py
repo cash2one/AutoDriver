@@ -28,6 +28,7 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
         self.treeView.customContextMenuRequested.connect(self.openMenu)
 
         QTextCodec.setCodecForTr(QTextCodec.codecForName("utf8"))
+        #QTextCodec.setCodecForCStrings(QTextCodec.codecForName("UTF-8"))
 
 
     def addItems(self, parent, elements):
