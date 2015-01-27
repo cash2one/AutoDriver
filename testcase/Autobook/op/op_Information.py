@@ -20,6 +20,8 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'APP基本信息').click()
         #在信息标题文本框中输入正常数量的字符
         self.driver.find_element_by_id('title').send_keys('14017814213006828048340')
+        test=self.driver.find_element_by_id('title').text
+        self.assertTrue('14017814213006828048340' in test,u'没有这个字符')
 
 
 
@@ -33,8 +35,16 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('query').click()
         #在信息标题中输入标题的部分名称，点击查询
         self.driver.find_element_by_id('title').send_keys(u'车谱')
-        self.driver.find_element_by_id('title').send_keys(u'车谱')
         self.driver.find_element_by_id('query').click()
+        trs=self.driver.find_id('list').find_tags('tr')
+        if len(trs)>1:
+            for i in range(1,len(trs)):
+                text=trs[i].find_tags('td')[1].text
+                self.assertTrue('车谱' in text,u'没有这个字符')
+
+        else:
+            text=self.driver.find_class('norecords').text
+            self.assertTrue(u'没有符合条件的数据'in text)
 
     # def test_Apppage(self):
     #     above=self.driver.find_element_by_link_text(u'信息维护')

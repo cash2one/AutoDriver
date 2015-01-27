@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_monitoringRefresh(self):
+        '''
+        列表刷新，系统重新加载数据，显示当前在线客户人数
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统监控')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在客户监控上
@@ -24,6 +28,10 @@ class TestCase(unit.TestCase):
 
 
     def test_Drivermonitoring(self):
+        '''
+        点击下拉框,显示“全部”、“空闲”、“休息”、“服务中”
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统监控')
         self.driver.action_chains().move_to_element(above).perform()
         self.driver.find_element_by_link_text(u'司机监控').click()
@@ -42,6 +50,10 @@ class TestCase(unit.TestCase):
 
 
     def test_DrivermonitoringAll(self):
+        '''
+        属性值“空闲”显示在文本框中
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统监控')
         self.driver.action_chains().move_to_element(above).perform()
         self.driver.find_element_by_link_text(u'司机监控').click()
@@ -69,6 +81,10 @@ class TestCase(unit.TestCase):
                 self.assertTrue(opt.is_selected())
 
     def test_Drivermonitoringselect(self):
+        '''
+            在司机工号文本框中输入正常数量字符
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统监控')
         self.driver.action_chains().move_to_element(above).perform()
         self.driver.find_element_by_link_text(u'司机监控').click()
