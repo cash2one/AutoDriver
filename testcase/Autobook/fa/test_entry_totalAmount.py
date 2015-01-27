@@ -38,7 +38,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs1)):
             tds1 = trs1[i].find_elements_by_tag_name('td')[3]
             flowState_text = tds1.get_attribute('title')
-            self.assertTrue(u'待付款' in flowState_text,'msg')
+            self.assertTrue(u'待付款' in flowState_text,u'没有找到指定字符串')
         time.sleep(2)
         trs1[1].find_element_by_id('entry').click()#点击入职付款
         time.sleep(2)
@@ -55,7 +55,7 @@ class TestCase(unit.TestCase):
 
         print pledgeBalance,totalAmount
         print pledgeBalance_int,totalAmount_int
-        self.assertTrue(totalAmount_int == pledgeBalance_int + 50000,'msg')
+        self.assertTrue(totalAmount_int == pledgeBalance_int + 50000,u'应付金额不等于输入的应付服务费与应付押金之和')
 
         time.sleep(3)
 

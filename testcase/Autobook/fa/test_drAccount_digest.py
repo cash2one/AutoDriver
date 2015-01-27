@@ -19,7 +19,7 @@ class TestCase(unit.TestCase):
     def test_drAccount_digest(self):
         time.sleep(2)
         self.driver.find_element_by_link_text('账户管理').click()
-        time.sleep(2)
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('司机账户').click()
         time.sleep(2)
 
@@ -45,7 +45,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs2)):
             tds2 = trs2[i].find_elements_by_tag_name('td')[3]
             digest_text = tds2.get_attribute('title')
-            self.assertTrue(u'预付款充值' in digest_text,'msg')
+            self.assertTrue(u'预付款充值' in digest_text,u'没有找到指定字符串')
         time.sleep(2)
 
         #2.模糊查询
@@ -60,7 +60,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs3)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[3]
             digest_text3 = tds3.get_attribute('title')
-            self.assertTrue(u'退' in digest_text3,'msg')
+            self.assertTrue(u'退' in digest_text3,u'没有找到指定字符串')
         time.sleep(2)
 
         #3.无结果查询
@@ -70,7 +70,7 @@ class TestCase(unit.TestCase):
         time.sleep(2)
         #取出提示信息，对比信息
         norecords_text = self.driver.find_element_by_class_name('norecords').text
-        self.assertTrue(u'没有符合条件的数据...' in norecords_text,'msg')
+        self.assertTrue(u'没有符合条件的数据...' in norecords_text,u'没有找到指定字符串')
         time.sleep(2)
 
 

@@ -17,9 +17,9 @@ class TestCase(unit.TestCase):
 
     #公司账户明细收支状态查询（默认的预付款账户为例）
     def test_comAccount_balanceState(self):
-        time.sleep(0.5)
-        self.driver.find_element_by_link_text('账户管理').click()
         time.sleep(2)
+        self.driver.find_element_by_link_text('账户管理').click()
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('公司账户').click()
         time.sleep(2)
         #table1为公司账户列表
@@ -40,7 +40,7 @@ class TestCase(unit.TestCase):
             balanceOut_text = tds2.get_attribute('title')
             print balanceOut_text,len(trs2),'222'
             #self.assertTrue(balanceOut_text == '0.00','msg')
-            self.assertTrue(self.driver.to_int(balanceOut_text) == 0,'msg')#将字符串转换成int型对比
+            self.assertTrue(self.driver.to_int(balanceOut_text) == 0,u'支出不为0')#将字符串转换成int型对比
 
         time.sleep(2)
 
@@ -56,7 +56,7 @@ class TestCase(unit.TestCase):
             balanceIn_text = tds3.get_attribute('title')
             print balanceIn_text,len(trs3)
             #self.assertTrue(balanceIn_text == '0.00','msg')
-            self.assertTrue(self.driver.to_int(balanceIn_text) == 0,'msg')#将字符串转换成int型对比
+            self.assertTrue(self.driver.to_int(balanceIn_text) == 0,u'收入不为0')#将字符串转换成int型对比
 
         time.sleep(2)
 

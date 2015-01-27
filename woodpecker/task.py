@@ -2,8 +2,10 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-from framework.core import box
+from framework.core import box,data
 from framework.util import fs, sqlite
+import webbrowser
+from framework.core import report
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -106,16 +108,19 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         测试完成，生成静态html报告
         :return:
         '''
-        # import webbrowser
-        # from framework.core import report
-        #
-        # root_dir = PATH('../../')
-        # rp = report.Report(data.getDatabasePath(root_dir), 25)
-        # rp.start()
-        # webbrowser.open(PATH('./report/index.html'))
-        QMessageBox.warning(self, u'没做',
-                            u"\n等我搞定数据库！",
-                            QMessageBox.Yes)
+
+
+        idx = self.tv_task.currentIndex()
+        if idx.isValid():
+            _data = self.taskModel.rowContent(idx.row())
+            db_path = PATH('../result/%s' % _data['result'])
+
+            rp = report.Report(data.getDatabasePath(db_path), 25)
+            rp.start()
+            webbrowser.open(PATH('./report/index.html'))
+        # QMessageBox.warning(self, u'没做',
+        #                     u"\n等我搞定数据库！",
+        #                     QMessageBox.Yes)
 
     def run_auto_test(self):
         idx = self.tv_task.currentIndex()

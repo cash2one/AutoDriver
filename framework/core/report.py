@@ -157,8 +157,8 @@ HTML_TABLE_RESULTS=r'''
 
 class Report():
 
-    def __init__(self,db_path,page):
-        self.page = page
+    def __init__(self,db_path,page_size=25):
+        self.page = page_size
         self.dbm = sqlite.DBManager(db_path)
         self.root = PATH('../../report/')
         self.assets = PATH('./assets/')
