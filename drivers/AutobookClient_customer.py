@@ -446,7 +446,16 @@ class Application(android.Android):
 
         self.wait_switch(splash_activity)
         self.find_id('start_btn').click()
-        self.wait_switch(guide_activity)
+        #self.wait_switch(guide_activity)
+        time_out = TIME_OUT
+        while time_out > 0:
+            if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+                if guide_activity not in self.current_activity:
+                    break
+            time_out -= 1
+            time.sleep(0.5)
+        else:
+            raise NameError, 'switch timeout'
 
 
     # def splash(self):

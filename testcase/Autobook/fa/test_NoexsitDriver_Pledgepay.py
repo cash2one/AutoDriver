@@ -29,7 +29,7 @@ class TestCase(unit.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 
     #充值司机输入司机的全名（如：周大福）
@@ -46,7 +46,7 @@ class TestCase(unit.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 
     #充值司机输入字母（如：abc）
@@ -63,7 +63,7 @@ class TestCase(unit.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 
     #充值司机输入html标签（如：<tr>）
@@ -80,7 +80,7 @@ class TestCase(unit.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 
     #充值司机输入特殊字符
@@ -97,7 +97,7 @@ class TestCase(unit.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 
     #充值司机输入不存在的工号（如：14001）
@@ -114,7 +114,7 @@ class TestCase(unit.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 
     #充值司机输入已经离职的司机工号（如：140083）
@@ -131,6 +131,6 @@ class TestCase(unit.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 

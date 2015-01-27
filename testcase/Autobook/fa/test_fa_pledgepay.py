@@ -32,8 +32,8 @@ class TestCase(unit.TestCase):
         amount_text = self.driver.find_element_by_id('pay_confirm_amount').get_attribute('title')
 
         print driver_text,amount_text
-        self.assertTrue(u'徐小七(140221)' in driver_text,'msg')
-        self.assertTrue(u'1.00(壹元整)' in amount_text,'msg')
+        self.assertTrue(u'徐小七(140221)' in driver_text,u'充值司机不为140221')
+        self.assertTrue(u'1.00(壹元整)' in amount_text,u'充值金额不为1元整')
         self.driver.find_element_by_id('btn_confirm').click()#点击确定，跳转至打印凭证界面
         time.sleep(3)
 
