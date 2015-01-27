@@ -39,31 +39,47 @@ class TestCase(unit.TestCase):
 
     # 输入不存在的司机工号
     def test_value1(self):
+        '''
+        输入不存在的查询条件，对比提示，不一致显示"对比提示不一致"
+        :return:
+        '''
         self.initInputValue('999999999', '', '', '')
         txt = self.driver.find_element_by_class_name('norecords').text
         print txt
-        self.assertTrue(u'没有符合条件的数据...' in txt, 'false')
+        self.assertTrue(u'没有符合条件的数据...' in txt, u'对比提示不一致')
 
     #输入不存在的司机姓名
     def test_value2(self):
+        '''
+        输入不存在的查询条件，对比提示，不一致显示"对比提示不一致"
+        :return:
+        '''
         self.initInputValue('', u'张大小', '', '')
         txt = self.driver.find_element_by_class_name('norecords').text
         print txt
-        self.assertTrue(u'没有符合条件的数据...' in txt, 'false')
+        self.assertTrue(u'没有符合条件的数据...' in txt, u'对比提示不一致')
 
     #输入不存在的司机电话
     def test_value3(self):
+        '''
+        输入不存在的查询条件，对比提示，不一致显示"对比提示不一致"
+        :return:
+        '''
         self.initInputValue('', '', '12311012202', '')
         txt = self.driver.find_element_by_class_name('norecords').text
         print txt
-        self.assertTrue(u'没有符合条件的数据...' in txt, 'false')
+        self.assertTrue(u'没有符合条件的数据...' in txt, u'对比提示不一致')
 
     #输入不存在的身份证号码
     def test_value4(self):
+        '''
+        输入不存在的查询条件，对比提示，不一致显示"对比提示不一致"
+        :return:
+        '''
         self.initInputValue('', '', '', u'61232111012230587X')
         txt = self.driver.find_element_by_class_name('norecords').text
         print txt
-        self.assertTrue(u'没有符合条件的数据...' in txt, 'false')
+        self.assertTrue(u'没有符合条件的数据...' in txt, u'对比提示不一致')
 
     #输入正确的司机工号
     def test_correct_value1(self):

@@ -103,7 +103,7 @@ class TaskDialog(QDialog, dlg_task_ui.Ui_Form):
             self.lbl_exectime.setText('')
 
     def find_result(self, result_data):
-        result_path = PATH('../../../result/')
+        result_path = PATH('../../result/')
         data_file = os.path.join(result_path, result_data)
         if not os.path.exists(data_file):
             return None
