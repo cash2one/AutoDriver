@@ -32,6 +32,7 @@ class JIRA():
         self.folder = _gui['folder']
         self.follow = []
         self.home = []
+        self.xls_list = []
 
 
 class Woodpecker():
