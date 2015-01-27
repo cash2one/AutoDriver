@@ -51,8 +51,8 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs1)):
             tds1 = trs1[i].find_elements_by_tag_name('td')[0]
             driverNo_text = tds1.get_attribute('title')
-            self.assertTrue('140017' in driverNo_text,'msg')
-            self.assertTrue(len(trs1) == 2,'msg')#工号是唯一的，只有一条记录
+            self.assertTrue('140017' in driverNo_text,u'没有找到指定字符串')
+            self.assertTrue(len(trs1) == 2,u'140017不为一条记录')#工号是唯一的，只有一条记录
         time.sleep(2)
 
         #2.姓名查询
@@ -68,7 +68,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs2)):
             tds2 = trs2[i].find_elements_by_tag_name('td')[1]
             driverName = tds2.get_attribute('title')
-            self.assertTrue(u'徐小七' in driverName,'msg')
+            self.assertTrue(u'徐小七' in driverName,u'没有找到指定字符串')
         time.sleep(2)
 
         #3.司机工号的模糊查询
@@ -84,7 +84,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs3)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[0]
             driverNo = tds3.get_attribute('title')
-            self.assertTrue('1400' in driverNo,'msg')
+            self.assertTrue('1400' in driverNo,u'没有找到指定字符串')
         time.sleep(2)
 
         #4.司机姓名的模糊查询
@@ -100,7 +100,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs4)):
             tds4 = trs4[i].find_elements_by_tag_name('td')[1]
             driverName1 = tds4.get_attribute('title')
-            self.assertTrue(u'张' in driverName1,'msg')
+            self.assertTrue(u'张' in driverName1,u'没有找到指定字符串')
         time.sleep(2)
 
         #5.无结果查询
@@ -111,5 +111,5 @@ class TestCase(unit.TestCase):
         time.sleep(2)
         #取出提示信息，对比信息
         norecords_text = self.driver.find_element_by_class_name('norecords').text
-        self.assertTrue(u'没有符合条件的数据...' in norecords_text,'msg')
+        self.assertTrue(u'没有符合条件的数据...' in norecords_text,u'没有找到指定字符串')
         time.sleep(2)
