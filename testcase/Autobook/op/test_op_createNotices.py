@@ -31,5 +31,5 @@ class TestCase(unit.TestCase):
         tds=self.driver.find_id('list').find_tags('tr')[1].find_tags('td')
         title=tds[1].text
         content=tds[2].text
-        self.assertEqual(u'公告通知',title)
-        self.assertEqual(u'最近，凤凰台风来袭，注意关好窗户，防止衣服被刮走。',content)
+        self.assertEqual(u'公告通知',title,u'新增公告没有显示在列表第一项')
+        self.assertEqual(u'最近，凤凰台风来袭，注意关好窗户，防止衣服被刮走。',content,u'新增公告显示在列表第一项')

@@ -32,7 +32,7 @@ class TestCase(unit.TestCase):
                 isExist = False
                 break
 
-        self.assertTrue(isExist,'false')
+        self.assertTrue(isExist,u'下拉框选项没有被选中')
         #查看日志类型下拉框中的选项
 
 
@@ -55,5 +55,5 @@ class TestCase(unit.TestCase):
                 isExist = False
                 break
 
-        self.assertTrue(isExist,'false')
+        self.assertTrue(isExist,u'下拉框选项没有被选中')
         #查看日志类型下拉框中的选项

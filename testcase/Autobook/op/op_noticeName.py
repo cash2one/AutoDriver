@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_noticeName1(self):
+        '''
+        新增公告
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统管理')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -23,8 +27,8 @@ class TestCase(unit.TestCase):
         self.driver.find_id('sure_btn').click()
         text1=self.driver.find_id('notice_title_tip').text
         text2=self.driver.find_id('notice_content_tip').text
-        text3=self.driver.find_id('roleList_tip').text
+        #text3=self.driver.find_id('roleList_tip').text
         self.assertTrue(u'公告标题不能为空' in text1)
         self.assertTrue(u'公告内容不能为空' in text2)
-        self.assertTrue(u'用户角色不能为空' in text3)
+        #self.assertTrue(u'用户角色不能为空' in text3)
 

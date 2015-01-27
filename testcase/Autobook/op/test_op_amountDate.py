@@ -28,32 +28,32 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'按天':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         time.sleep(3)
         startTime=self.driver.find_id('startTime_amount')
         endTime=self.driver.find_id('endTime_amount')
 
-        self.assertTrue(startTime.is_enabled()and endTime.is_enabled())
+        self.assertTrue(startTime.is_enabled()and endTime.is_enabled(),u'时间控件不显示')
 
         for opt in opts:
             if opt.get_attribute('text')==u'按年':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         time.sleep(3)
         startYear=self.driver.find_id('startYear')
         endYear=self.driver.find_id('endYear')
 
-        self.assertTrue(startYear.is_enabled()and endYear.is_enabled())
+        self.assertTrue(startYear.is_enabled()and endYear.is_enabled(),u'年份下拉框不显示')
 
         for opt in opts:
             if opt.get_attribute('text')==u'按月':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         time.sleep(3)
         startMonth=self.driver.find_id('startMonth')
         endMonth=self.driver.find_id('endMonth')
 
-        self.assertTrue(startMonth.is_enabled()and endMonth.is_enabled())
+        self.assertTrue(startMonth.is_enabled()and endMonth.is_enabled(),u'月份下拉框不显示')
 
 
 

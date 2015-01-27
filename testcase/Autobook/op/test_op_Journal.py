@@ -35,7 +35,7 @@ class TestCase(unit.TestCase):
             if not type in tuple:
                 isExist = False
                 break
-        self.assertTrue(isExist,'false')
+        self.assertTrue(isExist,u'下拉框选项没有被选中')
         #查看日志类型下拉框中的选项
 
 
@@ -146,7 +146,7 @@ class TestCase(unit.TestCase):
          #判断下拉列表里面的是不是禁用
             if opt.get_attribute('text')==u'APP_001':  #获取对象属性
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         self.driver.find_element_by_id('query').click()
          #找到对应的td
         time.sleep(3)

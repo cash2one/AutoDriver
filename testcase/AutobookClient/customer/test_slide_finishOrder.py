@@ -1,4 +1,3 @@
-
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
 #上下滑动已完成订单列表，提示“无数据可加载”(还未完成)

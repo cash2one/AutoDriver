@@ -36,7 +36,7 @@ class TestCase(unit.TestCase):
                 isExist = False
                 break
         time.sleep(2)
-        self.assertTrue(isExist,'false')
+        self.assertTrue(isExist,u'下拉框选项没有被选中')
         #查看客户来源下拉框中的选项
 
     def test_dateType(self):
@@ -62,5 +62,5 @@ class TestCase(unit.TestCase):
                 isExist = False
                 break
         time.sleep(2)
-        self.assertTrue(isExist,'false')
+        self.assertTrue(isExist,u'下拉框选项没有被选中')
         #查看时间粒度下拉框中的选项
