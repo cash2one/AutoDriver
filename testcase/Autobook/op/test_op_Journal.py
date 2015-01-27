@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_logPulldown(self):
+        '''
+        下拉框中显示所有平台的id值
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
 
         self.driver.action_chains().move_to_element(above).perform()
@@ -36,6 +40,10 @@ class TestCase(unit.TestCase):
 
 
     def test_logPullselect(self):
+        '''
+        点击某个选项，该选项回显在文本框中
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -47,11 +55,17 @@ class TestCase(unit.TestCase):
             if opt.get_attribute('text')=='APP_001':  #获取对象属性
                 opt.click()
 
+
             else:
                 opt.get_attribute('text')==u'平台Id'
                 opt.click()
 
     def test_logResult(self):
+        '''
+        下拉框中显示“结果”、“成功”、“失败”
+        限制长度以内的字符正常显示，超出限制长度的部分系统限制输入
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -76,6 +90,10 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('requestIdSearch').send_keys(u'driverService.refreshLocationdriverService.refreshLocationdriverService.refreshLocation')
 
     def test_logselect(self):
+        '''
+            空值查询
+        :return:
+        '''
         #空条件查询
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
@@ -86,6 +104,10 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('query').click()
 
     def test_logselectName(self):
+        '''
+        接口日志列表中显示该名称的的所有日志记录
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -105,13 +127,16 @@ class TestCase(unit.TestCase):
                 text=trs[i].find_tags('td')[5].text
                 #判断是不是td里面的接口名称是不是driverService.dealOrder
                 print text,i
-                self.assertEqual(text,u"driverService.dealOrder")
+                self.assertEqual(text,u"driverService.dealOrder",u'接口中没有这个值')
         else:
             text=self.driver.find_class('norecords').text
             self.assertTrue(u'没有符合条件的数据'in text)
 
     def test_logseleID(self):
-         #空条件查询
+        '''
+        根据id查询显示该id的的所有日志记录
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -133,9 +158,8 @@ class TestCase(unit.TestCase):
             for i in range(1,len(trs)):
                 #找到td
                 text=trs[i].find_tags('td')[4].text
-                #判断是不是td里面的接口名称是不是driverService.dealOrder
                 print text,i
-                self.assertEqual(text,u"APP_001")
+                self.assertEqual(text,u"APP_001" ,u'没有找到改id')
         else:
             text=self.driver.find_class('norecords').text
             self.assertTrue(u'没有符合条件的数据'in text)

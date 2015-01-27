@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/testcase.ui'
 #
-# Created: Tue Jan 27 01:26:51 2015
+# Created: Tue Jan 27 10:16:34 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -39,16 +39,49 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
+        self.btn_excel = QtGui.QPushButton(Form)
+        self.btn_excel.setMinimumSize(QtCore.QSize(110, 0))
+        self.btn_excel.setMaximumSize(QtCore.QSize(110, 16777215))
+        self.btn_excel.setObjectName(_fromUtf8("btn_excel"))
+        self.horizontalLayout_2.addWidget(self.btn_excel)
         self.pushButton = QtGui.QPushButton(Form)
-        self.pushButton.setMaximumSize(QtCore.QSize(130, 16777215))
+        self.pushButton.setMinimumSize(QtCore.QSize(110, 0))
+        self.pushButton.setMaximumSize(QtCore.QSize(140, 16777215))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.horizontalLayout_2.addWidget(self.pushButton)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.label_2 = QtGui.QLabel(Form)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.verticalLayout.addWidget(self.label_2)
+        self.lineEdit = QtGui.QLineEdit(Form)
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.verticalLayout.addWidget(self.lineEdit)
+        self.label_3 = QtGui.QLabel(Form)
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.verticalLayout.addWidget(self.label_3)
+        self.lineEdit_2 = QtGui.QLineEdit(Form)
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+        self.verticalLayout.addWidget(self.lineEdit_2)
+        self.label = QtGui.QLabel(Form)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.verticalLayout.addWidget(self.label)
         self.textEdit = QtGui.QTextEdit(Form)
         self.textEdit.setObjectName(_fromUtf8("textEdit"))
         self.verticalLayout.addWidget(self.textEdit)
+        self.label_5 = QtGui.QLabel(Form)
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.verticalLayout.addWidget(self.label_5)
+        self.textEdit_3 = QtGui.QTextEdit(Form)
+        self.textEdit_3.setObjectName(_fromUtf8("textEdit_3"))
+        self.verticalLayout.addWidget(self.textEdit_3)
+        self.label_4 = QtGui.QLabel(Form)
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.verticalLayout.addWidget(self.label_4)
+        self.textEdit_2 = QtGui.QTextEdit(Form)
+        self.textEdit_2.setObjectName(_fromUtf8("textEdit_2"))
+        self.verticalLayout.addWidget(self.textEdit_2)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.horizontalLayout_3.addLayout(self.horizontalLayout)
 
@@ -57,5 +90,11 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
-        self.pushButton.setText(_translate("Form", "从excel中添加用例", None))
+        self.btn_excel.setText(_translate("Form", "打开excel", None))
+        self.pushButton.setText(_translate("Form", "保存到服务器", None))
+        self.label_2.setText(_translate("Form", "用例名", None))
+        self.label_3.setText(_translate("Form", "脚本", None))
+        self.label.setText(_translate("Form", "期望结果", None))
+        self.label_5.setText(_translate("Form", "实际结果", None))
+        self.label_4.setText(_translate("Form", "备注", None))
 

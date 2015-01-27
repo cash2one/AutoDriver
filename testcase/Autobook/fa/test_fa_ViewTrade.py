@@ -41,7 +41,8 @@ class TestCase(unit.TestCase):
 
         print tranNo,tradeType,operateType
         #对比信息
-        if (list_no_text == tranNo)&(list_type_text == tradeType)&(list_operateType_text == operateType):
-            print 'Ture'
-        else:
-            print 'False'
+        # if (list_no_text == tranNo)&(list_type_text == tradeType)&(list_operateType_text == operateType):
+        #     print 'Ture'
+        # else:
+        #     print 'False'
+        self.assertTrue((list_no_text == tranNo)&(list_type_text == tradeType)&(list_operateType_text == operateType),u'交易详情与充值记录信息部一致')

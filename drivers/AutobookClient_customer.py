@@ -44,7 +44,7 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_id(NET_WAIT)
+                self.find_element_by_id(NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True
@@ -447,6 +447,15 @@ class Application(android.Android):
         self.wait_switch(splash_activity)
         self.find_id('start_btn').click()
         self.wait_switch(guide_activity)
+        # time_out = TIME_OUT
+        # while time_out > 0:
+        #     if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+        #         if guide_activity not in self.current_activity:
+        #             break
+        #     time_out -= 1
+        #     time.sleep(0.5)
+        # else:
+        #     raise NameError, 'switch timeout'
 
 
     # def splash(self):
@@ -505,7 +514,7 @@ def register_user(self_driver, user_name):
     # user_name = self_driver.configs['user_name']
     code = self_driver.settings['code']
 
-    self_driver.find_element_by_id(pkg + 'btn_personalcenter').click()
+    self_driver.find_element_by_id(pkg + 'btn_personal_center').click()
     self_driver.wait_switch(main_activity)
 
     self_driver.find_elements_by_id(pkg + 'personal_name')[0].click()

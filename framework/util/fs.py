@@ -47,7 +47,7 @@ def task_container(path_str, selections):
 # options = conf.options(sect)
 # for opt in options:  # 取出sections内的所有options
 # str_val = conf.get(sect, opt)
-#             dictCase[opt] = str_val.decode('utf-8')
+# dictCase[opt] = str_val.decode('utf-8')
 #
 #         dictCase[const.PRODUCT] = None
 #         section_list[sect] = dictCase
@@ -343,7 +343,11 @@ def path_to_tuple(cat_list):
 
     nodes = []
     for cat in cats:
-        t = tuple(cat.split('\\'))
+        t=[]
+        if cat.find('.\\')==0:
+            t = tuple(cat[2:].split('\\'))
+        else:
+            t = tuple(cat.split('\\'))
 
         for i in range(0, len(t)):
             index = len(t) - 1

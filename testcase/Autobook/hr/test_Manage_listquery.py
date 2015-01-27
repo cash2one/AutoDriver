@@ -44,8 +44,7 @@ class TestCase(unit.TestCase):
             if opt.get_attribute('value')=='0':
                 opt.click()
                 self.assertTrue(opt.is_selected())
-         qu=self.driver.find_element_by_id('query').click()
-         self.assertTrue(qu.is_selected())
+         self.driver.find_element_by_id('query').click()
         #打印查询内容
          txt=self.driver.find_element_by_xpath('/html/body/div[4]/div[3]/div[3]/div/table').text
          print txt
@@ -64,16 +63,20 @@ class TestCase(unit.TestCase):
             if opt.get_attribute('value')=='0':
                 opt.click()
                 self.assertTrue(opt.is_selected())
-         q=self.driver.find_element_by_id('query').click()
-         self.assertTrue(q.is_selected())
+         self.driver.find_element_by_id('query').click()
+
          txt=self.driver.find_element_by_xpath('/html/body/div[4]/div[3]/div[3]/div/table').text
          print txt
 
     #两个正确条件，文本错误条件查询
     def test_one_txerror(self):
-        #司机管理
+         '''
+         没有符合的查询条件，对比提示，不一致显示"提示信息错误"
+         :return:
+         '''
+         #司机管理
          self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
-          #司机工号
+         #司机工号
          self.driver.find_element_by_id('driverInfo').click()
          self.driver.find_element_by_id('driverInfo').send_keys('12345678999')
          #司机状态
@@ -83,16 +86,19 @@ class TestCase(unit.TestCase):
             if opt.get_attribute('value')=='0':
                 opt.click()
                 self.assertTrue(opt.is_selected())
-         que=self.driver.find_element_by_id('query').click()
-         self.assertTrue(que.is_selected())
+         self.driver.find_element_by_id('query').click()
          txt=self.driver.find_element_by_class_name('norecords').text
          print txt
-         self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
+         self.assertTrue(u'没有符合条件的数据...' in txt ,u'提示信息不一致')
 
 
     #两个正确条件，下拉错误条件查询
     def test_one_boxerror(self):
-        #司机管理
+         '''
+         没有符合的查询条件，对比提示，不一致显示"提示信息错误"
+         :return:
+         '''
+         #司机管理
          self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
           #司机工号
          self.driver.find_element_by_id('driverInfo').click()
@@ -104,8 +110,7 @@ class TestCase(unit.TestCase):
             if opt.get_attribute('value')=='5':
                 opt.click()
                 self.assertTrue(opt.is_selected())
-         que=self.driver.find_element_by_id('query').click()
-         self.assertTrue(que.is_selected())
+         self.driver.find_element_by_id('query').click()
          txt=self.driver.find_element_by_class_name('norecords').text
          print txt
-         self.assertTrue(u'没有符合条件的数据...' in txt ,'false')
+         self.assertTrue(u'没有符合条件的数据...' in txt ,u'提示信息不一致')

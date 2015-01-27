@@ -19,6 +19,10 @@ class TestCase(unit.TestCase):
         # self.driver.close()
 
     def test_setting_reset(self):
+       '''
+       点击未读，没有未读对比提示是否一致，有数据则打印所有信息
+       :return:
+       '''
 
        #点击系统公告
        self.driver.find_element_by_id('sysNotice').click()
@@ -27,14 +31,14 @@ class TestCase(unit.TestCase):
        #点击未读
        self.driver.find_element_by_id('unRead').click()
        untx=self.driver.find_element_by_id('unRead').text
-       self.assertTrue(u'未读' in untx)
+       self.assertTrue(u'未读' in untx,u'与对比值不一致')
        contx=self.driver.find_element_by_id('content').text
        if contx==u"没有数据哦╮(╯_╰)╭":
           print '没有信息'
        else :
           print contx
           notx=self.driver.find_element_by_class_name('notice_row').text
-          self.assertTrue(u'1、' in notx)
+          self.assertTrue(u'1、' in notx,u'与对比值不一致')
           self.driver.find_element_by_class_name('notice_row').click()
 
 

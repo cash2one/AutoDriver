@@ -44,19 +44,19 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('query').click()
         time.sleep(2)
 
-    def test_query2(self):
-        '''
-        #查询全部订单（全部来源）的结果
-        :return:
-        '''
-        opts=self.driver.find_element_by_id('orderSource').find_elements_by_tag_name('option')
-        print opts
-        for opt in opts:
-            if opt.get_attribute('text')==u'全部来源':
-                opt.click()
-                self.assertTrue(opt.is_selected())
-        self.driver.find_element_by_id('query').click()
-        time.sleep(2)
+    # def test_query2(self):
+    #     '''
+    #     #查询全部订单（全部来源）的结果
+    #     :return:
+    #     '''
+    #     opts=self.driver.find_element_by_id('orderSource').find_elements_by_tag_name('option')
+    #     print opts
+    #     for opt in opts:
+    #         if opt.get_attribute('text')==u'全部来源':
+    #             opt.click()
+    #             self.assertTrue(opt.is_selected())
+    #     self.driver.find_element_by_id('query').click()
+    #     time.sleep(2)
 
     def test_query3(self):
         '''
@@ -111,17 +111,17 @@ class TestCase(unit.TestCase):
         time.sleep(2)
 
 
-    def test_query6(self):
-        '''
-        #查询我的任务（订单来源默认）
-        :return:
-        '''
-        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
-        print opts
-        for opt in opts:
-            if opt.get_attribute('text')==u'我的任务':
-                opt.click()
-                self.assertTrue(opt.is_selected())
-
-        self.driver.find_element_by_id('query').click()
-        time.sleep(2)
+    # def test_query6(self):
+    #     '''
+    #     #查询我的任务（订单来源默认）
+    #     :return:
+    #     '''
+    #     opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+    #     print opts
+    #     for opt in opts:
+    #         if opt.get_attribute('text')==u'我的任务':
+    #             opt.click()
+    #             self.assertTrue(opt.is_selected())
+    #
+    #     self.driver.find_element_by_id('query').click()
+    #     time.sleep(2)

@@ -15,6 +15,10 @@ class TestCase(unit.TestCase):
 
     #查询全部
     def test_logall(self):
+        '''
+        编辑所有查询条件,接口日志列表中显示所有符合查询条件的记录
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上

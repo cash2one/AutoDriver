@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_logall(self):
+        '''
+        点击选项“10”或者其他的数字，会显示当前输入的条数
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上

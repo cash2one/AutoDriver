@@ -1,0 +1,50 @@
+/* #4617b4; *100%*/
+/* #7d5cca; *70%*/
+/* #a28bd9; *50%*/
+/* #c7b9e8; *30%*/
+/* #ece7f7; *10%*/
+
+.header{background-color:#a28bd9;}
+.header .logo-menu{background-color:#4617b4;}
+.header .logo-menu h1{color:#fff;}
+
+.menu li.selected{background-color:#7d5cca;}
+.menu li a:hover{background-color:#7d5cca;}
+
+#switchSkin{border:#4617b4 1px solid;border-top:0;background-color:#7d5cca;}
+#uploadFiles{border:#4617b4 1px solid;border-top:0;background-color:#7d5cca;}
+#uploadFiles ul li.btn input{background-color:#7d5cca;border:#4617b4 1px solid;}
+
+
+#dataArea th{background-color:#7d5cca;color:#fff;}
+#dataArea td{background-color:#ece7f7;}
+#dataArea h3{color:#4617b4;}
+
+.changeDate a.date:link{background:#fff url(../images/date_modena.gif) no-repeat center 0;}
+.changeDate a.date:visited{background:#fff url(../images/date_modena.gif) no-repeat center 0;}
+.changeDate a.date:hover{background:#4617b4 url(../images/date_modena.gif) no-repeat center -25px;}
+.changeDate a.date:active{background:#fff url(../images/date_modena.gif) no-repeat center 0;}
+#dateList .evenDate{background-color:#ece7f7;}
+
+#leftBar{background-color:#ece7f7;}
+#leftBar li a{background-image:url(../images/list_modena.gif);}
+#leftBar li.selected a:link{background-color:#7d5cca;}
+#leftBar li.selected a:visited{background-color:#7d5cca;}
+#leftBar li.selected a:hover{background-color:#7d5cca;}
+#leftBar li.selected a:active{background-color:#7d5cca;}
+
+#leftBar li a:link{background-color:#ece7f7}
+#leftBar li a:visited{background-color:#ece7f7;}
+#leftBar li a:hover{background-color:#7d5cca;}
+#leftBar li a:active{background-color:#ece7f7;}
+
+.box h3{background-color:#7d5cca;color:#fff;}
+.box h3 a:link{background-color:#7d5cca;}
+.box h3 a:visited{background-color:#7d5cca;}
+.box h3 a:hover{background-color:#4617b4;}
+.box h3 a:active{background-color:#7d5cca;}
+
+.jspDrag{background: #c7b9e8;}
+.jspArrow{background-color: #7d5cca;}
+.jspArrow.jspDisabled{background-color: #a28bd9;}
+
