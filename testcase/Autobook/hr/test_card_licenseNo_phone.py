@@ -84,6 +84,7 @@ class TestCase(unit.TestCase):
     def test_licenseNo_long(self):
         detailVo_licenseNo=self.driver.find_element_by_id('detailVo_licenseNo')
         detailVo_licenseNo.send_keys('22222222222222122233')
+        license=self.driver.find_element_by_id('detailVo_licenseNo').get_attribute('value')
         time.sleep(1)
         self.assertTrue(detailVo_licenseNo.text=='222222222222221222',u'不存在指定字符串')
         # 驾照档案编号输入超长

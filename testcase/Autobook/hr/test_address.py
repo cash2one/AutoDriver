@@ -30,9 +30,10 @@ class TestCase(unit.TestCase):
 
 
     def test_new_address(self):
+        self.driver.find_element_by_id('detailVo_newAddress').clear()
         self.driver.find_element_by_id('btn_add').click()
         driverVo_address_tx=self.driver.find_element_by_id('detailVo_newAddress_tip').text
-        self.assertTrue(u'现住地址不能为空.'in driverVo_address_tx)
+        self.assertTrue(u'现住址不能为空.'in driverVo_address_tx)
 
 
 
