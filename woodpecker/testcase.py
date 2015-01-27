@@ -3,7 +3,9 @@ __author__ = 'guguohai@outlook.com'
 
 import os
 from PyQt4.QtGui import *
+from PyQt4.QtCore import *
 from framework.util import fs
+from framework.core import data
 
 from woodpecker.views import testcase_ui
 
@@ -11,84 +13,61 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-data = [
-    ("Alice", [
-        ("Keys", []),
-        ("Purse", [
-            ("Cellphone", [])
-        ])
-    ]),
-    ("Bob", [
-        ("Wallet", [
-            ("Credit card", []),
-            ("Money", [])
-        ])
-    ])
-]
-
-demo = {
-    "订单管理": [
-        {"待处理订单": [{"查询失败": []}]},
-        {
-            "历史订单": [
-                {"查询成功": [{"查询成功1": []}]},
-                {"查询f成功": []}
-            ]
-        }
-    ],
-    "客户管理": [
-        {
-            "客户投诉": [
-                {"审核": [{"结果": []}]},
-                {"回访": []}
-            ]
-        }
-    ]
-}
-
 
 class TestCaseForm(QWidget, testcase_ui.Ui_Form):
     def __init__(self):
         super(TestCaseForm, self).__init__()
 
         self.setupUi(self)
+        # cat = [u'订单管理\历史订单\查询成功\查询成功1', u'订单管理\历史订单\查询f成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核', u'订单管理\待处理订单\查询失败',
+        # u'客户管理\客户投诉\审核\结果']
+        # print cat
+        xls_path = '../resource/xls/'
+        xlss = data.getExcelsData(PATH(xls_path), True)
+        catt = []
+        for xls in xlss:
+            path_str = xls['cat'] + os.sep + xls['name']
+            catt.append(path_str)
 
-        cat = [u'订单管理\历史订单\查询成功\查询成功1', u'订单管理\历史订单\查询f成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核', u'订单管理\待处理订单\查询失败',
-               u'客户管理\客户投诉\审核\结果']
+        print catt
 
-        nodes = fs.path_to_dict(cat)
-        print nodes
-        datas = fs.walk_tree(nodes)
+        datas = fs.walk_tree_tuple(catt)
 
         self.model = QStandardItemModel()
         self.addItems(self.model, datas)
         self.treeView.setModel(self.model)
+        self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.treeView.customContextMenuRequested.connect(self.openMenu)
 
-        title = 'fff'.encode('utf-8')
-        self.model.setHorizontalHeaderLabels([self.tr(title)])
+        QTextCodec.setCodecForTr(QTextCodec.codecForName("utf8"))
+        self.model.setHorizontalHeaderLabels([self.tr("用例列表")])
 
-    def addItems(self, parent, nodes):
-        for node in nodes:
-            item = QStandardItem(node)
+    def addItems(self, parent, elements):
+        for text, children in elements:
+            item = QStandardItem(text)
             parent.appendRow(item)
-            nd = nodes[node]
-            if len(nodes[node]) > 0:
-                print 'fff::::::',nd
-                self.addItems(item, nd)
+            if children:
+                self.addItems(item, children)
 
-                # for i in range(0, len(nodes)):
-                # item = QStandardItem(nodes[i]['name'])
-                #     parent.appendRow(item)
-                #     for n in range(0, len(nodes)):
-                #         if nodes[i]['self_id'] == nodes[n]['parent_id']:
-                #             item_sub = QStandardItem(nodes[n]['name'])
-                #
-                #             # item_sub.appendRow(nodes[n]['name'])
-                #             item.appendRow(item_sub)
-                #             self.addItems(item, children)
-                #
-                #
-                #             # nodes[i][i_name].append({n_name: nodes[n][n_name]})
-                #
-                #     if nodes[i]['parent_id'] == None:
-                #         self.model.appendRow(item)
+
+    def openMenu(self, position):
+        indexes = self.treeView.selectedIndexes()
+        if len(indexes) > 0:
+
+            level = 0
+            index = indexes[0]
+            while index.parent().isValid():
+                index = index.parent()
+                level += 1
+
+        menu = QMenu()
+        menu.addAction(self.tr("新增"))
+        menu.addAction(self.tr("删除"))
+        # if level == 0:
+        #     menu.addAction(self.tr("Edit person"))
+        # elif level == 1:
+        #     menu.addAction(self.tr("Edit object/container"))
+        # elif level == 2:
+        #     menu.addAction(self.tr("Edit object"))
+
+        menu.exec_(self.treeView.viewport().mapToGlobal(position))

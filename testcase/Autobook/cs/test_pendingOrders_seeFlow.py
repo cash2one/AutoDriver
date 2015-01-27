@@ -19,8 +19,12 @@ class TestCase(unit.TestCase):
          #返回首页
         self.driver.switch_to_home()
 
-    #查看订单流程
+
     def test_seeFlow(self):
+        '''
+        #查看订单流程
+        :return:
+        '''
         self.driver.find_ajax_id('orderFlow')
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
@@ -29,13 +33,16 @@ class TestCase(unit.TestCase):
         time.sleep(2)
         text=self.driver.find_element_by_id('gview_list2').find_element_by_class_name('ui-jqgrid-titlebar').text
         print text
-        self.assertTrue(u'订单流程' in text,'msg' )
+        self.assertTrue(u'订单流程' in text,u'订单流程提示框不正确或不存在' )
 
 
-    #关闭订单流程
+
     def test_seeFlow_close(self):
+        '''
+        #关闭订单流程
+        :return:
+        '''
         self.driver.find_ajax_id('orderFlow')
-        nowhandle=self.driver.current_window_handle#在这里得到当前窗口句柄
         table=self.driver.find_element_by_id('list')
         trs=table.find_elements_by_tag_name('tr')
         #点击第一行的“订单流程”
@@ -58,4 +65,4 @@ class TestCase(unit.TestCase):
         except self.driver.NoSuchElementException:
             isClose=True
 
-        self.assertTrue(isClose,'msg')
+        self.assertTrue(isClose,u'订单流程弹出框没有被关闭')
