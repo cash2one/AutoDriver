@@ -29,7 +29,7 @@ class TestCase(unit.TestCase):
             print 'Ture',tds1.get_attribute('title')
         else:
             print 'False'
-        time.sleep(1)
+        time.sleep(3)
 
     #②交易类型查询：查询预付款充值类型记录
     def test_List_type_query(self):
@@ -62,7 +62,7 @@ class TestCase(unit.TestCase):
                 print 'Ture'
             else:
                  print 'False'
-        time.sleep(1)
+        time.sleep(3)
 
     #④司机名称或司机工号查询：查询司机工号140017
     def test_driverInfo_query(self):

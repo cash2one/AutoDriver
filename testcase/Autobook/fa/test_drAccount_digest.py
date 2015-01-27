@@ -73,6 +73,4 @@ class TestCase(unit.TestCase):
         self.assertTrue(u'没有符合条件的数据...' in norecords_text,'msg')
         time.sleep(2)
 
-if __name__ =='__main__':
-    unittest.main()
 
