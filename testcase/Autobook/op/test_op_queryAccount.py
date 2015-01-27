@@ -88,7 +88,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'禁用':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         name=u'zc'
         self.driver.find_id('operatorInfo').send_keys(name)
 

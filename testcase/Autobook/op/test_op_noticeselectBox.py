@@ -26,7 +26,7 @@ class TestCase(unit.TestCase):
         try:
             inputs=self.driver.find_id('roleList').find_tags('input')
             for ipt in inputs:
-                self.assertTrue(ipt.is_selected())
+                self.assertTrue(ipt.is_selected(),u'下拉框选项没有被选中')
         finally:
             pass
         #点击全部角色，全部角色被选中
@@ -45,7 +45,7 @@ class TestCase(unit.TestCase):
         try:
             inputs=self.driver.find_id('pf2_roles').find_tags('input')
             for ipt in inputs:
-                self.assertTrue(ipt.is_selected())
+                self.assertTrue(ipt.is_selected(),u'下拉框选项没有被选中')
         finally:
             pass
         #点击全部客服，全部客服角色被选中

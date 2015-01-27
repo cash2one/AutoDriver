@@ -45,7 +45,7 @@ class TestCase(unit.TestCase):
             if not type in tuple:
                 isExist = False
                 break
-        self.assertTrue(isExist,'false')
+        self.assertTrue(isExist,u'下拉框选项没有被选中')
 
 
 
@@ -64,21 +64,21 @@ class TestCase(unit.TestCase):
 
             if opt.get_attribute('text')==u'空闲':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
             elif opt.get_attribute('text')==u'全部':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 
             elif opt.get_attribute('text')==u'休息':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 
             elif opt.get_attribute('text')==u'服务中':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
             elif opt.get_attribute('text')==u'全部':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 
     def test_Drivermonitoringselect(self):
         '''

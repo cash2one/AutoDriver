@@ -30,7 +30,7 @@ class TestCase(unit.TestCase):
             if opt.get_attribute('title')==u'客服经理':
 
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
                 time.sleep(2)
                 opt.click()
                 self.assertFalse(opt.is_selected())

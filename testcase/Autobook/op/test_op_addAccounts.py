@@ -32,22 +32,22 @@ class TestCase(unit.TestCase):
         for ipt in ipts:
             if ipt.get_attribute('title')==u'客服经理':
                 ipt.click()
-                self.assertTrue(ipt.is_selected())
+                self.assertTrue(ipt.is_selected(),u'下拉框选项没有被选中')
         self.driver.find_id('operator_mobile').send_keys(u'18155364561')
         self.driver.find_id('operator_email').send_keys(u'18155@qq.com')
 
         self.driver.find_id('sure_create_account_btn').click()
         self.driver.switch_to_alert()
         text=self.driver.find_class('xubox_dialog').text
-        self.assertTrue(u'创建账号成功'in text,u'')
+        self.assertTrue(u'创建账号成功'in text,u'没有成功提示')
         self.driver.find_element_by_link_text(u'确定').click()
 
         name=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[1].text
         realName=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[2].text
         role=self.driver.find_element_by_id('list').find_tags('tr')[1].find_tags('td')[3].text
-        self.assertTrue(n in name)
-        self.assertTrue(r in realName)
-        self.assertTrue(u'客服经理'in role)
+        self.assertTrue(n in name,u'添加的账号没有显示在列表第一项或登录名不正确')
+        self.assertTrue(r in realName,u'添加的账号没有显示在列表第一项或登录名不正确')
+        self.assertTrue(u'客服经理'in role,u'添加的账号没有显示在列表第一项或登录名不正确')
 
 
 

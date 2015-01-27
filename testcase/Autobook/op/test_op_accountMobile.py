@@ -28,7 +28,7 @@ class TestCase(unit.TestCase):
         self.driver.find_id('operator_realName').send_keys(u'李三1')
         self.driver.find_id('sure_create_account_btn').click()
         mobile=self.driver.find_id('operator_mobile_tip').text
-        self.assertTrue(u'手机号码不能为空' in mobile)
+        self.assertTrue(u'手机号码不能为空' in mobile,u'没有提示或提示不正确')
 
     def test_mobileError(self):
         '''
