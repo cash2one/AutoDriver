@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/testcase.ui'
 #
-# Created: Tue Jan 27 10:12:13 2015
+# Created: Tue Jan 27 10:16:34 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -70,12 +70,18 @@ class Ui_Form(object):
         self.textEdit = QtGui.QTextEdit(Form)
         self.textEdit.setObjectName(_fromUtf8("textEdit"))
         self.verticalLayout.addWidget(self.textEdit)
+        self.label_5 = QtGui.QLabel(Form)
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.verticalLayout.addWidget(self.label_5)
+        self.textEdit_3 = QtGui.QTextEdit(Form)
+        self.textEdit_3.setObjectName(_fromUtf8("textEdit_3"))
+        self.verticalLayout.addWidget(self.textEdit_3)
         self.label_4 = QtGui.QLabel(Form)
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.verticalLayout.addWidget(self.label_4)
-        self.textBrowser = QtGui.QTextBrowser(Form)
-        self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
-        self.verticalLayout.addWidget(self.textBrowser)
+        self.textEdit_2 = QtGui.QTextEdit(Form)
+        self.textEdit_2.setObjectName(_fromUtf8("textEdit_2"))
+        self.verticalLayout.addWidget(self.textEdit_2)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.horizontalLayout_3.addLayout(self.horizontalLayout)
 
@@ -88,6 +94,7 @@ class Ui_Form(object):
         self.pushButton.setText(_translate("Form", "保存到服务器", None))
         self.label_2.setText(_translate("Form", "用例名", None))
         self.label_3.setText(_translate("Form", "脚本", None))
-        self.label.setText(_translate("Form", "用例描述", None))
+        self.label.setText(_translate("Form", "期望结果", None))
+        self.label_5.setText(_translate("Form", "实际结果", None))
         self.label_4.setText(_translate("Form", "备注", None))
 

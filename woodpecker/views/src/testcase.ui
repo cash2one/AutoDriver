@@ -106,12 +106,22 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>用例描述</string>
+          <string>期望结果</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QTextEdit" name="textEdit"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>实际结果</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="textEdit_3"/>
        </item>
        <item>
         <widget class="QLabel" name="label_4">
@@ -121,7 +131,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QTextBrowser" name="textBrowser"/>
+        <widget class="QTextEdit" name="textEdit_2"/>
        </item>
       </layout>
      </item>

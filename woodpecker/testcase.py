@@ -6,6 +6,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.util import fs, const, xls
 from framework.core import data
+from framework.core import box
 
 from woodpecker.views import testcase_ui
 
@@ -22,6 +23,7 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
 
         self.btn_excel.clicked.connect(self.get_filename)
 
+        self.read_xls()
         self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.openMenu)
 
@@ -54,7 +56,7 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
         # elif level == 1:
         # menu.addAction(self.tr("Edit object/container"))
         # elif level == 2:
-        #     menu.addAction(self.tr("Edit object"))
+        # menu.addAction(self.tr("Edit object"))
 
         menu.exec_(self.treeView.viewport().mapToGlobal(position))
 
@@ -65,20 +67,21 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
         # xls_path = '../resource/xls/'
         excel = xls.Excel(file_path, const.EXCEL_HEADER, True)
 
-        data_list=[]
         if excel.openExcel() != None:
-            data_list = data.getExcelData(excel)
+            box.jira.xls_list = data.getExcelData(excel)
+            self.read_xls()
 
-        catt = []
-        for d in data_list:
-            path_str = d['cat'] + os.sep + d['name']
-            catt.append(path_str)
+    def read_xls(self):
+        if len(box.jira.xls_list) > 0:
+            catt = []
+            for d in box.jira.xls_list:
+                path_str = d['cat'] + os.sep + d['name']
+                catt.append(path_str)
 
-        datas = fs.walk_tree_tuple(catt)
+            datas = fs.walk_tree_tuple(catt)
 
+            self.model = QStandardItemModel()
+            self.addItems(self.model, datas)
+            self.treeView.setModel(self.model)
 
-        self.model = QStandardItemModel()
-        self.addItems(self.model, datas)
-        self.treeView.setModel(self.model)
-
-        self.model.setHorizontalHeaderLabels([self.tr("用例列表")])
+            self.model.setHorizontalHeaderLabels([self.tr("用例列表")])
