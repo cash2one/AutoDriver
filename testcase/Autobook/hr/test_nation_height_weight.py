@@ -28,33 +28,37 @@ class TestCase(unit.TestCase):
 
     def test_nation_null(self):
         driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
-        driverVo_phone.send_keys('')
+        aa=driverVo_phone.send_keys('')
+        print aa
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'')
+        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
         # 本人联系电话为空
 
 
     def test_phone_long(self):
         driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
         driverVo_phone.send_keys('156186334121')
+        phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='15618633412',u'')
+        self.assertTrue(phone=='15618633412',u'不存在指定字符串')
         # 本人联系电话输入超长
 
 
     def test_phone_specia(self):
         driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
         driverVo_phone.send_keys('@#$')
+        phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'')
+        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
         # 本人联系电话输入特殊字符
 
 
     def test_phone_j(self):
         driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
         driverVo_phone.send_keys('jjgh')
+        phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'')
+        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
         # 本人联系电话输入大小写字母
 
 
