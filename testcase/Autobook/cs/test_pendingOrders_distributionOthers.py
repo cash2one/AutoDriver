@@ -19,7 +19,10 @@ class TestCase(unit.TestCase):
 
 
     def test_distributionOthers(self):
+        '''
         #查询我的任务（订单来源默认）
+        '''
+
         opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
         for opt in opts:
             if opt.get_attribute('text')==u'我的任务':

@@ -18,8 +18,12 @@ class TestCase(unit.TestCase):
          #返回首页
         self.driver.switch_to_home()
 
-     #点击创建订单跳转到创建订单界面
+
     def test_appoint_orderSuccess(self):
+        '''
+        #点击创建订单跳转到创建订单界面
+        :return:
+        '''
         self.driver.find_ajax_id('main_menu')
         self.driver.find_element_by_id('main_menu').click()
         # print menu
@@ -31,7 +35,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text('创建订单').click()
         time.sleep(5)
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的不是创建订单页面')
         finally:
             pass
         #time.sleep(3)
@@ -92,7 +96,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs)-1):
             tds=trs[i].find_elements_by_tag_name('td')[1]
             print tds.text
-            self.assertTrue(tds.text in text,'msg')
+            self.assertEqual(tds.text,text,u'两个订单号不匹配')
 
 
 

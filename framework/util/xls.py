@@ -7,9 +7,9 @@ import re
 
 
 class Excel:
-    #skip_cat 是否读取cat详细数据
+    # skip_cat 是否读取cat详细数据
     #dict_header excel表头的中文对应到英文命名
-    def __init__(self, file_name,dict_header,skip_cat):
+    def __init__(self, file_name, dict_header, skip_cat):
         self.file = file_name
         self.skip_cat = skip_cat
         self.dict_header = dict_header
@@ -53,9 +53,9 @@ class Excel:
             row = table.row_values(num)
             if row:
                 app = {}
-                for i in range(len(col_names)):#元组遍历
+                for i in range(len(col_names)):  #元组遍历
                     #if not type(row[i]) is types.FloatType:
-                    app[col_names[i]] = row[i]#.decode('ascii') 放入到app
+                    app[col_names[i]] = row[i]  #.decode('ascii') 放入到app
                 list.append(app)
         return list
 
@@ -77,126 +77,131 @@ class Excel:
     #                     print t.row_values(r)[c]
 
     #根据setting.cfg 过滤excel用例的列
-    def filterRows(self,titles,one_row_vals):
-        titlea=[]
-        rows=[]
+    def filterRows(self, titles, one_row_vals):
+        titlea = []
+        rows = []
 
-        for i in range(0,len(titles)):
+        for i in range(0, len(titles)):
             settings_vals = self.dict_header.values()
             if titles[i] in settings_vals:
 
-               for k,v in self.dict_header.items():
-                   if v == titles[i]:
-                      titlea.append(k)
-                      break
+                for k, v in self.dict_header.items():
+                    if v == titles[i]:
+                        titlea.append(k)
+                        break
 
-               rows.append(one_row_vals[i])
+                rows.append(one_row_vals[i])
 
-        return titlea,rows
+        return titlea, rows
 
 
     #取出行内符合条件的单元格内容
-    def getCellsAllValue(self,one_row_vals,new_header,sheet_index):
+    def getCellsAllValue(self, one_row_vals, new_header, sheet_index):
         #url = self.getExcelSettings('interface_url')['url']
-        cells={}
+        cells = {}
 
         if one_row_vals:
-            for i in range(len(new_header)):#遍历表头
+            for i in range(len(new_header)):  #遍历表头
                 k = new_header[i]
-                if k=='desc' and one_row_vals[i-1]!='begin':
+                if k == 'desc' and one_row_vals[i - 1] != 'begin':
                     cells[k] = one_row_vals[i]
-                elif k=='script':
-                    if one_row_vals[i].strip()=='':
+                elif k == 'script':
+                    if one_row_vals[i].strip() == '':
                         cells[k] = ''
                     else:
-                        cells[k] = one_row_vals[i].replace('.py','')
-                elif k=='exp': #去除exp中的token
+                        cells[k] = one_row_vals[i].replace('.py', '')
+                elif k == 'exp':  #去除exp中的token
                     # exp_val = self.getTokenStr(one_row_vals[i])
                     # if exp_val != None:
                     #     cells[k] = one_row_vals[i].replace(exp_val,'')
                     # else:
                     #     cells[k] = one_row_vals[i]
-                    if '[0]' in one_row_vals[i]:#区分list为空和不为空
-                        cells[k] = one_row_vals[i].replace('[0]','[]')
+                    if '[0]' in one_row_vals[i]:  #区分list为空和不为空
+                        cells[k] = one_row_vals[i].replace('[0]', '[]')
                     else:
                         cells[k] = one_row_vals[i]
                 elif k == 'no':
-                    row_no =str(sheet_index)+'_'+str(self.floatToInt(one_row_vals[i]))
-                    cells[k]=row_no
+                    row_no = str(sheet_index) + '_' + str(self.floatToInt(one_row_vals[i]))
+                    cells[k] = row_no
                 elif k == 'loop':
-                    cells[k]=self.floatToInt(one_row_vals[i])
+                    cells[k] = self.floatToInt(one_row_vals[i])
                 else:
                     cells[k] = one_row_vals[i]
 
-                #用例描述里面正则取接口地址
-                # if header[i] == xls_settings['desc']:
-                #     cells[k] = self.getInfValue(one_row_vals[i])
-                # else:
-                #     cells[k] = one_row_vals[i]
+                    #用例描述里面正则取接口地址
+                    # if header[i] == xls_settings['desc']:
+                    #     cells[k] = self.getInfValue(one_row_vals[i])
+                    # else:
+                    #     cells[k] = one_row_vals[i]
             return cells
 
 
     #取出行内符合条件的单元格内容
-    def getCellsValue(self,one_row_vals,new_header,sheet_index):
+    def getCellsValue(self, one_row_vals, new_header, sheet_index):
         #url = self.getExcelSettings('interface_url')['url']
-        cells={}
+        cells = {}
 
         if one_row_vals:
-            for i in range(len(new_header)):#遍历表头
+            for i in range(len(new_header)):  #遍历表头
                 k = new_header[i]
-                if k=='desc' and one_row_vals[i-1]!='begin':
+                if k == 'desc' and one_row_vals[i - 1] != 'begin':
                     cells[k] = one_row_vals[i]
-                elif k=='script':
-                    if one_row_vals[i].strip()=='':
+                elif k == 'script':
+                    if one_row_vals[i].strip() == '':
                         cells[k] = ''
                     else:
-                        cells[k] = one_row_vals[i].replace('.py','')
-                elif k=='exp': #去除exp中的token
+                        cells[k] = one_row_vals[i].replace('.py', '')
+                elif k == 'exp':  #去除exp中的token
                     # exp_val = self.getTokenStr(one_row_vals[i])
                     # if exp_val != None:
                     #     cells[k] = one_row_vals[i].replace(exp_val,'')
                     # else:
                     #     cells[k] = one_row_vals[i]
-                    if '[0]' in one_row_vals[i]:#区分list为空和不为空
-                        cells[k] = one_row_vals[i].replace('[0]','[]')
+                    if '[0]' in one_row_vals[i]:  #区分list为空和不为空
+                        cells[k] = one_row_vals[i].replace('[0]', '[]')
                     else:
                         cells[k] = one_row_vals[i]
-                elif k=='cat':
+                elif k == 'cat':
+                    cells[k] = one_row_vals[i]
+                elif k == 'cat':
                     if not self.skip_cat:
-                        cat_filename = os.path.basename(self.file).replace('.xls','')
+                        cat_filename = os.path.basename(self.file).replace('.xls', '')
                         #对该单元格内不为begin、end的内容，为空
-                        if one_row_vals[i]=='begin':
+                        if one_row_vals[i] == 'begin':
                             cells[k] = cat_filename + '_begin'
-                        elif one_row_vals[i]=='end':
+                        elif one_row_vals[i] == 'end':
                             cells[k] = cat_filename + '_end'
                         else:
                             cells[k] = cat_filename
                     else:
+                        # if not os.sep in one_row_vals[i][-1]:
+                        #     cells[k] = one_row_vals[i]+os.sep
+                        # else:
                         cells[k] = one_row_vals[i]
 
                 elif k == 'no':
-                    row_no =str(sheet_index)+'_'+str(self.floatToInt(one_row_vals[i]))
-                    cells[k]=row_no
+                    row_no = str(sheet_index) + '_' + str(self.floatToInt(one_row_vals[i]))
+                    cells[k] = row_no
                 elif k == 'loop':
-                    cells[k]=self.floatToInt(one_row_vals[i])
+                    cells[k] = self.floatToInt(one_row_vals[i])
                 else:
                     cells[k] = one_row_vals[i]
 
-                #用例描述里面正则取接口地址
-                # if header[i] == xls_settings['desc']:
-                #     cells[k] = self.getInfValue(one_row_vals[i])
-                # else:
-                #     cells[k] = one_row_vals[i]
+                    #用例描述里面正则取接口地址
+                    # if header[i] == xls_settings['desc']:
+                    #     cells[k] = self.getInfValue(one_row_vals[i])
+                    # else:
+                    #     cells[k] = one_row_vals[i]
             return cells
 
-    def getTokenStr(self,content):
-        re_symbol = re.compile(r'(?<=\"tokenNo\"\:\").*?(?=\")')#接口正则
-        match=re_symbol.search(content)
+    def getTokenStr(self, content):
+        re_symbol = re.compile(r'(?<=\"tokenNo\"\:\").*?(?=\")')  #接口正则
+        match = re_symbol.search(content)
 
         if match:
             return match.group()
 
-    def floatToInt(self,val):
+    def floatToInt(self, val):
         if not str(val).strip():
             new_val = 0
         else:
@@ -205,9 +210,9 @@ class Excel:
 
 
     #正则取出包含在{{}}内的地址，并验证是否是网址
-    def getInfValue(self,content):
-        re_symbol = re.compile(r'(?<=\{\{).*?(?=}})')#接口正则
-        match=re_symbol.search(content)
+    def getInfValue(self, content):
+        re_symbol = re.compile(r'(?<=\{\{).*?(?=}})')  #接口正则
+        match = re_symbol.search(content)
 
         if match:
             return match.group()
@@ -224,14 +229,14 @@ class Excel:
 
 
     #查找字段所在列的引
-    def findIndexByName(self,data,tup):
-        table=data.sheets()[0]
+    def findIndexByName(self, data, tup):
+        table = data.sheets()[0]
         cols = table.ncols  # 列数
-        col_indexs=[]
-        firstRow=table.row_values(0)
+        col_indexs = []
+        firstRow = table.row_values(0)
         for num in range(0, cols):
-            for i in range(len(tup)):#遍历tup
-                if firstRow[num]==tup[i]:
+            for i in range(len(tup)):  #遍历tup
+                if firstRow[num] == tup[i]:
                     col_indexs.append(num)
         return col_indexs
 

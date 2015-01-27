@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/testcase.ui'
 #
-# Created: Tue Jan 13 17:41:46 2015
+# Created: Tue Jan 27 01:26:51 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -32,7 +32,7 @@ class Ui_Form(object):
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.treeView = QtGui.QTreeView(Form)
-        self.treeView.setMaximumSize(QtCore.QSize(220, 16777215))
+        self.treeView.setMaximumSize(QtCore.QSize(240, 16777215))
         self.treeView.setObjectName(_fromUtf8("treeView"))
         self.horizontalLayout.addWidget(self.treeView)
         self.verticalLayout = QtGui.QVBoxLayout()
