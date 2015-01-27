@@ -14,6 +14,10 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_monitoringRefresh(self):
+        '''
+        点击空闲属性值“空闲”显示在文本框中
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'系统监控')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在司机监控上

@@ -15,6 +15,10 @@ class TestCase(unit.TestCase):
 
     #查询分页
     def test_logall(self):
+        '''
+        点击首页，上一页的呈灰色
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -30,8 +34,11 @@ class TestCase(unit.TestCase):
         time.sleep(1)
         #点击上一页
         self.driver.find_element_by_id('prev_pager').click()
-    #输入小数
     def test_logInput(self):
+        '''
+        在跳转至文本框中输入的数字小于当前共有页数,系统自动跳转到该页
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -41,6 +48,10 @@ class TestCase(unit.TestCase):
 
 
     def test_Inputdecimal(self):
+        '''
+        在跳转至文本框中输入小数,系统默认跳转到第一页
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -51,6 +62,10 @@ class TestCase(unit.TestCase):
 
     #输入非法字符
     def test_InputCharacters(self):
+        '''
+        在跳转至文本框中输入字母、非法字符,系统默认跳转到第一页
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
@@ -62,6 +77,10 @@ class TestCase(unit.TestCase):
 
     #输入超长字符
     def test_InputCharacter(self):
+        '''
+        在跳转至文本框中输入超长字符,系统限制输入
+        :return:
+        '''
         above=self.driver.find_element_by_link_text(u'日志查询')
         self.driver.action_chains().move_to_element(above).perform()
          #鼠标悬停在日志查询上
