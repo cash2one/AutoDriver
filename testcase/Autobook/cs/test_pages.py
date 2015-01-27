@@ -91,7 +91,7 @@ class TestCase(unit.TestCase):
         pg_class.send_keys(self.driver.keys().ENTER)#按回车键
         time.sleep(1)
         one_1=pg_class.get_attribute("value")
-        self.assertEqual(one_1,num_pages,u'跳转的不是最后一页')
+        self.assertEqual(one_1,u'1',u'跳转的不是第一页')
         time.sleep(2)
 
 

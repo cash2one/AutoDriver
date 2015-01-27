@@ -96,7 +96,7 @@ class TestCase(unit.TestCase):
         for i in range(1,len(trs)-1):
             tds=trs[i].find_elements_by_tag_name('td')[1]
             print tds.text
-            self.assertEqual(tds.text,text,u'两个订单号不匹配')
+            self.assertTrue(tds.text in text,u'两个订单号不匹配')
 
 
 
