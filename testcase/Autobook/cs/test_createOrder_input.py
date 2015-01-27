@@ -76,38 +76,38 @@ class TestCase(unit.TestCase):
         #创建订单按钮
         self.driver.find_element_by_id('create_order_btn').click()
         text=self.driver.find_element_by_id('phone_tip').text
-        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.' in text,'msg')
+        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.' in text,u'手机号输入少于11位没有提示信息或提示信息不正确')
 
 
 
-    def test_input_customerphone1(self):
-        '''
-        #输入的手机号大于于11位,系统限制输入
-        :return:
-        '''
-        self.driver.find_ajax_id('main_menu')
-        self.driver.find_element_by_id('main_menu').click()
-        # print menu
-        #
-        # for i in range(0,len(menu)-1):
-        #     if menu[i]==u'订单管理':
-        self.driver.find_element_by_link_text('订单管理').click()
-        time.sleep(3)
-        self.driver.find_element_by_link_text('创建订单').click()
-        time.sleep(5)
-        try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的不是创建订单页面')
-        finally:
-            pass
-        #time.sleep(3)
-        #输入的手机号大于于11位
-        self.driver.find_element_by_id('customerCall').send_keys('wss')
-        phone=self.driver.find_element_by_id('phone')
-        phone.send_keys('1363646847523')
-        #创建订单按钮
-        self.driver.find_element_by_id('create_order_btn').click()
-        text=self.driver.find_element_by_id('phone_tip').text
-        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.' in text,'msg')
+    # def test_input_customerphone1(self):
+    #     '''
+    #     #输入的手机号大于于11位,系统限制输入
+    #     :return:
+    #     '''
+    #     self.driver.find_ajax_id('main_menu')
+    #     self.driver.find_element_by_id('main_menu').click()
+    #     # print menu
+    #     #
+    #     # for i in range(0,len(menu)-1):
+    #     #     if menu[i]==u'订单管理':
+    #     self.driver.find_element_by_link_text('订单管理').click()
+    #     time.sleep(3)
+    #     self.driver.find_element_by_link_text('创建订单').click()
+    #     time.sleep(5)
+    #     try:
+    #         self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的不是创建订单页面')
+    #     finally:
+    #         pass
+    #     #time.sleep(3)
+    #     #输入的手机号大于于11位
+    #     self.driver.find_element_by_id('customerCall').send_keys('wss')
+    #     phone=self.driver.find_element_by_id('phone')
+    #     phone.send_keys('1363646847523')
+    #     #创建订单按钮
+    #     self.driver.find_element_by_id('create_order_btn').click()
+    #     text=self.driver.find_element_by_id('phone_tip').text
+    #     self.assertTrue(u'手机号码输入错误,请输入11位手机号码.' in text,u'手机号输入超过11位没有提示信息或提示信息不正确')
 
 
 
@@ -138,4 +138,4 @@ class TestCase(unit.TestCase):
         #创建订单按钮
         self.driver.find_element_by_id('create_order_btn').click()
         text=self.driver.find_element_by_id('phone_tip').text
-        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.' in text,'手机号输入特殊字符，提示信息不正确或没有提示信息')
+        self.assertTrue(u'手机号码输入错误,请输入11位手机号码.' in text,u'手机号输入特殊字符，提示信息不正确或没有提示信息')

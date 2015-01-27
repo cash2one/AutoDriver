@@ -44,6 +44,7 @@ class TestCase(unit.TestCase):
         if '15011515344163' in tds[1].text:
             try:
                 tds[10].find_element_by_id('communicationRecord').click()
+                time.sleep(2)
             except self.driver.NoSuchElementException:
                 pass
         time.sleep(3)
@@ -68,6 +69,7 @@ class TestCase(unit.TestCase):
         a=self.driver.switch_to_alert()
         # id=self.driver.find_element_by_id('xubox_border1')
         self.driver.find_element_by_class_name('xubox_close').click()
+        time.sleep(2)
         isClose=True
         try:
             self.driver.find_element_by_id('xubox_main')

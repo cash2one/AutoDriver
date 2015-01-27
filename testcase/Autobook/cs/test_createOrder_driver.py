@@ -22,7 +22,7 @@ class TestCase(unit.TestCase):
 
     def test_repeatedSelection_driver(self):
         '''
-        #点击创建订单跳转到创建订单界面
+        #选择重复的司机
         :return:
         '''
         time.sleep(2)
@@ -76,7 +76,7 @@ class TestCase(unit.TestCase):
                 print(u'没找到司机小米')
         time.sleep(3)
         text=self.driver.find_element_by_class_name('xubox_dialog').text
-        self.assertTrue(text==u'小米 已选，请选择其他司机','提示信息不正确')
+        self.assertEqual(text,u'小米 已选，请选择其他司机','提示信息不正确')
 
 
 
@@ -117,4 +117,5 @@ class TestCase(unit.TestCase):
         #在选择司机页面直接点击确定按钮
         self.driver.find_element_by_id('sure_btn').click()
         text=self.driver.find_element_by_class_name('xubox_dialog').text
-        self.assertEqual(text==u'请至少选择一位司机',u'提示框中内容不相等')
+        self.assertEqual(text,u'请至少选择一位司机',u'提示框中内容不相等')
+
