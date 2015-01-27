@@ -70,33 +70,6 @@ def getExcelData(excel):
 
 
 #读取制定目录内的所有xls文档
-def get_xls_data(xls_dir):
-    # f = os.listdir(xls_dir)
-    # re_f=re.compile(".xls$", re.IGNORECASE)
-    # files = filter(re_f.search, f)
-
-    products = box.settings['product']
-
-    list=[]
-
-    for p in products:
-        xls_path = os.path.join(xls_dir, p+'.xls')
-        try:
-            val = products[p].strip()#.split(',')[1]
-            if int(val) == 1:
-                excel = xls.Excel(xls_path,const.EXCEL_HEADER,True)
-                if excel.openExcel() != None:
-                    list.extend(getExcelData(excel))
-                # else:
-                #     break
-        except IndexError:
-            print u'ini文件缺少索引值'
-        except ValueError:
-            print u'ini文件数值类型错误'
-
-
-
-#读取制定目录内的所有xls文档
 def getExcelsData(xls_dir,skip_cat):
     # f = os.listdir(xls_dir)
     # re_f=re.compile(".xls$", re.IGNORECASE)

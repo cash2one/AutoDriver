@@ -28,7 +28,8 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
         self.treeView.customContextMenuRequested.connect(self.openMenu)
 
         QTextCodec.setCodecForTr(QTextCodec.codecForName("utf8"))
-        #QTextCodec.setCodecForCStrings(QTextCodec.codecForName("UTF-8"))
+        # QTextCodec.setCodecForCStrings(QTextCodec.codecForName("UTF-8"))
+        self.connect(self.treeView, SIGNAL("clicked(QModelIndex)"), self.getCurrentIndex)
 
 
     def addItems(self, parent, elements):
@@ -86,3 +87,7 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
             self.treeView.setModel(self.model)
 
             self.model.setHorizontalHeaderLabels([self.tr("用例列表")])
+
+    def getCurrentIndex(self, index):
+        #print index.internalPointer().itemData[0]
+        print 'click tree'
