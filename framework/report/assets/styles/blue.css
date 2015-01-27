@@ -1,0 +1,50 @@
+/* #0066cc; *100%*/
+/* #4c94db; *70%*/
+/* #7fb2e5; *50%*/
+/* #b2d1f0; *30%*/
+/* #e5effa; *10%*/
+
+.header{background-color:#7fb2e5;}
+.header .logo-menu{background-color:#0066cc;}
+.header .logo-menu h1{color:#fff;}
+
+.menu li.selected{background-color:#4c94db;}
+.menu li a:hover{background-color:#4c94db;}
+
+#switchSkin{border:#0066cc 1px solid;border-top:0;background-color:#4c94db;}
+#uploadFiles{border:#0066cc 1px solid;border-top:0;background-color:#4c94db;}
+#uploadFiles ul li.btn input{background-color:#4c94db;border:#0066cc 1px solid;}
+
+#dataArea th{background-color:#4c94db;color:#fff;}
+#dataArea td{background-color:#e5effa;}
+#dataArea h3{color:#0066cc;}
+
+.changeDate a.date:link{background:#fff url(../images/date_blue.gif) no-repeat center 0;}
+.changeDate a.date:visited{background:#fff url(../images/date_blue.gif) no-repeat center 0;}
+.changeDate a.date:hover{background:#0066cc url(../images/date_blue.gif) no-repeat center -25px;}
+.changeDate a.date:active{background:#fff url(../images/date_blue.gif) no-repeat center 0;}
+#dateList .evenDate{background-color:#e5effa;}
+#dateList li a.selected{background-color:#b2d1f0;}
+
+#leftBar{background-color:#e5effa;}
+#leftBar li a{background-image:url(../images/list_blue.gif);}
+#leftBar li.selected a:link{background-color:#4c94db;}
+#leftBar li.selected a:visited{background-color:#4c94db;}
+#leftBar li.selected a:hover{background-color:#4c94db;}
+#leftBar li.selected a:active{background-color:#4c94db;}
+
+#leftBar li a:link{background-color:#e5effa}
+#leftBar li a:visited{background-color:#e5effa;}
+#leftBar li a:hover{background-color:#4c94db;}
+#leftBar li a:active{background-color:#e5effa;}
+
+.box h3{background-color:#4c94db;color:#fff;}
+.box h3 a:link{background-color:#4c94db;}
+.box h3 a:visited{background-color:#4c94db;}
+.box h3 a:hover{background-color:#0066cc;}
+.box h3 a:active{background-color:#4c94db;}
+
+.jspDrag{background: #b2d1f0;}
+.jspArrow{background-color: #4c94db;}
+.jspArrow.jspDisabled{background-color: #7fb2e5;}
+

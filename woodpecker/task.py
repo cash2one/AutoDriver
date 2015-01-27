@@ -2,10 +2,10 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
-from framework.core import box,data
+from framework.core import box, data
 from framework.util import fs, sqlite
 import webbrowser
-from framework.core import report
+from framework.report import report
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -109,18 +109,19 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         :return:
         '''
 
-
         idx = self.tv_task.currentIndex()
         if idx.isValid():
             _data = self.taskModel.rowContent(idx.row())
             db_path = PATH('../result/%s' % _data['result'])
 
-            rp = report.Report(data.getDatabasePath(db_path), 25)
+            rp = report.Report(db_path, 25)
             rp.start()
-            webbrowser.open(PATH('./report/index.html'))
-        # QMessageBox.warning(self, u'没做',
-        #                     u"\n等我搞定数据库！",
-        #                     QMessageBox.Yes)
+
+            index_name = db_path.split(os.sep)[-1].replace('.db', '')
+            webbrowser.open(PATH('../result/%s/%s1.html' % (index_name, index_name)))
+            # QMessageBox.warning(self, u'没做',
+            # u"\n等我搞定数据库！",
+            # QMessageBox.Yes)
 
     def run_auto_test(self):
         idx = self.tv_task.currentIndex()
