@@ -49,7 +49,7 @@ class TestCase(unit.TestCase):
         driverVo_phone.send_keys('@#$')
         phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
+        self.assertTrue(phone=='',u'不存在指定字符串')
         # 本人联系电话输入特殊字符
 
 
@@ -58,7 +58,7 @@ class TestCase(unit.TestCase):
         driverVo_phone.send_keys('jjgh')
         phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
+        self.assertTrue(phone=='',u'不存在指定字符串')
         # 本人联系电话输入大小写字母
 
 
