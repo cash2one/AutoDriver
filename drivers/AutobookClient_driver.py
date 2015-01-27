@@ -44,7 +44,7 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_id(NET_WAIT)
+                self.find_element_by_id(NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True
@@ -434,15 +434,7 @@ class Application(android.Android):
 
     def splash(self):
         splash_activity = self.settings['app_activity']  #.SplashActivity
-        time_out = TIME_OUT
-        while time_out > 0:
-            if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
-                if splash_activity not in self.current_activity:
-                    break
-            time_out -= 1
-            time.sleep(0.5)
-        else:
-            raise NameError, 'switch timeout'
+        self.wait_switch(splash_activity)
         # time_out = TIME_OUT
         # try:
         #     splash_activity = self.settings['app_activity']
