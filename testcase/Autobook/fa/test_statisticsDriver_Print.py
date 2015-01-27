@@ -52,7 +52,7 @@ class TestCase(unit.TestCase):
         table_msg = self.driver.find_class('xubox_main')
         msg_text = table_msg.find_class('xubox_text').text
         print msg_text
-        self.assertTrue(u'确定打印发票' in msg_text,'msg')
+        self.assertTrue(u'确定打印发票' in msg_text,u'没有找到指定字符')
         table_msg.find_class('xubox_yes').click()#点击确定
         time.sleep(3)
 
@@ -65,7 +65,7 @@ class TestCase(unit.TestCase):
         printNum_text_new = printNum2.get_attribute('title')
         print printNum_text_new
         #比较打印前后的次数打印后自动加1，先将次数转换成int型。
-        self.assertTrue(int(printNum_text_new) == int(printNum_text) + 1,'msg')
+        self.assertTrue(int(printNum_text_new) == int(printNum_text) + 1,u'打印次数没有自动加1')
         # if int(printNum_text_new) == int(printNum_text) + 1:
         #     print 'Ture'
         # else:

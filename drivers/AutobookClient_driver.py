@@ -44,7 +44,7 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_id(NET_WAIT)
+                self.find_element_by_id(NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True

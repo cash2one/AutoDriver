@@ -57,7 +57,7 @@ class TestCase(unit.TestCase):
             tds_PrintNo = trs3[i].find_elements_by_tag_name('td')[7]
             PrintNo_text = tds_PrintNo.get_attribute('title')#取出打印次数
 
-            self.assertTrue(self.driver.to_int(PrintNo_text) == 0,'msg')#将字符串转换成int型对比
+            self.assertTrue(self.driver.to_int(PrintNo_text) == 0,u'打印次数不为0')#将字符串转换成int型对比
 
         time.sleep(2)
 
@@ -105,5 +105,5 @@ class TestCase(unit.TestCase):
         print '全部司机出入账的记录数为：',all_No,'条'
         time.sleep(2)
         #对比：全部收支状态下记录数 =收入记录数 + 支出记录数，为真
-        self.assertTrue(all_No == NoPrint_No + Print_No,'msg' )
+        self.assertTrue(all_No == NoPrint_No + Print_No,u'全部收支状态下记录数不等于收入记录数加支出记录数' )
 
