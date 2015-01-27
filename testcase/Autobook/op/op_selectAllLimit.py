@@ -31,7 +31,7 @@ class TestCase(unit.TestCase):
         try:
             inputs=self.driver.find_id('limitsList').find_tags('input')
             for ipt in inputs:
-                self.assertTrue(ipt.is_selected())
+                self.assertTrue(ipt.is_selected(),u'下拉框选项没有被选中')
         finally:
             pass
 

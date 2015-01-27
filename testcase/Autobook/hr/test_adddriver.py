@@ -33,37 +33,37 @@ class TestCase(unit.TestCase):
         # self.driver.find_element_by_id('btn_add').click()
 
     def test_name_null(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('')
+        driver_name=self.driver.find_element_by_id('driverVo_name')
+        driver_name.send_keys('')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','')
+        self.assertTrue(driver_name.text=='',u'不存在指定字符串')
         # 姓名为空
 
 
     def test_name_long(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('赵茜阿尔木子克里斯蒂娜')
-        time.sleep(1)
-        self.assertTrue(driver_name.text=='赵茜阿尔木子','不存在指定字符串')
+        self.driver.find_element_by_id('driverVo_name').send_keys(u'赵茜阿尔木子克里斯蒂娜')
+        name=self.driver.find_element_by_id('driverVo_name').get_attribute('value')
+        # print name
+        self.assertTrue(name==u'赵茜阿尔木子',u'不存在指定字符串')
         # 姓名输入超长
 
 
     def test_name_num(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('54351')
+        self.driver.find_element_by_id('driverVo_name').send_keys('54351')
+        name=self.driver.find_element_by_id('driverVo_name').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','不存在指定字符串')
+        self.assertTrue(name=='',u'不存在指定字符串')
         # 姓名输入数字
 
     def test_name_special(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('%%￥￥')
+        self.driver.find_element_by_id('driverVo_name').send_keys(u'%%￥￥')
+        name=self.driver.find_element_by_id('driverVo_name').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','不存在指定字符串')
+        self.assertTrue(name=='',u'不存在指定字符串')
         # 姓名输入特殊字符
 
     def test_name(self):
-        self.driver.find_element_by_id('driver_name').send_keys(u'陈快乐')
+        self.driver.find_element_by_id('driverVo_name').send_keys(u'陈快乐')
          # 姓名输入正确的值
 
 

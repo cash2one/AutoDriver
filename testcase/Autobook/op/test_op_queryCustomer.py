@@ -28,7 +28,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'平台注册':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 
         js = '$(\'input[id=startTime]\').removeAttr(\'readonly\')'
         self.driver.execute_script(js)
@@ -68,7 +68,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'按月':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 
         Syears=self.driver.find_id('startYear').find_tags('option')
         for Syear in Syears:

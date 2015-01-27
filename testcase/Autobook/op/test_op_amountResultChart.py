@@ -43,4 +43,4 @@ class TestCase(unit.TestCase):
         self.assertTrue(lose1 in lose2)
         self.driver.find_element_by_link_text(u'关闭').click()
         self.driver.find_element_by_link_text(u'返回').click()
-        self.assertEqual(self.driver.title,u'订单统计')
+        self.assertEqual(self.driver.title,u'订单统计',u'没有进入对应页面')

@@ -29,13 +29,13 @@ class TestCase(unit.TestCase):
         for opt1 in opts1:
             if opt1.get_attribute('text')==u'客户下单':
                 opt1.click()
-                self.assertTrue(opt1.is_selected())
+                self.assertTrue(opt1.is_selected(),u'下拉框选项没有被选中')
 
         opts2=self.driver.find_id('orderType_dis').find_tags('option')
         for opt2 in opts2:
             if opt2.get_attribute('text')==u'指定下单':
                 opt2.click()
-                self.assertTrue(opt2.is_selected())
+                self.assertTrue(opt2.is_selected(),u'下拉框选项没有被选中')
 
         js = '$(\'input[id=startTime_dis]\').removeAttr(\'readonly\')'
         self.driver.execute_script(js)

@@ -35,7 +35,7 @@ class TestCase(unit.TestCase):
             self.driver.swipe(0,0,0,100,0.8)
 
             print d_name
-            if u'康小薇哈' in d_name:
+            if u'小米' in d_name:
                 driver_exist = True
                 d.click()
                 self.driver.wait_switch('.MainActivity')

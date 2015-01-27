@@ -30,10 +30,10 @@ class TestCase(unit.TestCase):
         self.driver.find_id('sure_btn').click()
         text1=self.driver.find_id('notice_title_tip').text
         text2=self.driver.find_id('notice_content_tip').text
-        text3=self.driver.find_id('roleList_tip').text
+        #text3=self.driver.find_id('roleList_tip').text
         self.assertTrue(u'公告标题不能为空' in text1)
         self.assertTrue(u'公告内容不能为空' in text2)
-        self.assertTrue(u'用户角色不能为空' in text3)
+        #self.assertTrue(u'用户角色不能为空' in text3)
 
 
 
