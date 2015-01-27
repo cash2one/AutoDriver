@@ -68,7 +68,7 @@ def func_name():
 
 
 def get_current_function_name():
-    return inspect.stack()[1][3]
+    return inspect.stack()[1][1]  # [3]
     # return inspect.getframeinfo(inspect.currentframe().f_back)[2]
 
 
@@ -89,36 +89,21 @@ class ttes():
 
 
 def cats():
-    # cat = [u'订单管理\待处理订单\查询失败', u'订单管理\历史订单\查询成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核']
-    cat = [u'order\\pending\\findFail\\fwgweg\\eeee', u'order\\history\\findSuccess', u'customer\\complain\\vaisit',
-           u'customer\\complain\Auditing']
-    cat = list(set(cat))
-
     tree = [
         {
-            u'订单管理':
-                [
-                    {
-                        u'待处理订': [u'查询失败']
-                    },
-                    {
-                        u'历史订单': [u'查询成功']
-                    }
-                ]
+            u'订单管理': [
+                {u'待处理订': [{'查询失败': []}]},
+                {u'历史订单': [{'查询成功': []}]}
+            ]
         },
-        {u'客户管理':
-             [
-                 {
-                     u'客户投诉': ['回访', '审核']
-                 },
-                 {
-                     u'客户xx': ['oo', 'cc']
-                 }
-             ]
+        {u'客户管理': [
+            {u'客户投诉': [
+                {'回访': []}, {'审核': []}
+            ]}
+        ]
         }
     ]
     return cat
-
 
 
 def PrintFrame():
@@ -131,14 +116,36 @@ def PrintFrame():
     print info.lineno
 
 
-def gg():
-    PrintFrame()
+def isHw(txt):
+    txts = list(txt.lower())
+    for i in range(0, len(txts) / 2):
+        if cmp(txts[i], txts[-i - 1]) != 0:
+            return False
+    return True
 
 
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
     #
     # print  os.path.realpath(__file__)
-    from framework.util import strs
-    print json.dumps(strs.path_to_tree((cats())))
+
+    from framework.util import fs
+
+    cat = [u'订单管理\历史订单\查询成功\查询成功1', u'订单管理\历史订单\查询f成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核', u'订单管理\待处理订单\查询失败',
+           u'客户管理\客户投诉\审核\结果']
+
+    nodes = fs.path_to_tuple(cat)
+    trees = fs.walk_tree_tuple(nodes)
+    print trees
+    # print trees.items()
+    #
+    # aa = {'a': 'b', 'c': [{'d': [{'ff':'cccc'}]}]}
+    #
+    # def find_aa():
+    #     for n in aa:
+    #         print aa[n]
+    from framework.core import data
+    xls_path = './resource/xls/'
+    xlss = data.getExcelsData(PATH(xls_path),False)
+
 

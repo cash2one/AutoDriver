@@ -31,7 +31,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text('创建订单').click()
         time.sleep(5)
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的不是创建订单页面')
         finally:
             pass
         #time.sleep(3)
@@ -71,7 +71,7 @@ class TestCase(unit.TestCase):
         #点击确定按钮，判断没有选中的司机
         self.driver.find_element_by_id('sure_btn').click()
         text=self.driver.find_element_by_class_name('xubox_dialog').text
-        self.assertTrue(text==u'请至少选择一位司机')
+        self.assertTrue(text==u'请至少选择一位司机',u'没有选择司机，没有提示信息或提示信息不正确')
 
 
 
@@ -88,7 +88,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text('创建订单').click()
         time.sleep(5)
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的不是创建订单页面')
         finally:
             pass
         #time.sleep(3)
@@ -110,7 +110,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('back_btn').click()
         #判断是否返回到了创建订单页面
         try:
-            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url)
+            self.assertTrue('http://192.168.3.31/cs/cs/order/createOrder.html' in self.driver.current_url,u'跳转的不是创建订单页面')
         finally:
             print '跳转的页面不正确'
 

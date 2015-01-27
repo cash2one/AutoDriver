@@ -54,7 +54,7 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('confirmPassword').send_keys(u'abc123')
         #点击提交按钮
         self.driver.find_element_by_id('passSubmit').click()
-        con_tiptx=self.driver.find_element_by_id('confirmPassword_tip').text
+        con_tiptx=self.driver.find_element_by_id('oldPassword_tip').text
         self.assertTrue(u'原密码错误!' in con_tiptx)
 
 

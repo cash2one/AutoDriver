@@ -6,8 +6,8 @@ import re
 import json
 import datetime
 
-from framework.core import models, the
-from framework.core import the
+from framework.core import models, box
+from framework.core import box
 from framework.util import xls,const,sqlite
 
 
@@ -68,13 +68,41 @@ def getExcelData(excel):
     return list
 
 
+
+#读取制定目录内的所有xls文档
+def get_xls(xls_dir,skip_cat):
+    # f = os.listdir(xls_dir)
+    # re_f=re.compile(".xls$", re.IGNORECASE)
+    # files = filter(re_f.search, f)
+
+    products = box.settings['product']
+
+    list=[]
+
+    for p in products:
+        xls_path = os.path.join(xls_dir, p+'.xls')
+        try:
+            val = products[p].strip()#.split(',')[1]
+            if int(val) == 1:
+                excel = xls.Excel(xls_path,const.EXCEL_HEADER,skip_cat)
+                if excel.openExcel() != None:
+                    list.extend(getExcelData(excel))
+                # else:
+                #     break
+        except IndexError:
+            print u'ini文件缺少索引值'
+        except ValueError:
+            print u'ini文件数值类型错误'
+
+
+
 #读取制定目录内的所有xls文档
 def getExcelsData(xls_dir,skip_cat):
     # f = os.listdir(xls_dir)
     # re_f=re.compile(".xls$", re.IGNORECASE)
     # files = filter(re_f.search, f)
 
-    products = the.settings['product']
+    products = box.settings['product']
 
     list=[]
 
@@ -200,7 +228,7 @@ def getDatabasePath(db_dir):
     如果the.db_path为空，则读取最新的数据库
     :return:数据库路径
     '''
-    if the.db_path == '':
+    if box.db_path == '':
         db_files_name = []
         files = os.listdir(db_dir)
         for file in files:
@@ -217,7 +245,7 @@ def getDatabasePath(db_dir):
         else:
             db_path = ''
     else:
-        db_path = os.path.join(db_dir, the.db_path)
+        db_path = os.path.join(db_dir, box.db_path)
     return db_path
 
 
@@ -285,7 +313,7 @@ def getDataFromXlss(xls_path):
     :return:模块,所有的用例
     '''
     time_val = datetime.datetime.now()
-    products = the.settings['product']
+    products = box.settings['product']
     data_module = []
     all_testcase = []
     for p in  products:

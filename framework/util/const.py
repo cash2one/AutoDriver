@@ -29,6 +29,7 @@ TASK_LOCAL = 1
 
 EXCEL_HEADER = {
 'no':u'用例编号',
+'name':u'用例名',
 'cat':u'分类',
 'desc':u'用例描述',
 'exp':u'期望结果',
