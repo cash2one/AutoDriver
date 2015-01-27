@@ -29,7 +29,7 @@ class TestCase(unit.TestCase):
         time.sleep(2)
         tips1_text = self.driver.find_element_by_id('companyAccount_name_edit_tip').text
         print tips1_text
-        self.assertTrue(u'账户名称不能为空.' in tips1_text, 'msg')
+        self.assertTrue(u'账户名称不能为空.' in tips1_text, u'没有找到指定字符串')
         time.sleep(2)
 
         table = self.driver.find_element_by_id('div_edit')  #定位到添加公司账户窗口
@@ -38,6 +38,6 @@ class TestCase(unit.TestCase):
         table.find_element_by_id('sure_edit_btn').click()  #点击确定
         tips2_text = table.find_element_by_id('companyAccount_name_edit_tip').text
         print tips2_text
-        self.assertTrue(u'账户名称含有非法符号.' in tips2_text, 'msg')
+        self.assertTrue(u'账户名称含有非法符号.' in tips2_text, u'没有找到指定字符串')
 
 

@@ -19,7 +19,7 @@ class TestCase(unit.TestCase):
     def test_comAccount_digest(self):
         time.sleep(2)
         self.driver.find_element_by_link_text('账户管理').click()
-        time.sleep(2)
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('公司账户').click()
         time.sleep(2)
         #table1为公司账户列表

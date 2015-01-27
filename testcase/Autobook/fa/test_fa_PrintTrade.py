@@ -36,9 +36,9 @@ class TestCase(unit.TestCase):
         printNum_text_new = printNum2.get_attribute('title')
         print printNum_text,printNum_text_new
         #比较打印前后的次数打印后自动加1，先将次数转换成int型。
-        if int(printNum_text_new) == int(printNum_text) + 1:
-            print 'Ture'
-        else:
-            print 'False'
-
+        # if int(printNum_text_new) == int(printNum_text) + 1:
+        #     print 'Ture'
+        # else:
+        #     print 'False'
+        self.assertTrue(int(printNum_text_new) == int(printNum_text) + 1,u'打印次数没有自动加1')
         time.sleep(2)
