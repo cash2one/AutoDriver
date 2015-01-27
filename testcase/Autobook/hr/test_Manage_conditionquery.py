@@ -96,12 +96,12 @@ class TestCase(unit.TestCase):
         txt = self.driver.find_element_by_id('list').text
         print txt
         #司机状态
-        opts = self.driver.find_element_by_id('state').find_elements_by_tag_name('option')
+        opts=self.driver.find_element_by_id('state').find_elements_by_tag_name('option')
         time.sleep(1)
         for opt in opts:
-            if opt.get_attribute('value') == '0':
+            if opt.get_attribute('value')=='0':
                 opt.click()
-                self.assertTrue(opt.is_selected())
         txt = self.driver.find_element_by_id('query').click()
-        self.assertTrue(txt.is_selected())
+        pagetx=self.driver.find_element_by_id('sp_1_pager').text
+        print pagetx
         print txt

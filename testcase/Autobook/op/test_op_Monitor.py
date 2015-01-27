@@ -26,5 +26,5 @@ class TestCase(unit.TestCase):
          #鼠标悬停在客户监控上
         self.driver.find_element_by_link_text(u'司机监控').click()
         self.driver.find_id('isMonitor').click()
-        self.driver.find_id('isMonitor').click()
+
 
