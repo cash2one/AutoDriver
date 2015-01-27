@@ -2,6 +2,8 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
+import time
+import shutil
 from framework.core import box, data
 from framework.util import fs, sqlite
 import webbrowser
@@ -113,15 +115,25 @@ class TaskForm(QWidget, task_ui.Ui_Form):
         if idx.isValid():
             _data = self.taskModel.rowContent(idx.row())
             db_path = PATH('../result/%s' % _data['result'])
+            index_name = db_path.split(os.sep)[-1].replace('.db', '')
+
+            if os.path.exists(PATH('../result/%s' % index_name)):
+                ret = QMessageBox.warning(self, u'报告已存在',
+                                          u"\n已有报告存在，是否确认删除后继续生成报告？",
+                                          QMessageBox.Yes | QMessageBox.Cancel)
+                if ret == QMessageBox.Yes:
+                    shutil.rmtree(PATH('../result/%s' % index_name))
+                    time.sleep(2)
+
+                    rp = report.Report(db_path, 25)
+                    rp.start()
+                    webbrowser.open(PATH('../result/%s/%s1.html' % (index_name, index_name)))
+                elif ret == QMessageBox.Cancel:
+                    pass
 
             rp = report.Report(db_path, 25)
             rp.start()
 
-            index_name = db_path.split(os.sep)[-1].replace('.db', '')
-            webbrowser.open(PATH('../result/%s/%s1.html' % (index_name, index_name)))
-            # QMessageBox.warning(self, u'没做',
-            # u"\n等我搞定数据库！",
-            # QMessageBox.Yes)
 
     def run_auto_test(self):
         idx = self.tv_task.currentIndex()
