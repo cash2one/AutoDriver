@@ -434,7 +434,15 @@ class Application(android.Android):
 
     def splash(self):
         splash_activity = self.settings['app_activity']  #.SplashActivity
-        self.wait_switch(splash_activity)
+        time_out = TIME_OUT
+        while time_out > 0:
+            if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+                if splash_activity not in self.current_activity:
+                    break
+            time_out -= 1
+            time.sleep(0.5)
+        else:
+            raise NameError, 'switch timeout'
         # time_out = TIME_OUT
         # try:
         #     splash_activity = self.settings['app_activity']
