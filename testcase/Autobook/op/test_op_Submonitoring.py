@@ -33,7 +33,7 @@ class TestCase(unit.TestCase):
             if not type in tuple:
                 isExist = False
                 break
-        self.assertTrue(isExist,'false')
+        self.assertTrue(isExist,u'下拉框选项没有被选中')
 
 
     def test_Subplatformbox(self):
@@ -48,5 +48,5 @@ class TestCase(unit.TestCase):
 
             if opt.get_attribute('text')==u'运行中':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 

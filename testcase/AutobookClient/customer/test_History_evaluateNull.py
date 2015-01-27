@@ -16,7 +16,9 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
     #评价内容为空
     def test_Evaluate_History(self):
-        current_activity = self.driver.current_activity
+
+        self.driver.wait_loading()
+        #current_activity = self.driver.current_activity
         #点击用户中心图标，进入用户中心列表
         self.driver.find_id('btn_personal_center').click()
         self.driver.wait_loading()

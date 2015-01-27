@@ -18,7 +18,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==type:  #获取对象属性
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         text=self.driver.find_id(id).find_element_by_id('lv1MenuName').text
         self.assertTrue(text==limit)
         #切换角色，查看权限框中的权限是否显示相应权限

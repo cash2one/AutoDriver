@@ -35,7 +35,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'图片':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
 
 
         self.driver.find_id('query').click()
@@ -86,7 +86,7 @@ class TestCase(unit.TestCase):
         for opt in opts:
             if opt.get_attribute('text')==u'文本':
                 opt.click()
-                self.assertTrue(opt.is_selected())
+                self.assertTrue(opt.is_selected(),u'下拉框选项没有被选中')
         self.driver.find_id('weixinInfo').send_keys(u'验证码')
         self.driver.find_id('query').click()
         trs=self.driver.find_id('list').find_tags('tr')

@@ -29,6 +29,6 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_alert()
 
         text2=self.driver.find_class('highcharts-title').text
-        self.assertTrue(text1,text2)
+        self.assertEqual(text1,text2,u'订单统计描述不正确')
         self.driver.find_element_by_link_text(u'关闭').click()
 
