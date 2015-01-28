@@ -1,6 +1,6 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
-#上下滑动已完成订单列表，提示“无数据可加载”(还未完成)
+
 
 import time
 from drivers import *
@@ -15,7 +15,11 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_queryallfinishOrder(self):
-
+        '''
+        上下滑动已完成订单列表，提示“无数据可加载”(还未完成)
+        :return:
+        '''
+        self.driver.wait_loading()
         #点击用户中心图标，进入用户中心列表
         self.driver.find_id('btn_personal_center').click()
         self.driver.wait_loading()

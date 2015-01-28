@@ -12,9 +12,14 @@ class TestCase(unit.TestCase):
     def tearDown(self):
         self.driver.switch_to_home()
 
-    #一键下单界面，更改所在位置
+
     def test_change_Address(self):
+        '''
+        一键下单界面，更改所在位置
+        :return:
+        '''
         current_activity = self.driver.current_activity
+        self.driver.wait_loading()
         #点击一键下单，进入一键下单界面
         self.driver.find_id('rb_order').click()
         #点击所在位置

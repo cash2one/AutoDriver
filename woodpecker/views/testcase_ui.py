@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/testcase.ui'
 #
-# Created: Wed Jan 28 10:04:00 2015
+# Created: Wed Jan 28 17:18:01 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -56,11 +56,6 @@ class Ui_Form(object):
         self.btn_excel.setMaximumSize(QtCore.QSize(110, 16777215))
         self.btn_excel.setObjectName(_fromUtf8("btn_excel"))
         self.horizontalLayout_2.addWidget(self.btn_excel)
-        self.pushButton = QtGui.QPushButton(Form)
-        self.pushButton.setMinimumSize(QtCore.QSize(110, 0))
-        self.pushButton.setMaximumSize(QtCore.QSize(140, 16777215))
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.horizontalLayout_2.addWidget(self.pushButton)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.tv_cases = QtGui.QTableView(Form)
         self.tv_cases.setObjectName(_fromUtf8("tv_cases"))
@@ -75,5 +70,4 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form", None))
         self.cmb_project.setItemText(0, _translate("Form", "选择项目", None))
         self.btn_excel.setText(_translate("Form", "导入excel", None))
-        self.pushButton.setText(_translate("Form", "保存到服务器", None))
 

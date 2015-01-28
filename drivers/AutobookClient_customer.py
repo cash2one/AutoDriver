@@ -528,6 +528,8 @@ class Application(android.Android):
         # 验证码完成后，会返回到PersonActivity
         self.wait_switch('.MyInfoActivity')
 
+        self.switch_to_home()
+
         # 方便调试先注释
         # #点击我的信息
         # self_driver.find_ids('personal_name')[0].click()
@@ -550,10 +552,11 @@ class Application(android.Android):
         # 方便调试先注释
 
         # 点击附近司机，返回到地图界面
-        self.wait_loading()
-        time.sleep(5)
-        self.find_id('button_title_back').click()
-        self.wait_switch('.PersonActivity')
+
+        # self.wait_loading()
+        # # time.sleep(5)
+        # self.find_id('button_title_back').click()
+        # self.wait_switch('.PersonActivity')
 
 
 def add_devices(key, val):

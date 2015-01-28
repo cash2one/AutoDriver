@@ -59,12 +59,12 @@ def getExcelData(excel):
                 #结束时，判断temp是否被添加
                 if len(temp) > 0:
                     #在这里判断已经组装完成的流程字典，屏蔽loop=0
-                    if temp['loop'] > 0:
-                        list.append(temp)
+                    #if temp['loop'] > 0:
+                    list.append(temp)
                     temp={}
                 else:
-                    if app['loop'] > 0:
-                        list.append(app)
+                    #if app['loop'] > 0:
+                    list.append(app)
     return list
 
 

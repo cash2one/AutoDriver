@@ -10,6 +10,7 @@ from framework.core import data
 from framework.core import box
 
 from woodpecker.views import testcase_ui
+from woodpecker.dialog import import_case
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -22,7 +23,7 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
 
         self.setupUi(self)
 
-        self.btn_excel.clicked.connect(self.get_filename)
+        self.btn_excel.clicked.connect(self.import_testcase)#get_filename)
 
         self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.openMenu)
@@ -69,30 +70,21 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
 
         menu.exec_(self.treeView.viewport().mapToGlobal(position))
 
-    def get_filename(self):
-        fd = QFileDialog(self)
-        file_path = fd.getOpenFileName()
+    def import_testcase(self):
+        dlg_case = import_case.ImportCaseDialog()
+        if dlg_case.exec_()==QDialog.Accepted:
+            pass
 
-        # xls_path = '../resource/xls/'
-        excel = xls.Excel(file_path, const.EXCEL_HEADER, True)
 
-        if excel.openExcel() != None:
-            xls_data = data.getExcelData(excel)
-            self.read_xls(xls_data)
 
-    def read_xls(self, xls_data):
-        catt = []
-        for d in xls_data:
-            path_str = d['cat'] + os.sep + d['name']
-            catt.append(path_str)
+    def read_xls(self, xls_data, xls_name):
+        cat_nodes = fs.walk_tree_tuple(xls_data, xls_name)
+        if cat_nodes is not None:
+            model = QStandardItemModel()
+            self.addItems(model, cat_nodes)
+            self.treeView.setModel(model)
 
-        datas = fs.walk_tree_tuple(catt)
-
-        self.model = QStandardItemModel()
-        self.addItems(self.model, datas)
-        self.treeView.setModel(self.model)
-
-        self.model.setHorizontalHeaderLabels([self.tr("用例列表")])
+            model.setHorizontalHeaderLabels([self.tr("用例列表")])
 
     def getCurrentIndex(self, index):
         # print index.internalPointer().itemData[0]
@@ -100,11 +92,11 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
 
     def onActivated(self, txt):
         xls_file = PATH('../resource/xls/%s.xls' % txt)
-        #temps = self.my_import('helpers.%s' % txt)
+        # temps = self.my_import('helpers.%s' % txt)
         excel = xls.Excel(xls_file, const.EXCEL_HEADER, True)
-        if excel.openExcel() != None:
+        if excel.openExcel() is not None:
             xls_data = data.getExcelData(excel)
-            self.read_xls(xls_data)
+            self.read_xls(xls_data, xls_file)
 
     def my_import(self, name):
         mod = __import__(name)

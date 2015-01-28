@@ -11,15 +11,22 @@ class TestCase(unit.TestCase):
     def tearDown(self):
         self.driver.switch_to_home()
 
-    #拨打客服电话
+
     def test_call_server(self):
+        '''
+        拨打客服电话
+        :return:
+        '''
         current_activity = self.driver.current_activity
         #点击进入使用
-        self.driver.find_id('start_btn').click()
+        # self.driver.find_id('start_btn').click()
+        self.driver.wait_loading()
         #在附近司机界面点击联系客服
         self.driver.find_id('btn_call_server').click()
         self.driver.switch_to_alert()
         text_msg = self.driver.find_id('tvv_msg').text
         self.assertTrue(u'将拨打客服电话400-920-4358' in text_msg ,'msg')
         #点击拨打按钮
-        self.driver.find_id('btn_right').click()
+        #self.driver.find_id('btn_right').click()
+        #点击取消按钮
+        self.driver.find_id('btn_left').click()

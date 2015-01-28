@@ -46,8 +46,6 @@ class TestCase(unit.TestCase):
     #联系电话输入大于14位，系统限制输入（输入15位）
     def test_keyOrder_logged1(self):
 
-       #点击进入使用
-       self.driver.find_id('start_btn').click()
        #页面加载等待时间
        self.driver.wait_loading()
        #点击一键下单
@@ -74,8 +72,8 @@ class TestCase(unit.TestCase):
     #联系电话输入大于11位，（输入13位）
     def test_keyOrder_logged2(self):
 
-       #点击进入使用
-       self.driver.find_id('start_btn').click()
+       # #点击进入使用
+       # self.driver.find_id('start_btn').click()
        #页面加载等待时间
        self.driver.wait_loading()
        #点击一键下单

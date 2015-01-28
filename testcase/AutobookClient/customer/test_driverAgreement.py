@@ -21,7 +21,7 @@ class TestCase(unit.TestCase):
        current_activity = self.driver.current_activity
        #点击进入使用
        # self.driver.find_id('start_btn').click()
-       # self.driver.wait_loading()
+       self.driver.wait_loading()
        #点击用户中心
        self.driver.find_id('btn_personal_center').click()
        #点击代驾协议

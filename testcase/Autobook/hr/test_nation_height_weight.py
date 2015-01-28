@@ -27,41 +27,30 @@ class TestCase(unit.TestCase):
     #     self.driver.find_element_by_id('driverVo_phone').send_keys(driverVo_phone)
 
     def test_nation_null(self):
-        driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
-        aa=driverVo_phone.send_keys('')
-        print aa
+        driverVo_nation=self.driver.find_element_by_id('detailVo_nation')
+        nation=driverVo_nation.send_keys('')
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
-        # 本人联系电话为空
+        self.assertTrue(driverVo_nation.text=='',u'不存在指定字符串')
+        # 民族为空
 
 
-    def test_phone_long(self):
-        driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
-        driverVo_phone.send_keys('156186334121')
-        phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
+
+    def test_nation_specia(self):
+        self.driver.find_element_by_id('detailVo_nation').send_keys(u'@#$')
+        nation=self.driver.find_element_by_id('detailVo_nation').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(phone=='15618633412',u'不存在指定字符串')
-        # 本人联系电话输入超长
+        self.assertTrue(nation=='',u'不存在指定字符串')
+        # 民族输入特殊字符
 
 
-    def test_phone_specia(self):
-        driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
-        driverVo_phone.send_keys('@#$')
-        phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
+    def test_nation_j(self):
+        self.driver.find_element_by_id('detailVo_nation').send_keys(u'jjgh')
+        nation=self.driver.find_element_by_id('detailVo_nation').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
-        # 本人联系电话输入特殊字符
+        self.assertTrue(nation==u'jjgh',u'不存在指定字符串')
+        # 民族输入大小写字母
 
 
-    def test_phone_j(self):
-        driverVo_phone=self.driver.find_element_by_id('driverVo_phone')
-        driverVo_phone.send_keys('jjgh')
-        phone=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
-        time.sleep(1)
-        self.assertTrue(driverVo_phone.text=='',u'不存在指定字符串')
-        # 本人联系电话输入大小写字母
-
-
-    def test_phone_ture(self):
-        self.driver.find_element_by_id('driverVo_phone').send_keys('15618633412')
-       # 输入正确的本人联系电话
+    def test_nation_ture(self):
+        self.driver.find_element_by_id('detailVo_nation').send_keys(u'汉族')
+       # 输入正确的民族

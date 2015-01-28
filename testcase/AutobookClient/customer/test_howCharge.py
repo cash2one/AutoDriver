@@ -1,7 +1,7 @@
 # coding=utf-8
 
 __author__ = 'wangshanshan@pathbook.com.cn'
-#用户登录，查看如何收费界面
+
 
 import time
 from drivers import *
@@ -16,8 +16,11 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
 
     def test_change_Personal(self):
+        '''
+        用户登录，查看如何收费界面
+        :return:
+        '''
         self.driver.wait_loading()
-
         #点击用户中心
         self.driver.find_id('btn_personal_center').click()
         self.driver.wait_loading()

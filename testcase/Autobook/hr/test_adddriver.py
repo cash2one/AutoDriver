@@ -1,7 +1,5 @@
 # coding=utf-8
-__author__ = 'lvfangying@pathbook.com.cn'
-
-#hr_循环验证用户名错误登录测试
+__author__ = 'gaoxu@pathbook.com.cn'
 
 import time
 from drivers import *
@@ -10,20 +8,21 @@ class TestCase(unit.TestCase):
 
     def setUp(self):
         self.driver = self.app(__file__)
+        #浏览器最大化
+        self.driver.maximize_window()
         self.driver.login()
 
     def tearDown(self):
+        # 返回首页
         self.driver.switch_to_home()
-
-    # def test_driver_name(self,driver_name):
-    #     self.testValue()
-    #     self.driver.find_element_by_id('driverVo_name').send_keys(driver_name)
+        # 关闭浏览器
+        # self.driver.close()
 
 
-    def test_name0(self):
+    def test_name_a(self):
         self.driver.find_element_by_id('btn_add').click()
-        driverVo_name_tx=self.driver.find_element_by_id('driverVo_name_tip').text
-        self.assertTrue(u'姓名不能为空.'in driverVo_name_tx)
+        name_tx=self.driver.find_element_by_id('driverVo_name_tip').text
+        self.assertTrue(u'姓名不能为空.'in name_tx)
         # driverVo_sfz_tx=self.driver.find_element_by_id('driverVo_card_tip').text
         # self.assertTrue(u'身份证号不能为空.'in driverVo_sfz_tx)
 
@@ -33,46 +32,45 @@ class TestCase(unit.TestCase):
         # self.driver.find_element_by_id('btn_add').click()
 
     def test_name_null(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('')
+        driver_name=self.driver.find_element_by_id('driverVo_name')
+        driver_name.send_keys('')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','')
+        self.assertTrue(driver_name.text=='',u'不存在指定字符串')
         # 姓名为空
 
 
     def test_name_long(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('赵茜阿尔木子克里斯蒂娜')
+        self.driver.find_element_by_id('driverVo_name').send_keys(u'赵茜阿尔木子克里斯蒂娜')
+        name=self.driver.find_element_by_id('driverVo_name').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='赵茜阿尔木子','不存在指定字符串')
+        self.assertTrue(name==u'赵茜阿尔木子',u'不存在指定字符串')
         # 姓名输入超长
 
 
     def test_name_num(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('54351')
+        self.driver.find_element_by_id('driverVo_name').send_keys('54351')
+        name=self.driver.find_element_by_id('driverVo_name').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','不存在指定字符串')
+        self.assertTrue(name=='',u'不存在指定字符串')
         # 姓名输入数字
 
     def test_name_special(self):
-        driver_name=self.driver.find_element_by_id('driver_name')
-        driver_name.send_kets('%%￥￥')
+        self.driver.find_element_by_id('driverVo_name').send_keys(u'%%￥￥')
+        name=self.driver.find_element_by_id('driverVo_name').get_attribute('value')
         time.sleep(1)
-        self.assertTrue(driver_name.text=='','不存在指定字符串')
+        self.assertTrue(name=='','不存在指定字符串')
         # 姓名输入特殊字符
 
     def test_name(self):
-        self.driver.find_element_by_id('driver_name').send_keys(u'陈快乐')
+        self.driver.find_element_by_id('driverVo_name').send_keys(u'陈快乐')
          # 姓名输入正确的值
 
 
 
-    def test_sex0(self):
-        self.test_name0()
-        # self.driver.find_element_by_id('bth_add').click()
-        driverVo_sex=self.driver.find_element_by_id('driverVo_sex_tip').text
-        self.assertTrue(u'请选择性别.'in driverVo_sex)
+    def test_sex(self):
+        self.driver.find_element_by_id('btn_add').click()
+        driverVo_sex_tx=self.driver.find_element_by_id('driverVo_sex_tip').text
+        self.assertTrue(u'请选择性别.'in driverVo_sex_tx)
 
 
     def test_sex1(self):
@@ -91,11 +89,10 @@ class TestCase(unit.TestCase):
                 sex.click()
                 self.assertTrue(sex.is_selected())
 
-    def test_marriage0(self):
-        self.test_name0()
-        # self.driver.find_element_by_id('bth_add').click()
-        driverVo_marriage=self.driver.find_element_by_id('detailVo_marriage_tip').text
-        self.assertTrue(u'请选择婚育.'in driverVo_marriage)
+    def test_marriage(self):
+        self.driver.find_element_by_id('btn_add').click()
+        driverVo_marriage_tx=self.driver.find_element_by_id('detailVo_marriage_tip').text
+        self.assertTrue(u'请选择婚育.'in driverVo_marriage_tx)
 
 
     def test_marriage1(self):
