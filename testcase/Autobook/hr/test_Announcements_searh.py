@@ -11,7 +11,6 @@ class TestCase(unit.TestCase):
         #浏览器最大化
         self.driver.maximize_window()
         self.driver.login()
-
     def tearDown(self):
         # 返回首页
         self.driver.switch_to_home()
@@ -32,7 +31,6 @@ class TestCase(unit.TestCase):
         self.assertTrue(u'公告' in nottx,u'文本值与输入值不一致')
         time.sleep(2)
         self.driver.find_element_by_id('query').click()
-
 
     #输入不存在的参数
     def test_vulue_error(self):

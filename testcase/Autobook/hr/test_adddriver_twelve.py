@@ -28,31 +28,31 @@ class TestCase(unit.TestCase):
         detailVo_licenseNum=self.driver.find_element_by_id('detailVo_licenseNum')
         detailVo_licenseNum.send_keys('')
         time.sleep(1)
-        self.assertTrue(detailVo_licenseNum.text=='',u'不存在指定字符串')
+        self.assertTrue(detailVo_licenseNum.text=='','不存在指定字符串')
         # 驾驶证号码为空
 
 
     def test_licenseNum_long(self):
-        self.driver.find_element_by_id('detailVo_licenseNum').send_keys('4305231993020241402')
-        licenseNum=self.driver.find_element_by_id('detailVo_licenseNum').get_attribute('value')
+        detailVo_licenseNum=self.driver.find_element_by_id('detailVo_licenseNum')
+        detailVo_licenseNum.send_keys('4305231993020241402')
         time.sleep(1)
-        self.assertTrue(licenseNum=='430523199302024140',u'不存在指定字符串')
+        self.assertTrue(detailVo_licenseNum.text=='430523199302024140','不存在指定字符串')
         # 驾驶证号码输入超长
 
 
     def test_licenseNum_special(self):
-        self.driver.find_element_by_id('detailVo_licenseNum').send_keys(u'@$@')
-        licenseNum=self.driver.find_element_by_id('detailVo_licenseNum').get_attribute('value')
+        detailVo_licenseNum=self.driver.find_element_by_id('detailVo_licenseNum')
+        detailVo_licenseNum.send_keys('@$@')
         time.sleep(1)
-        self.assertTrue(licenseNum=='',u'不存在指定字符串')
+        self.assertTrue(detailVo_licenseNum.text=='','不存在指定字符串')
         # 驾驶证号码输入特殊字符
 
 
     def test_licenseNum_j(self):
-        self.driver.find_element_by_id('detailVo_licenseNum').send_keys(u'hghf')
-        licenseNum=self.driver.find_element_by_id('detailVo_licenseNum').get_attribute('value')
+        detailVo_licenseNum=self.driver.find_element_by_id('detailVo_licenseNum')
+        detailVo_licenseNum.send_keys('hghf')
         time.sleep(1)
-        self.assertTrue(licenseNum=='',u'不存在指定字符串')
+        self.assertTrue(detailVo_licenseNum.text=='','不存在指定字符串')
         # 驾驶证号码输入大小写字母
 
 
@@ -79,26 +79,26 @@ class TestCase(unit.TestCase):
 
 
     def test_imsi_long(self):
-        self.driver.find_element_by_id('driverVo_imsi').send_keys('46002701738556865')
-        imsi=self.driver.find_element_by_id('driverVo_imsi').get_attribute('value')
+        driverVo_imsi=self.driver.find_element_by_id('driverVo_imsi')
+        driverVo_imsi.send_keys('46002701738556865')
         time.sleep(1)
-        self.assertTrue(imsi=='460027017385568',u'不存在指定字符串')
+        self.assertTrue(driverVo_imsi.text=='460027017385568',u'不存在指定字符串')
         # 手机标识号输入超长
 
 
     def test_imsi_specia(self):
-        self.driver.find_element_by_id('driverVo_phone').send_keys(u'@#$')
-        imsi=self.driver.find_element_by_id('driverVo_phone').get_attribute('value')
+        driverVo_imsi=self.driver.find_element_by_id('driverVo_phone')
+        driverVo_imsi.send_keys('@#$')
         time.sleep(1)
-        self.assertTrue(imsi=='',u'不存在指定字符串')
+        self.assertTrue(driverVo_imsi.text=='',u'不存在指定字符串')
         #  手机标识号输入特殊字符
 
 
     def test_imsi_j(self):
-        self.driver.find_element_by_id('driverVo_imsi').send_keys(u'jjgh')
-        imsi=self.driver.find_element_by_id('driverVo_imsi').get_attribute('value')
+        driverVo_imsi=self.driver.find_element_by_id('driverVo_imsi')
+        driverVo_imsi.send_keys('jjgh')
         time.sleep(1)
-        self.assertTrue(imsi=='',u'不存在指定字符串')
+        self.assertTrue(driverVo_imsi.text=='',u'不存在指定字符串')
         # 手机标识号输入大小写字母
 
 

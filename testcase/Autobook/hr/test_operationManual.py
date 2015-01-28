@@ -20,8 +20,12 @@ class TestCase(unit.TestCase):
 
 
     def test_main_footer(self):
+        '''
+    对比信息，不一致则显示"对比信息不一致"
+        :return:
+        '''
         tex=self.driver.find_element_by_id('main_footer').text
-        self.assertTrue(u'途谱（上海）信息科技有限公司 |' in tex)
+        self.assertTrue(u'途谱（上海）信息科技有限公司 |' in tex,u'对比信息不一致')
         print tex
 
     def test_helpInfo(self):

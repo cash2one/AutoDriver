@@ -14,15 +14,15 @@ class TestCase(unit.TestCase):
 
     def tearDown(self):
         # 返回首页
-        # self.driver.switch_to_home()
+        self.driver.switch_to_home()
         # 关闭浏览器
-        self.driver.close()
-
+        # self.driver.close()
     def test_setting_reset(self):
-       gltx=self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').text
-       print gltx
-       self.assertTrue(u'司机管理' in gltx,u'与对比值不一致')
-       self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
+       '''
+        对比总条数是否一致，一致输出"正确",否则输出"错误"
+       :return:
+       '''
+       self.driver.find_element_by_link_text(u'司机管理').click()
        addtx=self.driver.find_element_by_id('release').text
        self.assertTrue(u'发布公告' in addtx,u'与对比值不一致')
        self.driver.find_element_by_id('release').click()
@@ -39,9 +39,5 @@ class TestCase(unit.TestCase):
            print '正确'
        else:
            print '错误'
-
-       pagetx=self.driver.find_element_by_id('sp_1_pager2').text
-       print pagetx
-       self.driver.find_element_by_id('ui-icon ui-icon-seek-next').click()
-       listtx=self.driver.find_element_by_id('gview_list2').text
-       print listtx
+       time.sleep(2)
+       self.driver.find_element_by_xpath('//*[@id="xubox_layer1"]/div[1]/span[1]/a').click()

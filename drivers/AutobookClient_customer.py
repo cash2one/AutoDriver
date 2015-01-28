@@ -41,10 +41,11 @@ class Application(android.Android):
         '''
         如果有loading，等待加载完成
         '''
+        # time.sleep(2)
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(NET_WAIT)
+                self.find_element_by_id(self.package+NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True
@@ -71,12 +72,12 @@ class Application(android.Android):
         login_status = add_devices('customer_login', False)
 
         if not login_status:
-            register_user(self, user_name)
+            self.register_user(user_name)
 
         # 订单机器人发起，发起自定义的用户名，需要修改用户名
         if robot_name != '' and robot_name not in user_name:
             self.switch_to_home()
-            register_user(self, robot_name)
+            self.register_user(robot_name)
 
     def swipe_up(self, id_):
         # {'y': 274, 'x': 0}
@@ -490,6 +491,70 @@ class Application(android.Android):
 
         self.wait_loading()
 
+    def register_user(self, user_name):
+        '''
+        用户端个人信息注册
+        :param self_driver:
+        :param user_name:
+        :return:
+        '''
+        pkg = self.package
+
+        main_activity = self.settings['main_activity']
+        contact_phone = self.settings['contact_phone']
+        # user_name = self_driver.configs['user_name']
+        code = self.settings['code']
+
+        self.wait_loading()
+
+        self.find_id('btn_personal_center').click()
+        self.wait_switch(main_activity)
+
+        self.find_ids('person_item')[0].click()
+
+        self.wait_switch('.PersonActivity')
+
+        self.find_id('phonenumber').send_keys(contact_phone)
+
+        read_status = self.find_id('login_agree').get_attribute('checked')
+        if 'true' not in read_status:
+            self.find_id('login_agree').click()
+
+        self.find_id('next_step').click()
+        time.sleep(1)
+        self.find_id('verification_code').send_keys(code)
+        self.find_id('code_submit').click()
+
+        # 验证码完成后，会返回到PersonActivity
+        self.wait_switch('.MyInfoActivity')
+
+        # 方便调试先注释
+        # #点击我的信息
+        # self_driver.find_ids('personal_name')[0].click()
+        # self_driver.wait_switch('.PersonActivity')
+        #
+        #
+        # #txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
+        # #self_driver.clear(txt)
+        # self_driver.clear_text('personal_user_name')
+        #
+        # self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
+        #
+        # #选择性别
+        # if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
+        # self_driver.find_id('personal_man').click()
+        # #点击完成按钮
+        # self_driver.find_id('personal_finish').click()
+        #
+        # self_driver.wait_switch('.MyInfoActivity')
+        # 方便调试先注释
+
+        # 点击附近司机，返回到地图界面
+        self.wait_loading()
+        time.sleep(5)
+        self.find_id('button_title_back').click()
+        self.wait_switch('.PersonActivity')
+
 
 def add_devices(key, val):
     try:
@@ -500,65 +565,7 @@ def add_devices(key, val):
     return box.devices[key]
 
 
-def register_user(self_driver, user_name):
-    '''
-    用户端个人信息注册
-    :param self_driver:
-    :param user_name:
-    :return:
-    '''
-    pkg = self_driver.package
 
-    main_activity = self_driver.settings['main_activity']
-    contact_phone = self_driver.settings['contact_phone']
-    # user_name = self_driver.configs['user_name']
-    code = self_driver.settings['code']
-
-    self_driver.find_element_by_id(pkg + 'btn_personal_center').click()
-    self_driver.wait_switch(main_activity)
-
-    self_driver.find_elements_by_id(pkg + 'personal_name')[0].click()
-
-    self_driver.wait_switch('.PersonActivity')
-
-    self_driver.find_element_by_id(pkg + 'phonenumber').send_keys(contact_phone)
-
-    read_status = self_driver.find_element_by_id(pkg + 'login_agree').get_attribute('checked')
-    if 'true' not in read_status:
-        self_driver.find_element_by_id(pkg + 'login_agree').click()
-
-    self_driver.find_element_by_id(pkg + 'next_step').click()
-    time.sleep(1)
-    self_driver.find_element_by_id(pkg + 'verification_code').send_keys(code)
-    self_driver.find_element_by_id(pkg + 'code_submit').click()
-
-    # 验证码完成后，会返回到PersonActivity
-    self_driver.wait_switch('.MyInfoActivity')
-
-    # 方便调试先注释
-    # #点击我的信息
-    # self_driver.find_ids('personal_name')[0].click()
-    # self_driver.wait_switch('.PersonActivity')
-    #
-    #
-    # #txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
-    # #self_driver.clear(txt)
-    # self_driver.clear_text('personal_user_name')
-    #
-    # self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
-    #
-    # #选择性别
-    # if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
-    # self_driver.find_id('personal_man').click()
-    # #点击完成按钮
-    # self_driver.find_id('personal_finish').click()
-    #
-    # self_driver.wait_switch('.MyInfoActivity')
-    # 方便调试先注释
-
-    # 点击附近司机，返回到地图界面
-    self_driver.find_element_by_id(pkg + 'button_title_back').click()
-    self_driver.wait_switch('.PersonActivity')
 
 
 def login_customer(self_driver, robot_name=''):

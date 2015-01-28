@@ -19,8 +19,8 @@ class TestCase(unit.TestCase):
     #联系电话输入小于11位
     def test_keyOrder_logged(self):
 
-       #点击进入使用
-       self.driver.find_id('start_btn').click()
+       # #点击进入使用
+       # self.driver.find_id('start_btn').click()
        #页面加载等待时间
        self.driver.wait_loading()
        #点击一键下单

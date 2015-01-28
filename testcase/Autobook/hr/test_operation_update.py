@@ -21,8 +21,15 @@ class TestCase(unit.TestCase):
 
     #修改链接
     def test_update(self):
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
+        '''
+        点击修改链接，信息不一致，显示"对比信息不一致"
+        :return:
+        '''
+        self.driver.find_element_by_link_text(u'司机管理').click()
         uptx=self.driver.find_element_by_id('update').text
-        self.assertTrue(u'修改' in uptx)
+        self.assertTrue(u'修改' in uptx,u'对比信息不一致')
         self.driver.find_element_by_id('update').click()
+        print self.driver.title
+        self.assertTrue(u'添加司机' in self.driver.title)
+
 

@@ -18,8 +18,8 @@ class TestCase(unit.TestCase):
 
     def test_change_Personal(self):
 
-       #点击进入使用
-       self.driver.find_id('start_btn').click()
+       # #点击进入使用
+       # self.driver.find_id('start_btn').click()
        #页面加载等待时间
        self.driver.wait_loading()
        #点击一键下单

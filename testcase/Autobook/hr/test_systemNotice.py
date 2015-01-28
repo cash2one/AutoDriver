@@ -23,7 +23,6 @@ class TestCase(unit.TestCase):
        点击未读，没有未读对比提示是否一致，有数据则打印所有信息
        :return:
        '''
-
        #点击系统公告
        self.driver.find_element_by_id('sysNotice').click()
        nametx=self.driver.find_element_by_id('sysNotice').text
@@ -40,7 +39,6 @@ class TestCase(unit.TestCase):
           notx=self.driver.find_element_by_class_name('notice_row').text
           self.assertTrue(u'1、' in notx,u'与对比值不一致')
           self.driver.find_element_by_class_name('notice_row').click()
-
 
     def test_setting_readed(self):
 

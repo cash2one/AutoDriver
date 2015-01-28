@@ -91,7 +91,6 @@ class TestCase(unit.TestCase):
          print txt
          self.assertTrue(u'没有符合条件的数据...' in txt ,u'提示信息不一致')
 
-
     #两个正确条件，下拉错误条件查询
     def test_one_boxerror(self):
          '''

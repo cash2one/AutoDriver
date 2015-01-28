@@ -18,10 +18,9 @@ class TestCase(unit.TestCase):
         # 关闭浏览器
         # self.driver.close()
 
-
     #禁用提示
     def test_forbidden(self):
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
+        self.driver.find_element_by_link_text(u'司机管理').click()
         self.driver.find_element_by_id('stop').click()
         self.driver.switch_to_alert()
         #弹出框标题内容
@@ -33,17 +32,26 @@ class TestCase(unit.TestCase):
 
     #禁用操作
     def test_forbidden_cancel(self):
+        '''
+         取消禁用，查看状态为启用，则失败提示"取消失败"
+        :return:
+        '''
         self.test_forbidden()
         #取消
-        qx=self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[2]').click()
-        self.assertTrue(qx.is_selected())
-        time.sleep(3)
-
+        self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[2]').click()
+        qxtx=self.driver.find_element_by_id('stop').text
+        print qxtx
+        self.assertTrue(u'禁用' in qxtx,u'取消失败')
      #禁用操作
     def test_forbidden_confirm(self):
+        '''
+         确定禁用，查看状态为禁用，则失败提示"确定失败"
+        :return:
+        '''
         self.test_forbidden()
         #确定
-        qd=self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[1]').click()
-        self.assertTrue(qd.is_selected())
-        time.sleep(3)
+        self.driver.find_element_by_xpath('/html/body/div[6]/div[1]/span[2]/a[1]').click()
+        qdtx=self.driver.find_element_by_id('start').text
+        print qdtx
+        self.assertTrue(u'启用' in qdtx,u'确定失败')
 

@@ -36,7 +36,6 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_id('driverInfo').send_keys(driver_idnumber)
         #点击查询按钮
         self.driver.find_element_by_id('query').click()
-
     # 输入不存在的司机工号
     def test_value1(self):
         '''

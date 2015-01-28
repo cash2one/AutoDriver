@@ -12,12 +12,12 @@ class TestCase(unit.TestCase):
         self.driver.maximize_window()
         self.driver.login()
 
+
     def tearDown(self):
         # 返回首页
         self.driver.switch_to_home()
         # 关闭浏览器
         # self.driver.close()
-
 
      #内容为空
     def test_password_null(self):
@@ -41,7 +41,6 @@ class TestCase(unit.TestCase):
         self.assertTrue(u'新密码不能为空.' in mobile_tiptx,u'新提示信息错误')
         email_tiptx=self.driver.find_element_by_id('confirmPassword_tip').text
         self.assertTrue(u'确认密码不能为空.' in email_tiptx,u'确认密码提示信息错误')
-
 
      #原密码错误
     def test_oldpassword_mismatching(self):

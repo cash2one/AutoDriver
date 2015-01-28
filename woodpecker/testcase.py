@@ -2,6 +2,7 @@
 __author__ = 'guguohai@outlook.com'
 
 import os
+import json
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from framework.util import fs, const, xls
@@ -23,13 +24,19 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
 
         self.btn_excel.clicked.connect(self.get_filename)
 
-        self.read_xls()
         self.treeView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.treeView.customContextMenuRequested.connect(self.openMenu)
 
         QTextCodec.setCodecForTr(QTextCodec.codecForName("utf8"))
         # QTextCodec.setCodecForCStrings(QTextCodec.codecForName("UTF-8"))
         self.connect(self.treeView, SIGNAL("clicked(QModelIndex)"), self.getCurrentIndex)
+        self.connect(self.cmb_project, SIGNAL("activated(QString)"), self.onActivated)
+
+        xlss = os.listdir(PATH('../resource/xls'))
+        for item in xlss:
+            file_name = os.path.splitext(item)
+            if cmp('.xls', file_name[1]) == 0:
+                self.cmb_project.addItem(file_name[0])
 
 
     def addItems(self, parent, elements):
@@ -70,24 +77,38 @@ class TestCaseForm(QWidget, testcase_ui.Ui_Form):
         excel = xls.Excel(file_path, const.EXCEL_HEADER, True)
 
         if excel.openExcel() != None:
-            box.jira.xls_list = data.getExcelData(excel)
-            self.read_xls()
+            xls_data = data.getExcelData(excel)
+            self.read_xls(xls_data)
 
-    def read_xls(self):
-        if len(box.jira.xls_list) > 0:
-            catt = []
-            for d in box.jira.xls_list:
-                path_str = d['cat'] + os.sep + d['name']
-                catt.append(path_str)
+    def read_xls(self, xls_data):
+        catt = []
+        for d in xls_data:
+            path_str = d['cat'] + os.sep + d['name']
+            catt.append(path_str)
 
-            datas = fs.walk_tree_tuple(catt)
+        datas = fs.walk_tree_tuple(catt)
 
-            self.model = QStandardItemModel()
-            self.addItems(self.model, datas)
-            self.treeView.setModel(self.model)
+        self.model = QStandardItemModel()
+        self.addItems(self.model, datas)
+        self.treeView.setModel(self.model)
 
-            self.model.setHorizontalHeaderLabels([self.tr("用例列表")])
+        self.model.setHorizontalHeaderLabels([self.tr("用例列表")])
 
     def getCurrentIndex(self, index):
-        #print index.internalPointer().itemData[0]
+        # print index.internalPointer().itemData[0]
         print 'click tree'
+
+    def onActivated(self, txt):
+        xls_file = PATH('../resource/xls/%s.xls' % txt)
+        #temps = self.my_import('helpers.%s' % txt)
+        excel = xls.Excel(xls_file, const.EXCEL_HEADER, True)
+        if excel.openExcel() != None:
+            xls_data = data.getExcelData(excel)
+            self.read_xls(xls_data)
+
+    def my_import(self, name):
+        mod = __import__(name)
+        components = name.split('.')
+        for comp in components[1:]:
+            mod = getattr(mod, comp)
+        return mod
