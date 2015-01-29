@@ -125,12 +125,32 @@ def isHw(txt):
     return True
 
 
+def html2table(html, useid=False):
+    trs = re.findall(r'<tr>.*?</tr>', html, re.DOTALL)
+    rows = []
+    for tr in trs:
+        if useid:
+            x = re.findall(r'>(?:<a [^<>]*id=(\w+)[^<>]*>)?([^<>]*)(?:</a>)?</td>', tr, re.DOTALL)
+            x = map(lambda t: [t[0].strip(), t[1].strip()], x)
+        else:
+            x = re.findall(r'>([^<>]*)(?:</a>)?</td>', tr, re.DOTALL)
+            x = map(lambda s: s.strip(), x)
+        rows.append(x)
+    return rows
+
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
     #
     # print  os.path.realpath(__file__)
 
-    trs='<tr><td>ff1</td><td>ff2</td></tr><tr><td>ww1</td><td>ww2</td></tr>'
+    trs='<tr><td class=''>ff1</td><td>ff2</td></tr><tr><td>ww1</td><td>ww2</td></tr>'
+    # re_symbol = re.compile(r'(?<=<td>).*?(?=</td>)')  #接口正则
+    #
+    # rr=re.compile(r'(?<=<td>).*?(?=</td>)')
+    # match = rr.findall(trs)
+    #
+    # print match
+    print html2table(trs)
 
 
 
