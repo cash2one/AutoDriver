@@ -138,19 +138,20 @@ def html2table(html, useid=False):
         rows.append(x)
     return rows
 
+
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
     #
     # print  os.path.realpath(__file__)
 
-    trs='<tr><td class=''>ff1</td><td>ff2</td></tr><tr><td>ww1</td><td>ww2</td></tr>'
+    trs = '<tr><td colspan="3"><p>ff1</p></td><td>ff2</td></tr><tr><td>ww1</td><td>ww2</td></tr>'
     # re_symbol = re.compile(r'(?<=<td>).*?(?=</td>)')  #接口正则
     #
-    # rr=re.compile(r'(?<=<td>).*?(?=</td>)')
-    # match = rr.findall(trs)
-    #
-    # print match
-    print html2table(trs)
+    rr = re.compile(r'<td.*?</td>')#<td.*>([^<>]+)</td>
+
+    match = rr.findall(trs)
+
+    print match
 
 
 
