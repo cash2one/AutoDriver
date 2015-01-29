@@ -11,6 +11,7 @@ PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
 class TestCase(unit.TestCase):
     def setUp(self):
         self.driver = self.app(__file__)
@@ -33,7 +34,7 @@ class TestCase(unit.TestCase):
             self.wbk.save(path)
         except IOError:
             print u'excel is open.'
-        #self.driver.switch_to_home()
+            # self.driver.switch_to_home()
 
     def test_cadillac(self):
         # setUp self.app() 时,已经预先访问了drops[0]
@@ -42,7 +43,7 @@ class TestCase(unit.TestCase):
 
         lis = self.driver.find_class('tag_options').find_tags('li')
         for i in range(1, len(lis)):
-            # if 'open_selected' in lis[i].get_attribute('class') and i < len(lis) - 1:
+        # if 'open_selected' in lis[i].get_attribute('class') and i < len(lis) - 1:
             drops = self.cars[i]
             self.driver.get(self.cdi_url + drops[0])
             self.sheet = self.wbk.add_sheet(drops[1], cell_overwrite_ok=True)
@@ -87,15 +88,31 @@ class TestCase(unit.TestCase):
             self.re_table(table)
 
 
-        # txt_ = txt[end_table:]
-        #
-        # if txt_.find('<div class="listImg">') >= 0:
-        #     self.filter_write_content(txt_)
+            # txt_ = txt[end_table:]
+            #
+            # if txt_.find('<div class="listImg">') >= 0:
+            # self.filter_write_content(txt_)
 
     def re_table(self, html_str):
         trs = re.findall(r'<tr>.*?</tr>', html_str, re.DOTALL)
         for tr in trs:
             trc = tr.replace('&nbsp;', '')
+
+            #tds = re.findall(r'<td.*?</td>', trc, re.DOTALL)
+            # \u673a</td>',u'<td colspan="4">2.0T
+            #for td in tds:
+                # re_symbol = re.compile(r'<colspan.*?>')
+                # match = re_symbol.search(td)
+                # if match:
+                #     xx= match.group().strip()
+                #     print xx
+
+                # re_symbol = re.compile(r'>([^<>]*)(?:</p>)?</td>')
+                # match = re_symbol.search(td)
+                # if match:
+                #     xx= match.group().strip()
+                #     print xx
+
             x = re.findall(r'>([^<>]*)(?:</p>)?</td>', trc, re.DOTALL)  # </p>
             x = map(lambda s: s.strip(), x)
 
