@@ -3,9 +3,9 @@ __author__ = 'guguohai@pathbook.com.cn'
 
 import os
 import time
-from appium.webdriver.webdriver import WebDriver
-from selenium.common import exceptions
-from selenium.webdriver.common.by import By
+from framework.appium.webdriver.webdriver import WebDriver
+from framework.selenium.common import exceptions
+from framework.selenium.webdriver.common.by import By
 import element
 
 PATH = lambda p: os.path.abspath(

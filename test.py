@@ -6,6 +6,7 @@ import os
 import time
 import json
 import uuid
+import re
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -129,23 +130,8 @@ if __name__ == "__main__":
     #
     # print  os.path.realpath(__file__)
 
-    from framework.util import fs
+    trs='<tr><td>ff1</td><td>ff2</td></tr><tr><td>ww1</td><td>ww2</td></tr>'
 
-    cat = [u'订单管理\历史订单\查询成功\查询成功1', u'订单管理\历史订单\查询f成功', u'客户管理\客户投诉\回访', u'客户管理\客户投诉\审核', u'订单管理\待处理订单\查询失败',
-           u'客户管理\客户投诉\审核\结果']
 
-    nodes = fs.path_to_tuple(cat)
-    trees = fs.walk_tree_tuple(nodes)
-    print trees
-    # print trees.items()
-    #
-    # aa = {'a': 'b', 'c': [{'d': [{'ff':'cccc'}]}]}
-    #
-    # def find_aa():
-    #     for n in aa:
-    #         print aa[n]
-    from framework.core import data
-    xls_path = './resource/xls/'
-    xlss = data.getExcelsData(PATH(xls_path),False)
 
 

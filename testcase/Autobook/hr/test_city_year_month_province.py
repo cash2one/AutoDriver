@@ -102,3 +102,8 @@ class TestCase(unit.TestCase):
             if province.get_attribute('value')=='1':
                 province.click()
                 self.assertTrue(province.is_selected())
+
+
+
+
+

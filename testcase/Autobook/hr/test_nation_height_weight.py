@@ -54,3 +54,23 @@ class TestCase(unit.TestCase):
     def test_nation_ture(self):
         self.driver.find_element_by_id('detailVo_nation').send_keys(u'汉族')
        # 输入正确的民族
+
+
+    def test_height_null(self):
+        test_height=self.driver.find_element_by_id('detailVo_height')
+        height=test_height.send_keys('')
+        time.sleep(1)
+        self.assertTrue(test_height.text=='',u'不存在指定字符串')
+
+
+    def test_height_long(self):
+        self.driver.find_element_by_id('detailVo_height').send_keys('1725')
+        height=self.driver.find_element_by_id('detailVo_height').get_attribute('value')
+        self.assertTrue(height=='172',u'不存在指定字符串')
+
+
+    def test_height_specia(self):
+        self.driver.find_element_by_id('detailVo_height').send_keys('@##$')
+        height=self.driver.find_element_by_id('detailVo_height').get_attribute('value')
+        time.sleep(1)
+        self.assertTrue(height=='',u'不存在指定字符串')

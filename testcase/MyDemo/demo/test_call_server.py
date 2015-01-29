@@ -19,10 +19,5 @@ class TestCase(unit.TestCase):
         self.assertTrue(aa in 'dddd')
 
     def test_print_f(self):
-        '''
-        func2
-        :return:
-        '''
-        # winxin_code = self.driver.find_element_by_class_name('winxin_code').find_element_by_tag_name('p').text
-        self.driver.get('http://www.baidu.com')
-        self.assertTrue(u'关注微信公众' in u'关注微信', u'关注微信')
+        self.driver.get('http://www.cadillac.com.cn/ats_parameter.html')
+        print self.driver.find_id('ATS').text
