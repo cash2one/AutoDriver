@@ -89,7 +89,6 @@ class TestCase(unit.TestCase):
 
             self.re_table(table)
 
-
             # txt_ = txt[end_table:]
             #
             # if txt_.find('<div class="listImg">') >= 0:
@@ -99,21 +98,6 @@ class TestCase(unit.TestCase):
         trs = re.findall(r'<tr>.*?</tr>', html_str, re.DOTALL)
         for tr in trs:
             trc = tr.replace('&nbsp;', '')
-
-            #tds = re.findall(r'<td.*?</td>', trc, re.DOTALL)
-            # \u673a</td>',u'<td colspan="4">2.0T
-            #for td in tds:
-                # re_symbol = re.compile(r'<colspan.*?>')
-                # match = re_symbol.search(td)
-                # if match:
-                #     xx= match.group().strip()
-                #     print xx
-
-                # re_symbol = re.compile(r'>([^<>]*)(?:</p>)?</td>')
-                # match = re_symbol.search(td)
-                # if match:
-                #     xx= match.group().strip()
-                #     print xx
 
             x = re.findall(r'>([^<>]*)(?:</p>)?</td>', trc, re.DOTALL)  # </p>
             x = map(lambda s: s.strip(), x)

@@ -150,11 +150,14 @@ if __name__ == "__main__":
     print match
 
 
-    trs1='<tr><td colspan="5"><a id="abcd">ff1</a></td></tr><tr><td>ww1</td></tr>'
-    rr1=re.compile(r'>(?:<a [^<>]*id=(\w+)[^<>]*>)?([^<>]*)(?:</p>)?</td>', trs1, re.DOTALL)
-    match1 = rr1.findall(trs1)
+    rr1=re.compile(r'<td.*?</td>')
+    match1 = rr1.findall(trs)
 
     print match1
+
+    x = re.findall(r'>([^<>]*)(?:</p>)?</td>', trs, re.DOTALL)  # </p>
+    x = map(lambda s: s.strip(), x)
+    print x
     #(r'>(?:<a [^<>]*colspan=(\w+)[^<>]*>)?([^<>]*)(?:</p>)?</td>', trs, re.DOTALL)#
 
 
