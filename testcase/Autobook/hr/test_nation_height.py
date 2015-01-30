@@ -56,17 +56,23 @@ class TestCase(unit.TestCase):
        # 输入正确的民族
 
 
+
+
     def test_height_null(self):
         test_height=self.driver.find_element_by_id('detailVo_height')
         height=test_height.send_keys('')
         time.sleep(1)
         self.assertTrue(test_height.text=='',u'不存在指定字符串')
+              # 身高为空
+
 
 
     def test_height_long(self):
         self.driver.find_element_by_id('detailVo_height').send_keys('1725')
         height=self.driver.find_element_by_id('detailVo_height').get_attribute('value')
         self.assertTrue(height=='172',u'不存在指定字符串')
+        # 身高输入超长
+
 
 
     def test_height_specia(self):
@@ -74,3 +80,25 @@ class TestCase(unit.TestCase):
         height=self.driver.find_element_by_id('detailVo_height').get_attribute('value')
         time.sleep(1)
         self.assertTrue(height=='',u'不存在指定字符串')
+
+        # 身高输入特殊字符、
+
+
+
+
+    def test_height_NaN(self):
+        self.driver.find_element_by_id('detailVo_height').send_keys('GHja@#')
+        height=self.driver.find_element_by_id('detailVo_height').get_attribute('value')
+        time.sleep(1)
+        self.assertTrue(height=='',u'不存在指定字符串')
+        # 身高非数字
+
+
+
+
+    def test_height_negative(self):
+        self.driver.find_element_by_id('detailVo_height').send_keys('-175')
+        height=self.driver.find_element_by_id('detailVo_height').get_attribute('value')
+        time.sleep(1)
+        self.assertTrue(height=='175',u'不存在指定字符串')
+        # 身高输入负数

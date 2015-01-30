@@ -104,7 +104,7 @@ def cats():
         ]
         }
     ]
-    return cat
+    return tree
 
 
 def PrintFrame():

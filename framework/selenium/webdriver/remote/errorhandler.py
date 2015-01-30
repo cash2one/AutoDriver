@@ -13,24 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from selenium.common.exceptions import ElementNotSelectableException
-from selenium.common.exceptions import ElementNotVisibleException
-from selenium.common.exceptions import InvalidCookieDomainException
-from selenium.common.exceptions import InvalidElementStateException
-from selenium.common.exceptions import InvalidSelectorException
-from selenium.common.exceptions import ImeNotAvailableException
-from selenium.common.exceptions import ImeActivationFailedException
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoSuchFrameException
-from selenium.common.exceptions import NoSuchWindowException
-from selenium.common.exceptions import StaleElementReferenceException
-from selenium.common.exceptions import UnableToSetCookieException
-from selenium.common.exceptions import UnexpectedAlertPresentException
-from selenium.common.exceptions import NoAlertPresentException
-from selenium.common.exceptions import ErrorInResponseException
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import WebDriverException
-from selenium.common.exceptions import MoveTargetOutOfBoundsException
+from framework.selenium.common.exceptions import ElementNotSelectableException
+from framework.selenium.common.exceptions import ElementNotVisibleException
+from framework.selenium.common.exceptions import InvalidCookieDomainException
+from framework.selenium.common.exceptions import InvalidElementStateException
+from framework.selenium.common.exceptions import InvalidSelectorException
+from framework.selenium.common.exceptions import ImeNotAvailableException
+from framework.selenium.common.exceptions import ImeActivationFailedException
+from framework.selenium.common.exceptions import NoSuchElementException
+from framework.selenium.common.exceptions import NoSuchFrameException
+from framework.selenium.common.exceptions import NoSuchWindowException
+from framework.selenium.common.exceptions import StaleElementReferenceException
+from framework.selenium.common.exceptions import UnableToSetCookieException
+from framework.selenium.common.exceptions import UnexpectedAlertPresentException
+from framework.selenium.common.exceptions import NoAlertPresentException
+from framework.selenium.common.exceptions import ErrorInResponseException
+from framework.selenium.common.exceptions import TimeoutException
+from framework.selenium.common.exceptions import WebDriverException
+from framework.selenium.common.exceptions import MoveTargetOutOfBoundsException
 
 try:
     basestring

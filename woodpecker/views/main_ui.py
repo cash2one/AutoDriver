@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/main.ui'
 #
-# Created: Sat Jan 24 20:36:30 2015
+# Created: Fri Jan 30 14:32:38 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -108,6 +108,11 @@ class Ui_MainWindow(object):
         self.toolbar_interface = QtGui.QAction(MainWindow)
         self.toolbar_interface.setIcon(icon3)
         self.toolbar_interface.setObjectName(_fromUtf8("toolbar_interface"))
+        self.toolbar_car = QtGui.QAction(MainWindow)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap(_fromUtf8(":/toolbars/res/life.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.toolbar_car.setIcon(icon9)
+        self.toolbar_car.setObjectName(_fromUtf8("toolbar_car"))
         self.menu_file.addAction(self.menu_login)
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.menu_save)
@@ -127,6 +132,7 @@ class Ui_MainWindow(object):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.toolbar_monitor)
         self.toolBar.addAction(self.toolbar_interface)
+        self.toolBar.addAction(self.toolbar_car)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -149,5 +155,6 @@ class Ui_MainWindow(object):
         self.toolbar_knowledge.setText(_translate("MainWindow", "知识库", None))
         self.toolbar_monitor.setText(_translate("MainWindow", "性能监控", None))
         self.toolbar_interface.setText(_translate("MainWindow", "接口测试", None))
+        self.toolbar_car.setText(_translate("MainWindow", "行车助手", None))
 
 import res_rc

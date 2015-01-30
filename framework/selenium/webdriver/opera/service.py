@@ -16,8 +16,8 @@
 # limitations under the License.
 import subprocess
 import time
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common import utils
+from framework.selenium.common.exceptions import WebDriverException
+from framework.selenium.webdriver.common import utils
 
 class Service(object):
     """

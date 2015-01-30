@@ -2,7 +2,7 @@
 The Touch Actions implementation
 """
 
-from selenium.webdriver.remote.command import Command
+from framework.selenium.webdriver.remote.command import Command
 
 class TouchActions(object):
     """

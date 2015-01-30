@@ -16,8 +16,8 @@
 """
 The ActionChains implementation,
 """
-from selenium.webdriver.remote.command import Command
-from selenium.webdriver.common.keys import Keys
+from framework.selenium.webdriver.remote.command import Command
+from framework.selenium.webdriver.common.keys import Keys
 
 class ActionChains(object):
     """

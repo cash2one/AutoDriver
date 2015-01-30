@@ -27,7 +27,7 @@ class TestCase(unit.TestCase):
         #点击下一页
         time.sleep(3)
         self.driver.find_ajax_id('next_pager')
-        self.driver.find_element_by_id('next_pager').click()
+        self.driver.find_id('next_pager').click()
         time.sleep(3)
         two=self.driver.find_class('ui-pg-input').get_attribute("value")
         print two

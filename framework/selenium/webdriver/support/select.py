@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException, UnexpectedTagNameException
+from framework.selenium.webdriver.common.by import By
+from framework.selenium.common.exceptions import NoSuchElementException, UnexpectedTagNameException
 
 class Select:
 
@@ -28,7 +28,7 @@ class Select:
          - webelement - element SELECT element to wrap
         
         Example:
-            from selenium.webdriver.support.ui import Select \n
+            from framework.selenium.webdriver.support.ui import Select \n
             Select(driver.find_element_by_tag_name("select")).select_by_index(2)
         """
         if webelement.tag_name.lower() != "select":

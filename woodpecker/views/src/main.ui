@@ -98,6 +98,7 @@
    <addaction name="separator"/>
    <addaction name="toolbar_monitor"/>
    <addaction name="toolbar_interface"/>
+   <addaction name="toolbar_car"/>
   </widget>
   <action name="menu_save">
    <property name="text">
@@ -201,6 +202,15 @@
    </property>
    <property name="text">
     <string>接口测试</string>
+   </property>
+  </action>
+  <action name="toolbar_car">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/life.png</normaloff>:/toolbars/res/life.png</iconset>
+   </property>
+   <property name="text">
+    <string>行车助手</string>
    </property>
   </action>
  </widget>

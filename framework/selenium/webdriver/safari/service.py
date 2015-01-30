@@ -18,8 +18,8 @@ from os import devnull
 import subprocess
 from subprocess import PIPE
 import time
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common import utils
+from framework.selenium.common.exceptions import WebDriverException
+from framework.selenium.webdriver.common import utils
 
 class Service(object):
     """

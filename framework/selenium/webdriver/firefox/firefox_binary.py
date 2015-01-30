@@ -17,8 +17,8 @@
 import os
 import platform
 from subprocess import Popen, STDOUT
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common import utils
+from framework.selenium.common.exceptions import WebDriverException
+from framework.selenium.webdriver.common import utils
 import time
 
 
@@ -44,7 +44,7 @@ class FirefoxBinary(object):
         if self._start_cmd is None:
             self._start_cmd = self._get_firefox_start_cmd()
         if not self._start_cmd.strip():
-          raise Exception("Failed to find firefox binary. You can set it by specifying the path to 'firefox_binary':\n\nfrom selenium.webdriver.firefox.firefox_binary import FirefoxBinary\n\n" +
+          raise Exception("Failed to find firefox binary. You can set it by specifying the path to 'firefox_binary':\n\nfrom framework.selenium.webdriver.firefox.firefox_binary import FirefoxBinary\n\n" +
             "binary = FirefoxBinary('/path/to/binary')\ndriver = webdriver.Firefox(firefox_binary=binary)")
         # Rather than modifying the environment of the calling Python process
         # copy it and modify as needed.

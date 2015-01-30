@@ -23,13 +23,13 @@ class TestCase(unit.TestCase):
         '''
         self.driver.find_ajax_id('orderInfo_driver_name')
 
-        table=self.driver.find_element_by_id('list')
-        trs=table.find_elements_by_tag_name('tr')
+        table=self.driver.find_id('list')
+        trs=table.find_tags('tr')
         #点击第一行的司机信息
-        trs[1].find_element_by_id('orderInfo_driver_name').click()
+        trs[1].find_id('orderInfo_driver_name').click()
         time.sleep(2)
         self.driver.switch_to_alert()
-        text=self.driver.find_element_by_class_name('xubox_title').text
+        text=self.driver.find_class('xubox_title').text
         print text
         self.assertTrue(u'司机信息明细' in text,'msg')
 
@@ -40,18 +40,18 @@ class TestCase(unit.TestCase):
         '''
         self.driver.find_ajax_id('orderInfo_driver_name')
 
-        table=self.driver.find_element_by_id('list')
-        trs=table.find_elements_by_tag_name('tr')
+        table=self.driver.find_id('list')
+        trs=table.find_tags('tr')
         #点击第一行的司机信息
-        trs[1].find_element_by_id('orderInfo_driver_name').click()
+        trs[1].find_id('orderInfo_driver_name').click()
         time.sleep(1)
 
         #点击关闭按钮
-        self.driver.find_element_by_link_text('关闭').click()
+        self.driver.find_link('关闭').click()
         time.sleep(2)
         isClose=True
         try:
-            self.driver.find_element_by_id('xubox_main')
+            self.driver.find_id('xubox_main')
             isClose=False
         except self.driver.NoSuchElementException:
             isClose=True

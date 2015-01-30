@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from .command import Command
-from selenium.common.exceptions import WebDriverException
+from framework.selenium.common.exceptions import WebDriverException
 
 class Mobile(object):
 

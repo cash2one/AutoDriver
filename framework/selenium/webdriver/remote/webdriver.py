@@ -22,10 +22,10 @@ from .remote_connection import RemoteConnection
 from .errorhandler import ErrorHandler
 from .switch_to import SwitchTo
 from .mobile import Mobile
-from selenium.common.exceptions import WebDriverException
-from selenium.common.exceptions import InvalidSelectorException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.html5.application_cache import ApplicationCache
+from framework.selenium.common.exceptions import WebDriverException
+from framework.selenium.common.exceptions import InvalidSelectorException
+from framework.selenium.webdriver.common.by import By
+from framework.selenium.webdriver.common.html5.application_cache import ApplicationCache
 
 try:
     str = basestring

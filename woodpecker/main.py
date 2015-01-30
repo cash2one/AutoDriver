@@ -10,7 +10,7 @@ from PyQt4 import QtNetwork
 
 from woodpecker.views import main_ui
 from woodpecker.dialog import monitor, new_issue
-import task, jiras, api_test, testcase, login, home
+import task, jiras, api_test, testcase, login, home,car_service
 
 
 ja = box.jira
@@ -42,6 +42,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.toolbar_knowledge.triggered.connect(self.show_knowledge)
         self.toolbar_interface.triggered.connect(self.show_interface)
         self.toolbar_monitor.triggered.connect(self.show_monitor)
+        self.toolbar_car.triggered.connect(self.show_car_service)
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
@@ -186,6 +187,9 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         interfaceDlg = api_test.InterfaceForm()
         self.setCentralWidget(interfaceDlg)
 
+    def show_car_service(self):
+        dlg_car = car_service.CarServiceDialog()
+        dlg_car.exec_()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

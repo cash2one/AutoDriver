@@ -1,3 +1,6 @@
+# coding=utf-8
+__author__ = 'guguohai@pathbook.com.cn'
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement as SeleniumWebElement
 

@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.remote.webelement import WebElement
+from framework.selenium.common.exceptions import WebDriverException
+from framework.selenium.webdriver.common.by import By
+from framework.selenium.webdriver.remote.webdriver import WebDriver
+from framework.selenium.webdriver.remote.webelement import WebElement
 from .abstract_event_listener import AbstractEventListener
 
 
@@ -46,8 +46,8 @@ class EventFiringWebDriver(object):
 
         .. code-block:: python
 
-            from selenium.webdriver import Firefox
-            from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
+            from framework.selenium.webdriver import Firefox
+            from framework.selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
             
             class MyListener(AbstractEventListener):
                 def before_navigate_to(self, url, driver):

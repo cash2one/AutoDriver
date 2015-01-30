@@ -15,9 +15,9 @@
 # limitations under the License.
 
 import base64
-from selenium.webdriver.remote.command import Command
-from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
-from selenium.common.exceptions import WebDriverException
+from framework.selenium.webdriver.remote.command import Command
+from framework.selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+from framework.selenium.common.exceptions import WebDriverException
 from .service import Service
 from .options import Options
 

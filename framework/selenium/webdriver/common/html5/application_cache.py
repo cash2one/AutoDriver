@@ -2,7 +2,7 @@
 The ApplicationCache implementaion.
 """
 
-from selenium.webdriver.remote.command import Command
+from framework.selenium.webdriver.remote.command import Command
 
 class ApplicationCache(object):
     """

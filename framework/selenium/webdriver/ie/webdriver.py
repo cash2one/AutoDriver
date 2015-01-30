@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from selenium.webdriver.common import utils
-from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.webdriver.remote.command import Command
-from selenium.common.exceptions import WebDriverException
+from framework.selenium.webdriver.common import utils
+from framework.selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+from framework.selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from framework.selenium.webdriver.remote.command import Command
+from framework.selenium.common.exceptions import WebDriverException
 import base64
 from .service import Service
 

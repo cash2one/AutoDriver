@@ -19,7 +19,7 @@ import os
 import tempfile
 import zipfile
 
-from selenium.common.exceptions import NoSuchElementException
+from framework.selenium.common.exceptions import NoSuchElementException
 
 LOGGER = logging.getLogger(__name__)
 

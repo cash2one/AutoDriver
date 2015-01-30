@@ -25,11 +25,11 @@ class TestCase(unit.TestCase):
         :return:
         '''
         time.sleep(3)
-        self.driver.find_element_by_id('orderNo').send_keys(u'@￥%…')
+        self.driver.find_id('orderNo').send_keys(u'@￥%…')
         time.sleep(1)
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(2)
-        text=self.driver.find_element_by_class_name('norecords').text
+        text=self.driver.find_class('norecords').text
         print text
         self.assertTrue(u'没有符合条件的数据...' in text,u'提示信息部正确或不存在')
 
@@ -41,11 +41,11 @@ class TestCase(unit.TestCase):
         '''
         self.driver.find_ajax_id('customerInfo')
         time.sleep(3)
-        self.driver.find_element_by_id('customerInfo').send_keys(u'#￥%…')
+        self.driver.find_id('customerInfo').send_keys(u'#￥%…')
         time.sleep(1)
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(2)
-        text=self.driver.find_element_by_class_name('norecords').text
+        text=self.driver.find_class('norecords').text
         print text
         self.assertTrue(u'没有符合条件的数据...' in text,u'提示信息部正确或不存在')
 
@@ -57,10 +57,10 @@ class TestCase(unit.TestCase):
         '''
         self.driver.find_ajax_id('driverInfo')
         time.sleep(3)
-        self.driver.find_element_by_id('driverInfo').send_keys(u'%%…')
+        self.driver.find_id('driverInfo').send_keys(u'%%…')
         time.sleep(1)
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(2)
-        text=self.driver.find_element_by_class_name('norecords').text
+        text=self.driver.find_class('norecords').text
         print text
         self.assertTrue(u'没有符合条件的数据...' in text,u'提示信息部正确或不存在')

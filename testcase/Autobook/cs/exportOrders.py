@@ -20,14 +20,14 @@ class TestCase(unit.TestCase):
 
 
     def test_export_open(self):
-        self.driver.find_element_by_id('export').click()
+        self.driver.find_id('export').click()
         # self.driver.switch_to_alert()
-        text=self.driver.find_element_by_class_name('xubox_dialog').text
+        text=self.driver.find_class('xubox_dialog').text
         print text
         self.assertTrue(u'确定导出?' in text,'msg')
         time.sleep(2)
-        self.driver.find_element_by_link_text('取消').click()
+        self.driver.find_link('取消').click()
         time.sleep(10)
         # self.driver.switch_to_alert()
-        # text1=self.driver.find_element_by_class_name('xubox_dialog').text
+        # text1=self.driver.find_class('xubox_dialog').text
         # self.assertTrue(u'确定导出？' in text1,'msg')
