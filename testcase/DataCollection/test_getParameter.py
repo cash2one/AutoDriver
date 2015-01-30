@@ -60,13 +60,15 @@ class TestCase(unit.TestCase):
                 break
 
         title_configure = ats.find_class('title_configure').get_attribute('innerHTML')
+        configure = ats.find_class('configure').get_attribute('innerHTML')
+
         rr = re.compile(r'(?<=<th>).*?(?=</th>)')
         header = rr.findall(title_configure)
         for col_index in range(0, len(header)):
             self.sheet.write(self.row_num, col_index + 1, header[col_index])
         self.row_num += 1
 
-        configure = ats.find_class('configure').get_attribute('innerHTML')
+
         self.filter_write_content(configure)
 
 
