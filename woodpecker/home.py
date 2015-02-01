@@ -5,6 +5,7 @@ import os
 import time
 import re
 from framework.core import box
+from framework.util import sqlite
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
@@ -50,6 +51,8 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                 self.load_to_ul(result, title, time_str, DOWNLOAD_MEMORY)
         else:
             self.start_load_page()
+
+        print time.time()
 
     def netAccess(self, url, reply_func):
         m = QtNetwork.QNetworkAccessManager(self)

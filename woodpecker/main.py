@@ -2,15 +2,20 @@
 __author__ = 'guguohai@outlook.com'
 
 import sys
-from framework.core import box
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtNetwork
 
+from framework.core import box
 from woodpecker.views import main_ui
-from woodpecker.dialog import monitor, new_issue
-import task, jiras, api_test, testcase, login, home,car_service
+from woodpecker.dialog import monitor, new_issue, car_service
+import task
+import jiras
+import api_test
+import testcase
+import login
+import home
 
 
 ja = box.jira

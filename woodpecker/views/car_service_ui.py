@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/car_service.ui'
 #
-# Created: Fri Jan 30 16:30:40 2015
+# Created: Sat Jan 31 14:45:52 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(800, 600)
+        Dialog.resize(950, 650)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/mainicon/res/wp.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -34,6 +34,12 @@ class Ui_Dialog(object):
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
+        self.lbl_file_path = QtGui.QLabel(Dialog)
+        self.lbl_file_path.setObjectName(_fromUtf8("lbl_file_path"))
+        self.horizontalLayout_3.addWidget(self.lbl_file_path)
+        self.btn_del_file = QtGui.QPushButton(Dialog)
+        self.btn_del_file.setObjectName(_fromUtf8("btn_del_file"))
+        self.horizontalLayout_3.addWidget(self.btn_del_file)
         self.txt_file = QtGui.QLineEdit(Dialog)
         self.txt_file.setMinimumSize(QtCore.QSize(180, 0))
         self.txt_file.setMaximumSize(QtCore.QSize(180, 16777215))
@@ -85,6 +91,8 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(_translate("Dialog", "行车助手", None))
+        self.lbl_file_path.setText(_translate("Dialog", "已有车助手文件存在！", None))
+        self.btn_del_file.setText(_translate("Dialog", "删除文件", None))
         self.btn_select_file.setText(_translate("Dialog", "选择文件", None))
         self.label_2.setText(_translate("Dialog", "屏幕宽度", None))
         self.btn_reset.setText(_translate("Dialog", "重置屏幕尺寸", None))

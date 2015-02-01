@@ -105,8 +105,19 @@ class Android(WebDriver):
     def login(self, robot_name=''):
         pass
 
-    def wait_loading(self):
+    def wait_switch(self, origin_activity):
+        '''
+        等待界面切换完成
+        '''
         pass
+
+    def wait_loading(self):
+        '''
+        等待界面上的loading加载完毕
+        有的界面切换完成后，还有loading加载
+        '''
+        pass
+
 
     def wait_find_id(self, id_):
         '''
@@ -137,3 +148,10 @@ class Android(WebDriver):
             time.sleep(0.5)
         else:
             raise NameError, 'find_element timeout'
+
+    def clear_text(self, id_):
+        txt = self.find_id(id_).get_attribute('text')
+        self.keyevent(123)
+
+        for i in range(0, len(txt)):
+            self.keyevent(67)

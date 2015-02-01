@@ -45,27 +45,13 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package+NET_WAIT)
+                self.find_element_by_id(self.package + NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True
 
-    def change_status(self, isWorking):
-        try:
-            status = self.settings['driver_status']
-        except KeyError:
-            self.settings['driver_status'] = False
-
-        if self.settings['driver_status'] != isWorking:
-            self.find_id(WORK_STATE).click()
-            self.settings['driver_status'] = isWorking
-            self.wait_loading()
 
     def login(self, robot_name=''):
-        # if '.driver' in self.settings['app_package']:
-        #     login_driver(self)
-        # elif '.customer' in self.settings['app_package']:
-        #     login_customer(self, robot_name)
         user_name = self.settings['user_name']
 
         # 向全局the新增用户端登录状态
@@ -218,16 +204,6 @@ class Application(android.Android):
 
         return loc
 
-    # def request_order(self, user_name):
-    # '''发送消息，设置为下单action为True，并给出用户名为XX女士。由服务器端修改值。下单机器人获取后，切换到个人信息，
-    # 查看是不是XX女士，如果不是就改名，并下个1人的周边订单
-    # '''
-    # xmlrpc_s = the.settings['xmlrpc']
-    # s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
-    # try:
-    #         s.set_customer(True, user_name)
-    #     except xmlrpclib.Fault:
-    #         pass
 
     def exec_api(self, api, arg_dict):
         '''
@@ -316,20 +292,6 @@ class Application(android.Android):
             except KeyError:
                 pass
 
-    def auto_order(self, cmd):
-        """
-        与其他端通信，发送或者接收订单
-        :param cmd:
-        :return:
-        """
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(('localhost', 7556))
-
-        time.sleep(2)
-        sock.send('request_order:%s' % cmd)
-        recv_str = sock.recv(1024)
-        sock.close()
-        return recv_str
 
     def enum(self, key, val):
         idriver_enum = {
@@ -361,12 +323,6 @@ class Application(android.Android):
     def phone(self):
         return self.settings['contact_phone']  # ['idriver.android.customer']
 
-    def clear_text(self, id_):
-        txt = self.find_id(id_).get_attribute('text')
-        self.keyevent(123)
-
-        for i in range(0, len(txt)):
-            self.keyevent(67)
 
     def sql(self, sql, db_no=0, size=0):
         '''
@@ -405,41 +361,6 @@ class Application(android.Android):
             if not main_activity in self.current_activity:
                 self.switch_to_home()
 
-    def wait_find_id(self, id_):
-        '''
-        等待动态控件的id 出现
-        '''
-        time_out = TIME_OUT
-        while time_out > 0:
-            try:
-                self.find_id(id_)
-                isExist = True
-            except NoSuchElementException:
-                isExist = False
-
-            if isExist:
-                return self.find_id(id_)
-
-            time_out -= 1
-            time.sleep(0.5)
-        else:
-            raise NameError, 'find_element timeout'
-
-    def wait_find_id_text(self, id_, txt):
-        time_out = TIME_OUT
-        while time_out > 0:
-            try:
-                if txt in self.find_id(id_).text:
-                    return self.find_id(id_)
-                    # break
-            except NoSuchElementException:
-                pass
-
-            time_out -= 1
-            time.sleep(0.5)
-        else:
-            raise NameError, 'find_element timeout'
-
 
     def splash(self):
         splash_activity = self.settings['app_activity']  #.SplashActivity
@@ -458,6 +379,40 @@ class Application(android.Android):
         # else:
         #     raise NameError, 'switch timeout'
 
+    # def wait_find_id(self, id_):
+    #     '''
+    #     等待动态控件的id 出现
+    #     '''
+    #     time_out = TIME_OUT
+    #     while time_out > 0:
+    #         try:
+    #             self.find_id(id_)
+    #             isExist = True
+    #         except NoSuchElementException:
+    #             isExist = False
+    #
+    #         if isExist:
+    #             return self.find_id(id_)
+    #
+    #         time_out -= 1
+    #         time.sleep(0.5)
+    #     else:
+    #         raise NameError, 'find_element timeout'
+
+    # def auto_order(self, cmd):
+    #     """
+    #     与其他端通信，发送或者接收订单
+    #     :param cmd:
+    #     :return:
+    #     """
+    #     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #     sock.connect(('localhost', 7556))
+    #
+    #     time.sleep(2)
+    #     sock.send('request_order:%s' % cmd)
+    #     recv_str = sock.recv(1024)
+    #     sock.close()
+    #     return recv_str
 
     # def splash(self):
     #     time_out = TIME_OUT
@@ -568,113 +523,110 @@ def add_devices(key, val):
     return box.devices[key]
 
 
+# def login_customer(self_driver, robot_name=''):
+# main = self_driver.settings['main_activity']
+#     guide_activity = self_driver.settings['guide_activity']
+#     user_name = self_driver.settings['user_name']
+#
+#     isFinishSplash = False
+#     while not isFinishSplash:
+#         # print self_driver.current_activity
+#         if guide_activity in self_driver.current_activity:
+#             isFinishSplash = True
+#         if main in self_driver.current_activity:
+#             break
+#     else:
+#         time.sleep(2)
+#         # 在main界面没有登录控件id
+#         try:
+#             self_driver.find_element_by_id(self_driver.pkg + 'start_btn').click()
+#         except NoSuchElementException:
+#             pass
+#
+#     time.sleep(1)
+#     self_driver.wait_switch(guide_activity)
+#
+#     # 向全局the新增用户端登录状态
+#     login_status = add_devices('customer_login', False)
+#
+#     if not login_status:
+#         register_user(self_driver, user_name)
+#
+#     # 订单机器人发起，发起自定义的用户名，需要修改用户名
+#     if robot_name != '' and robot_name not in user_name:
+#         self_driver.switch_to_home()
+#         register_user(self_driver, robot_name)
 
 
-
-def login_customer(self_driver, robot_name=''):
-    main = self_driver.settings['main_activity']
-    guide_activity = self_driver.settings['guide_activity']
-    user_name = self_driver.settings['user_name']
-
-    isFinishSplash = False
-    while not isFinishSplash:
-        # print self_driver.current_activity
-        if guide_activity in self_driver.current_activity:
-            isFinishSplash = True
-        if main in self_driver.current_activity:
-            break
-    else:
-        time.sleep(2)
-        # 在main界面没有登录控件id
-        try:
-            self_driver.find_element_by_id(self_driver.pkg + 'start_btn').click()
-        except NoSuchElementException:
-            pass
-
-    time.sleep(1)
-    self_driver.wait_switch(guide_activity)
-
-    # 向全局the新增用户端登录状态
-    login_status = add_devices('customer_login', False)
-
-    if not login_status:
-        register_user(self_driver, user_name)
-
-    # 订单机器人发起，发起自定义的用户名，需要修改用户名
-    if robot_name != '' and robot_name not in user_name:
-        self_driver.switch_to_home()
-        register_user(self_driver, robot_name)
-
-
-def login_driver(self_driver):
-    login = self_driver.settings['login_activity']
-    main = self_driver.settings['main_activity']
-    usr_name = self_driver.settings['user_name']
-    usr_pwd = self_driver.settings['user_pwd']
-
-    isFinishSplash = False
-    while not isFinishSplash:
-        # print self_driver.current_activity
-        if login in self_driver.current_activity:
-            isFinishSplash = True
-        if main in self_driver.current_activity:
-            break
-            # isFinishSplash = True
-
-    else:
-        time.sleep(2)
-        # 在main界面没有登录控件id
-        try:
-            self_driver.find_element_by_id(self_driver.package + 'et_username').send_keys(usr_name)
-            self_driver.find_element_by_id(self_driver.package + 'et_password').send_keys(usr_pwd)
-            self_driver.find_element_by_id(self_driver.package + 'bt_login').click()
-        except:
-            pass
-
-    time.sleep(1)
-
-    self_driver.wait_switch(login)
-
-
-socket_sign = '1'
-socket_addr = 'localhost'
-
-
-def customer_server():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((socket_addr, 7556))
-    sock.listen(5)
-    while True:
-        connection, address = sock.accept()
-        try:
-            connection.settimeout(5)
-            buf = connection.recv(1024)
-            if 'request_order:' in buf:
-                ss = buf.split('request_order:')[1]
-                # if buf == socket_sign:
-                # connection.send('welcome to python server!')
-                # 执行一个下订单的脚本
-                # subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
-                # cmd = PATH('../src/autobook/android/customer/%s' % py_file)
-                p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
-                connection.send(p.stdout.read())
-        except socket.timeout:
-            print 'time out'
-        connection.close()
-
-
-def order_client(cmd):
-    """
-    与其他端通信，发送或者接收订单
-    :param cmd:
-    :return:
-    """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect(('localhost', 7556))
-
-    time.sleep(2)
-    sock.send('request_order:%s' % cmd)
-    recv_str = sock.recv(1024)
-    sock.close()
-    return recv_str
+# def login_driver(self_driver):
+#     login = self_driver.settings['login_activity']
+#     main = self_driver.settings['main_activity']
+#     usr_name = self_driver.settings['user_name']
+#     usr_pwd = self_driver.settings['user_pwd']
+#
+#     isFinishSplash = False
+#     while not isFinishSplash:
+#         # print self_driver.current_activity
+#         if login in self_driver.current_activity:
+#             isFinishSplash = True
+#         if main in self_driver.current_activity:
+#             break
+#             # isFinishSplash = True
+#
+#     else:
+#         time.sleep(2)
+#         # 在main界面没有登录控件id
+#         try:
+#             self_driver.find_element_by_id(self_driver.package + 'et_username').send_keys(usr_name)
+#             self_driver.find_element_by_id(self_driver.package + 'et_password').send_keys(usr_pwd)
+#             self_driver.find_element_by_id(self_driver.package + 'bt_login').click()
+#         except:
+#             pass
+#
+#     time.sleep(1)
+#
+#     self_driver.wait_switch(login)
+#
+#
+# socket_sign = '1'
+# socket_addr = 'localhost'
+#
+#
+# def customer_server():
+#     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     sock.bind((socket_addr, 7556))
+#     sock.listen(5)
+#     while True:
+#         connection, address = sock.accept()
+#         try:
+#             connection.settimeout(5)
+#             buf = connection.recv(1024)
+#             if 'request_order:' in buf:
+#                 ss = buf.split('request_order:')[1]
+#                 # if buf == socket_sign:
+#                 # connection.send('welcome to python server!')
+#                 # 执行一个下订单的脚本
+#                 # subprocess.Popen('appium --port %s' % 4723, stdout=subprocess.PIPE, shell=True)
+#                 # cmd = PATH('../src/autobook/android/customer/%s' % py_file)
+#                 p = subprocess.Popen("python %s" % ss, stdout=subprocess.PIPE, shell=True)
+#                 connection.send(p.stdout.read())
+#         except socket.timeout:
+#             print 'time out'
+#         connection.close()
+#
+#
+# def order_client(cmd):
+#     """
+#     与其他端通信，发送或者接收订单
+#     :param cmd:
+#     :return:
+#     """
+#     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#     sock.connect(('localhost', 7556))
+#
+#     time.sleep(2)
+#     sock.send('request_order:%s' % cmd)
+#     recv_str = sock.recv(1024)
+#     sock.close()
+#     return recv_str
 

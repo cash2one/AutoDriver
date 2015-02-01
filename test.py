@@ -138,26 +138,33 @@ def html2table(html, useid=False):
         rows.append(x)
     return rows
 
+
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
     #
     # print  os.path.realpath(__file__)
 
-    trs='<tr><td colspan="5"><p>ff1</p></td></tr><tr><td>ww1</td></tr>'
-    rr=re.compile(r'<td[^>]*(colspan="\d+")?>(<p>)?(\d+)(</p>)?</td>')
-    match = rr.findall(trs)
+    # trs='<tr><td colspan="5"><p>ff1</p></td></tr><tr><td>ww1</td></tr>'
+    # rr=re.compile(r'<td[^>]*(colspan="\d+")?>(<p>)?(\d+)(</p>)?</td>')
+    # match = rr.findall(trs)
+    #
+    # print match
+    #
+    #
+    # rr1=re.compile(r'<td.*?</td>')
+    # match1 = rr1.findall(trs)
+    #
+    # print match1
+    #
+    # x = re.findall(r'>([^<>]*)(?:</p>)?</td>', trs, re.DOTALL)  # </p>
+    # x = map(lambda s: s.strip(), x)
+    # print x
+    # #(r'>(?:<a [^<>]*colspan=(\w+)[^<>]*>)?([^<>]*)(?:</p>)?</td>', trs, re.DOTALL)#
+    import datetime
 
-    print match
-
-
-    rr1=re.compile(r'<td.*?</td>')
-    match1 = rr1.findall(trs)
-
-    print match1
-
-    x = re.findall(r'>([^<>]*)(?:</p>)?</td>', trs, re.DOTALL)  # </p>
-    x = map(lambda s: s.strip(), x)
-    print x
-    #(r'>(?:<a [^<>]*colspan=(\w+)[^<>]*>)?([^<>]*)(?:</p>)?</td>', trs, re.DOTALL)#
+    d1 = datetime.datetime.now()
+    #d3 = d1 + datetime.timedelta(days=10)
+    t3 = d1 - datetime.timedelta(minutes=30)
+    print str(t3)
 
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>950</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,6 +20,20 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="lbl_file_path">
+       <property name="text">
+        <string>已有车助手文件存在！</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_del_file">
+       <property name="text">
+        <string>删除文件</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QLineEdit" name="txt_file">
        <property name="minimumSize">
