@@ -22,7 +22,7 @@ PATH = lambda p: os.path.abspath(
 )
 
 DOWNLOAD_SUCCESS = 0
-DOWNLOAD_MEMORY = 1
+LOAD_DATABASE = 1
 DOWNLOAD_FAIL = 2
 DB_PATH = PATH('./wp.db')
 
@@ -44,9 +44,17 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # self.lbl_colors = ['00a1f1', '7cbb00', 'ffbb00']
         # self.load_num = 0
         # self.loading_dlg=None
-        self.pages = ('http://www.ltesting.net/rss.xml', 'http://testerhome.com/topics/feedgood',
-                      'http://zaodula.com/feed')
-        self.nam_finish_num = 0
+        # self.pages = ('http://www.ltesting.net/rss.xml', 'http://testerhome.com/topics/feedgood',
+        # 'http://zaodula.com/feed')
+        self.homepage = [{'title': u'领测软件测试网', 'url': 'http://www.ltesting.net/rss.xml'},
+                         {'title': u'TesterHome社区精华帖', 'url': 'http://testerhome.com/topics/feedgood'},
+                         {'title': u'互联网早读课', 'url': 'http://zaodula.com/feed'}]
+
+        # 新闻更新时间段，这个时间段内已经更新过，则只能通过点击刷新加载
+        self.time_ranges = ['2015-2-2 9:00:00.0', '2015-2-2 11:00:00.0', '2015-2-2 13:00:00.0', '2015-2-2 15:00:00.0',
+                            '2015-2-2 17:00:00.0']
+
+        self.nam_finish_num = 0  # 页面加载累加次数
 
         # 指定时间段刷新
         self.dbm = self.data_handler()
@@ -54,25 +62,15 @@ class HomeForm(QWidget, home_ui.Ui_Form):
             self.dbm.clean_table('News')
             self.start_load_page()
         else:
-            self.titles = [u'领测软件测试网', u'TesterHome社区精华帖', u'互联网早读课']
-            for t in self.titles:
-                news_ = self.dbm.fetchall('select * from News where Category="%s"' % t)
+            for hp in self.homepage:
+                news_ = self.dbm.fetchall('select * from News where Category="%s"' % hp['title'])
                 lis = ''
                 for new in news_:
                     aStyle = 'text-decoration:none'
                     liStyle = 'line-height:23px;'
                     li = "<li style=%s><a href=%s style=%s>%s</a></li>" % (liStyle, new[3], aStyle, new[1])
                     lis += li
-                self.load_to_ul(lis, t, '1111', DOWNLOAD_MEMORY)
-
-
-                # if len(box.jira.home) >= len(self.pages):
-                # for dic in box.jira.home:
-                #         self.nam_finish_num += 1
-                #         title = dic['title']
-                #         result = dic['result']
-                #         time_str = dic['time']
-                #         self.load_to_ul(result, title, time_str, DOWNLOAD_MEMORY)
+                self.load_to_ul(lis, hp['title'], LOAD_DATABASE)
 
 
     def data_handler(self):
@@ -82,7 +80,6 @@ class HomeForm(QWidget, home_ui.Ui_Form):
 
         return sqlite.DBManager(DB_PATH)
 
-        # 初始化新闻更新时间段
 
     def netAccess(self, url, reply_func):
         m = QtNetwork.QNetworkAccessManager(self)
@@ -100,44 +97,41 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         m.get(req)
 
     def start_load_page(self):
-        self.netAccess(self.pages[0], self.on_one_reply)
+        self.netAccess(self.homepage[0]['url'], self.on_one_reply)
         # 这个网站加载速度较慢，所以单独来加载
-        self.netAccess(self.pages[2], self.on_three_reply)
+        self.netAccess(self.homepage[2]['url'], self.on_three_reply)
 
     def on_one_reply(self, reply):
-        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        title = u'领测软件测试网'
+        title = self.homepage[0]['title']
         if reply.error() == reply.NoError:
-            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+            self.load_to_ul(reply.readAll(), title, DOWNLOAD_SUCCESS)
             # 加载完成后，再次加载下一个页面
-            self.netAccess(self.pages[1], self.on_two_reply)
+            self.netAccess(self.homepage[1]['url'], self.on_two_reply)
         else:
-            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
+            self.load_to_ul('', title, DOWNLOAD_FAIL)
 
 
     def on_two_reply(self, reply):
-        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        title = u'TesterHome社区精华帖'
+        title = self.homepage[1]['title']
         if reply.error() == reply.NoError:
-            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+            self.load_to_ul(reply.readAll(), title, DOWNLOAD_SUCCESS)
         else:
-            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
+            self.load_to_ul('', title, DOWNLOAD_FAIL)
 
 
     def on_three_reply(self, reply):
-        time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-        title = u'互联网早读课'
+        title = self.homepage[2]['title']
         if reply.error() == reply.NoError:
-            time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            self.load_to_ul(reply.readAll(), title, time_str, DOWNLOAD_SUCCESS)
+            self.load_to_ul(reply.readAll(), title, DOWNLOAD_SUCCESS)
         else:
-            self.load_to_ul('', title, time_str, DOWNLOAD_FAIL)
+            self.load_to_ul('', title, DOWNLOAD_FAIL)
 
 
     def refresh_content(self, txt):
         # 初始化
         self.lbl_status.setText(u"Loading...")
-        box.jira.home = []
+        self.dbm = self.data_handler()
+        self.dbm.clean_table('News')
         self.nam_finish_num = 0
         # 清除原先加载的Label
         for i in reversed(range(0, self.hz_layout.count())):
@@ -160,7 +154,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         fileBrowser = browser.FileDialog(txt, 2, self.netAccessNoCookie)
         fileBrowser.exec_()
 
-    def load_to_ul(self, content, title, time_str, download_status):
+    def load_to_ul(self, content, title, download_status):
         lbl = QLabel()
         lbl.setAlignment(Qt.AlignTop)
         lbl.setStyleSheet("background-color:#ffffff;padding:20px 15px 0 15px;font-family:Microsoft YaHei")
@@ -173,7 +167,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
             result = self.parse_xml_to_db(title, content)
             lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
             # self.save_home_data(title, result, time_str)
-        elif download_status == DOWNLOAD_MEMORY:
+        elif download_status == LOAD_DATABASE:
             lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, content))
         elif download_status == DOWNLOAD_FAIL:
             lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, u'<li>加载失败</li>'))
@@ -184,20 +178,10 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # Label中的链接点击信号槽
         self.connect(lbl, SIGNAL('linkActivated (const QString&)'), self.open_file_browser)
         self.nam_finish_num += 1
-        if self.nam_finish_num >= len(self.pages):
-            self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
+        if self.nam_finish_num >= len(self.homepage):
+            self.lbl_status.setText(u"测试网站动态更新内容 [<a href='refresh()'>刷新</a>]")
             self.emit(SIGNAL("loading_finish()"))
             self.dbm.close_db()
-
-            # def save_home_data(self, title, result, time_str):
-            # res_dict = {}
-            # res_dict['title'] = title
-            # res_dict['result'] = result
-            #     res_dict['time'] = time_str
-            #     box.jira.home.append(res_dict)
-
-            # rr = re.compile(r'(?<=<li>).*?(?=</li>)')
-            # header = rr.findall(result)
 
 
     def parse_xml_to_db(self, cat, xml_string):
@@ -235,15 +219,8 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                 break
 
         self.dbm.insert_values("INSERT INTO News values (NULL,?,?,?,?)", datas)
-        # self.dbm.close_db()
         return lis
 
-    # def show_loading(self):
-    # self.loading_dlg = loading.LoadingDialog()
-    # self.loading_dlg.exec_()
-    #
-    # def loading_finish(self):
-    # self.loading_dlg.destroy()
 
     def netAccessNoCookie(self, api, reply_func):
         m = QtNetwork.QNetworkAccessManager(self)
@@ -262,13 +239,11 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         m.get(req)
 
     def get_time_stamp(self, time_str):
-        # return datetime.datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
         return time.mktime(time.strptime(time_str, '%Y-%m-%d %H:%M:%S.%f'))
 
     def get_recent_time(self):
-        time_ranges = ['2015-2-2 9:00:00.0', '2015-2-2 12:00:00.0', '2015-2-2 15:00:00.0', '2015-2-2 18:00:00.0']
         max_time_str = '2000-2-1 9:00:00.0'
-        for t in time_ranges:
+        for t in self.time_ranges:
             t1 = self.get_time_stamp(max_time_str) - time.time()
             t2 = self.get_time_stamp(t) - time.time()
 
@@ -284,6 +259,8 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         isRefresh = False
 
         d = dbm.fetchone('select * from News')
+        if d is None:
+            return True
         # 获取数据库最新的一条数据，与最近的时间段比较
         if (self.get_time_stamp(str(d[-1])) - self.get_recent_time()) < 0:
             isRefresh = True

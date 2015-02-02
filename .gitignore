@@ -8,6 +8,7 @@ __pycache__/
 #AutoDriver
 temporary/
 result/
+*.pdf
 *.html
 *.db
 *.apk

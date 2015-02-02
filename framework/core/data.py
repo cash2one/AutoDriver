@@ -337,7 +337,6 @@ class generateData():
             self.cursor.execute(sql)
             self.conn.commit()
         self.cursor.close()
-        self.close()
 
 
     def initData(self):
