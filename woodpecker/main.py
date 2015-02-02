@@ -60,7 +60,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.msg_btn_ok = QPushButton("OK")
         self.msg_btn_cancel = QPushButton("Cancel")
 
-        #self.load_index()
+        self.load_index()
 
     def save_task(self, arg):
         self.task_data += arg

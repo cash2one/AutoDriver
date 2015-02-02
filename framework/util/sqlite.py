@@ -144,23 +144,33 @@ class DBManager():
         else:
             return None
 
-    def fetchone(self, sql, data):
+    def fetchone(self, sql):
         '''查询一条数据'''
         if sql is not None and sql != '':
-            if data is not None:
-                #Do this instead
-                d = (data,)
-                cu = self.get_cursor()
-                cu.execute(sql, d)
-                r = cu.fetchall()
-                cu.close()
-                if len(r) > 0:
-                    for e in range(len(r)):
-                        print(r[e])
-            else:
-                print('the [{}] equal None!'.format(data))
+            cu = self.get_cursor()
+            cu.execute(sql)
+            return cu.fetchone()
         else:
-            print('the [{}] is empty or equal None!'.format(sql))
+            return None
+
+
+    # def fetchone(self, sql, data):
+    #     '''查询一条数据'''
+    #     if sql is not None and sql != '':
+    #         if data is not None:
+    #             #Do this instead
+    #             d = (data,)
+    #             cu = self.get_cursor()
+    #             cu.execute(sql, d)
+    #             r = cu.fetchall()
+    #             cu.close()
+    #             if len(r) > 0:
+    #                 for e in range(len(r)):
+    #                     print(r[e])
+    #         else:
+    #             print('the [{}] equal None!'.format(data))
+    #     else:
+    #         print('the [{}] is empty or equal None!'.format(sql))
 
     def update(self, sql, data):
         '''更新数据'''

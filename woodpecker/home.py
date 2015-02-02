@@ -3,8 +3,9 @@ __author__ = 'guguohai@outlook.com'
 
 import os
 import time
+import datetime
 import re
-from framework.core import box
+from framework.core import box, data
 from framework.util import sqlite
 
 from PyQt4.QtGui import *
@@ -13,6 +14,7 @@ from PyQt4 import QtNetwork
 
 from woodpecker.views import home_ui
 from woodpecker.dialog import browser
+from woodpecker.helpers import models
 
 
 PATH = lambda p: os.path.abspath(
@@ -22,6 +24,7 @@ PATH = lambda p: os.path.abspath(
 DOWNLOAD_SUCCESS = 0
 DOWNLOAD_MEMORY = 1
 DOWNLOAD_FAIL = 2
+DB_PATH = PATH('./wp.db')
 
 
 class HomeForm(QWidget, home_ui.Ui_Form):
@@ -29,7 +32,10 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         super(HomeForm, self).__init__()
 
         self.setupUi(self)
-        #self.nam = [self.netAccessNoCookie,self.netAccessNoCookie]#netAccess_method
+        # self.dbm = self.data_handler()
+
+        # self.nam = [self.netAccessNoCookie,self.netAccessNoCookie]#netAccess_method
+
         self.lbl_status.setText('Loading...')
         self.lbl_status.setFont(QFont("Microsoft YaHei", 11))
         self.connect(self.lbl_status, SIGNAL('linkActivated (const QString&)'), self.refresh_content)
@@ -42,24 +48,47 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                       'http://zaodula.com/feed')
         self.nam_finish_num = 0
 
-        if len(box.jira.home) >= len(self.pages):
-            for dic in box.jira.home:
-                self.nam_finish_num += 1
-                title = dic['title']
-                result = dic['result']
-                time_str = dic['time']
-                self.load_to_ul(result, title, time_str, DOWNLOAD_MEMORY)
-        else:
+        # 指定时间段刷新
+        self.dbm = self.data_handler()
+        if self.update_refresh_time(self.dbm):
+            self.dbm.clean_table('News')
             self.start_load_page()
+        else:
+            self.titles = [u'领测软件测试网', u'TesterHome社区精华帖', u'互联网早读课']
+            for t in self.titles:
+                news_ = self.dbm.fetchall('select * from News where Category="%s"' % t)
+                lis = ''
+                for new in news_:
+                    aStyle = 'text-decoration:none'
+                    liStyle = 'line-height:23px;'
+                    li = "<li style=%s><a href=%s style=%s>%s</a></li>" % (liStyle, new[3], aStyle, new[1])
+                    lis += li
+                self.load_to_ul(lis, t, '1111', DOWNLOAD_MEMORY)
 
-        print time.time()
+
+                # if len(box.jira.home) >= len(self.pages):
+                # for dic in box.jira.home:
+                #         self.nam_finish_num += 1
+                #         title = dic['title']
+                #         result = dic['result']
+                #         time_str = dic['time']
+                #         self.load_to_ul(result, title, time_str, DOWNLOAD_MEMORY)
+
+
+    def data_handler(self):
+        if not os.path.exists(DB_PATH):
+            db = data.generateData(DB_PATH)
+            db.init_table(models.sql())
+
+        return sqlite.DBManager(DB_PATH)
+
+        # 初始化新闻更新时间段
 
     def netAccess(self, url, reply_func):
         m = QtNetwork.QNetworkAccessManager(self)
         # m1.setCookieJar(ja.cookie)
         m.finished.connect(reply_func)
         req = QtNetwork.QNetworkRequest(QUrl(url))
-        # req.setRawHeader("Host", "www.nuihq.com")
         req.setRawHeader("User-Agent",
                          "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
         req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
@@ -140,14 +169,15 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # lbl.setOpenExternalLinks(True)#在浏览器中打开链接
 
         if download_status == DOWNLOAD_SUCCESS:
-            result = self.read_xml_feed(content)
+            # 解析xml，并存入数据库
+            result = self.parse_xml_to_db(title, content)
             lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, result))
-            self.save_home_data(title, result, time_str)
+            # self.save_home_data(title, result, time_str)
         elif download_status == DOWNLOAD_MEMORY:
             lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, content))
         elif download_status == DOWNLOAD_FAIL:
             lbl.setText(u"<h3>%s</h3><ul>%s</ul>" % (title, u'<li>加载失败</li>'))
-            self.save_home_data(title, u'<li>加载失败</li>', time_str)
+            # self.save_home_data(title, u'<li>加载失败</li>', time_str)
 
         self.hz_layout.addWidget(lbl)
 
@@ -157,17 +187,23 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         if self.nam_finish_num >= len(self.pages):
             self.lbl_status.setText(u"测试网站动态更新内容 %s [<a href='refresh()'>刷新</a>]" % time_str)
             self.emit(SIGNAL("loading_finish()"))
+            self.dbm.close_db()
 
-    def save_home_data(self, title, result, time_str):
-        res_dict = {}
-        res_dict['title'] = title
-        res_dict['result'] = result
-        res_dict['time'] = time_str
-        box.jira.home.append(res_dict)
+            # def save_home_data(self, title, result, time_str):
+            # res_dict = {}
+            # res_dict['title'] = title
+            # res_dict['result'] = result
+            #     res_dict['time'] = time_str
+            #     box.jira.home.append(res_dict)
+
+            # rr = re.compile(r'(?<=<li>).*?(?=</li>)')
+            # header = rr.findall(result)
 
 
-    def read_xml_feed(self, xml_string):
+    def parse_xml_to_db(self, cat, xml_string):
         from xml.etree import cElementTree
+
+        datas = []
 
         lis = ''
         per = cElementTree.fromstring(xml_string)
@@ -190,11 +226,16 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                         zd_index = txt.find(match.group())
                         txt = txt[0:zd_index]
 
+                data = (txt, cat, link, datetime.datetime.now())
+                datas.append(data)
                 li = "<li style=%s><a href=%s style=%s>%s</a></li>" % (liStyle, link, aStyle, txt)
                 lis += li
                 item_num += 1
             if item_num >= 15:
                 break
+
+        self.dbm.insert_values("INSERT INTO News values (NULL,?,?,?,?)", datas)
+        # self.dbm.close_db()
         return lis
 
     # def show_loading(self):
@@ -220,5 +261,33 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
         m.get(req)
 
+    def get_time_stamp(self, time_str):
+        # return datetime.datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
+        return time.mktime(time.strptime(time_str, '%Y-%m-%d %H:%M:%S.%f'))
+
+    def get_recent_time(self):
+        time_ranges = ['2015-2-2 9:00:00.0', '2015-2-2 12:00:00.0', '2015-2-2 15:00:00.0', '2015-2-2 18:00:00.0']
+        max_time_str = '2000-2-1 9:00:00.0'
+        for t in time_ranges:
+            t1 = self.get_time_stamp(max_time_str) - time.time()
+            t2 = self.get_time_stamp(t) - time.time()
+
+            if t2 < 0 and t1 < t2:
+                max_time_str = t
+
+        return self.get_time_stamp(max_time_str)
+
+    def update_refresh_time(self, dbm):
+        # d1 = datetime.datetime.now()
+        # d3 = d1 + datetime.timedelta(days=10)
+        # t3 = d1 - datetime.timedelta(minutes=30)
+        isRefresh = False
+
+        d = dbm.fetchone('select * from News')
+        # 获取数据库最新的一条数据，与最近的时间段比较
+        if (self.get_time_stamp(str(d[-1])) - self.get_recent_time()) < 0:
+            isRefresh = True
+
+        return isRefresh
 
 

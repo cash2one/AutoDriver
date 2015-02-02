@@ -26,7 +26,7 @@ def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
     box.db_path = 'report'+time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, box.db_path))
+    gdata = data.generateData(os.path.join(root_dir, box.db_path),PATH('./resource/xls/'))
     gdata.close()
 
 
