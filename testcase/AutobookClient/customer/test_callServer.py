@@ -13,25 +13,16 @@ class TestCase(unit.TestCase):
 
 
     def test_call_server(self):
-<<<<<<< .mine
         self.driver.wait_loading()
-=======
         '''
         拨打客服电话
         :return:
         '''
->>>>>>> .r12586
         current_activity = self.driver.current_activity
         #点击进入使用
-<<<<<<< .mine
         #self.driver.find_id('start_btn').click()
-=======
         # self.driver.find_id('start_btn').click()
-<<<<<<< .mine
->>>>>>> .r12354
-=======
         self.driver.wait_loading()
->>>>>>> .r12586
         #在附近司机界面点击联系客服
         self.driver.find_id('btn_call_server').click()
         self.driver.switch_to_alert()

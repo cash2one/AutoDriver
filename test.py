@@ -149,6 +149,9 @@ def get_localtime():
     x = time.localtime(1317091800.0)
     return time.strftime('%Y-%m-%d %H:%M:%S', x)
 
+def f_times(hour_):
+    a = datetime.datetime.now().strftime('%Y-%m-%d '+hour_+':00:00.0')
+    return time.mktime(time.strptime(a, '%Y-%m-%d %H:%M:%S.%f'))
 
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
@@ -177,28 +180,10 @@ if __name__ == "__main__":
     # d3 = d1 + datetime.timedelta(days=10)
     t3 = d1 - datetime.timedelta(minutes=30)
 
-    times = [{'date': '2015-2-2 9:00:00', 'update': False},
-             {'date': '2015-2-2 12:00:00', 'update': False},
-             {'date': '2015-2-2 15:00:00', 'update': False}]
+    #print datetime.datetime.now().strftime("%Y-%m-%d 09:00:00.0")
 
-    for t in times:
-        if (format_date(t['date']) - time.time()) > 0:
-            print 'ff'
-        else:
-            if not t['update']:
-                t['update'] = True
 
-    # print times
-
-    time_ranges = ['2015-2-2 9:00:00', '2015-2-2 12:00:00', '2015-2-2 15:00:00', '2015-2-2 18:00:00', '2015-2-2 22:00:00']
-
-    max_time_str = '2000-2-1 9:00:00'
-    for t in time_ranges:
-        t1 = format_date(max_time_str) - time.time()
-        t2 = format_date(t) - time.time()
-
-        if t2<0 and t1 < t2:
-            max_time_str = t
-
-    print max_time_str
-
+    for i in range(9, 18, 2):
+        sp=f_times(str(i))-time.time()
+        if sp<0:
+            print sp

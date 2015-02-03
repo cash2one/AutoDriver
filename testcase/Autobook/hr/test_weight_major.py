@@ -74,6 +74,7 @@ class TestCase(unit.TestCase):
         test_major=self.driver.find_element_by_id('detailVo_major')
         major=test_major.send_keys('')
         self.assertTrue(test_major.text=='',u'不存在指定字符串')
+        # 专业为空
 
 
 
@@ -82,8 +83,30 @@ class TestCase(unit.TestCase):
         major=self.driver.find_element_by_id('detailVo_major').get_attribute('value')
         time.sleep(1)
         self.assertTrue(major=='',u'不存在指定字符串')
+        # 专业输入特殊字符
 
 
 
     def test_major_letter(self):
         self.driver.find_element_by_id('detailVo_major').send_keys(u'abcde')
+        major=self.driver.find_element_by_id('detailVo_major').get_attribute('value')
+        time.sleep(1)
+        self.assertTrue(major=='abcde',u'不存在指定字符串')
+        # 专业输入字母
+
+
+
+    def test_major_num(self):
+        self.driver.find_element_by_id('detailVo_major').send_keys('123456')
+        major=self.driver.find_element_by_id('detailVo_major').get_attribute('value')
+        time.sleep(1)
+        self.assertTrue(major=='',u'不存在指定字符串')
+        # 专业输入数字
+
+
+
+    def test_ture(self):
+        self.driver.find_element_by_id('detailVo_major').send_keys(u'市场营销')
+        # 输入正确的专业
+
+

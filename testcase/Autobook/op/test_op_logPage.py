@@ -73,9 +73,9 @@ class TestCase(unit.TestCase):
         #跳转页数
         time.sleep(1)
         self.driver.find_class('ui-pg-input').send_keys("@@@" + self.driver.keys().RETURN)
+        test=self.driver.find_class('ui-pg-input').get_attribute('value')
+        self.assertEqual(test,'1',u'没有这个字符')
 
-
-    #输入超长字符
     def test_InputCharacter(self):
         '''
         在跳转至文本框中输入超长字符,系统限制输入
@@ -87,4 +87,10 @@ class TestCase(unit.TestCase):
         self.driver.find_element_by_link_text(u'接口访问日志').click()
         #跳转页数
         time.sleep(1)
+        se=self.driver.find_element_by_id('sp_1_pager').text
         self.driver.find_class('ui-pg-input').send_keys("11111111111" + self.driver.keys().RETURN)
+        time.sleep(5)
+        value=self.driver.find_class('ui-pg-input').get_attribute('value')
+
+        self.assertEqual(value,se,u'没有这个字符')
+

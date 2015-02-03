@@ -50,10 +50,6 @@ class HomeForm(QWidget, home_ui.Ui_Form):
                          {'title': u'TesterHome社区精华帖', 'url': 'http://testerhome.com/topics/feedgood'},
                          {'title': u'互联网早读课', 'url': 'http://zaodula.com/feed'}]
 
-        # 新闻更新时间段，这个时间段内已经更新过，则只能通过点击刷新加载
-        self.time_ranges = ['2015-2-2 9:00:00.0', '2015-2-2 11:00:00.0', '2015-2-2 13:00:00.0', '2015-2-2 15:00:00.0',
-                            '2015-2-2 17:00:00.0']
-
         self.nam_finish_num = 0  # 页面加载累加次数
 
         # 指定时间段刷新
@@ -151,7 +147,7 @@ class HomeForm(QWidget, home_ui.Ui_Form):
 
 
     def open_file_browser(self, txt):
-        fileBrowser = browser.FileDialog(txt, 2, self.netAccessNoCookie)
+        fileBrowser = browser.FileDialog(txt, 2, self.netAccess)
         fileBrowser.exec_()
 
     def load_to_ul(self, content, title, download_status):
@@ -222,49 +218,29 @@ class HomeForm(QWidget, home_ui.Ui_Form):
         return lis
 
 
-    def netAccessNoCookie(self, api, reply_func):
-        m = QtNetwork.QNetworkAccessManager(self)
-        # m1.setCookieJar(ja.cookie)
-        m.finished.connect(reply_func)
-        req = QtNetwork.QNetworkRequest(QUrl(api))
-        # req.setRawHeader("Host", "www.nuihq.com")
-        req.setRawHeader("User-Agent",
-                         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36")
-        req.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-        req.setRawHeader("Accept-Language", "en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4")
-        # req.setRawHeader("Accept-Encoding", "deflate")
-        # req.setRawHeader("Accept-Charset", "utf-8;q=0.7,*;q=0.7")
-        # req.setRawHeader("Connection", "keep-alive")
-        # req.setRawHeader("Accept-Encoding", "gzip, deflate, sdch")
-        m.get(req)
-
-    def get_time_stamp(self, time_str):
-        return time.mktime(time.strptime(time_str, '%Y-%m-%d %H:%M:%S.%f'))
-
-    def get_recent_time(self):
-        max_time_str = '2000-2-1 9:00:00.0'
-        for t in self.time_ranges:
-            t1 = self.get_time_stamp(max_time_str) - time.time()
-            t2 = self.get_time_stamp(t) - time.time()
-
-            if t2 < 0 and t1 < t2:
-                max_time_str = t
-
-        return self.get_time_stamp(max_time_str)
-
     def update_refresh_time(self, dbm):
-        # d1 = datetime.datetime.now()
-        # d3 = d1 + datetime.timedelta(days=10)
-        # t3 = d1 - datetime.timedelta(minutes=30)
         isRefresh = False
 
         d = dbm.fetchone('select * from News')
         if d is None:
             return True
-        # 获取数据库最新的一条数据，与最近的时间段比较
-        if (self.get_time_stamp(str(d[-1])) - self.get_recent_time()) < 0:
-            isRefresh = True
+
+        for i in range(9, 18, 2):
+            update_first_time = self.get_time_stamp(str(d[-1]))
+            time_span = self.f_times(str(i)) - update_first_time
+            print time_span
+            # 定义的时间段 与数据库更新记录相差大于2小时
+            if time_span < -7200:
+                isRefresh = True
+                # break
 
         return isRefresh
 
+    def f_times(self, hour_):
+        a = datetime.datetime.now().strftime('%Y-%m-%d ' + hour_ + ':00:00.0')
+        return time.mktime(time.strptime(a, '%Y-%m-%d %H:%M:%S.%f'))
+        # return datetime.datetime.strptime(a, "%Y-%m-%d %H:%M:%S.%f")
+        # print b + datetime.timedelta(hours=2)
 
+    def get_time_stamp(self, time_str):
+        return time.mktime(time.strptime(time_str, '%Y-%m-%d %H:%M:%S.%f'))
