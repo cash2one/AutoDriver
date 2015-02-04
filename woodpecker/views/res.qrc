@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="toolbars">
+    <file>res/wand.png</file>
     <file>res/table_sheet.png</file>
     <file>res/life.png</file>
     <file>res/interface.png</file>

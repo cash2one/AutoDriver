@@ -13,9 +13,7 @@ from woodpecker.dialog import monitor, new_issue, car_service
 import task
 import jiras
 import api_test
-import testcase
-import login
-import home
+import testcase,login,home,recording
 
 
 ja = box.jira
@@ -48,6 +46,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.toolbar_interface.triggered.connect(self.show_interface)
         self.toolbar_monitor.triggered.connect(self.show_monitor)
         self.toolbar_car.triggered.connect(self.show_car_service)
+        self.toolbar_script.triggered.connect(self.show_recording)
 
         # 显示托盘信息
         self.trayIcon = QSystemTrayIcon(self)
@@ -60,7 +59,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.msg_btn_ok = QPushButton("OK")
         self.msg_btn_cancel = QPushButton("Cancel")
 
-        self.load_index()
+        #self.load_index()
 
     def save_task(self, arg):
         self.task_data += arg
@@ -191,6 +190,10 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
     def show_interface(self):
         interfaceDlg = api_test.InterfaceForm()
         self.setCentralWidget(interfaceDlg)
+
+    def show_recording(self):
+        record = recording.RecordingForm()
+        self.setCentralWidget(record)
 
     def show_car_service(self):
         dlg_car = car_service.CarServiceDialog()

@@ -99,6 +99,7 @@
    <addaction name="toolbar_monitor"/>
    <addaction name="toolbar_interface"/>
    <addaction name="toolbar_car"/>
+   <addaction name="toolbar_script"/>
   </widget>
   <action name="menu_save">
    <property name="text">
@@ -211,6 +212,15 @@
    </property>
    <property name="text">
     <string>行车助手</string>
+   </property>
+  </action>
+  <action name="toolbar_script">
+   <property name="icon">
+    <iconset resource="../res.qrc">
+     <normaloff>:/toolbars/res/wand.png</normaloff>:/toolbars/res/wand.png</iconset>
+   </property>
+   <property name="text">
+    <string>脚本录制</string>
    </property>
   </action>
  </widget>
