@@ -13,7 +13,7 @@ from woodpecker.dialog import monitor, new_issue, car_service
 import task
 import jiras
 import api_test
-import testcase,login,home,recording
+import testcase,login,home,devices
 
 
 ja = box.jira
@@ -192,7 +192,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.setCentralWidget(interfaceDlg)
 
     def show_recording(self):
-        record = recording.RecordingForm()
+        record = devices.RecordingForm()
         self.setCentralWidget(record)
 
     def show_car_service(self):

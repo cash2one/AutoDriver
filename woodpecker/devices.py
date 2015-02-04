@@ -33,7 +33,7 @@ class RecordingForm(QWidget, recording_ui.Ui_Form):
     def screenshot(self):
         self.img_label = label_btn.LabelButton()
         self.img_label.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
-        # self.connect(self.img_label, SIGNAL("doubleClicked()"), self.restore_image_event)
+        self.connect(self.img_label, SIGNAL("clicked"), self.handler_devices)
 
         adb = utils.ADB()
         img = image.ImageUtils()
@@ -72,3 +72,6 @@ class RecordingForm(QWidget, recording_ui.Ui_Form):
         p_img = png.scaled(picSize, Qt.KeepAspectRatio)
         print p_img.width(), p_img.height()
         return p_img
+
+    def handler_devices(self,*args):
+        print args
