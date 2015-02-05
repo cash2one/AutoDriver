@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './src/recording.ui'
 #
-# Created: Thu Feb 05 18:41:19 2015
+# Created: Thu Feb 05 21:55:50 2015
 #      by: PyQt4 UI code generator 4.11.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,6 +40,15 @@ class Ui_Form(object):
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem1)
+        self.horizontalLayout_4 = QtGui.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
+        self.txt_ip_addr = QtGui.QLineEdit(Form)
+        self.txt_ip_addr.setObjectName(_fromUtf8("txt_ip_addr"))
+        self.horizontalLayout_4.addWidget(self.txt_ip_addr)
+        self.btn_connect = QtGui.QPushButton(Form)
+        self.btn_connect.setObjectName(_fromUtf8("btn_connect"))
+        self.horizontalLayout_4.addWidget(self.btn_connect)
+        self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.btn_menu = QtGui.QPushButton(Form)
@@ -91,6 +100,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "Form", None))
+        self.btn_connect.setText(_translate("Form", "连接", None))
         self.btn_menu.setText(_translate("Form", "Menu", None))
         self.btn_home.setText(_translate("Form", "Home", None))
         self.btn_back.setText(_translate("Form", "Back", None))

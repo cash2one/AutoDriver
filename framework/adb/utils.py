@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding=utf-8
+# coding=utf-8
 
 import os
 import platform
@@ -29,17 +29,20 @@ else:
 #adb命令
 def adb(args):
     return os.popen(command + " " + str(args))
+
+
 #adb shell命令
 def shell(args):
     return os.popen(command + " shell " + str(args))
 
 
 class ADB(object):
-
-    def __init__(self):
+    def __init__(self, ip_addr=''):
         """
         等待连接上设备或模拟器
         """
+        if len(ip_addr) > 0:
+            adb("adb connect %s" % ip_addr)
         adb("wait-for-device")
 
     def getDeviceState(self):
@@ -63,7 +66,7 @@ class ADB(object):
         """
         if system is "Windows":
             string = shell("ps | findstr " + packageName + "$").read()
-        
+
         string = shell("ps | grep -w " + packageName).read()
 
         if string == '':
@@ -73,7 +76,7 @@ class ADB(object):
         result = string.split(" ")
         result.remove(result[0])
 
-        return  pattern.findall(" ".join(result))[0]
+        return pattern.findall(" ".join(result))[0]
 
     def killProcess(self, pid):
         """
@@ -115,6 +118,7 @@ class ADB(object):
         获取当前运行应用的activity
         """
         return self.getFocusedPackageAndActivity().split("/")[-1]
+
     def getBatteryLevel(self):
         """
         获取电池电量
@@ -132,11 +136,11 @@ class ADB(object):
         BATTERY_STATUS_NOT_CHARGING：未充电
         BATTERY_STATUS_FULL: 充电已满
         """
-        statusDict = {1 : "BATTERY_STATUS_UNKNOWN",
-                      2 : "BATTERY_STATUS_CHARGING",
-                      3 : "BATTERY_STATUS_DISCHARGING",
-                      4 : "BATTERY_STATUS_NOT_CHARGING",
-                      5 : "BATTERY_STATUS_FULL"}
+        statusDict = {1: "BATTERY_STATUS_UNKNOWN",
+                      2: "BATTERY_STATUS_CHARGING",
+                      3: "BATTERY_STATUS_DISCHARGING",
+                      4: "BATTERY_STATUS_NOT_CHARGING",
+                      5: "BATTERY_STATUS_FULL"}
         status = shell("dumpsys battery | " + find_util + " status").read().split(": ")[-1]
 
         return statusDict[int(status)]
@@ -171,10 +175,12 @@ class ADB(object):
         """
         adb("reboot bootloader")
 
+
 class AppInfo(object):
     """
     获取部分app信息
     """
+
     def __init__(self):
         pass
 
@@ -214,7 +220,7 @@ class AppInfo(object):
         获取启动应用所花时间
         usage: getAppStartTotalTime("com.android.settings/.Settings")
         """
-        time = shell("am start -W " + component + " | " + find_util +" TotalTime") \
+        time = shell("am start -W " + component + " | " + find_util + " TotalTime") \
             .read().split(": ")[-1]
         return int(time)
 
@@ -314,12 +320,12 @@ class Action(object):
         触摸事件
         usage: touch(e), touch(x=0.5,y=0.5)
         """
-        if(e != None):
+        if (e != None):
             x = e[0]
             y = e[1]
-        if(0< x < 1):
+        if (0 < x < 1):
             x = x * self.width
-        if(0<y<1):
+        if (0 < y < 1):
             y = y * self.high
 
         shell("input tap " + str(x) + " " + str(y))
@@ -339,7 +345,7 @@ class Action(object):
         - ratioHigh -: high占比, 0<ratioHigh<1
         usage: touchByRatio(0.5, 0.5) 点击屏幕中心位置
         """
-        shell("input tap "+ str(ratioWidth * self.width) + " " + str(ratioHigh * self.high))
+        shell("input tap " + str(ratioWidth * self.width) + " " + str(ratioHigh * self.high))
 
     def touchByPos(self, x, y):
         """
@@ -349,10 +355,10 @@ class Action(object):
         - ratioHigh -: high占比, 0<ratioHigh<1
         usage: touchByRatio(0.5, 0.5) 点击屏幕中心位置
         """
-        shell("input tap "+ str(x) + " " + str(y))
+        shell("input tap " + str(x) + " " + str(y))
 
 
-    def swipeByCoord(self, start_x, start_y, end_x, end_y, duration = " "):
+    def swipeByCoord(self, start_x, start_y, end_x, end_y, duration=" "):
         """
         滑动事件，Android 4.4以上可选duration(ms)
         usage: swipe(800, 500, 200, 500)
@@ -367,32 +373,32 @@ class Action(object):
                swipe(e1, end_x=200, end_y=500)
                swipe(start_x=0.5, start_y=0.5, e2)
         """
-        if(e1 != None):
+        if (e1 != None):
             start_x = e1[0]
             start_y = e1[1]
-        if(e2 != None):
+        if (e2 != None):
             end_x = e2[0]
             end_y = e2[1]
-        if(0< start_x < 1):
+        if (0 < start_x < 1):
             start_x = start_x * self.width
-        if(0<start_y<1):
+        if (0 < start_y < 1):
             start_y = start_y * self.high
-        if(0<end_x<1):
+        if (0 < end_x < 1):
             end_x = end_x * self.width
-        if(0<end_y<1):
+        if (0 < end_y < 1):
             end_y = end_y * self.high
 
         shell("input swipe " + str(start_x) + " " + str(start_y) + \
               " " + str(end_x) + " " + str(end_y) + " " + str(duration))
 
-    def swipeByRatio(self, start_ratioWidth, start_ratioHigh, end_ratioWidth, end_ratioHigh, duration = " "):
+    def swipeByRatio(self, start_ratioWidth, start_ratioHigh, end_ratioWidth, end_ratioHigh, duration=" "):
         """
         通过比例发送滑动事件，Android 4.4以上可选duration(ms)
         usage: swipeByRatio(0.9, 0.5, 0.1, 0.5) 左滑
         """
         shell("input swipe " + str(start_ratioWidth * self.width) + " " + str(start_ratioHigh * self.high) + \
-              " " + str(end_ratioWidth * self.width) + " " + str(end_ratioHigh * self.high) + " " +\
-             str(duration))
+              " " + str(end_ratioWidth * self.width) + " " + str(end_ratioHigh * self.high) + " " + \
+              str(duration))
 
     def swipeToLeft(self):
         """
@@ -430,7 +436,7 @@ class Action(object):
         """
        长按元素, Android 4.4
         """
-        shell("input swipe " + str(e[0]) + " " + str(e[1]) + " "  + str(e[0]) + " " + str(e[1]) + str(2000))
+        shell("input swipe " + str(e[0]) + " " + str(e[1]) + " " + str(e[0]) + " " + str(e[1]) + str(2000))
 
     def longPressByRatio(self, ratioWidth, ratioHigh):
         """
