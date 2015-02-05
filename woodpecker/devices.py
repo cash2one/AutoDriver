@@ -79,7 +79,7 @@ class RecordingForm(QWidget, recording_ui.Ui_Form):
 
     def handler_devices(self, event):
         self.action.touchByPos(event.x() * 2, event.y() * 2)
-        self.txt_info.setText(str(event.x() * 2)+','+str(event.y() * 2))
+        #self.txt_info.setText(str(event.x() * 2)+','+str(event.y() * 2))
         self.screenshot()
 
     def action_home(self):
