@@ -33,23 +33,14 @@ class Element(object):
 
 
     def element_tree(self):
-        """
-        同属性单个元素，返回单个坐标元组，(x, y)
-        :args:
-        - attrib - node节点中某个属性
-        - name - node节点中某个属性对应的值
-        """
-        Xpoint = None
-        Ypoint = None
-
         element_list = []
 
         self.__uidump()
         tree = ET.ElementTree(file=PATH(self.tempFile + "/uidump.xml"))
         treeIter = tree.iter(tag="node")
         for ti in treeIter:
-            #print ti.attrib["bounds"]
-            element_list.append((ti.attrib['text'], ti.attrib['resource-id'], ti.attrib['class'], ti.attrib["bounds"]))
+            # print ti.attrib["bounds"]
+            element_list.append((ti.attrib['resource-id'], ti.attrib['class'], ti.attrib['text'], ti.attrib["bounds"]))
             #return treeIter
         return element_list
 
@@ -68,7 +59,7 @@ class Element(object):
         treeIter = tree.iter(tag="node")
         for elem in treeIter:
             if elem.attrib[attrib] == name:
-                #获取元素所占区域坐标[x, y][x, y]
+                # 获取元素所占区域坐标[x, y][x, y]
                 bounds = elem.attrib["bounds"]
 
                 #通过正则获取坐标列表
@@ -99,7 +90,7 @@ class Element(object):
                 Xpoint = (int(coord[2]) - int(coord[0])) / 2.0 + int(coord[0])
                 Ypoint = (int(coord[3]) - int(coord[1])) / 2.0 + int(coord[1])
 
-                #将匹配的元素区域的中心点添加进pointList中
+                # 将匹配的元素区域的中心点添加进pointList中
                 pointList.append((Xpoint, Ypoint))
 
         return pointList

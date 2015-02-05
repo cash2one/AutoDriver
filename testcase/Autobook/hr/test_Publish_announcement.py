@@ -103,7 +103,7 @@ class TestCase(unit.TestCase):
        self.assertTrue(u'代驾租车' in tittx,u'输入内容错误')
        contx=self.driver.find_element_by_id('content').get_attribute('value')
        self.assertTrue(u'代驾租车是由出租方提供车辆及驾驶人员的汽车租赁方式。' in contx,u'输入内容错误')
-       # 点击取消按钮
+       # 点击确定按钮
        self.driver.find_element_by_id('noticeSubmit').click()
        self.assertTrue(u'发布公告' in self.driver.title,u'界面跳转错误')
     # 取消

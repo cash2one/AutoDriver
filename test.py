@@ -153,6 +153,9 @@ def f_times(hour_):
     a = datetime.datetime.now().strftime('%Y-%m-%d '+hour_+':00:00.0')
     return time.mktime(time.strptime(a, '%Y-%m-%d %H:%M:%S.%f'))
 
+def aaa(ab,cd=''):
+    print cd,'---'
+
 if __name__ == "__main__":
     # a = [[0]*8 for i in range(10)]
     #
@@ -174,16 +177,4 @@ if __name__ == "__main__":
     # x = map(lambda s: s.strip(), x)
     # print x
     # #(r'>(?:<a [^<>]*colspan=(\w+)[^<>]*>)?([^<>]*)(?:</p>)?</td>', trs, re.DOTALL)#
-    import datetime
-
-    d1 = datetime.datetime.now()
-    # d3 = d1 + datetime.timedelta(days=10)
-    t3 = d1 - datetime.timedelta(minutes=30)
-
-    #print datetime.datetime.now().strftime("%Y-%m-%d 09:00:00.0")
-
-
-    for i in range(9, 18, 2):
-        sp=f_times(str(i))-time.time()
-        if sp<0:
-            print sp
+    aaa('fff')

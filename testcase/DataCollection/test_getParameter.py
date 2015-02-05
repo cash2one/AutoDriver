@@ -20,7 +20,9 @@ class TestCase(unit.TestCase):
             ('ats', 'ATS'), ('atsl', 'ATSL'), ('cts', 'CTS'), ('coupe', 'COUPE'), ('vcts', 'VCTS'),
             ('vcoupe', 'VCOUPE'), ('xts', 'XTS'), ('srx', 'SRX'), ('escalade', 'Escalade'),
             ('esv', 'Escalade-esv'))
-
+        #http://t3.pro-trend.com.cn/New_web/ATS_enjoy/facade_1.jpg ATS
+        #http://t3.pro-trend.com.cn/New_web/mainbody/xts/facade_1.jpg XTS
+        #http://t3.pro-trend.com.cn/New_web/mainbody/vcts/facade_1.jpg CTS-V
         self.cdi_url = 'http://www.cadillac.com.cn/public_parameter.html?model='
 
         self.wbk = xlwt.Workbook(encoding='utf-8', style_compression=0)
@@ -38,8 +40,8 @@ class TestCase(unit.TestCase):
 
     def test_cadillac(self):
         # setUp self.app() 时,已经预先访问了drops[0]
-        self.sheet = self.wbk.add_sheet(self.cars[0][1], cell_overwrite_ok=True)
-        self.find_one()
+        # self.sheet = self.wbk.add_sheet(self.cars[0][1], cell_overwrite_ok=True)
+        # self.find_one()
 
         lis = self.driver.find_class('tag_options').find_tags('li')
         for i in range(1, len(lis)):

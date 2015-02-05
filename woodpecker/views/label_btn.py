@@ -22,7 +22,7 @@ class LabelButton(QLabel):
     def mousePressEvent(self, event):
         # print 'Press:',event.type()
         if event.button() == Qt.LeftButton:
-            self.emit(SIGNAL('clicked()'))
+            self.emit(SIGNAL('my_click'),event)
 
     def leaveEvent(self, *args, **kwargs):
         pass

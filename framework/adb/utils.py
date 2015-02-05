@@ -341,6 +341,16 @@ class Action(object):
         """
         shell("input tap "+ str(ratioWidth * self.width) + " " + str(ratioHigh * self.high))
 
+    def touchByPos(self, x, y):
+        """
+        通过比例发送触摸事件
+        args:
+        - ratioWidth -:width占比, 0<ratioWidth<1
+        - ratioHigh -: high占比, 0<ratioHigh<1
+        usage: touchByRatio(0.5, 0.5) 点击屏幕中心位置
+        """
+        shell("input tap "+ str(x) + " " + str(y))
+
 
     def swipeByCoord(self, start_x, start_y, end_x, end_y, duration = " "):
         """

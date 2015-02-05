@@ -17,7 +17,7 @@ class TestCase(unit.TestCase):
         self.driver.switch_to_home()
         # 关闭浏览器
         # self.driver.close()
-    def test_setting_reset(self):
+    def test_driver_reset(self):
        '''
         对比总条数是否一致，一致输出"正确",否则输出"错误"
        :return:
@@ -40,4 +40,31 @@ class TestCase(unit.TestCase):
        else:
            print '错误'
        time.sleep(2)
+       #关闭司机列表
        self.driver.find_element_by_xpath('//*[@id="xubox_layer1"]/div[1]/span[1]/a').click()
+
+    def test_sort(self):
+       '''
+        对比总条数是否一致，一致输出"正确",否则输出"错误"
+       :return:
+       '''
+       self.driver.find_element_by_link_text(u'司机管理').click()
+       addtx=self.driver.find_element_by_id('release').text
+       self.assertTrue(u'发布公告' in addtx,u'与对比值不一致')
+       self.driver.find_element_by_id('release').click()
+       nutx=self.driver.find_element_by_id('number').text
+       print nutx
+       self.driver.find_element_by_link_text(u'查看司机').click()
+       self.driver.switch_to_alert()
+       #点击姓名排序
+       self.driver.find_element_by_id('jqgh_list2_name').click()
+       #点击工号排序
+       self.driver.find_element_by_id('jqgh_list2_no').click()
+       #点击电话排序
+       self.driver.find_element_by_id('jqgh_list2_phone').click()
+       #点击状态排序
+       self.driver.find_element_by_id('list2_state').click()
+
+
+
+
