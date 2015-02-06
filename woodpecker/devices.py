@@ -95,6 +95,7 @@ class RecordingForm(QWidget, recording_ui.Ui_Form):
         ss = self.scale_size
         print event.x(), ss[0]
         self.action.touchByPos(event.x() * ss[0], event.y() * ss[1])
+        print self.img_label.height(),self.height(),self.txt_elements.height()
 
     def action_home(self):
         self.action.sendKeyEvent(keycode.HOME)
