@@ -22,7 +22,11 @@ class IOS(WebDriver):
         desired_caps = {
             'deviceName': self.settings['device_name'],
             'platformName': self.settings['platform_name'],  # 'iOS',
+            'platformVersion':self.settings['platform_version'],
             'app': PATH('../../resource/app/' + self.settings['app']),
+
+            # 'bundleId': 'umeng.SocialDemo',
+            # 'udid': 'a9fff175c8746c64907612c7329bc33a95ff97e8',
         }
 
         browser_profile = None
