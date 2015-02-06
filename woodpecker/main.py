@@ -192,7 +192,7 @@ class MainWindow(QMainWindow, main_ui.Ui_MainWindow):
         self.setCentralWidget(interfaceDlg)
 
     def show_recording(self):
-        record = devices.RecordingForm()
+        record = devices.RecordingForm(self.height())
         self.setCentralWidget(record)
 
     def show_car_service(self):

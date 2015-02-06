@@ -19,7 +19,7 @@ PATH = lambda p: os.path.abspath(
 
 
 class RecordingForm(QWidget, recording_ui.Ui_Form):
-    def __init__(self):
+    def __init__(self,parent_size):
         super(RecordingForm, self).__init__()
 
         self.setupUi(self)
@@ -35,9 +35,11 @@ class RecordingForm(QWidget, recording_ui.Ui_Form):
         self.img_label.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
 
         self.con_heihgt = self.height() - self.txt_elements.height() - 18
+        print self.con_heihgt,'self.height():',self.height(),'txt_elements:',self.txt_elements.height(),'init----'
         self.img_label.setMinimumHeight(self.con_heihgt)
         self.img_label.setMaximumHeight(self.con_heihgt)
         self.img_layout.addWidget(self.img_label)
+        print self.parent()
 
 
     def connect_device(self):
@@ -87,6 +89,7 @@ class RecordingForm(QWidget, recording_ui.Ui_Form):
         # self.txt_elements.setText(txt_eles)
 
     def resize_image(self, png, height_):
+        print height_,'ffffffffff'
         picSize = QSize(height_, height_)
         p_img = png.scaled(picSize, Qt.KeepAspectRatio)
         return p_img
