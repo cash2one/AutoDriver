@@ -7,7 +7,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from woodpecker.views import recording_ui
 from framework.adb import element as ele
-from framework.adb import utils
+from framework.adb import client
 from framework.adb import image
 from framework.adb import keycode
 from woodpecker.views import label_btn
@@ -42,9 +42,9 @@ class RecordingForm(QWidget, recording_ui.Ui_Form):
 
     def connect_device(self):
         ip_addr = self.txt_ip_addr.text()
-        self.adb = utils.ADB(str(ip_addr.trimmed()))
+        self.adb = client.AdbClient(str(ip_addr.trimmed()))
         self.img = image.ImageUtils()
-        self.action = utils.Action()
+        self.action = client.Action()
         self.element = ele.Element()
         png_width, png_height = self.screenshot()
 

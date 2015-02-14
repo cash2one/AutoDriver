@@ -9,7 +9,7 @@ import keycode
 
 PATH = lambda p: os.path.abspath(p)
 
-#判断系统类型，windows使用findstr，linux使用grep
+# 判断系统类型，windows使用findstr，linux使用grep
 system = platform.system()
 if system is "Windows":
     find_util = "findstr"
@@ -36,7 +36,7 @@ def shell(args):
     return os.popen(command + " shell " + str(args))
 
 
-class ADB(object):
+class AdbClient(object):
     def __init__(self, ip_addr=''):
         """
         等待连接上设备或模拟器
@@ -265,15 +265,15 @@ class AppInfo(object):
         """
         重置当前应用
         """
-        packageName = ADB().getCurrentPackageName()
-        component = ADB().getFocusedPackageAndActivity()
+        packageName = AdbClient().getCurrentPackageName()
+        component = AdbClient().getFocusedPackageAndActivity()
         self.clearAppData(packageName)
         Action().startActivity(component)
 
 
 class Action(object):
     def __init__(self):
-        self.display = ADB().getScreenResolution()
+        self.display = AdbClient().getScreenResolution()
         self.width = self.display[0]
         self.high = self.display[1]
 
@@ -460,3 +460,18 @@ class Action(object):
             shell("input text " + out[i])
             if i != length - 1:
                 self.sendKeyEvent(keycode.SPACE)
+
+
+# class KeyCode():
+#     def __init__(self):
+#         self.POWER = 26
+#         self.BACK = 4
+#         self.HOME = 3
+#         self.MENU = 82
+#         self.VOLUME_UP = 24
+#         self.VOLUME_DOWN = 25
+#         self.SPACE = 62
+#         self.BACKSPACE = 67
+#         self.ENTER = 66
+#         self.MOVE_HOME = 122
+#         self.MOVE_END = 123
