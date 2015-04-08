@@ -5,7 +5,7 @@ import os
 from framework.core import box
 from framework.util import const, fs
 import unittest
-from unittest import util as unitutil
+#from unittest import util as unitutil
 import inspect
 
 PATH = lambda p: os.path.abspath(
@@ -17,7 +17,7 @@ class TestCase(unittest.TestCase):
     def __init__(self, methodName='runTest'):
         super(TestCase, self).__init__(methodName)
 
-    def app(self, file_):
+    def app(self, file_=''):
         '''
         初始化用例，装载容器
         :param test_case_file:
@@ -30,6 +30,7 @@ class TestCase(unittest.TestCase):
 
         init_size = len(PATH('../../testcase')) + 1
 
+        #获取项目路径
         tar_path = os.path.dirname(inspect.stack()[1][1])  # file_)
         section = tar_path[init_size:len(tar_path)].replace(os.sep, '_')
 
