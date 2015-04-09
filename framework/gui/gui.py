@@ -5,7 +5,7 @@ from Tkinter import *
 import tkFont
 import tkMessageBox
 import os
-from PIL import ImageTk, Image
+# from PIL import ImageTk, Image
 
 
 def close_window(window):
@@ -167,7 +167,7 @@ class MainWin():
         frame1 = Frame()
         frame1.pack(fill=BOTH, expand=1)
 
-        self.listbox_left = Listbox(frame1, width=30,selectmode = EXTENDED)
+        self.listbox_left = Listbox(frame1, width=30, selectmode=EXTENDED)
         self.listbox_left.pack(side=LEFT, fill=Y)
         for d in ['张三', '李四', '王五', '赵六', '前期', '无法', '问sass']:
             self.listbox_left.insert(END, d)
@@ -196,9 +196,9 @@ class MainWin():
 
     def move_right(self):
         #print self.listbox_left.selection_set(0,3)
-        sel_tup= self.listbox_left.curselection()
+        sel_tup = self.listbox_left.curselection()
         for st in sel_tup:
-            self.listbox_right.insert(END,self.listbox_left.get(int(st)))
+            self.listbox_right.insert(END, self.listbox_left.get(int(st)))
             self.listbox_left.delete(int(st))
 
     def set_window_center(self, w, h):
@@ -216,8 +216,9 @@ class MainWin():
 
 
 if __name__ == '__main__':
-    # main()
-    # my_window = MyWindow()
-    m = MainWin()
-    m.show()
+    import app
+
+    root = Tk()
+    ap = app.Application(root)
+    ap.mainloop()
 
