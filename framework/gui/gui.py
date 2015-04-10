@@ -3,6 +3,7 @@ __author__ = 'ggh'
 
 from Tkinter import *
 import tkFont
+import ttk
 import tkMessageBox
 import os
 # from PIL import ImageTk, Image
@@ -143,7 +144,7 @@ class MyWindow():
         message_frame.frame.grid(row=2, columnspan=2, pady=5, sticky=S + N + E + W)
         # message_frame.frame.grid_forget()
 
-        #create button
+        # create button
         self.open_button = Button(self.root, text="OPEN", font=self.button_ft, pady=10,
                                   width=10, borderwidth=2, bg="#F3E9CC", command=lambda: manage_wifi(1, message_frame))
         self.open_button.grid(row=1, column=0)
@@ -152,25 +153,65 @@ class MyWindow():
                                    width=10, borderwidth=2, bg="#F3E9CC", command=lambda: manage_wifi(0, message_frame))
         self.close_button.grid(row=1, column=1)
 
-        #prompt when user close the window
+        # prompt when user close the window
         self.root.protocol('WM_DELETE_WINDOW', lambda: close_window(self.root))
         self.root.mainloop()
 
 
+class Select(Frame):
+    def __init__(self, master=None):
+        Frame.__init__(self, master)
+        self.label = Label(self, text="选择项目")
+        self.listBox = Listbox(self, height=1)
+        self.button = Button(self, text='V', command=self.triggle)
+        self.hideList = True
+        for i in xrange(10):
+            self.listBox.insert(i, 'Item%d' % i)
+        self.label.grid(row=0, column=0, sticky=N)
+        self.listBox.grid(row=0, column=1, sticky=N)
+        self.button.grid(row=0, column=2, sticky=N)
+        self.grid()
+
+    def triggle(self):
+        self.hideList ^= 1
+        self.listBox.config(height=[self.listBox.size(), 1][self.hideList])
+
+
 class MainWin():
-    def __init__(self):
+    def __init__(self, case_data):
         self.root = Tk()
         self.root.title("AutoDriver")
         self.set_window_center(900, 600)
+        self.case_data = case_data
+        self.current_folder = ''
+
+    def load_data_box(self, parent):
+        self.listbox_left = Listbox(parent, width=30, selectmode=EXTENDED)
+        self.listbox_left.pack(side=LEFT, fill=Y)
+        if self.case_data != None:
+            for d in self.case_data:
+                self.listbox_left.insert(END, d)
+
+    def test_a(self, val):
+        tagval = self.tag.get()
+
+        v = find_folder(PATH('../../testcase/%s' % tagval))
+        print v
 
     def layout_widget(self):
         frame1 = Frame()
         frame1.pack(fill=BOTH, expand=1)
 
-        self.listbox_left = Listbox(frame1, width=30, selectmode=EXTENDED)
-        self.listbox_left.pack(side=LEFT, fill=Y)
-        for d in ['张三', '李四', '王五', '赵六', '前期', '无法', '问sass']:
-            self.listbox_left.insert(END, d)
+        self.tag = StringVar()
+        self.current_folder = '../../testcase/'
+        values = find_folder(PATH(self.current_folder))
+        cbox = ttk.Combobox(frame1, textvariable=self.tag, values=values, state='readonly')
+        cbox.current(0)
+        cbox.bind('<<ComboboxSelected>>', self.test_a)
+
+        cbox.pack(side=LEFT)
+
+        self.load_data_box(frame1)
 
         self.listbox_right = Listbox(frame1, width=30)
         self.listbox_right.pack(side=RIGHT, fill=Y)
@@ -189,17 +230,18 @@ class MainWin():
         button.pack(side=RIGHT, fill=Y)
 
     def move_all(self):
-        pass
+        tkMessageBox.showinfo('all', 'gwgweeewwe')
 
     def move_left(self):
         pass
 
     def move_right(self):
-        #print self.listbox_left.selection_set(0,3)
+        # print self.listbox_left.selection_set(0,3)
         sel_tup = self.listbox_left.curselection()
         for st in sel_tup:
             self.listbox_right.insert(END, self.listbox_left.get(int(st)))
             self.listbox_left.delete(int(st))
+
 
     def set_window_center(self, w, h):
         curWidth = w  # self.root.winfo_reqwidth() # get current width
@@ -215,10 +257,25 @@ class MainWin():
         self.root.mainloop()
 
 
-if __name__ == '__main__':
-    import app
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
 
-    root = Tk()
-    ap = app.Application(root)
-    ap.mainloop()
+
+def find_folder(folder_path):
+    for parent, dirnames, filenames in os.walk(folder_path):
+        if len(dirnames) > 0:
+            return dirnames
+
+
+if __name__ == '__main__':
+    import data
+
+    data_list = data.walk_testcase(PATH('../../testcase/'))
+    # print find_folder(PATH('../../testcase/'))
+
+
+    m = MainWin(data_list)
+    m.show()
+
 
