@@ -100,13 +100,8 @@ class MyMenu():
     def show_info(self):
         """show the software info"""
         tkMessageBox.showinfo("About",
-                              """
-                    WIFI 热点助手
-        ------------------------------------------
-                version: 1.0
-                author: Cullen
-                Email:  wangyiyan402@163.com
-        ------------------------------------------""")
+                              """...
+                              """)
 
 
 class MyWindow():
