@@ -83,3 +83,9 @@ class Application(Frame):
     def reset(self):
         self.name.set('')
         self.psw.set('')
+
+
+if __name__ == '__main__':
+    root = Tk()
+    app = Application(root)
+    app.mainloop()
