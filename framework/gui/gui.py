@@ -6,7 +6,9 @@ import tkFont
 import ttk
 import tkMessageBox
 import os
+import time
 # from PIL import ImageTk, Image
+from framework.util import fs
 
 
 class MainWin():
@@ -16,6 +18,8 @@ class MainWin():
         self.set_window_center(self.root, 570, 350)
         self.case_data = case_data
         self.current_folder = ''
+        self.node_path = ()
+        self.temp_node_path = ()
 
         menubar = Menu(self.root)
 
@@ -44,30 +48,34 @@ class MainWin():
         label_task = Label(frame_form, text='任务名称：')
         label_task.grid(row=0, column=0, sticky='w', padx=0, pady=5)
         e = StringVar()
-        e.set('input your text here')
-        ipt_task = Entry(frame_form, text='0', width=55, textvariable=e)
+        e.set('Task%s' % str(time.time()))
+        ipt_task = Entry(frame_form, width=55, textvariable=e)
         ipt_task.grid(row=0, column=1, sticky='w', columnspan=3, padx=0, pady=5)
 
         label_cases = Label(frame_form, text='选择用例：')
         label_cases.grid(row=1, column=0, sticky='w', padx=0, pady=5)
-        ipt_cases = Entry(frame_form, text='0', width=55)
+        ipt_cases = Entry(frame_form, width=55)
         ipt_cases.grid(row=1, column=1, sticky='w', pady=5, columnspan=3)
-        btn_cases = Button(frame_form, text='选择', command=lambda: self.func())
+        btn_cases = Button(frame_form, text='选择', command=lambda: self.dialog_case())
         btn_cases.grid(row=1, column=4, sticky='w', pady=5)
 
         label_name = Label(frame_form, text='执行次数：')
         label_name.grid(row=2, column=0, sticky='w', padx=0, pady=5)
-        ipt_name = Entry(frame_form, text='0')
-        ipt_name.grid(row=2, column=1, sticky='w', padx=0, pady=5)
+        e_num = StringVar()
+        e_num.set('1')
+        ipt_num = Entry(frame_form, textvariable=e_num)
+        ipt_num.grid(row=2, column=1, sticky='w', padx=0, pady=5)
 
         label_creator = Label(frame_form, text='执行人：')
         label_creator.grid(row=2, column=2, sticky='w', padx=0, pady=5)
-        ipt_creator = Entry(frame_form, text='0')
+        e_creator = StringVar()
+        e_creator.set('testing')
+        ipt_creator = Entry(frame_form, textvariable=e_creator)
         ipt_creator.grid(row=2, column=3, sticky='w', padx=0, pady=5)
 
         # 按钮
         # frame_action = Frame(master)
-        btn_start = Button(frame_form, text='执行用例', command=lambda: self.func())
+        btn_start = Button(frame_form, text='执行用例', command=lambda: self.dialog_case())
         btn_start.grid(row=3, column=1, sticky='w', pady=5)
         btn_stop = Button(frame_form, text='停止用例')
         btn_stop.grid(row=3, column=2, sticky='w', pady=5)
@@ -89,16 +97,17 @@ class MainWin():
 
         listbox_status.insert(END, '测试结果信息')
 
-    def func(self):
+    def dialog_case(self):
         self.top = Toplevel(self.root)
-        self.set_window_center(self.top, 500, 400)
+        self.set_window_center(self.top, 600, 400)
 
         frame1 = Frame(self.top, width=100)
 
-        tree = ttk.Treeview(frame1)
+        tree = ttk.Treeview(frame1, height=18)
         ysb = ttk.Scrollbar(frame1, orient='vertical', command=tree.yview)
         tree.configure(yscroll=ysb.set)
         tree.heading('#0', text='Path', anchor='w')
+        tree.column("#0", minwidth=0, width=250, stretch=NO)
 
         root_node = tree.insert('', 'end', text='TestCase', open=True)
         self.process_directory(tree, root_node, PATH('../../testcase/'))
@@ -107,42 +116,73 @@ class MainWin():
         ysb.grid(row=0, column=1, sticky=NS)  # pack(side=RIGHT, fill=Y)
         frame1.grid(row=0, column=0)
 
+        frame_action = Frame(self.top)
+        btn_select = Button(frame_action, text='>', command=lambda: self.select_node(tree, listbox))
+        btn_select.grid(row=0, column=0)
+        btn_del = Button(frame_action, text='<', command=lambda: self.del_box_item(listbox))
+        btn_del.grid(row=1, column=0)
+        frame_action.grid(row=0, column=1, padx=10)
+
         frame2 = Frame(self.top, width=100)
         cnames = StringVar()
         # cnames.set(tuple(tnames))
-        listbox = Listbox(frame2, listvariable=cnames, selectmode='extended')
+        listbox = Listbox(frame2, listvariable=cnames, selectmode='extended', width=35, height=20)
         listbox.grid(row=0, column=0)
 
-        frame2.grid(row=0, column=1)
+        frame2.grid(row=0, column=2)
 
-        btn_select = Button(self.top, text='选择', command=lambda: self.select_node(tree, listbox))
-        btn_select.grid(row=1, column=0)
-        btn_del = Button(self.top, text='不选', command=lambda: self.del_box_item(listbox))
-        btn_del.grid(row=1, column=1)
         btn_ok = Button(self.top, text='确定', command=lambda: self.select_ok(listbox))
-        btn_ok.grid(row=1, column=2)
+        btn_ok.grid(row=1, column=1)
+        btn_cancel = Button(self.top, text='取消', command=lambda: self.top.destroy())
+        btn_cancel.grid(row=1, column=2)
+
+
+    def get_node_path(self, tree, current_item):
+        parent = tree.parent(current_item)
+        if parent:
+            self.node_path += (parent,)
+            self.get_node_path(tree, parent)
 
 
     def select_node(self, tree, box):
-        # print tree.selection()
         sel_tup = tree.selection()
-        for st in sel_tup:
-            box.insert(END, tree.item(st)['text'])
+
+        if len(self.temp_node_path) == 0:
+            self.temp_node_path = self.node_path
+
+        if cmp(self.temp_node_path, self.node_path) == 0:
+            self.temp_node_path = self.node_path
+            self.node_path = ()
+        #判断listbox是否清空
+
+            for st in sel_tup:
+                box.insert(END, tree.item(st)['text'])
+        else:
+            print self.temp_node_path, self.node_path
+
 
     def del_box_item(self, box):
         indexs = box.curselection()
         for i in range(len(indexs)):
-            print box.get(indexs[i])
+            box.delete(i)
+            # print box.get(indexs[i])
 
     def select_ok(self, box):
-        pass
+        print box.get(0, END)
 
     def process_directory(self, tree, parent, path):
         for p in os.listdir(path):
             abspath = os.path.join(path, p)
             isdir = os.path.isdir(abspath)
-            oid = tree.insert(parent, 'end', text=p, open=False)
+
+            if os.path.isfile(abspath):
+                test = re.compile("^test_.*?.py$")  # , re.IGNORECASE)
+                match = test.match(p)
+                if match:
+                    tree.insert(parent, 'end', text=p, open=False)
+
             if isdir:
+                oid = tree.insert(parent, 'end', text=p, open=False)
                 self.process_directory(tree, oid, abspath)
 
     def send_value(self):
@@ -254,7 +294,7 @@ class MainWin():
         xsb.grid(row=1, column=0, sticky='ew')
         # self.tb.grid(row=0, column=2)
         # self.tb.grid(row=0, column=0, sticky=N)
-        self.tree.bind('<<TreeviewSelect>>', self.func)
+        self.tree.bind('<<TreeviewSelect>>', self.dialog_case)
 
         # def process_directory(self, parent, path):
         # 遍历路径下的子目录
@@ -263,11 +303,11 @@ class MainWin():
 
         # def func(self, event):
         # # 返回对象为Tuple
-        #     select = self.tree.selection()
-        #     txt = self.tree.item(select[0])['text']
-        #     # listb = Listbox(width=100)
-        #     # self.tb.add(listb, text=self.tree.item(select[0])['text'])
-        #     self.listbox_right.insert(END, txt)
+        # select = self.tree.selection()
+        # txt = self.tree.item(select[0])['text']
+        # # listb = Listbox(width=100)
+        # # self.tb.add(listb, text=self.tree.item(select[0])['text'])
+        # self.listbox_right.insert(END, txt)
 
 
         # select = select[0]
@@ -275,7 +315,7 @@ class MainWin():
         # lable = Label(text='欢迎登陆！', fg='black')
 
         # self.tb.add(lable, text='首页')
-        #self.lock1 = 1
+        # self.lock1 = 1
 
 
     def show(self):
