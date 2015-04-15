@@ -7,38 +7,33 @@ import ttk
 import tkMessageBox
 import os
 import time
-# from PIL import ImageTk, Image
-from framework.util import fs
 
 
 class MainWin():
     def __init__(self, case_data):
         self.root = Tk()
         self.root.title("AutoDriver")
-        self.set_window_center(self.root, 570, 350)
+        self.set_window_center(self.root, 650, 400)
+        # self.root.wm_state('zoomed')
         self.case_data = case_data
         self.current_folder = ''
         self.node_path = ()
         self.temp_node_path = ()
+        self.task_index = 0
 
         menubar = Menu(self.root)
 
         file_menu = Menu(menubar, tearoff=0)
-        file_menu.add_command(label='新建测试任务', command=self.hello)
+        file_menu.add_command(label='新建测试任务', command=self.new_task)
         file_menu.add_command(label='退出', command=self.hello)
         menubar.add_cascade(label='文件', menu=file_menu)
 
-        history_menu = Menu(menubar, tearoff=0)
-        history_menu.add_command(label='任务1', command=self.hello)
-        history_menu.add_command(label='任务2', command=self.hello)
-        # 所有结果列表都做为子菜单
-        menubar.add_cascade(label='历史任务', menu=history_menu)
+        help_menu = Menu(menubar, tearoff=0)
+        help_menu.add_command(label='About', command=self.hello)
+        menubar.add_cascade(label='Help', menu=help_menu)
+
         self.root.config(menu=menubar)
 
-        report_menu = Menu(menubar, tearoff=0)
-        report_menu.add_command(label='发送', command=self.hello)
-        report_menu.add_command(label='输出报告', command=self.hello)
-        menubar.add_cascade(label='发送报告', menu=report_menu)
 
     def hello(self):
         print 'hello'
@@ -47,14 +42,14 @@ class MainWin():
         frame_form = Frame(master)
         label_task = Label(frame_form, text='任务名称：')
         label_task.grid(row=0, column=0, sticky='w', padx=0, pady=5)
-        e = StringVar()
-        e.set('Task%s' % str(time.time()))
-        ipt_task = Entry(frame_form, width=55, textvariable=e)
-        ipt_task.grid(row=0, column=1, sticky='w', columnspan=3, padx=0, pady=5)
+        self.var_task_name = StringVar()
+        self.var_task_name.set('Task%s' % str(time.time()))
+        self.ipt_task = Entry(frame_form, width=50, textvariable=self.var_task_name)
+        self.ipt_task.grid(row=0, column=1, sticky='w', columnspan=3, padx=0, pady=5)
 
         label_cases = Label(frame_form, text='选择用例：')
         label_cases.grid(row=1, column=0, sticky='w', padx=0, pady=5)
-        ipt_cases = Entry(frame_form, width=55)
+        ipt_cases = Entry(frame_form, width=50)
         ipt_cases.grid(row=1, column=1, sticky='w', pady=5, columnspan=3)
         btn_cases = Button(frame_form, text='选择', command=lambda: self.dialog_case())
         btn_cases.grid(row=1, column=4, sticky='w', pady=5)
@@ -72,30 +67,95 @@ class MainWin():
         e_creator.set('testing')
         ipt_creator = Entry(frame_form, textvariable=e_creator)
         ipt_creator.grid(row=2, column=3, sticky='w', padx=0, pady=5)
+        frame_form.grid(row=0, column=1, sticky=NW, pady=10)  # pack(side=RIGHT, fill=Y,padx=20)
 
         # 按钮
-        # frame_action = Frame(master)
-        btn_start = Button(frame_form, text='执行用例', command=lambda: self.dialog_case())
-        btn_start.grid(row=3, column=1, sticky='w', pady=5)
-        btn_stop = Button(frame_form, text='停止用例')
-        btn_stop.grid(row=3, column=2, sticky='w', pady=5)
-        btn_report = Button(frame_form, text='输出报告')
-        btn_report.grid(row=3, column=3, sticky='w', pady=5)
+        frame_action = Frame(frame_form)
+        btn_start = Button(frame_action, text='执行任务', command=self.run_task)
+        btn_start.grid(row=0, column=0, sticky='w', padx=5, pady=20)
+        btn_stop = Button(frame_action, text='停止任务', command=self.stop_task)
+        btn_stop.grid(row=0, column=1, sticky='w', padx=5, pady=20)
+        btn_report = Button(frame_action, text='输出报告')
+        btn_report.grid(row=0, column=2, sticky='w', padx=5, pady=20)
+        btn_save = Button(frame_action, text='保存任务', command=self.save_task)
+        btn_save.grid(row=0, column=3, sticky='w', padx=5, pady=20)
+        btn_del = Button(frame_action, text='删除任务', command=self.del_task)
+        btn_del.grid(row=0, column=4, sticky='w', padx=5, pady=20)
 
-        frame_form.pack(fill=BOTH, expand=1, padx=20, pady=10)
+        frame_action.grid(row=3, column=0, columnspan=4)
 
-        scrollbar = Scrollbar(master, orient=VERTICAL)
-        listbox_status = Listbox(master, height=9, yscrollcommand=scrollbar.set, borderwidth=0)
-        listbox_status.pack(side=LEFT, fill=BOTH, expand=1)
-        scrollbar.config(command=self.yview)
-        scrollbar.pack(side=RIGHT, fill=Y)
-        # frame_list.pack(fill=BOTH, expand=1, padx=20, pady=0)
+        frame_left = Frame(master)
+        self.task_box = Listbox(frame_left, width=27, height=28, selectmode=SINGLE)
+        scrollbar = Scrollbar(frame_left, orient=VERTICAL, command=self.task_box.yview)
+        self.task_box.configure(yscroll=scrollbar.set)
+        self.task_box.bind('<ButtonRelease-1>', self.printList)
 
-        # listbox_status = Listbox(frame_action, width=78, height=9, yscrollcommand=scrollbar.set)
-        # scrollbar.configure(command=listbox_status.yview)
-        # listbox_status.grid(row=2, column=0, sticky='wn', columnspan=4, padx=0, pady=5)
+        self.task_box.grid(row=0)
+        scrollbar.grid(row=0, column=1, sticky=NS)
+        frame_left.grid(row=0, column=0, sticky=NW, padx=10, pady=10)
+        for i in range(0, 20):
+            self.task_box.insert(END, 'Task1429111986' + str(i))
 
-        listbox_status.insert(END, '测试结果信息')
+        self.task_info(0)
+
+    def new_task(self):
+        self.task_box.insert(0, '')
+        self.task_box.selection_clear(0, self.task_box.size() - 1)
+        self.task_info(0)
+
+    def save_task(self):
+        self.task_box.delete(self.task_index)
+        self.task_box.insert(self.task_index, self.ipt_task.get())
+        self.task_box.selection_set(self.task_index)
+
+    def del_task(self):
+        try:
+            index = self.task_box.curselection()[0]
+            self.task_box.delete(index)
+            size = self.task_box.size()
+            if size == index:
+                if size > 1:
+                    self.task_info(index - 1)
+                else:
+                    self.task_info(0)
+            else:
+                self.task_info(index)
+        except IndexError:
+            pass
+
+    def task_info(self, index):
+        _name = self.task_box.get(index)
+        self.var_task_name.set(_name)
+        self.task_index = index
+        self.task_box.selection_set(index)
+
+    def printList(self, event):
+        # print event.keycode
+        try:
+            index = self.task_box.curselection()[0]
+            self.task_info(index)
+        except IndexError:
+            pass
+
+    def run_task(self):
+        self.root.iconify()
+        self.run_state = Toplevel(self.root)
+        self.run_state.attributes("-topmost", True)
+        self.run_state.overrideredirect(True)
+
+        curWidth = 500
+        curHeight = 25
+        scnWidth, scnHeight = self.run_state.maxsize()
+        tmpcnf = '%dx%d+%d+%d' % (curWidth, curHeight,
+                                  (scnWidth - curWidth) / 2, 0)
+        self.run_state.geometry(tmpcnf)
+
+        label = Label(self.run_state, text='任务运行中，当前：。。。')
+        label.pack(side=LEFT, fill=BOTH)
+
+    def stop_task(self):
+        self.run_state.destroy()
+
 
     def dialog_case(self):
         self.top = Toplevel(self.root)
@@ -153,7 +213,7 @@ class MainWin():
         if cmp(self.temp_node_path, self.node_path) == 0:
             self.temp_node_path = self.node_path
             self.node_path = ()
-        #判断listbox是否清空
+            # 判断listbox是否清空
 
             for st in sel_tup:
                 box.insert(END, tree.item(st)['text'])
@@ -209,49 +269,49 @@ class MainWin():
         v = find_folder(PATH('../../testcase/%s' % tagval))
         print v
 
-    def layout_widget(self):
-        frame1 = Frame()
-        frame1.pack(fill=BOTH, expand=1)
-
-        self.tag = StringVar()
-        self.current_folder = '../../testcase/'
-        values = find_folder(PATH(self.current_folder))
-        cbox = ttk.Combobox(frame1, textvariable=self.tag, values=values, state='readonly')
-        cbox.current(0)
-        cbox.bind('<<ComboboxSelected>>', self.test_a)
-
-        cbox.pack(side=LEFT)
-
-        self.load_data_box(frame1)
-
-        self.listbox_right = Listbox(frame1, width=30)
-        self.listbox_right.pack(side=RIGHT, fill=Y)
-        self.listbox_right.insert(END, 'gewgwe')
-
-        button1 = Button(frame1, text="Move all", fg='blue', bg='yellow', command=self.move_all)
-        button1.pack()
-        button2 = Button(frame1, text="Move Right", fg='blue', bg='yellow', command=self.move_right)
-        button2.pack()
-        button3 = Button(frame1, text="Move Left", fg='blue', bg='yellow', command=self.move_left)
-        button3.pack()
-
-        frame2 = Frame()
-        frame2.pack(fill=BOTH, expand=1)
-        button = Button(frame2, text="OK", fg='blue', bg='yellow')
-        button.pack(side=RIGHT, fill=Y)
-
-    def move_all(self):
-        tkMessageBox.showinfo('all', 'gwgweeewwe')
-
-    def move_left(self):
-        pass
-
-    def move_right(self):
-        # print self.listbox_left.selection_set(0,3)
-        sel_tup = self.listbox_left.curselection()
-        for st in sel_tup:
-            self.listbox_right.insert(END, self.listbox_left.get(int(st)))
-            self.listbox_left.delete(int(st))
+    # def layout_widget(self):
+    # frame1 = Frame()
+    # frame1.pack(fill=BOTH, expand=1)
+    #
+    # self.tag = StringVar()
+    # self.current_folder = '../../testcase/'
+    # values = find_folder(PATH(self.current_folder))
+    # cbox = ttk.Combobox(frame1, textvariable=self.tag, values=values, state='readonly')
+    # cbox.current(0)
+    # cbox.bind('<<ComboboxSelected>>', self.test_a)
+    #
+    # cbox.pack(side=LEFT)
+    #
+    # self.load_data_box(frame1)
+    #
+    #     self.listbox_right = Listbox(frame1, width=30)
+    #     self.listbox_right.pack(side=RIGHT, fill=Y)
+    #     self.listbox_right.insert(END, 'gewgwe')
+    #
+    #     button1 = Button(frame1, text="Move all", fg='blue', bg='yellow', command=self.move_all)
+    #     button1.pack()
+    #     button2 = Button(frame1, text="Move Right", fg='blue', bg='yellow', command=self.move_right)
+    #     button2.pack()
+    #     button3 = Button(frame1, text="Move Left", fg='blue', bg='yellow', command=self.move_left)
+    #     button3.pack()
+    #
+    #     frame2 = Frame()
+    #     frame2.pack(fill=BOTH, expand=1)
+    #     button = Button(frame2, text="OK", fg='blue', bg='yellow')
+    #     button.pack(side=RIGHT, fill=Y)
+    #
+    # def move_all(self):
+    #     tkMessageBox.showinfo('all', 'gwgweeewwe')
+    #
+    # def move_left(self):
+    #     pass
+    #
+    # def move_right(self):
+    #     # print self.listbox_left.selection_set(0,3)
+    #     sel_tup = self.listbox_left.curselection()
+    #     for st in sel_tup:
+    #         self.listbox_right.insert(END, self.listbox_left.get(int(st)))
+    #         self.listbox_left.delete(int(st))
 
 
     def set_window_center(self, parent, w, h):
@@ -263,13 +323,13 @@ class MainWin():
                                   (scnWidth - curWidth) / 2, (scnHeight - curHeight) / 2)
         parent.geometry(tmpcnf)
 
-    def createWidgets(self, parent):
+        # def createWidgets(self, parent):
         # self.tb = ttk.Notebook(parent, height=200, width=300)
-        self.tree = ttk.Treeview(parent)
-        ysb = ttk.Scrollbar(parent, orient='vertical', command=self.tree.yview)
-        xsb = ttk.Scrollbar(parent, orient='horizontal', command=self.tree.xview)
-        self.tree.configure(yscroll=ysb.set, xscroll=xsb.set)
-        self.tree.heading('#0', text='Path', anchor='w')
+        # self.tree = ttk.Treeview(parent)
+        # ysb = ttk.Scrollbar(parent, orient='vertical', command=self.tree.yview)
+        # xsb = ttk.Scrollbar(parent, orient='horizontal', command=self.tree.xview)
+        # self.tree.configure(yscroll=ysb.set, xscroll=xsb.set)
+        # self.tree.heading('#0', text='Path', anchor='w')
         # path = find_file_dir(PATH('../../testcase/'))
         #
         # root_node = self.tree.insert('', 'end', text='TestCase', open=True)
@@ -289,12 +349,12 @@ class MainWin():
         #
         # self.process_directory(root_node, path)
         # 构建一个grid
-        self.tree.grid(row=0, column=0, sticky='n')
-        ysb.grid(row=0, column=1, sticky='ns')
-        xsb.grid(row=1, column=0, sticky='ew')
+        # self.tree.grid(row=0, column=0, sticky='n')
+        # ysb.grid(row=0, column=1, sticky='ns')
+        # xsb.grid(row=1, column=0, sticky='ew')
         # self.tb.grid(row=0, column=2)
         # self.tb.grid(row=0, column=0, sticky=N)
-        self.tree.bind('<<TreeviewSelect>>', self.dialog_case)
+        # self.tree.bind('<<TreeviewSelect>>', self.dialog_case)
 
         # def process_directory(self, parent, path):
         # 遍历路径下的子目录
@@ -320,10 +380,6 @@ class MainWin():
 
     def show(self):
         self.base_form(self.root)
-        # frame3 = Frame()
-        # frame3.pack(fill=BOTH, expand=1)
-        # self.createWidgets(frame3)
-        # self.layout_widget()
         self.root.mainloop()
 
 
