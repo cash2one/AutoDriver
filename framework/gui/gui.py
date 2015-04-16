@@ -2,20 +2,21 @@
 __author__ = 'ggh'
 
 from Tkinter import *
-import tkFont
-import ttk
-import tkMessageBox
-import os
-import time
+import tkFont,ttk,tkMessageBox
+import os,time,shutil,webbrowser
+from framework.core import data as gui_data
+from framework.report import report
+from framework.core import task as ta
 
 
 class MainWin():
-    def __init__(self, case_data):
+    def __init__(self):
         self.root = Tk()
         self.root.title("AutoDriver")
-        self.set_window_center(self.root, 650, 400)
+        self.set_window_center(self.root, 750, 500)
         # self.root.wm_state('zoomed')
-        self.case_data = case_data
+        self.root.iconbitmap('./wp.ico')
+        self.case_data = []
         self.current_folder = ''
         self.node_path = ()
         self.temp_node_path = ()
@@ -34,11 +35,28 @@ class MainWin():
 
         self.root.config(menu=menubar)
 
+        self.result_folder = PATH('../../result/')
+        if not os.path.exists(self.result_folder):
+            os.mkdir(self.result_folder)
+
 
     def hello(self):
         print 'hello'
 
     def base_form(self, master):
+        frame_left = Frame(master)
+        self.task_box = Listbox(frame_left, width=24, selectmode=SINGLE, height=28)
+        scrollbar = Scrollbar(frame_left, orient=VERTICAL, command=self.task_box.yview)
+        self.task_box.configure(yscroll=scrollbar.set)
+        self.task_box.bind('<ButtonRelease-1>', self.printList)
+
+        self.task_box.grid(row=0, column=0, sticky=NS)
+        scrollbar.grid(row=0, column=1, sticky=NS)
+        frame_left.pack(side=LEFT, fill=BOTH, padx=10, pady=10)  # grid(row=0, column=0, sticky=NS, padx=10, pady=10)
+
+        for f in os.listdir(PATH('../../result/')):
+            self.task_box.insert(END, f.replace('.db',''))
+
         frame_form = Frame(master)
         label_task = Label(frame_form, text='任务名称：')
         label_task.grid(row=0, column=0, sticky='w', padx=0, pady=5)
@@ -51,7 +69,7 @@ class MainWin():
         ipt_cases = Entry(frame_form, width=40)
         ipt_cases.grid(row=1, column=1, sticky='w', pady=5, columnspan=3)
         btn_cases = Button(frame_form, text='选择', command=lambda: self.dialog_case())
-        btn_cases.grid(row=1, column=4, sticky=W, pady=5)
+        btn_cases.grid(row=1, column=3, sticky=E, pady=5)
 
         label_name = Label(frame_form, text='执行次数：')
         label_name.grid(row=2, column=0, sticky='w', padx=0, pady=5)
@@ -66,7 +84,7 @@ class MainWin():
         e_creator.set('testing')
         ipt_creator = Entry(frame_form, textvariable=e_creator)
         ipt_creator.grid(row=2, column=3, sticky='w', padx=0, pady=5)
-        frame_form.grid(row=0, column=1, sticky=NW, pady=10)  # pack(side=RIGHT, fill=Y,padx=20)
+        frame_form.pack(side=LEFT, fill=BOTH, padx=10, pady=10)  # grid(row=0, column=1, sticky=NW, pady=10)  #
 
         # 按钮
         frame_action = Frame(frame_form)
@@ -74,7 +92,7 @@ class MainWin():
         btn_start.grid(row=0, column=0, sticky='w', padx=5, pady=20)
         btn_stop = Button(frame_action, text='停止任务', command=self.stop_task)
         btn_stop.grid(row=0, column=1, sticky='w', padx=5, pady=20)
-        btn_report = Button(frame_action, text='输出报告')
+        btn_report = Button(frame_action, text='输出报告',command=self.generate_report)
         btn_report.grid(row=0, column=2, sticky='w', padx=5, pady=20)
         btn_save = Button(frame_action, text='保存任务', command=self.save_task)
         btn_save.grid(row=0, column=3, sticky='w', padx=5, pady=20)
@@ -83,31 +101,30 @@ class MainWin():
 
         frame_action.grid(row=3, column=0, columnspan=4)
 
-        frame_left = Frame(master)
-        self.task_box = Listbox(frame_left, width=27,selectmode=SINGLE)
-        scrollbar = Scrollbar(frame_left, orient=VERTICAL, command=self.task_box.yview)
-        self.task_box.configure(yscroll=scrollbar.set)
-        self.task_box.bind('<ButtonRelease-1>', self.printList)
-
-        self.task_box.grid(row=0,column=0, sticky=NS)
-        scrollbar.grid(row=0, column=1, sticky=NS)
-        frame_left.grid(row=0, column=0, sticky=NS, padx=10, pady=10)
-        for i in range(0, 20):
-            self.task_box.insert(END, 'Task1429111986' + str(i))
-
         self.task_info(0)
 
+
     def new_task(self):
-        _name='Task%s' % str(time.time()).replace('.', '')
+        _name = 'task%s' % str(time.time()).replace('.', '')
         self.task_box.insert(0, _name)
         self.task_box.selection_clear(0, self.task_box.size() - 1)
+
+        db_path = os.path.join(self.result_folder, '%s.db' % _name)
+        db = gui_data.generateData(db_path)
+        db.init_table(gui_data.DRIVER_TABLES)
+        db.close()
 
         self.task_info(0)
 
     def save_task(self):
+        db_name = self.task_box.get(self.task_index)
         self.task_box.delete(self.task_index)
         self.task_box.insert(self.task_index, self.ipt_task.get())
         self.task_box.selection_set(self.task_index)
+
+        tar = os.path.join(self.result_folder, '%s.db' % self.ipt_task.get())
+        src = os.path.join(self.result_folder, '%s.db' % db_name)
+        os.rename(src, tar)
 
     def del_task(self):
         try:
@@ -128,7 +145,7 @@ class MainWin():
         _name = self.task_box.get(index)
         self.var_task_name.set(_name)
 
-        #self.var_task_name.set(_name)
+        # self.var_task_name.set(_name)
         self.task_index = index
         self.task_box.selection_set(index)
 
@@ -156,9 +173,46 @@ class MainWin():
         label = Label(self.run_state, text='任务运行中，当前：。。。')
         label.pack(side=LEFT, fill=BOTH)
 
-    def stop_task(self):
-        self.run_state.destroy()
+        task_list = []
+        for c in self.case_data:
+            t = ta.Task(c)
+            task_list.append(t)
 
+        db_path = PATH('../../result/%s.db' %self.ipt_task.get())
+        runner = ta.TestRunner(task_list, db_path, self)
+        runner.start()
+
+    def stop_task(self):
+        try:
+            self.run_state.destroy()
+        except AttributeError:
+            pass
+
+    def generate_report(self):
+        '''
+        测试完成，生成静态html报告
+        :return:
+        '''
+
+        result_path = PATH('../../result/%s' % self.ipt_task.get())
+        #index_name = db_path.split(os.sep)[-1].replace('.db', '')
+
+        # if os.path.exists(result_path):
+        #     ret = QMessageBox.warning(self, u'报告已存在',
+        #                               u"\n已有报告存在，是否确认删除后继续生成报告？",
+        #                               QMessageBox.Yes | QMessageBox.Cancel)
+        #     if ret == QMessageBox.Yes:
+        #         shutil.rmtree(PATH('../result/%s' % index_name))
+        #         time.sleep(2)
+        #
+        #         rp = report.Report(result_path+'.db', 25)
+        #         rp.start()
+        #         webbrowser.open(PATH('../result/%s/%s1.html' % (index_name, index_name)))
+        #     elif ret == QMessageBox.Cancel:
+        #         pass
+
+        rp = report.Report(result_path+'.db', 25)
+        rp.start()
 
     def dialog_case(self):
         self.top = Toplevel(self.root)
@@ -288,11 +342,11 @@ class MainWin():
     # self.load_data_box(frame1)
     #
     # self.listbox_right = Listbox(frame1, width=30)
-    #     self.listbox_right.pack(side=RIGHT, fill=Y)
-    #     self.listbox_right.insert(END, 'gewgwe')
+    # self.listbox_right.pack(side=RIGHT, fill=Y)
+    # self.listbox_right.insert(END, 'gewgwe')
     #
-    #     button1 = Button(frame1, text="Move all", fg='blue', bg='yellow', command=self.move_all)
-    #     button1.pack()
+    # button1 = Button(frame1, text="Move all", fg='blue', bg='yellow', command=self.move_all)
+    # button1.pack()
     #     button2 = Button(frame1, text="Move Right", fg='blue', bg='yellow', command=self.move_right)
     #     button2.pack()
     #     button3 = Button(frame1, text="Move Left", fg='blue', bg='yellow', command=self.move_left)
@@ -416,10 +470,10 @@ def find_file_dir(path, parent, tree):
 if __name__ == '__main__':
     import data
 
-    data_list = data.walk_testcase(PATH('../../testcase/'))
+    #data_list = data.walk_testcase(PATH('../../testcase/'))
     f = PATH('../../testcase/Autobook/')
 
-    m = MainWin(data_list)
+    m = MainWin()
     m.show()
 
 
