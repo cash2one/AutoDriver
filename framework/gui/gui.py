@@ -43,16 +43,15 @@ class MainWin():
         label_task = Label(frame_form, text='任务名称：')
         label_task.grid(row=0, column=0, sticky='w', padx=0, pady=5)
         self.var_task_name = StringVar()
-        self.var_task_name.set('Task%s' % str(time.time()))
-        self.ipt_task = Entry(frame_form, width=50, textvariable=self.var_task_name)
+        self.ipt_task = Entry(frame_form, width=40, textvariable=self.var_task_name)
         self.ipt_task.grid(row=0, column=1, sticky='w', columnspan=3, padx=0, pady=5)
 
         label_cases = Label(frame_form, text='选择用例：')
         label_cases.grid(row=1, column=0, sticky='w', padx=0, pady=5)
-        ipt_cases = Entry(frame_form, width=50)
+        ipt_cases = Entry(frame_form, width=40)
         ipt_cases.grid(row=1, column=1, sticky='w', pady=5, columnspan=3)
         btn_cases = Button(frame_form, text='选择', command=lambda: self.dialog_case())
-        btn_cases.grid(row=1, column=4, sticky='w', pady=5)
+        btn_cases.grid(row=1, column=4, sticky=W, pady=5)
 
         label_name = Label(frame_form, text='执行次数：')
         label_name.grid(row=2, column=0, sticky='w', padx=0, pady=5)
@@ -85,22 +84,24 @@ class MainWin():
         frame_action.grid(row=3, column=0, columnspan=4)
 
         frame_left = Frame(master)
-        self.task_box = Listbox(frame_left, width=27, height=28, selectmode=SINGLE)
+        self.task_box = Listbox(frame_left, width=27,selectmode=SINGLE)
         scrollbar = Scrollbar(frame_left, orient=VERTICAL, command=self.task_box.yview)
         self.task_box.configure(yscroll=scrollbar.set)
         self.task_box.bind('<ButtonRelease-1>', self.printList)
 
-        self.task_box.grid(row=0)
+        self.task_box.grid(row=0,column=0, sticky=NS)
         scrollbar.grid(row=0, column=1, sticky=NS)
-        frame_left.grid(row=0, column=0, sticky=NW, padx=10, pady=10)
+        frame_left.grid(row=0, column=0, sticky=NS, padx=10, pady=10)
         for i in range(0, 20):
             self.task_box.insert(END, 'Task1429111986' + str(i))
 
         self.task_info(0)
 
     def new_task(self):
-        self.task_box.insert(0, '')
+        _name='Task%s' % str(time.time()).replace('.', '')
+        self.task_box.insert(0, _name)
         self.task_box.selection_clear(0, self.task_box.size() - 1)
+
         self.task_info(0)
 
     def save_task(self):
@@ -126,6 +127,8 @@ class MainWin():
     def task_info(self, index):
         _name = self.task_box.get(index)
         self.var_task_name.set(_name)
+
+        #self.var_task_name.set(_name)
         self.task_index = index
         self.task_box.selection_set(index)
 
@@ -284,7 +287,7 @@ class MainWin():
     #
     # self.load_data_box(frame1)
     #
-    #     self.listbox_right = Listbox(frame1, width=30)
+    # self.listbox_right = Listbox(frame1, width=30)
     #     self.listbox_right.pack(side=RIGHT, fill=Y)
     #     self.listbox_right.insert(END, 'gewgwe')
     #
