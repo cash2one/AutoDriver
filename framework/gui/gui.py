@@ -55,7 +55,13 @@ class MainWin():
         frame_left.pack(side=LEFT, fill=BOTH, padx=10, pady=10)  # grid(row=0, column=0, sticky=NS, padx=10, pady=10)
 
         for f in os.listdir(PATH('../../result/')):
-            self.task_box.insert(END, f.replace('.db',''))
+            if '.db' in f:
+                self.task_box.insert(END, f.replace('.db',''))
+
+                test = re.compile(".db")  # , re.IGNORECASE)
+                match = test.match(f)
+                if match:
+                    self.task_box.insert(END, f.replace('.db',''))
 
         frame_form = Frame(master)
         label_task = Label(frame_form, text='任务名称：')
@@ -468,10 +474,6 @@ def find_file_dir(path, parent, tree):
 
 
 if __name__ == '__main__':
-    import data
-
-    #data_list = data.walk_testcase(PATH('../../testcase/'))
-    f = PATH('../../testcase/Autobook/')
 
     m = MainWin()
     m.show()

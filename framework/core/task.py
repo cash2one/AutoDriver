@@ -7,7 +7,8 @@ import threading
 import time
 from framework.util import sqlite
 import test_result
-from PyQt4 import QtCore
+#from PyQt4 import QtCore
+from framework.util import pyqt
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -137,7 +138,8 @@ class TestRunner(threading.Thread):
 
             if self.getTask() == None:
                 self.stop()
-                self.ui.emit(QtCore.SIGNAL("over_all_case"))
+                #self.ui.emit(QtCore.SIGNAL("over_all_case"))
+                pyqt.over_all_case(self.ui)
                 return
 
             if self.task == None or not self.task.isRunning():

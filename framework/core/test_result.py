@@ -6,9 +6,10 @@ import unittest
 import StringIO
 import datetime
 import re
-from PyQt4 import QtCore
+#from PyQt4 import QtCore
 
 from framework.core import box
+from framework.util import pyqt
 
 
 STATUS = {
@@ -73,8 +74,9 @@ class NewTestResult(unittest.TestResult):
         sql = "INSERT INTO Result values (NULL,?,?,?,?,?,?,?,?,?,?,?)"
         if self.dbm != None:
             self.dbm.insert_value(sql, data)
-        if self.ui != None:
-            self.ui.emit(QtCore.SIGNAL("finish_case"), data)
+        # if self.ui != None:
+        #     self.ui.emit(QtCore.SIGNAL("finish_case"), data)
+        pyqt.finish_case(self.ui,data)
 
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)
