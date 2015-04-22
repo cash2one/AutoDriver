@@ -2,8 +2,8 @@
 __author__ = 'ggh'
 
 from Tkinter import *
-import tkFont,ttk,tkMessageBox
-import os,time,shutil,webbrowser
+import tkFont, ttk, tkMessageBox
+import os, time, shutil, webbrowser
 from framework.core import data as gui_data
 from framework.report import report
 from framework.core import task as ta
@@ -56,12 +56,12 @@ class MainWin():
 
         for f in os.listdir(PATH('../../result/')):
             if '.db' in f:
-                self.task_box.insert(END, f.replace('.db',''))
+                self.task_box.insert(END, f.replace('.db', ''))
 
                 test = re.compile(".db")  # , re.IGNORECASE)
                 match = test.match(f)
                 if match:
-                    self.task_box.insert(END, f.replace('.db',''))
+                    self.task_box.insert(END, f.replace('.db', ''))
 
         frame_form = Frame(master)
         label_task = Label(frame_form, text='任务名称：')
@@ -98,7 +98,7 @@ class MainWin():
         btn_start.grid(row=0, column=0, sticky='w', padx=5, pady=20)
         btn_stop = Button(frame_action, text='停止任务', command=self.stop_task)
         btn_stop.grid(row=0, column=1, sticky='w', padx=5, pady=20)
-        btn_report = Button(frame_action, text='输出报告',command=self.generate_report)
+        btn_report = Button(frame_action, text='输出报告', command=self.generate_report)
         btn_report.grid(row=0, column=2, sticky='w', padx=5, pady=20)
         btn_save = Button(frame_action, text='保存任务', command=self.save_task)
         btn_save.grid(row=0, column=3, sticky='w', padx=5, pady=20)
@@ -121,6 +121,7 @@ class MainWin():
         db.close()
 
         self.task_info(0)
+
 
     def save_task(self):
         db_name = self.task_box.get(self.task_index)
@@ -184,7 +185,7 @@ class MainWin():
             t = ta.Task(c)
             task_list.append(t)
 
-        db_path = PATH('../../result/%s.db' %self.ipt_task.get())
+        db_path = PATH('../../result/%s.db' % self.ipt_task.get())
         runner = ta.TestRunner(task_list, db_path, self)
         runner.start()
 
@@ -201,7 +202,7 @@ class MainWin():
         '''
 
         result_path = PATH('../../result/%s' % self.ipt_task.get())
-        #index_name = db_path.split(os.sep)[-1].replace('.db', '')
+        # index_name = db_path.split(os.sep)[-1].replace('.db', '')
 
         # if os.path.exists(result_path):
         #     ret = QMessageBox.warning(self, u'报告已存在',
@@ -217,7 +218,7 @@ class MainWin():
         #     elif ret == QMessageBox.Cancel:
         #         pass
 
-        rp = report.Report(result_path+'.db', 25)
+        rp = report.Report(result_path + '.db', 25)
         rp.start()
 
     def dialog_case(self):
@@ -353,7 +354,7 @@ class MainWin():
     #
     # button1 = Button(frame1, text="Move all", fg='blue', bg='yellow', command=self.move_all)
     # button1.pack()
-    #     button2 = Button(frame1, text="Move Right", fg='blue', bg='yellow', command=self.move_right)
+    # button2 = Button(frame1, text="Move Right", fg='blue', bg='yellow', command=self.move_right)
     #     button2.pack()
     #     button3 = Button(frame1, text="Move Left", fg='blue', bg='yellow', command=self.move_left)
     #     button3.pack()
@@ -477,5 +478,8 @@ if __name__ == '__main__':
 
     m = MainWin()
     m.show()
+
+
+
 
 
