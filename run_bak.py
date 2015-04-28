@@ -7,8 +7,8 @@ import os
 import webbrowser
 
 from framework.util import mail,fs
-from framework.core import data,device,task,report, routine, HTMLTestRunner, the
-from framework.core import the
+from framework.core import data,task,report, routine, runner_bak, box
+from framework.core import box
 
 
 PATH = lambda p: os.path.abspath(
@@ -24,9 +24,9 @@ root_dir = os.path.dirname(__file__)
 
 def createDatabase():
     time_str= time.strftime('%Y%m%d%H%M%S',time.localtime(time.time()))
-    the.db_path = 'report'+time_str + '.db'
+    box.db_path = 'report'+time_str + '.db'
 
-    gdata = data.generateData(PATH('./resource/xls/'),os.path.join(root_dir, the.db_path))
+    gdata = data.generateData(os.path.join(root_dir, box.db_path),PATH('./resource/xls/'))
     gdata.close()
 
 
@@ -51,7 +51,7 @@ def init():
 
 
 def start():
-    d = device.android(the.settings['android_mychevy'])
+    #d = device.android(the.settings['android_mychevy'])
     xlss = data.getExcelsData(PATH(xls_path),False)
     tk = task.Task(False,xlss)
 
@@ -85,20 +85,20 @@ def startReport():
     webbrowser.open(PATH('./report/index.html'))
 
 
-def oldRunner(suite):
-    '''
-    第三方测试报告生成
-    :param suite:
-    :return:
-    '''
-    reportDir=sys.path[0] + os.sep +'abc.html'
-    fp = open(reportDir, 'wb')
-    runner = HTMLTestRunner.HTMLTestRunner(
-        stream=fp,
-        title=u'测试报告',
-        description=u'用例执行情况'
-    )
-    runner.run(suite)
+# def oldRunner(suite):
+#     '''
+#     第三方测试报告生成
+#     :param suite:
+#     :return:
+#     '''
+#     reportDir=sys.path[0] + os.sep +'abc.html'
+#     fp = open(reportDir, 'wb')
+#     runner = HTMLTestRunner.HTMLTestRunner(
+#         stream=fp,
+#         title=u'测试报告',
+#         description=u'用例执行情况'
+#     )
+#     runner.run(suite)
 
 def sendMail(mail_to):
     '''

@@ -2,15 +2,14 @@
 __author__ = 'wangshanshan@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     '''
     用户未登录，1,查看条款 2,不勾选条款。
     '''
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         #self.driver.login()
 
     def tearDown(self):
@@ -19,7 +18,7 @@ class TestCase(unittest.TestCase):
 
     def test_clause(self):
        #点击进入使用
-       self.driver.find_id('start_btn').click()
+       # self.driver.find_id('start_btn').click()
        self.driver.wait_loading()
        #点击用户中心
        self.driver.find_id('btn_personal_center').click()
@@ -30,13 +29,13 @@ class TestCase(unittest.TestCase):
        self.driver.find_id('login_clause').click()
 
 
-       # text=self.driver.find_id('tv_title_text').text
-       # print text
-       # self.assertTrue(u'代驾协议' in text,'msg')
+       text=self.driver.find_id('tv_title_text').text
+       print text
+       self.assertTrue(u'代驾协议' in text,'msg')
 
 
-       #点击返回注册按钮
-       # self.driver.find_id('button_title_back').click()
+       # 点击返回注册按钮
+       self.driver.find_id('button_title_back').click()
        #判断条款是否选中，若选中取消选中
        if 'true' in self.driver.find_id('login_agree').get_attribute('checked'):
            self.driver.find_id('login_agree').click()

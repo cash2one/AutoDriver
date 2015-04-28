@@ -1,20 +1,16 @@
 # coding=utf-8
 __author__ = 'wangshanshan@pathbook.com.cn'
 
-
-
 import time
-import unittest
-from framework.core import testcase
-from selenium.common import exceptions
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     '''
     单个条件查询成功
     '''
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -26,24 +22,24 @@ class TestCase(unittest.TestCase):
     def test_order_query(self):
 
         time.sleep(2)
-        table=self.driver.find_element_by_id('list')
-        trs=table.find_elements_by_tag_name('tr')
+        table=self.driver.find_id('list')
+        trs=table.find_tags('tr')
         #取第一行第一列的订单号
-        tds=trs[1].find_elements_by_tag_name('td')
+        tds=trs[1].find_tags('td')
         order=tds[1].text
-        self.driver.find_element_by_id('orderNo').send_keys(order)
+        self.driver.find_id('orderNo').send_keys(order)
         time.sleep(1)
         #选择“全部任务”查询条件
-        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('task').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'全部任务':
                 opt.click()
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(2)
         #获取查询结果中的订单号
-        trs1=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs1=self.driver.find_id('list').find_tags('tr')
         #取第一行第一列的订单号
-        tds1=trs1[1].find_elements_by_tag_name('td')
+        tds1=trs1[1].find_tags('td')
         order1=tds1[1].text
         #对比两个订单是否相等
         self.assertTrue(order in order1,'msg')
@@ -53,90 +49,90 @@ class TestCase(unittest.TestCase):
     def test_customerName_query(self):
 
         self.driver.find_ajax_id('customerInfo')
-        self.driver.find_element_by_id('customerInfo').send_keys('wss')
+        self.driver.find_id('customerInfo').send_keys('wss')
         time.sleep(1)
         #选择“全部任务”查询条件
-        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('task').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'全部任务':
                 opt.click()
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(4)
         #获取查询结果中的name
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
-        #取第一行第一列的订单号
+        trs=self.driver.find_id('list').find_tags('tr')
+        #取第一行第3列的订单号
         for i in range(1,len(trs)-1):
-         tds=trs[i].find_elements_by_tag_name('td')[3]
+         tds=trs[i].find_tags('td')[3]
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'wss' in tds.text,'msg')
+         self.assertTrue(u'wss' in tds.text,u'不符合查询条件')
 
 
     def test_customerPhone_query(self):
 
         self.driver.find_ajax_id('customerInfo')
-        self.driver.find_element_by_id('customerInfo').send_keys('13636468713')
+        self.driver.find_id('customerInfo').send_keys('13636468713')
         time.sleep(1)
         #选择“全部任务”查询条件
-        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('task').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'全部任务':
                 opt.click()
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(4)
         #获取查询结果中的name(phone)
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs=self.driver.find_id('list').find_tags('tr')
         #取所有行第3列
         for i in range(1,len(trs)-1):
-         tds=trs[i].find_elements_by_tag_name('td')[3]
+         tds=trs[i].find_tags('td')[3]
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'13636468713' in tds.text,'msg')
+         self.assertTrue(u'13636468713' in tds.text,u'不符合查询条件')
 
 
     def test_driverName_query(self):
 
         self.driver.find_ajax_id('driverInfo')
-        self.driver.find_element_by_id('driverInfo').send_keys('康小伟')
+        self.driver.find_id('driverInfo').send_keys(u'康小伟')
         time.sleep(1)
         #选择“全部任务”查询条件
-        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('task').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'全部任务':
                 opt.click()
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(4)
         #获取查询结果中所有行的第三列
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs=self.driver.find_id('list').find_tags('tr')
         for i in range(1,len(trs)-1):
-         tds=trs[i].find_elements_by_tag_name('td')[4]
+         tds=trs[i].find_tags('td')[4]
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'康小伟' in tds.text,'msg')
+         self.assertTrue(u'康小伟' in tds.text,u'不符合查询条件')
 
     def test_driverPhone_query(self):
 
         self.driver.find_ajax_id('driverInfo')
-        self.driver.find_element_by_id('driverInfo').send_keys('140018')
+        self.driver.find_id('driverInfo').send_keys('140018')
         time.sleep(1)
         #选择“全部任务”查询条件
-        opts=self.driver.find_element_by_id('task').find_elements_by_tag_name('option')
+        opts=self.driver.find_id('task').find_tags('option')
         for opt in opts:
             if opt.get_attribute('text')==u'全部任务':
                 opt.click()
-        self.driver.find_element_by_id('query').click()
+        self.driver.find_id('query').click()
         time.sleep(4)
         #获取查询结果中所有行的第三列
-        trs=self.driver.find_element_by_id('list').find_elements_by_tag_name('tr')
+        trs=self.driver.find_id('list').find_tags('tr')
         for i in range(1,len(trs)-1):
-         tds=trs[i].find_elements_by_tag_name('td')[4]
+         tds=trs[i].find_tags('td')[4]
          # order1=tds[i].text
          print tds.text
          # time.sleep(1)
-         self.assertTrue(u'140018' in tds.text,'msg')
+         self.assertTrue(u'140018' in tds.text,u'不符合查询条件')
 
 
 

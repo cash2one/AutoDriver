@@ -2,20 +2,24 @@
 __author__ = 'guanghua_2011@126.com'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
     def tearDown(self):
         self.driver.switch_to_home()
-    #一键下单界面，更改所在位置
+
+
     def test_change_Address(self):
+        '''
+        一键下单界面，更改所在位置
+        :return:
+        '''
         current_activity = self.driver.current_activity
+        self.driver.wait_loading()
         #点击一键下单，进入一键下单界面
         self.driver.find_id('rb_order').click()
         #点击所在位置

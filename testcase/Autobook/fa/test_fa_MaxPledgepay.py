@@ -1,15 +1,13 @@
 # coding=utf-8
 __author__ = 'xuguanghua@pathbook.com.cn'
-#查询成功
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -34,8 +32,8 @@ class TestCase(unittest.TestCase):
         amount_text = self.driver.find_element_by_id('pay_confirm_amount').get_attribute('title')
 
         print driver_text,amount_text
-        self.assertTrue('140202' in driver_text,'msg')
-        self.assertTrue(u'9,999,999.00(玖佰玖拾玖万玖仟玖佰玖拾玖元整)' in amount_text,'msg')
+        self.assertTrue('140202' in driver_text,u'充值司机不为140202')
+        self.assertTrue(u'9,999,999.00(玖佰玖拾玖万玖仟玖佰玖拾玖元整)' in amount_text,u'充值金额不为9999999')
         self.driver.find_element_by_id('btn_confirm').click()#点击确定，跳转至打印凭证界面
         time.sleep(2)
 
@@ -44,8 +42,8 @@ class TestCase(unittest.TestCase):
         small_amount = self.driver.find_element_by_id('amount').text#取出此次充值凭证上的小写金额
         print tradeNo_text,small_amount,big_amount#打印交易号，大写金额，小写金额
 
-        self.assertTrue('9,999,999.00' in  small_amount ,'msg')
-        self.assertTrue(u'玖佰玖拾玖万玖仟玖佰玖拾玖元整' in  big_amount ,'msg')
+        self.assertTrue('9,999,999.00' in  small_amount ,u'小写金额不为9,999,999.00')
+        self.assertTrue(u'玖佰玖拾玖万玖仟玖佰玖拾玖元整' in  big_amount ,u'大写金额不为玖佰玖拾玖万玖仟玖佰玖拾玖元整')
 
 
         self.driver.find_element_by_id('print_back').click()#返回至充值付款界面
@@ -53,26 +51,11 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于列表中
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs)-1):
+        for i in range(1,len(trs)):
             tds = trs[i].find_elements_by_tag_name('td')[2]
             if  tds.get_attribute('title') == tradeNo_text:
                 print 'ture',tds.get_attribute('title')
             else:
                 print 'False',tds.get_attribute('title')
         time.sleep(1)
-
-
-
-if __name__ =='__main__':
-    unittest.main()
-
-
-
-
-
-
-
-
-
-
 

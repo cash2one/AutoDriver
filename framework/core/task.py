@@ -5,13 +5,10 @@ import os, sys, re
 import unittest
 import threading
 import time
-from framework.util import const, sqlite
-import test_runner
-import threading
-import time
 from framework.util import sqlite
 import test_result
-from PyQt4 import QtCore
+#from PyQt4 import QtCore
+from framework.util import pyqt
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -25,6 +22,7 @@ FINISH = 0
 class Task():
     def __init__(self, init_data):
         self.task_status = False
+        print 'task core:',init_data
         self.datas = init_data
         self.path = self.datas['path']
         self.CASES = 'cases'
@@ -90,11 +88,14 @@ class Task():
     def finish(self):
         left_cases = 0  # 判断是否全部运行完毕
         cases = self.datas[self.CASES]
-        for i in range(0, len(cases) - 1):
+        for i in range(0, len(cases)):
             loop = cases[i]['loop']
             if loop > 0:
                 loop -= 1
-                self.datas[self.CASES][i] = loop  # 更新数据self.datas[self.CASES][ca] = num
+                #print 'tasks::::::',self.datas[self.CASES][i]
+                #cases=[{'source': 'MyDemo\\demo', 'name': 'test_customer_allfinishOrder.py', 'loop': 0, 'desc': ''},
+                #TODO: 未测试一个test类内的多个test方法的次数
+                self.datas[self.CASES][i]['loop'] = loop  # 更新数据self.datas[self.CASES][ca] = num
                 if loop > 0:  # 递减后的数量仍大于零
                     left_cases += 1
 
@@ -137,21 +138,15 @@ class TestRunner(threading.Thread):
 
             if self.getTask() == None:
                 self.stop()
-                self.ui.emit(QtCore.SIGNAL("over_all_case"))
+                #self.ui.emit(QtCore.SIGNAL("over_all_case"))
+                pyqt.over_all_case(self.ui)
                 return
 
             if self.task == None or not self.task.isRunning():
                 self.task = self.getTask()
 
-            # runner = test_runner_temp.TestRunner(
-            # # db=dbm,
-            # task=self.task
-            # )
-            #
-            # self.task.start()
-            # runner.run(self.task.getTestSuite())
             self.task.start()
-            # result = test_result_temp.NewTestResult()
+
             product_info = None
             if len(self.db_path.strip()) == 0:
                 self.dbm = None

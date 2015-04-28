@@ -5,16 +5,12 @@ __author__ = 'wangsahnshan@126.com'
 #用户登录，查看代驾协议
 
 import time
-import unittest
-from framework.core import testcase
-from selenium.common.exceptions import NoSuchElementException
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
-
 
     def tearDown(self):
         #返回首页
@@ -25,7 +21,7 @@ class TestCase(unittest.TestCase):
        current_activity = self.driver.current_activity
        #点击进入使用
        # self.driver.find_id('start_btn').click()
-       # self.driver.wait_loading()
+       self.driver.wait_loading()
        #点击用户中心
        self.driver.find_id('btn_personal_center').click()
        #点击代驾协议

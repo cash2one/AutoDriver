@@ -4,8 +4,9 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 from appium.webdriver.webdriver import WebDriver
-from selenium.common.exceptions import NoSuchElementException
-from framework.util import strs, mysql, fs
+from selenium.common import exceptions
+from selenium.webdriver.common.by import By
+import element
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -22,7 +23,11 @@ class IOS(WebDriver):
         desired_caps = {
             'deviceName': self.settings['device_name'],
             'platformName': self.settings['platform_name'],  # 'iOS',
+            'platformVersion':self.settings['platform_version'],
             'app': PATH('../../resource/app/' + self.settings['app']),
+
+            # 'bundleId': 'umeng.SocialDemo',
+            # 'udid': 'a9fff175c8746c64907612c7329bc33a95ff97e8',
         }
 
         browser_profile = None
@@ -31,6 +36,13 @@ class IOS(WebDriver):
         command_executor = 'http://localhost:%s/wd/hub' % self.settings['remote_port']
 
         super(IOS, self).__init__(command_executor, desired_caps, browser_profile, proxy, keep_alive)
+
+    @property
+    def NoSuchElementException(self):
+        return exceptions.NoSuchElementException()
+
+    def create_web_element(self, element_id):
+        return element.WebElement(self, element_id)
 
     def layouts(self):
         try:
@@ -45,24 +57,33 @@ class IOS(WebDriver):
             raise NameError, '%s is not exist' % id_
 
     def find_id(self, id_):
-        pass
+        p_id = self.package + self.layout(id_)
+        return self.find_element(by=By.ID, value=p_id)
 
     def find_ids(self, id_):
-        pass
+        p_id = self.package + self.layout(id_)
+        return self.find_elements(by=By.ID, value=p_id)
 
-    def find_tag(self, class_name):
-        pass
+    def find_class(self, name):
+        name_ = name
+        if not 'android.widget.' in name:
+            name_ = 'android.widget.' + name
+        return self.find_element(by=By.CLASS_NAME, value=name_)
 
-    def find_tags(self, class_name):
-        pass
+    def find_classes(self, name):
+        name_ = name
+        if not 'android.widget.' in name:
+            name_ = 'android.widget.' + name
+        return self.find_elements(by=By.CLASS_NAME, value=name_)
 
-    def find_name(self, name_):
-        pass
+    def find_name(self, name):
+        return self.find_element(by=By.NAME, value=name)
+
+    def find_names(self, name):
+        return self.find_elements(by=By.NAME, value=name)
+
 
     def switch_to_home(self):
-        '''
-        切换到主界面
-        '''
         pass
 
     def splash(self):
@@ -71,14 +92,25 @@ class IOS(WebDriver):
     def login(self, robot_name=''):
         pass
 
-    def wait_loading(self):
+    def wait_switch(self, origin_activity):
+        '''
+        等待界面切换完成
+        '''
         pass
 
+    def wait_loading(self):
+        '''
+        等待界面上的loading加载完毕
+        有的界面切换完成后，还有loading加载
+        '''
+        pass
+
+
     def wait_find_id(self, id_):
-        '''
-        等待动态控件的id 出现
-        '''
         pass
 
     def wait_find_id_text(self, id_, txt):
+        pass
+
+    def clear_text(self, id_):
         pass

@@ -1,26 +1,23 @@
 # coding=utf-8
 __author__ = 'zhangchun'
-import unittest
-from time import sleep
+
 import time
-
-from framework.core import device_bak, the
-
+from drivers import *
 
 #查看距离活动开始时间是否正确
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = the.android
+        self.driver = self.app(__file__)
 
     def tearDown(self):
         #返回首页
-        device_bak.switchToHome(self,self.mainActivity)
+        self.driver.switch_to_home()
 
     def test_case1(self):
         #每个测试用例，都需要把首页加入到变量mainActivity
         self.mainActivity = self.driver.current_activity
         self.driver.find_element_by_name(u'聚乐会').click()
-        sleep(10)
+        time.sleep(10)
         txt1=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_newpartydistancetime').text
 
         t1=self.driver.find_element_by_id('cn.com.pathbook.mychevy:id/tv_newpartytime').text

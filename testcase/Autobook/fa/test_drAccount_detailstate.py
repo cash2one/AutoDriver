@@ -1,14 +1,13 @@
 # coding=utf-8
 __author__ = 'xuguanghua@pathbook.com.cn'
+
 import time
-import unittest
-from framework.core import testcase
 from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -18,9 +17,9 @@ class TestCase(unittest.TestCase):
 
     #司机账户明细收支状态查询（以司机工号140221为例）
     def test_drAccount_detailState(self):
-        time.sleep(0.5)
-        self.driver.find_element_by_link_text('账户管理').click()
         time.sleep(2)
+        self.driver.find_element_by_link_text('账户管理').click()
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('司机账户').click()
         time.sleep(2)
 
@@ -43,7 +42,7 @@ class TestCase(unittest.TestCase):
         #定位当前列表
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs2)-1):
+        for i in range(1,len(trs2)):
             tds_pledgeOut = trs2[i].find_elements_by_tag_name('td')[5]
             tds_prepay = trs2[i].find_elements_by_tag_name('td')[8]
             tds_orderOut = trs2[i].find_elements_by_tag_name('td')[10]
@@ -54,9 +53,9 @@ class TestCase(unittest.TestCase):
 
             #print pledgeOut_text,prepay_text,orderOut_text
             #self.assertTrue(self.driver.to_int(balanceOut_text) == 0,'msg')#将字符串转换成int型对比
-            self.assertTrue(pledgeOut_text == '0.00','msg')
-            self.assertTrue(prepay_text == '0.00','msg')
-            self.assertTrue(orderOut_text == '0.00','msg')
+            self.assertTrue(pledgeOut_text == '0.00',u'押金支出不为0')
+            self.assertTrue(prepay_text == '0.00',u'预付款支出不为0')
+            self.assertTrue(orderOut_text == '0.00',u'订单支出不为0')
 
         time.sleep(2)
 
@@ -81,7 +80,7 @@ class TestCase(unittest.TestCase):
         #定位当前列表
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
+        for i in range(1,len(trs3)):
             tds_pledgeIn = trs3[i].find_elements_by_tag_name('td')[4]
             tds_prepayIn = trs3[i].find_elements_by_tag_name('td')[7]
 
@@ -89,8 +88,8 @@ class TestCase(unittest.TestCase):
             prepayIn_text = tds_prepayIn.get_attribute('title')#取出预付款收入
 
             #print pledgeIn_text,prepayIn_text
-            self.assertTrue(self.driver.to_int(pledgeIn_text) == 0,'msg')#将字符串转换成int型对比
-            self.assertTrue(self.driver.to_int(prepayIn_text) == 0,'msg')#将字符串转换成int型对比
+            self.assertTrue(self.driver.to_int(pledgeIn_text) == 0,u'押金收入不为0')#将字符串转换成int型对比
+            self.assertTrue(self.driver.to_int(prepayIn_text) == 0,u'预付款收入不为0')#将字符串转换成int型对比
 
         time.sleep(2)
 
@@ -122,9 +121,4 @@ class TestCase(unittest.TestCase):
         print '全部收支状态下的记录数为：',all_No,'条'
         time.sleep(2)
         #对比：全部收支状态下记录数 =收入记录数 + 支出记录数，为真
-        self.assertTrue(all_No == In_No + Out_No,'msg' )
-
-
-
-if __name__ =='__main__':
-    unittest.main()
+        self.assertTrue(all_No == In_No + Out_No,u'总记录数不等于收入数加支出数' )

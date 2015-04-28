@@ -1,14 +1,13 @@
 # coding=utf-8
 __author__ = 'xuguanghua@pathbook.com.cn'
+
 import time
-import unittest
-from framework.core import testcase
 from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -20,7 +19,7 @@ class TestCase(unittest.TestCase):
     def test_drAccount_querydriver(self):
         time.sleep(2)
         self.driver.find_element_by_link_text('账户管理').click()
-        time.sleep(2)
+        time.sleep(0.5)
         self.driver.find_element_by_link_text('司机账户').click()
         time.sleep(2)
 
@@ -33,11 +32,11 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table1 = self.driver.find_element_by_id('list')
         trs1 = table1.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs1)-1):
+        for i in range(1,len(trs1)):
             tds1 = trs1[i].find_elements_by_tag_name('td')[1]
             driverNo_text = tds1.get_attribute('title')
-            self.assertTrue('140017' in driverNo_text,'msg')
-            self.assertTrue(len(trs1) == 2,'msg')#工号是唯一的，只有一条记录
+            self.assertTrue('140017' in driverNo_text,u'没有找到指定字符串')
+            self.assertTrue(len(trs1) == 2,u'140017的记录不为1条')#工号是唯一的，只有一条记录
         time.sleep(2)
 
         #2.姓名查询
@@ -49,10 +48,10 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table2 = self.driver.find_element_by_id('list')
         trs2 = table2.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs2)-1):
+        for i in range(1,len(trs2)):
             tds2 = trs2[i].find_elements_by_tag_name('td')[2]
             driverName = tds2.get_attribute('title')
-            self.assertTrue(u'徐三妹' in driverName,'msg')
+            self.assertTrue(u'徐三妹' in driverName,u'没有找到指定字符串')
         time.sleep(2)
 
         #3.手机号查询
@@ -64,10 +63,10 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs3)-1):
-            tds3 = trs3[i].find_elements_by_tag_name('td')[3]
+        for i in range(1,len(trs3)):
+            tds3 = trs3[i].find_elements_by_tag_name('td')[4]
             driverPhone = tds3.get_attribute('title')
-            self.assertTrue(u'徐三妹' in driverPhone,'msg')
+            self.assertTrue('18701796807' in driverPhone,u'没有找到指定字符串')
         time.sleep(2)
 
         #4.模糊查询
@@ -79,10 +78,10 @@ class TestCase(unittest.TestCase):
         #定位到当前列表
         table4 = self.driver.find_element_by_id('list')
         trs4 = table4.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs4)-1):
+        for i in range(1,len(trs4)):
             tds4 = trs4[i].find_elements_by_tag_name('td')[2]
             driverName1 = tds4.get_attribute('title')
-            self.assertTrue(u'张' in driverName1,'msg')
+            self.assertTrue(u'张' in driverName1,u'没有找到指定字符串')
         time.sleep(2)
 
         #5.无结果查询
@@ -92,10 +91,5 @@ class TestCase(unittest.TestCase):
         time.sleep(2)
         #取出提示信息，对比信息
         norecords_text = self.driver.find_element_by_class_name('norecords').text
-        self.assertTrue(u'没有符合条件的数据...' in norecords_text,'msg')
+        self.assertTrue(u'没有符合条件的数据...' in norecords_text,u'没有找到指定字符串')
         time.sleep(2)
-
-
-if __name__ =='__main__':
-    unittest.main()
-

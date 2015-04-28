@@ -4,7 +4,11 @@ __author__ = 'guguohai@pathbook.com.cn'
 import os
 import time
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common import exceptions
+from selenium.webdriver.common.by import By
+import element
 
 TIME_OUT = 100
 PATH = lambda p: os.path.abspath(
@@ -26,6 +30,17 @@ class Firefox(WebDriver):
         super(Firefox, self).__init__(firefox_profile, firefox_binary, timeout,
                                       capabilities, proxy)
 
+
+    @property
+    def NoSuchElementException(self):
+        return exceptions.NoSuchElementException
+
+    def action_chains(self):
+        return ActionChains(self)
+
+    def keys(self):
+        return Keys()
+
     def _get_sections_url(self):
         server_url = self.settings['url']
         return self.current_url.replace(server_url, '')
@@ -45,23 +60,50 @@ class Firefox(WebDriver):
         except KeyError:
             raise NameError, 'option not exist'
 
+    def create_web_element(self, element_id):
+        return element.WebElement(self, element_id)
+
+    # def find_id(self, id_):
+    # #id = self.layout(id_)
+    #     #return self.find_element_by_id(id)
+    #     return self.find_element(by=By.ID, value=id_)
 
     def find_id(self, id_):
-        id = self.layout(id_)
-        return self.find_element_by_id(id)
+        #id_ = self.layout(id)
+        return self.find_element(by=By.ID, value=id_)
 
     def find_ids(self, id_):
-        id = self.layout(id_)
-        return self.find_elements_by_id(id)
+        return self.find_elements(by=By.ID, value=id_)
 
-    def find_tag(self, class_name):
-        return self.find_element_by_class_name(class_name)
+    def find_tag(self, name):
+        return self.find_element(by=By.TAG_NAME, value=name)
 
-    def find_tags(self, class_name):
-        return self.find_elements_by_class_name(class_name)
+    def find_tags(self, name):
+        return self.find_elements(by=By.TAG_NAME, value=name)
 
-    def find_name(self, name_):
-        return self.find_element_by_name(name_)
+    def find_class(self, name):
+        return self.find_element(by=By.CLASS_NAME, value=name)
+
+    def find_classes(self, name):
+        return self.find_elements(by=By.CLASS_NAME, value=name)
+
+    def find_name(self, name):
+        return self.find_element(by=By.NAME, value=name)
+
+    def find_names(self, name):
+        return self.find_elements(by=By.NAME, value=name)
+
+    def find_link(self, link_text):
+        return self.find_element(by=By.LINK_TEXT, value=link_text)
+
+    def find_links(self, link_text):
+        return self.find_elements(by=By.LINK_TEXT, value=link_text)
+
+    def find_css(self, css_selector):
+        return self.find_element(by=By.CSS_SELECTOR, value=css_selector)
+
+    def find_csses(self, css_selector):
+        return self.find_elements(by=By.CSS_SELECTOR, value=css_selector)
 
     def _index_url(self, value=''):
         index_url = ''

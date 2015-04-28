@@ -2,26 +2,34 @@
 __author__ = 'gaoxu@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import idriver_web
+from drivers import *
 
-
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = idriver_web.firefox(__file__)
+        self.driver = self.app(__file__)
         #浏览器最大化
         self.driver.maximize_window()
-        #登录平台
         self.driver.login()
 
     def tearDown(self):
-         #返回首页
-        # self.driver.switch_to_home()
-        time.sleep(5)
-         #关闭浏览器
+        # 返回首页
+        self.driver.switch_to_home()
+        # 关闭浏览器
         # self.driver.close()
+
+
     #修改链接
     def test_update(self):
-        self.driver.find_element_by_xpath('/html/body/div[2]/ul/li[2]/a').click()
+        '''
+        点击修改链接，信息不一致，显示"对比信息不一致"
+        :return:
+        '''
+        self.driver.find_element_by_link_text(u'司机管理').click()
+        uptx=self.driver.find_element_by_id('update').text
+        self.assertTrue(u'修改' in uptx,u'对比信息不一致')
         self.driver.find_element_by_id('update').click()
+        print self.driver.title
+        self.assertTrue(u'添加司机' in self.driver.title)
+
+

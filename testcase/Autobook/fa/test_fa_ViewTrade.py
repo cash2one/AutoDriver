@@ -2,13 +2,12 @@
 __author__ = 'xuguanghua@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -42,11 +41,8 @@ class TestCase(unittest.TestCase):
 
         print tranNo,tradeType,operateType
         #对比信息
-        if (list_no_text == tranNo)&(list_type_text == tradeType)&(list_operateType_text == operateType):
-            print 'Ture'
-        else:
-            print 'False'
-
-
-if __name__ =='__main__':
-    unittest.main()
+        # if (list_no_text == tranNo)&(list_type_text == tradeType)&(list_operateType_text == operateType):
+        #     print 'Ture'
+        # else:
+        #     print 'False'
+        self.assertTrue((list_no_text == tranNo)&(list_type_text == tradeType)&(list_operateType_text == operateType),u'交易详情与充值记录信息部一致')

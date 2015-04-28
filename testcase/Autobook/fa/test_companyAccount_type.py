@@ -2,13 +2,12 @@
 __author__ = 'xuguanghua@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -31,9 +30,9 @@ class TestCase(unittest.TestCase):
         tips2_text = table.find_element_by_id('companyAccount_bank_edit_tip').text
         tips3_text = table.find_element_by_id('companyAccount_bankAccount_edit_tip').text
         print tips1_text,tips2_text,tips3_text
-        self.assertTrue(u'请选择账户类型.' in tips1_text,'msg')
-        self.assertTrue(u'请选择所属银行.' in tips2_text,'msg')
-        self.assertTrue(u'银行账号不能为空.' in tips3_text,'msg')
+        self.assertTrue(u'请选择账户类型.' in tips1_text,u'没有找到指定字符串')
+        self.assertTrue(u'请选择所属银行.' in tips2_text,u'没有找到指定字符串')
+        self.assertTrue(u'银行账号不能为空.' in tips3_text,u'没有找到指定字符串')
         opts1 = table.find_element_by_id('companyAccount_type_edit').find_elements_by_tag_name('option')
         opts2 = table.find_element_by_id('companyAccount_bank_edit').find_elements_by_tag_name('option')
         print len(opts1)-1,len(opts2)-1
@@ -55,7 +54,7 @@ class TestCase(unittest.TestCase):
         time.sleep(2)
         tips4_text = table.find_element_by_id('companyAccount_bankAccount_edit_tip').text
         print tips4_text
-        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips4_text,'msg')
+        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips4_text,u'没有找到指定字符串')
         time.sleep(2)
         #账号输入14位数字
         table.find_element_by_id('companyAccount_bankAccount_edit').clear()
@@ -64,7 +63,7 @@ class TestCase(unittest.TestCase):
         time.sleep(2)
         tips5_text = table.find_element_by_id('companyAccount_bankAccount_edit_tip').text
         print tips5_text
-        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips5_text,'msg')
+        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips5_text,u'没有找到指定字符串')
         time.sleep(2)
         #账号输入21位数字
         table.find_element_by_id('companyAccount_bankAccount_edit').clear()
@@ -73,7 +72,7 @@ class TestCase(unittest.TestCase):
         time.sleep(2)
         tips6_text = table.find_element_by_id('companyAccount_bankAccount_edit_tip').text
         print tips6_text
-        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips6_text,'msg')
+        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips6_text,u'没有找到指定字符串')
         time.sleep(2)
         #账号输入包含英文、小数点
         table.find_element_by_id('companyAccount_bankAccount_edit').clear()
@@ -82,13 +81,5 @@ class TestCase(unittest.TestCase):
         time.sleep(2)
         tips7_text = table.find_element_by_id('companyAccount_bankAccount_edit_tip').text
         print tips7_text
-        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips7_text,'msg')
+        self.assertTrue(u'银行账号必须为15到20位的数字.' in tips7_text,u'没有找到指定字符串')
         time.sleep(2)
-
-
-
-if __name__ =='__main__':
-    unittest.main()
-
-
-

@@ -1,0 +1,53 @@
+/* #333333; *100%*/
+/* #707070; *70%*/
+/* #999999; *50%*/
+/* #c1c1c1; *30%*/
+/* #eaeaea; *10%*/
+
+.header{background-color:#999999;}
+.header .logo-menu{background-color:#333333;}
+.header .logo-menu h1{color:#fff;}
+
+.menu li.selected{background-color:#707070;}
+.menu li a:hover{background-color:#707070;}
+
+#switchSkin{border:#333333 1px solid;border-top:0;background-color:#707070;}
+#uploadFiles{border:#333333 1px solid;border-top:0;background-color:#707070;}
+#uploadFiles ul li.btn input{background-color:#707070;border:#333333 1px solid;}
+
+
+#dataArea th{background-color:#707070;color:#fff;}
+#dataArea td{background-color:#eaeaea;}
+#dataArea h3{color:#333333;}
+
+.changeDate a{background-image:url(../images/date_black.gif);}
+.changeDate a:hover{background-color:#333333;}
+
+.changeDate a.date:link{background:#fff url(../images/date_black.gif) no-repeat center 0;}
+.changeDate a.date:visited{background:#fff url(../images/date_black.gif) no-repeat center 0;}
+.changeDate a.date:hover{background:#333333 url(../images/date_black.gif) no-repeat center -25px;}
+.changeDate a.date:active{background:#fff url(../images/date_black.gif) no-repeat center 0;}
+#dateList .evenDate{background-color:#eaeaea;}
+
+#leftBar{background-color:#eaeaea;}
+#leftBar li a{background-image:url(../images/list_black.gif);}
+#leftBar li.selected a:link{background-color:#707070;}
+#leftBar li.selected a:visited{background-color:#707070;}
+#leftBar li.selected a:hover{background-color:#707070;}
+#leftBar li.selected a:active{background-color:#707070;}
+
+#leftBar li a:link{background-color:#eaeaea}
+#leftBar li a:visited{background-color:#eaeaea;}
+#leftBar li a:hover{background-color:#707070;}
+#leftBar li a:active{background-color:#eaeaea;}
+
+.box h3{background-color:#707070;color:#fff;}
+.box h3 a:link{background-color:#707070;}
+.box h3 a:visited{background-color:#707070;}
+.box h3 a:hover{background-color:#333333;}
+.box h3 a:active{background-color:#707070;}
+
+.jspDrag{background: #c1c1c1;}
+.jspArrow{background-color: #707070;}
+.jspArrow.jspDisabled{background-color: #999999;}
+

@@ -1,0 +1,47 @@
+<RCC>
+  <qresource prefix="toolbars">
+    <file>res/wand.png</file>
+    <file>res/table_sheet.png</file>
+    <file>res/life.png</file>
+    <file>res/interface.png</file>
+    <file>res/system_monitor.png</file>
+    <file>res/inbox.png</file>
+    <file>res/task.png</file>
+    <file>res/jira.png</file>
+    <file>res/user1s.png</file>
+    <file>res/case.png</file>
+    <file>res/home.png</file>
+  </qresource>
+  <qresource prefix="icon16">
+    <file>res/status_closed.gif</file>
+    <file>res/status_inprogress.gif</file>
+    <file>res/status_open.gif</file>
+    <file>res/status_reopened.gif</file>
+    <file>res/status_resolved.gif</file>
+    <file>res/priority_blocker.gif</file>
+    <file>res/priority_critical.gif</file>
+    <file>res/priority_major.gif</file>
+    <file>res/priority_minor.gif</file>
+    <file>res/priority_trivial.gif</file>
+    <file>res/add.png</file>
+    <file>res/add_table.png</file>
+    <file>res/app.png</file>
+    <file>res/exit.png</file>
+  </qresource>
+  <qresource prefix="button">
+    <file>res/add.png</file>
+  </qresource>
+  <qresource prefix="bg">
+    <file>res/projectavatar.png</file>
+    <file>res/login_btn_down.png</file>
+    <file>res/login_btn_hover.png</file>
+    <file>res/login_btn_normal.png</file>
+    <file>res/login.png</file>
+  </qresource>
+  <qresource prefix="formicon">
+    <file>res/alert.png</file>
+  </qresource>
+  <qresource prefix="mainicon">
+    <file>res/wp.ico</file>
+  </qresource>
+</RCC>

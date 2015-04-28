@@ -2,13 +2,12 @@
 __author__ = 'xuguanghua@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -115,7 +114,7 @@ class TestCase(unittest.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
 
     #充值司机输入已经离职的司机工号（如：140083）
@@ -132,11 +131,6 @@ class TestCase(unittest.TestCase):
         #对比界面红色字体提示语
         driver_tip_text = self.driver.find_element_by_id('driver_tip').text
         print driver_tip_text
-        self.assertTrue(u'充值司机不存在.' in driver_tip_text,'msg')
+        self.assertTrue(u'充值司机不存在.' in driver_tip_text,u'没有找到指定字符串')
         time.sleep(1)
-
-
-if __name__ =='__main__':
-    unittest.main()
-
 

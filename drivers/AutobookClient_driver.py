@@ -10,7 +10,7 @@ import urllib2
 from selenium.common.exceptions import NoSuchElementException
 
 import socket
-from framework.core import the
+from framework.core import box
 from framework.util import strs, mysql
 from framework.core import android
 
@@ -31,6 +31,12 @@ class Application(android.Android):
     def __init__(self, config):
         super(Application, self).__init__(config)
 
+    def to_datetime(self, str_time):
+        return strs.to_datetime(str_time)
+
+    def to_long(self, str_number):
+        return strs.to_long(str_number)
+
     def wait_loading(self):
         '''
         如果有loading，等待加载完成
@@ -38,7 +44,7 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package + NET_WAIT)
+                self.find_element_by_id(NET_WAIT)
                 # print 'wait ....'
             except NoSuchElementException:
                 isLoading = True
@@ -50,21 +56,26 @@ class Application(android.Android):
             self.settings['driver_status'] = False
 
         if self.settings['driver_status'] != isWorking:
-            self.find_element_by_id(self.package + WORK_STATE).click()
+            self.find_id(WORK_STATE).click()
             self.settings['driver_status'] = isWorking
             self.wait_loading()
 
     def login(self, robot_name=''):
-        if '.driver' in self.settings['app_package']:
-            login_driver(self)
-        elif '.customer' in self.settings['app_package']:
-            login_customer(self, robot_name)
+        login = self.settings['login_activity']
+        usr_name = self.settings['user_name']
+        usr_pwd = self.settings['user_pwd']
+
+        self.find_id('et_username').send_keys(usr_name)
+        self.find_id('et_password').send_keys(usr_pwd)
+        self.find_id('bt_login').click()
+
+        self.wait_switch(login)
 
     def swipe_up(self, id_):
         # {'y': 274, 'x': 0}
         # {'width': 720, 'height': 894}
-        loc = self.find_element_by_id(self.package + id_).location
-        sz = self.find_element_by_id(self.package + id_).size
+        loc = self.find_id(id_).location
+        sz = self.find_id(id_).size
 
         start_y = loc['y'] + 5
         end_y = start_y - 5 + sz['height'] - 5
@@ -76,12 +87,12 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package + ORDER_LOAD)
+                self.find_id(ORDER_LOAD)
             except NoSuchElementException:
                 isLoading = True
 
     def swipee(self, id_):
-        ids = self.find_elements_by_id(self.package + id_)
+        ids = self.find_id(id_)
         first_y = ids[0].location['y']
         item_height = ids[0].size['height']
 
@@ -94,7 +105,7 @@ class Application(android.Android):
         isLoading = False
         while not isLoading:
             try:
-                self.find_element_by_id(self.package + ORDER_LOAD)
+                self.find_id(ORDER_LOAD)
             except NoSuchElementException:
                 isLoading = True
 
@@ -103,14 +114,14 @@ class Application(android.Android):
         '''
         列表滑动，找到匹配的内容后，click
         '''
-        self.find_element_by_id(self.package + item_id)
+        self.find_id(item_id)
         time_out = TIME_OUT + 50
         while time_out > 0:
-            items = self.find_elements_by_id(self.package + item_id)
+            items = self.find_id(item_id)
             for item in items:
-                if target_txt in item.find_element_by_id(target_id).text:
+                if target_txt in item.find_id(target_id).text:
                     if execute_id != '':
-                        item.find_element_by_id(execute_id).click()
+                        item.find_id(execute_id).click()
                     else:
                         item.click()
                     break
@@ -127,7 +138,7 @@ class Application(android.Android):
         '''
         datas = ()
         while page_size > 0:
-            items = self.find_elements_by_id(self.package + item_id)
+            items = self.find_id(item_id)
 
             for item in items:
                 # if len(sub_item_id) > 0:
@@ -136,7 +147,7 @@ class Application(android.Android):
                 for sub in sub_items:
                     sub_txt = ''
                     try:
-                        sub_txt = item.find_element_by_id(self.package + sub).text
+                        sub_txt = item.find_id(sub).text
                         sub_tup += (sub_txt,)
                     except NoSuchElementException:
                         print 'find id fail', sub_txt
@@ -160,7 +171,7 @@ class Application(android.Android):
         while True:
             tv_wait = ''
             try:
-                tv_wait = self.find_element_by_id(self.package + 'tv_wait').text
+                tv_wait = self.find_id('tv_wait').text
             except NoSuchElementException:
                 break
 
@@ -205,7 +216,7 @@ class Application(android.Android):
     # '''
     # xmlrpc_s = the.settings['xmlrpc']
     # s = xmlrpclib.ServerProxy('http://%s:%s' % (xmlrpc_s['host'], xmlrpc_s['port']))
-    #     try:
+    # try:
     #         s.set_customer(True, user_name)
     #     except xmlrpclib.Fault:
     #         pass
@@ -343,7 +354,7 @@ class Application(android.Android):
         return self.settings['contact_phone']  # ['idriver.android.customer']
 
     def clear_text(self, id_):
-        txt = self.find_element_by_id(self.package + id_).get_attribute('text')
+        txt = self.find_id(id_).get_attribute('text')
         self.keyevent(123)
 
         for i in range(0, len(txt)):
@@ -393,13 +404,13 @@ class Application(android.Android):
         time_out = TIME_OUT
         while time_out > 0:
             try:
-                self.find_element_by_id(self.package + id_)
+                self.find_id(id_)
                 isExist = True
             except NoSuchElementException:
                 isExist = False
 
             if isExist:
-                return self.find_element_by_id(self.package + id_)
+                return self.find_id(id_)
 
             time_out -= 1
             time.sleep(0.5)
@@ -410,8 +421,8 @@ class Application(android.Android):
         time_out = TIME_OUT
         while time_out > 0:
             try:
-                if txt in self.find_element_by_id(self.package + id_).text:
-                    return self.find_element_by_id(self.package + id_)
+                if txt in self.find_id(id_).text:
+                    return self.find_id(id_)
                     # break
             except NoSuchElementException:
                 pass
@@ -422,22 +433,24 @@ class Application(android.Android):
             raise NameError, 'find_element timeout'
 
     def splash(self):
-        time_out = TIME_OUT
-        try:
-            splash_activity = self.settings['app_activity']
-            while time_out > 0:
-                if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
-                    if splash_activity not in self.current_activity:
-                        break
-                time_out -= 1
-                time.sleep(0.5)
-            else:
-                raise NameError, 'switch timeout'
-
-            self.wait_loading()
-
-        except KeyError:
-            pass  #raise NameError, 'app_activity is not exist'
+        splash_activity = self.settings['app_activity']  #.SplashActivity
+        self.wait_switch(splash_activity)
+        # time_out = TIME_OUT
+        # try:
+        #     splash_activity = self.settings['app_activity']
+        #     while time_out > 0:
+        #         if self.current_activity.find('.') == 0 and len(self.current_activity) > 4:
+        #             if splash_activity not in self.current_activity:
+        #                 break
+        #         time_out -= 1
+        #         time.sleep(0.5)
+        #     else:
+        #         raise NameError, 'switch timeout'
+        #
+        #     self.wait_loading()
+        #
+        # except KeyError:
+        #     pass  #raise NameError, 'app_activity is not exist'
 
 
     def wait_switch(self, origin_activity):
@@ -456,11 +469,11 @@ class Application(android.Android):
 
 def add_devices(key, val):
     try:
-        status = the.devices[key]
+        status = box.devices[key]
     except KeyError:
-        the.devices[key] = val
+        box.devices[key] = val
 
-    return the.devices[key]
+    return box.devices[key]
 
 
 def register_user(self_driver, user_name):
@@ -477,23 +490,23 @@ def register_user(self_driver, user_name):
     # user_name = self_driver.configs['user_name']
     code = self_driver.settings['code']
 
-    self_driver.find_element_by_id(pkg + 'btn_personalcenter').click()
+    self_driver.find_id(pkg + 'btn_personalcenter').click()
     self_driver.wait_switch(main_activity)
 
-    self_driver.find_elements_by_id(pkg + 'personal_name')[0].click()
+    self_driver.find_id(pkg + 'personal_name')[0].click()
 
     self_driver.wait_switch('.PersonActivity')
 
-    self_driver.find_element_by_id(pkg + 'phonenumber').send_keys(contact_phone)
+    self_driver.find_id(pkg + 'phonenumber').send_keys(contact_phone)
 
-    read_status = self_driver.find_element_by_id(pkg + 'login_agree').get_attribute('checked')
+    read_status = self_driver.find_id(pkg + 'login_agree').get_attribute('checked')
     if 'true' not in read_status:
-        self_driver.find_element_by_id(pkg + 'login_agree').click()
+        self_driver.find_id(pkg + 'login_agree').click()
 
-    self_driver.find_element_by_id(pkg + 'next_step').click()
+    self_driver.find_id(pkg + 'next_step').click()
     time.sleep(1)
-    self_driver.find_element_by_id(pkg + 'verification_code').send_keys(code)
-    self_driver.find_element_by_id(pkg + 'code_submit').click()
+    self_driver.find_id(pkg + 'verification_code').send_keys(code)
+    self_driver.find_id(pkg + 'code_submit').click()
 
     # 验证码完成后，会返回到PersonActivity
     self_driver.wait_switch('.MyInfoActivity')
@@ -504,14 +517,14 @@ def register_user(self_driver, user_name):
     # self_driver.wait_switch('.PersonActivity')
     #
     #
-    # #txt = self_driver.find_element_by_id(pkg+'personal_user_name').get_attribute('text')
+    # #txt = self_driver.find_id(pkg+'personal_user_name').get_attribute('text')
     # #self_driver.clear(txt)
     # self_driver.clear_text('personal_user_name')
     #
-    # self_driver.find_element_by_id(pkg+'personal_user_name').send_keys(user_name)
+    # self_driver.find_id(pkg+'personal_user_name').send_keys(user_name)
     #
     # #选择性别
-    # if 'true' not in self_driver.find_element_by_id(pkg+'personal_man').get_attribute('checked'):
+    # if 'true' not in self_driver.find_id(pkg+'personal_man').get_attribute('checked'):
     # self_driver.find_id('personal_man').click()
     # #点击完成按钮
     # self_driver.find_id('personal_finish').click()
@@ -520,7 +533,7 @@ def register_user(self_driver, user_name):
     # 方便调试先注释
 
     # 点击附近司机，返回到地图界面
-    self_driver.find_element_by_id(pkg + 'button_title_back').click()
+    self_driver.find_id(pkg + 'button_title_back').click()
     self_driver.wait_switch('.PersonActivity')
 
 
@@ -540,7 +553,7 @@ def login_customer(self_driver, robot_name=''):
         time.sleep(2)
         # 在main界面没有登录控件id
         try:
-            self_driver.find_element_by_id(self_driver.pkg + 'start_btn').click()
+            self_driver.find_id(self_driver.pkg + 'start_btn').click()
         except NoSuchElementException:
             pass
 
@@ -578,9 +591,9 @@ def login_driver(self_driver):
         time.sleep(2)
         # 在main界面没有登录控件id
         try:
-            self_driver.find_element_by_id(self_driver.package + 'et_username').send_keys(usr_name)
-            self_driver.find_element_by_id(self_driver.package + 'et_password').send_keys(usr_pwd)
-            self_driver.find_element_by_id(self_driver.package + 'bt_login').click()
+            self_driver.find_id(self_driver.package + 'et_username').send_keys(usr_name)
+            self_driver.find_id(self_driver.package + 'et_password').send_keys(usr_pwd)
+            self_driver.find_id(self_driver.package + 'bt_login').click()
         except:
             pass
 

@@ -29,13 +29,13 @@ TASK_LOCAL = 1
 
 EXCEL_HEADER = {
 'no':u'用例编号',
+'name':u'用例名',
 'cat':u'分类',
 'desc':u'用例描述',
 'exp':u'期望结果',
-'script':u'用例脚本',
-'loop':u'执行次数'
+'script':u'用例脚本'
 }
-
+#'loop':u'执行次数'
 TOKEN_NO = '{{tokenNo}}'
 PHONE = '{{phone}}'
 PMID = '{{pmId}}'

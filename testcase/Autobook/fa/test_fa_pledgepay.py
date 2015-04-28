@@ -1,15 +1,13 @@
 # coding=utf-8
 __author__ = 'xuguanghua@pathbook.com.cn'
-#查询成功
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -34,8 +32,8 @@ class TestCase(unittest.TestCase):
         amount_text = self.driver.find_element_by_id('pay_confirm_amount').get_attribute('title')
 
         print driver_text,amount_text
-        self.assertTrue(u'徐小七(140221)' in driver_text,'msg')
-        self.assertTrue(u'1.00(壹元整)' in amount_text,'msg')
+        self.assertTrue(u'徐小七(140221)' in driver_text,u'充值司机不为140221')
+        self.assertTrue(u'1.00(壹元整)' in amount_text,u'充值金额不为1元整')
         self.driver.find_element_by_id('btn_confirm').click()#点击确定，跳转至打印凭证界面
         time.sleep(3)
 
@@ -46,7 +44,7 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于列表中
         table = self.driver.find_element_by_id('list')
         trs = table.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs)-1):
+        for i in range(1,len(trs)):
             tds = trs[i].find_elements_by_tag_name('td')[2]
             if  tds.get_attribute('title') == tradeNo_text:
                 print 'Ture',tds.get_attribute('title')
@@ -67,7 +65,7 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于司机明细列表中
         table1 = self.driver.find_element_by_id('list')
         trs1 = table1.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs1)-1):
+        for i in range(1,len(trs1)):
             tds1 = trs1[i].find_elements_by_tag_name('td')[1]
             if  tds1.get_attribute('title') == tradeNo_text:
                 print 'Ture',tds1.get_attribute('title')
@@ -88,26 +86,10 @@ class TestCase(unittest.TestCase):
         #查询此条交易记录的交易号tradeNo_text是否存在于公司预付款账户明细列表中
         table3 = self.driver.find_element_by_id('list')
         trs3 = table3.find_elements_by_tag_name('tr')
-        for i in range(1,len(trs1)-1):
+        for i in range(1,len(trs1)):
             tds3 = trs3[i].find_elements_by_tag_name('td')[1]
             if  tds3.get_attribute('title') == tradeNo_text:
                 print 'Ture',tds3.get_attribute('title')
             else:
                 print 'False',tds3.get_attribute('title')
         time.sleep(2)
-
-
-
-if __name__ =='__main__':
-    unittest.main()
-
-
-
-
-
-
-
-
-
-
-

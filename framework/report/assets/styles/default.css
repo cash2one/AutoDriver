@@ -1,0 +1,50 @@
+/* #2da52d; *100%*/
+/* #6cc06c; *70%*/
+/* #96d296; *50%*/
+/* #c0e4c0; *30%*/
+/* #eaf6ea; *10%*/
+
+.header{background-color:#96d296;}
+.header .logo-menu{background-color:#2da52d;}
+.header .logo-menu h1{color:#fff;}
+
+.menu li.selected{background-color:#6cc06c;}
+.menu li a:hover{background-color:#6cc06c;}
+
+#switchSkin{border:#2da52d 1px solid;border-top:0;background-color:#6cc06c;}
+#uploadFiles{border:#2da52d 1px solid;border-top:0;background-color:#6cc06c;}
+#uploadFiles ul li.btn input{background-color:#6cc06c;border:#2da52d 1px solid;}
+
+
+#dataArea th{background-color:#6cc06c;color:#fff;}
+#dataArea td{background-color:#eaf6ea;}
+#dataArea h3{color:#2da52d;}
+
+.changeDate a.date:link{background:#fff url(../images/date.gif) no-repeat center 0;}
+.changeDate a.date:visited{background:#fff url(../images/date.gif) no-repeat center 0;}
+.changeDate a.date:hover{background:#2da52d url(../images/date.gif) no-repeat center -25px;}
+.changeDate a.date:active{background:#fff url(../images/date.gif) no-repeat center 0;}
+#dateList .evenDate{background-color:#eaf6ea;}
+
+#leftBar{background-color:#eaf6ea;}
+#leftBar li a{background-image:url(../images/list.gif);}
+#leftBar li.selected a:link{background-color:#6cc06c;}
+#leftBar li.selected a:visited{background-color:#6cc06c;}
+#leftBar li.selected a:hover{background-color:#6cc06c;}
+#leftBar li.selected a:active{background-color:#6cc06c;}
+
+#leftBar li a:link{background-color:#eaf6ea}
+#leftBar li a:visited{background-color:#eaf6ea;}
+#leftBar li a:hover{background-color:#6cc06c;}
+#leftBar li a:active{background-color:#eaf6ea;}
+
+.box h3{background-color:#6cc06c;color:#fff;}
+.box h3 a:link{background-color:#6cc06c;}
+.box h3 a:visited{background-color:#6cc06c;}
+.box h3 a:hover{background-color:#2da52d;}
+.box h3 a:active{background-color:#6cc06c;}
+
+.jspDrag{background: #c0e4c0;}
+.jspArrow{background-color: #6cc06c;}
+.jspArrow.jspDisabled{background-color: #96d296;}
+

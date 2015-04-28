@@ -6,9 +6,10 @@ import unittest
 import StringIO
 import datetime
 import re
-from PyQt4 import QtCore
+#from PyQt4 import QtCore
 
-from framework.core import the
+from framework.core import box
+from framework.util import pyqt
 
 
 STATUS = {
@@ -24,7 +25,7 @@ class NewTestResult(unittest.TestResult):
         self.dbm = dbm
         self.product_info = product_info
         self.ui = ui
-        self.test_user = the.jira.userName
+        self.test_user = box.jira.userName
         self.currentStatus = 0
 
         self.result = []
@@ -50,20 +51,19 @@ class NewTestResult(unittest.TestResult):
 
     def stopTest(self, test):
         self.complete_output()
-        # _testcase = str(test)
 
-        # result_desc = self.getAssertResult()
-        # startDT = datetime.datetime.now()
-        # data1 = [(_testcase,_count,self.currentSuccess,self.currentFail,self.currentError,_update_time,_detail)]
-        # 自动化脚本里没有task，默认id为1
+        value = str(test)
+        s = value.find('(')
+        e = value.find('.')
+
         ExecuteResult = STATUS[self.currentStatus]
         Executor = self.test_user
         Owner = ''
-        ResultDesc = self.getAssertResult()
+        ResultDesc = self.getAssertResult().decode("unicode-escape")
         IsEnable = 1
         LogFile = ''
         ExecuteDT = datetime.datetime.now()
-        ProductName = ''
+        ProductName = value[s + 1:e + 1] + value[0:s]
         ProductTypeName = ''
         TestCase_Id = 1
         Task_Id = 1
@@ -74,9 +74,9 @@ class NewTestResult(unittest.TestResult):
         sql = "INSERT INTO Result values (NULL,?,?,?,?,?,?,?,?,?,?,?)"
         if self.dbm != None:
             self.dbm.insert_value(sql, data)
-        if self.ui!=None:
-            self.ui.emit(QtCore.SIGNAL("finish_case"),data)
-
+        # if self.ui != None:
+        #     self.ui.emit(QtCore.SIGNAL("finish_case"), data)
+        pyqt.finish_case(self.ui,data)
 
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)
@@ -115,21 +115,24 @@ class NewTestResult(unittest.TestResult):
             result_desc = self.fail_str
         elif self.error_str.strip() != '':
             result_desc = self.error_str
-
-        # print result_desc
-
+        print result_desc
+        assert_str = ''
         for ex in self.excepts:
-            if ex in result_desc:
-                ex_idx = result_desc.find(ex)
-                return result_desc[ex_idx:len(result_desc)]
+            if ex in result_desc:  # AssertionError:
+                ex_idx = result_desc.find(ex) + len(ex)
+                r_desc = result_desc[ex_idx:len(result_desc)]
+                assert_str = r_desc[1:].strip()
+                break
+
+        return assert_str
 
 
-                # ex_str = r'(?<=%s:).*' % ex
-                # match = re.compile(ex_str).search(result_desc)
-                # if match:
-                # return ex + ':' + match.group()
-                # else:
-                # return ''
+        # ex_str = r'(?<=%s:).*' % ex
+        # match = re.compile(ex_str).search(result_desc)
+        # if match:
+        # return ex + ':' + match.group()
+        # else:
+        # return ''
 
 
 # 获取exceptions 所有Error的类名
@@ -142,9 +145,9 @@ def getExcepts():
 
     # for strr in attstr:
     # att = str(getattr(m, strr))
-    #     #print att
-    #     pattern = re.compile(r'(?<=exceptions.).*Error')
-    #     match = pattern.search(att)
-    #     if match:
-    #         excepts.append(match.group())
+    # #print att
+    # pattern = re.compile(r'(?<=exceptions.).*Error')
+    # match = pattern.search(att)
+    # if match:
+    # excepts.append(match.group())
     # return excepts

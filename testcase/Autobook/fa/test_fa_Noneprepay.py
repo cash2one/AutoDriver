@@ -2,13 +2,12 @@
 __author__ = 'xuguanghua@pathbook.com.cn'
 
 import time
-import unittest
-from framework.core import testcase
+from drivers import *
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
 
     def setUp(self):
-        self.driver = testcase.app(__file__)
+        self.driver = self.app(__file__)
         self.driver.login()
 
 
@@ -27,12 +26,8 @@ class TestCase(unittest.TestCase):
         amount_tip_text = self.driver.find_element_by_id('amount_tip').text
 
         print companyAccount_tip_text,driver_tip_text,amount_tip_text
-        self.assertTrue(u'请选择充入账户.' in companyAccount_tip_text,'msg')
-        self.assertTrue(u'充值司机不能为空.' in driver_tip_text,'msg')
-        self.assertTrue(u'充值金额（元）不能为空.' in amount_tip_text,'msg')
+        self.assertTrue(u'请选择充入账户.' in companyAccount_tip_text,u'没有找到指定字符串')
+        self.assertTrue(u'充值司机不能为空.' in driver_tip_text,u'没有找到指定字符串')
+        self.assertTrue(u'充值金额（元）不能为空.' in amount_tip_text,u'没有找到指定字符串')
         time.sleep(3)
-
-
-if __name__ =='__main__':
-    unittest.main()
 

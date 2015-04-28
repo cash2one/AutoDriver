@@ -1,20 +1,19 @@
-__author__ = 'zhangchun'
 # coding=utf-8
-import unittest
-from time import sleep
+__author__ = 'zhangchun'
 
-from framework.core import device_bak, the
+from time import sleep
+from drivers import *
 
 
 #点击聚乐会的最新活动，进入活动详情
 
-class TestCase(unittest.TestCase):
+class TestCase(unit.TestCase):
     def setUp(self):
-        self.driver = the.android
+        self.driver = self.app(__file__)
 
     def tearDown(self):
         #返回首页
-        device_bak.switchToHome(self,self.mainActivity)
+        self.driver.switch_to_home()
 
     def test_case(self):
         #每个测试用例，都需要把首页加入到变量mainActivity
