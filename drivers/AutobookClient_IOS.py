@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'guguohai@pathbook.com.cn'
+__author__ = 'gghsean@163.com'
 
 import os
 from appium.webdriver.webdriver import WebDriver

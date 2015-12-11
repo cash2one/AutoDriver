@@ -1,15 +1,15 @@
 # coding=utf-8
-__author__ = 'guguohai@pathbook.com.cn'
+__author__ = 'gghsean@163.com'
 
 import sys
 import os
 import time
 
-from PyQt4 import QtGui
+#from PyQt4 import QtGui
 
 from framework.core import task, data, box
 from framework.util import mail
-from woodpecker import main as ui
+#from woodpecker import main as ui
 
 
 PATH = lambda p: os.path.abspath(
@@ -79,11 +79,11 @@ def sendMail(mail_to):
         pass  # 文件夹，生成文件 及压缩包
 
 
-def gui():
-    app = QtGui.QApplication(sys.argv)
-    mainWin = ui.MainWindow()
-    mainWin.show()
-    sys.exit(app.exec_())
+# def gui():
+#     app = QtGui.QApplication(sys.argv)
+#     mainWin = ui.MainWindow()
+#     mainWin.show()
+#     sys.exit(app.exec_())
 
 
 def help():
@@ -104,8 +104,8 @@ def main():
             start()
         elif args[1] == "-report":
             startReport()
-        elif args[1] == "-woodpecker":
-            gui()
+        #elif args[1] == "-woodpecker":
+            #gui()
         elif args[1] == "-help":
             help()
         elif args[1] == "-mail":
@@ -120,18 +120,8 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    from framework.util import http
+    main()
 
-    ja = http.TestJIRA()
-    ja.login()
-    time.sleep(5)
-
-    ja.get_user()
-
-    time.sleep(2)
-
-    ja.post_data()
 
     # dr = device.RunAppium(4725)
     # dr.start()

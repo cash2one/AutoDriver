@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'guguohai@pathbook.com.cn'
+__author__ = 'gghsean@163.com'
 
 #初始化项目时的字典统一key
 PRODUCT='pathbook_product'

@@ -1,5 +1,5 @@
 # coding=utf-8
-__author__ = 'guguohai@pathbook.com.cn'
+__author__ = 'gghsean@163.com'
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement as SeleniumWebElement
