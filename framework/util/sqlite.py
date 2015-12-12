@@ -15,6 +15,7 @@ PATH = lambda p: os.path.abspath(
 class DBManager():
 
     def __init__(self,db_path):
+        print db_path
         #sqlite3.connect(fp,check_same_thread = False)
         self.conn = sqlite3.connect(db_path)
         self.db_path = db_path

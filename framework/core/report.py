@@ -161,7 +161,8 @@ class Report():
         self.page = page_size
         self.dbm = sqlite.DBManager(db_path)
         self.root = PATH('../../report/')
-        self.assets = PATH('./assets/')
+        self.assets = PATH('./assets')
+        print self.assets
         self.folders = ('styles','images','scripts')
 
         pattern = re.compile(r'(?<=result).*?(?=.db)')
@@ -175,7 +176,7 @@ class Report():
         self.dbm.close_db()
 
     def start(self):
-        self.copyAssets(self.assets)
+        self.copyAssets()
         file_name = 'autobook_interface'
         #data = 'select * from TestCase where cat=file_name'
 
@@ -184,7 +185,7 @@ class Report():
             self.pages(file_name,data,True)
         self.close()
 
-    def copyAssets(self,path):
+    def copyAssets(self):
         for s in self.folders:
             src = os.path.join(self.assets,s)
             tar = os.path.join(self.root,s)

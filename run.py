@@ -19,20 +19,18 @@ PATH = lambda p: os.path.abspath(
 root_dir = os.path.dirname(__file__)
 
 
-def createDatabase():
-    time_str = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-    box.db_path = 'report' + time_str + '.db'
-
-    gdata = data.generateData(os.path.join(root_dir, box.db_path),PATH('./resource/xls/'))
-    gdata.close()
+# def createDatabase():
+#     time_str = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+#     box.db_path = 'report' + time_str + '.db'
+#
+#     gdata = data.generateData(os.path.join(root_dir, box.db_path),PATH('./resource/xls/'))
+#     gdata.close()
 
 
 def start():
     case_list = [
-        {'cases': {'test_customer_allfinishOrder': 5, 'test_customer_callServer_xgh': 3}, 'status': 0,
-         'path': 'testcase/AutobookClient/customer'},
-        {'cases': {'test_driver_cmEarnings_zc': 3, 'test_driver_completeOrder_info__zc': 2}, 'status': 0,
-         'path': 'testcase/AutobookClient/driver'}
+        {'cases': [{'name':'test_call_server','loop':3},{'name':'test_order','loop':2}], 'status': 1,
+         'path': 'testcase/MyDemo/demo'}
     ]
 
     task_list = []
@@ -40,19 +38,25 @@ def start():
         t = task.Task(c)
         task_list.append(t)
 
-    runner = task.TestRunner(task_list)
+    time_str = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+    db_path = PATH('./result/%s.db') % time_str
+
+    runner = task.TestRunner(task_list,db_path)
     runner.start()
 
 
-def startReport():
+#手动生成测试报告
+def generateReport(db_name):
     '''
     测试完成，生成静态html报告
     :return:
     '''
     import webbrowser
-    from framework.core import report
+    from framework.report import report
 
-    rp = report.Report(data.getDatabasePath(root_dir), 25)
+    db_path=PATH('./result/%s.db') %db_name
+
+    rp = report.Report(db_path, 25)
     rp.start()
     webbrowser.open(PATH('./report/index.html'))
 
@@ -103,7 +107,7 @@ def main():
         if args[1] == "-start":
             start()
         elif args[1] == "-report":
-            startReport()
+            generateReport(args[2])
         #elif args[1] == "-woodpecker":
             #gui()
         elif args[1] == "-help":

@@ -9,7 +9,7 @@ import re
 #from PyQt4 import QtCore
 
 from framework.core import box
-from framework.util import pyqt
+#from framework.util import pyqt
 
 
 STATUS = {
@@ -20,11 +20,11 @@ STATUS = {
 
 
 class NewTestResult(unittest.TestResult):
-    def __init__(self, dbm=None, product_info=None, ui=None):
+    def __init__(self, dbm=None, product_info=None):#, ui=None):
         unittest.TestResult.__init__(self)
         self.dbm = dbm
         self.product_info = product_info
-        self.ui = ui
+        #self.ui = ui
         self.test_user = box.jira.userName
         self.currentStatus = 0
 
@@ -76,7 +76,7 @@ class NewTestResult(unittest.TestResult):
             self.dbm.insert_value(sql, data)
         # if self.ui != None:
         #     self.ui.emit(QtCore.SIGNAL("finish_case"), data)
-        pyqt.finish_case(self.ui,data)
+        #pyqt.finish_case(self.ui,data)
 
     def addSuccess(self, test):
         unittest.TestResult.addSuccess(self, test)

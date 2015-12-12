@@ -16,6 +16,7 @@ class Report():
     def __init__(self, db_path, page):
         self.page = page
         self.db_path = db_path
+        print db_path,'--------------------'
         self.dbm = sqlite.DBManager(db_path)
 
         self.assets = PATH('./assets/')
@@ -34,7 +35,7 @@ class Report():
         self.dbm.close_db()
 
     def start(self):
-        self.copyAssets(self.assets)
+        self.copyAssets()
         # file_name = 'autobook_interface'
 
         # data = 'select * from TestCase where cat=file_name'
@@ -44,7 +45,7 @@ class Report():
             self.pages(self.file_name, data, True)
         self.close()
 
-    def copyAssets(self, path):
+    def copyAssets(self):
         for s in self.folders:
             src = os.path.join(self.assets, s)
             tar = os.path.join(self.root, s)

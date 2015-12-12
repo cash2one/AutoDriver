@@ -19,5 +19,5 @@ class TestCase(unit.TestCase):
         self.assertTrue(aa in 'dddd')
 
     def test_print_f(self):
-        self.driver.get('http://www.cadillac.com.cn/ats_parameter.html')
-        print self.driver.find_id('ATS').text
+        self.driver.get('http://www.tingyun.com/')
+        print self.driver.find_id('goodsUl2').text

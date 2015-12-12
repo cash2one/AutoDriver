@@ -109,6 +109,7 @@ class Task():
         # print self.datas[self.CASES].values()
 
 
+
 class TestRunner(threading.Thread):
     """
     主要负责监视Task的状态，当其为False时，说明一个Task运行已经结束，此时重新查找所有loop次数不为0的TestCase，
@@ -133,13 +134,23 @@ class TestRunner(threading.Thread):
                 break
         return _task
 
+    def init_Database(self):
+        parentdir = os.path.dirname(self.db_path)
+        if not os.path.exists(parentdir):
+            os.mkdir(parentdir)
+
+        from framework.core import data as gui_data
+        db = gui_data.generateData(self.db_path)
+        db.init_table(gui_data.DRIVER_TABLES)
+        db.close()
+
     def run(self):
         while not self.thread_stop:
 
             if self.getTask() == None:
                 self.stop()
                 #self.ui.emit(QtCore.SIGNAL("over_all_case"))
-                pyqt.over_all_case(self.ui)
+                #pyqt.over_all_case(self.ui)
                 return
 
             if self.task == None or not self.task.isRunning():
@@ -151,14 +162,28 @@ class TestRunner(threading.Thread):
             if len(self.db_path.strip()) == 0:
                 self.dbm = None
             else:
+                self.init_Database()
                 self.dbm = sqlite.DBManager(self.db_path)
-            result = test_result.NewTestResult(self.dbm, product_info, self.ui)
+            result = test_result.NewTestResult(self.dbm, product_info)
             self.task.getTestSuite()(result)
             self.task.finish()
-
         time.sleep(5)
 
     def stop(self):
         if self.dbm != None:
+            self.generateReport()
             self.dbm.close_db()
         self.thread_stop = True
+
+
+    def generateReport(self):
+        '''
+        测试完成，生成静态html报告
+        :return:
+        '''
+        #import webbrowser
+        from framework.report import report
+
+        rp = report.Report(self.db_path, 25)
+        rp.start()
+        #webbrowser.open(PATH('./report/index.html'))

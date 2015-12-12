@@ -28,11 +28,15 @@ class TestCase(unittest.TestCase):
         # print 'func::',os.path.dirname(func[0])
         # self.file_text = self.__pyContent(file_)
 
-        init_size = len(PATH('../../testcase')) + 1
+        #init_size = len(PATH('../../testcase')) + 1
 
         #获取项目路径
-        tar_path = os.path.dirname(inspect.stack()[1][1])  # file_)
-        section = tar_path[init_size:len(tar_path)].replace(os.sep, '_')
+        #tar_path = os.path.dirname(inspect.stack()[1][1])
+        tar_path = os.path.dirname(file_)
+
+        #取出根目录下的drivers里的文件
+        #section = tar_path[init_size:len(tar_path)].replace(os.sep, '_')
+        section = tar_path.split('testcase' + os.sep)[-1].replace(os.sep, '_')
 
         sect = section.lower()
         cfg = box.taskConfig[sect]
@@ -90,3 +94,8 @@ class TestCase(unittest.TestCase):
         # for comp in components[1:]:
         # mod = getattr(mod, comp)
         # return mod
+
+def findParent(current_path):
+    while 'testcase' in current_path:
+        print findParent(current_path)
+        #print os.path.dirname(current_path)
