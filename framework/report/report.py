@@ -16,7 +16,6 @@ class Report():
     def __init__(self, db_path, page):
         self.page = page
         self.db_path = db_path
-        print db_path,'--------------------'
         self.dbm = sqlite.DBManager(db_path)
 
         self.assets = PATH('./assets/')
